@@ -1,5 +1,4 @@
-\section{Symmetric subspaces}
-
+\section{Operator Space}
 % \begin{lemma}\label{TestLemma}
 %   Test lemma
 % \end{lemma}
@@ -14,7 +13,7 @@ Suppose $\mathcal{X} = \mathbb{C}^{[d]}$ and $\mathcal{Y} = \mathbb{C}^{[d]}$ wh
 Let the set of linear operators be $\mathcal{L}(\mathcal{X}, \mathcal{Y})$.
 When $\mathcal{Y} = \mathcal{X}$, let the set of linear operators be $\mathcal{L}(\mathcal{X})$.
 
-\begin{definition}{standard computational basis of linear operators}\label{def:standard_basis_Lk}
+\begin{definition}[Standard computational basis of linear operators]\label{def:standard_basis_Lk}
   The {standard computational basis of linear operators} $\{E_{i, j}\}_{i, j \in [d]}$ is defined as the set of $d^2$ operators in $\mathcal{L}(\mathcal{X})$ such that
 \begin{equation}
     E_{i, j} = |i \rangle \langle j|
@@ -22,15 +21,70 @@ When $\mathcal{Y} = \mathcal{X}$, let the set of linear operators be $\mathcal{L
 for all $i, j \in [d]$, where $\{|i\rangle\}_{i \in [d]}$ is the standard computational basis of $\mathcal{X}$.
 \end{definition}
 
-\begin{definition}{operator-vector correspondence}\label{def:operator_vector_correspondence}
-    The {operator-vector correspondence} is a bijective mapping between the set of linear operators $\mathcal{L}(\mathcal{X})$ and the tensor product space $\mathcal{X} \otimes \mathcal{X}$ defined as
-    \begin{equation}
-    \text{vec} : \mathcal{L}(\mathcal{X}) \to \mathcal{X} \otimes \mathcal{X}, \quad E_{i, j} \mapsto |i\rangle \otimes |j\rangle\text{ for all } i, j \in [d].
-    \end{equation}
+\begin{remark}\label{remark:LieBracket}
+For any pair of operators $X, Y \in \mathcal{L}(\mathcal{X})$, the Lie bracket $[X, Y] \in \mathcal{L}(\mathcal{X})$ is defined as
+\begin{equation}
+    [X, Y] = XY - YX,
+\end{equation}
+such that $[X, Y] = 0$ if and only if $X$ and $Y$ commute.
 
+\end{remark}
+
+\begin{remark}\uses{remark:LieBracket}\label{remark:Commutant}
+Let $\mathcal{A} \subseteq \mathcal{L}(\mathcal{X})$ be a subalgebra of $\mathcal{L}(\mathcal{X})$.
+The commutant of $\mathcal{A}$ is given by
+\begin{equation}
+    \text{Comm}(\mathcal{A}) = \{Y \in \mathcal{L}(\mathcal{X}) : [X, Y] = 0 \text{ for all } X \in \mathcal{A}\}.
+\end{equation}
+
+\end{remark}
+
+\begin{definition}[Diagonal operators]\label{def:diagonal_operators}
+An operator $X \in \mathcal{L}(\mathcal{X})$ is a diagonal operator if $X_{a, b} = 0$ for all $a, b \in [d]$ where $a \neq b$.
+For a given vector $u \in \mathcal{X}$, we can define a {diagonal operator} $\text{Diag}(u) \in \mathcal{L}(\mathcal{X})$ to denote the diagonal operator whose diagonal entries are given by the entries of $u$.
+That is, we have
+\begin{equation}
+    \text{Diag}(u)_{a, b} = \begin{cases}
+        u_a & \text{if } a = b \\
+        0 & \text{if } a \neq b
+    \end{cases}
+\end{equation}
 \end{definition}
 
-\begin{definition}[symmetric subspace of linear operators]\label{def:sym_Lk}
+\begin{remark}[Projection operators]\label{remark:projection_operators}
+    Let $\Pi$ denote the project operator onto a subspace $\mathcal{V}$.
+    Then $\Pi$ is a linear operator that satisfies the following properties:
+    \begin{itemize}
+        \item $\Pi^2 = \Pi$, the idempotent property; and
+        \item $\Pi^* = \Pi$, the self-adjoint property.
+    \end{itemize}
+    Let the collection of all projection operators be denoted $\text{Proj}(\mathcal{X})$.
+    There is a uniquely defined projection operator $\Pi \in \text{Proj}(\mathcal{X})$ such that its image $\text{Im}(\Pi) = \mathcal{V}$.
+    When necessary, we denote this projection operator as $\Pi_{\mathcal{V}}$ to indicate the subspace $\mathcal{V}$ onto which it projects.
+\end{remark}
+
+\begin{remark}[Isometries]\label{remark:isometries}
+    An operator $\mathcal{A} \in \mathcal{L}(\mathcal{X}, \mathcal{Y})$ is an isometry if it satisfies the condition
+    \begin{equation}
+        \mathcal{A}^{*} \mathcal{A} = I_{\mathcal{X}},
+    \end{equation}
+    which is equivalent to preserving the Euclidean norm of vectors in $\mathcal{X}$, i.e., $\|\mathcal{A}|\psi\rangle\| = \||\psi\rangle\|$ for all $|\psi\rangle \in \mathcal{X}$.
+    % MARK: I used bra-ket notation above, but am realizing I am inconsistently jumping between the two.
+\end{remark}
+
+
+\begin{remark}[Unitary operators]\label{remark:unitary_operators}
+    Denote the set of isometries that map $\mathcal{X}$ to itself as the set of unitary operators $U(\mathcal{X})$.
+    Every unitary operator $U \in U(\mathcal{X})$ is necessarily invertible and satisfies the normal condition
+    \begin{equation}
+        UU^{*} = U^{*}U = I_{\mathcal{X}}.
+    \end{equation}
+\end{remark}
+
+
+\section{Symmetric subspaces}
+
+\begin{definition}[Symmetric subspace of linear operators]\label{def:sym_Lk}
   The {symmetric subspace of linear operators} $\mathcal{L}(\mathcal{X})^{\varovee k}$ is the set of all operators $X \in \mathcal{L}(\mathcal{X}^{\otimes k})$ that remain unchanged (invariant) under the permutation $W_{\pi}$.
 That is,
 \begin{equation}
@@ -50,67 +104,88 @@ Let $S_k$ denote the symmetric group. Then given $\pi \in S_k$, the permutation 
 for all $|\psi_1 \rangle, \dots, |\psi_k\rangle \in \mathbb{C}^{d}$.
 \end{remark}
 
-\begin{remark}\label{remark:LieBracket}
-For any pair of operators $X, Y \in \mathcal{L}(\mathcal{X})$, the Lie bracket $[X, Y] \in \mathcal{L}(\mathcal{X})$ is defined as
-\begin{equation}
-    [X, Y] = XY - YX,
-\end{equation}
-such that $[X, Y] = 0$ if and only if $X$ and $Y$ commute.
+\begin{definition}[Operator-vector correspondence]\label{def:operator_vector_correspondence}
+    The {operator-vector correspondence} is a bijective mapping between the set of linear operators $\mathcal{L}(\mathcal{X})$ and the tensor product space $\mathcal{X} \otimes \mathcal{X}$ defined as
+    \begin{equation}
+    \text{vec} : \mathcal{L}(\mathcal{X}) \to \mathcal{X} \otimes \mathcal{X}, \quad E_{i, j} \mapsto |i\rangle \otimes |j\rangle\text{ for all } i, j \in [d].
+    \end{equation}
 
-\end{remark}
-
-\begin{remark}\uses{remark:LieBracket}\label{remark:Commutant}
-Let $\mathcal{A} \subseteq \mathcal{L}(\mathcal{X})$ be a subalgebra of $\mathcal{L}(\mathcal{X})$.
-The commutant of $\mathcal{A}$ is given by
-\begin{equation}
-    \text{Comm}(\mathcal{A}) = \{Y \in \mathcal{L}(\mathcal{X}) : [X, Y] = 0 \text{ for all } X \in \mathcal{A}\}
-\end{equation}
-
-\end{remark}
-
-\begin{definition}{diagonal operators}\label{def:diagonal_operators}
-An operator $X \in \mathcal{L}(\mathcal{X})$ is a diagonal operator if $X_{a, b} = 0$ for all $a, b \in [d]$ where $a \neq b$.
-For a given vector $u \in \mathcal{X}$, we can define a diagonal operator $\text{Diag}(u) \in \mathcal{L}(\mathcal{X})$ to denote the diagonal operator whose diagonal entries are given by the entries of $u$.
-That is, we have
-\begin{equation}
-    \text{Diag}(u)_{a, b} = \begin{cases}
-        u_a & \text{if } a = b \\
-        0 & \text{if } a \neq b
-    \end{cases}
-\end{equation}
+    One relevant identity we use is that for $A_0, A_1, B \in \mathcal{L}(\mathcal{X})$,
+    \begin{equation}
+        (A_0 \otimes A_1) \text{vec}(B) = \text{vec}(A_0 B A_1^{\mathrm{T}}).
+        \label{eq:operator_vector_distribution}
+    \end{equation}
 \end{definition}
-
-\begin{remark}{projection operators}\label{remark:projection_operators}
-    Let $\Pi$ denote the set of projection operators MARK
-\end{remark}
-
-\begin{remark}{isometries}\label{remark:isometries}
-    An operator $\mathcal{A} \in \mathcal{L}(\mathcal{X}, \mathcal{Y})$ is an isometry if it satisfies the condition
-    \begin{equation}
-        \mathcal{A}^{*} \mathcal{A} = I_{\mathcal{X}},
-    \end{equation}
-    which is equivalent to preserving the Euclidean norm of vectors in $\mathcal{X}$, i.e., $\|\mathcal{A}|\psi\rangle\| = \||\psi\rangle\|$ for all $|\psi\rangle \in \mathcal{X}$.
-    % MARK: I used bra-ket notation above, but am realizing I am inconsistently jumping between the two.
-\end{remark}
-
-
-\begin{remark}{unitary operators}\label{remark:unitary_operators}
-    Denote the set of isometries that map $\mathcal{X}$ to itself as the set of unitary operators $U(\mathcal{X})$.
-    Every unitary operator $U \in U(\mathcal{X})$ is necessarily invertible and satisfies the normal condition
-    \begin{equation}
-        UU^{*} = U^{*}U = I_{\mathcal{X}}.
-    \end{equation}
-\end{remark}
 
 \section{Permutation Invariance and Properties of Unitarily Invariant Measures}
 
+%% THM 7.5
+% Name is fairly arbitrary
+% \uses{}
+\begin{theorem}[Tensor power span theorem]\label{thm:tensor_power_span_theorem}
+    Let $k$ be a positive integer, and let $X \in \mathbb{C}^[d]$. For any set $\mathcal{A} \subseteq \mathbb{C}$ satisfying $|\mathcal{A}| \geq k + 1$, it holds that
+    \begin{equation}
+        \text{Span}\{v^{\otimes k} : v \in \mathcal{A}^{[d]}\}=\mathcal{X}^{\varovee k}.
+    \end{equation}
+\end{theorem}
 
+%% THM 7.10
+% \uses{}
+\begin{proposition}[Symmetric subspace and span of tensor product space]\label{prop:sym_Lk_span_tensor_product}
+    Let $\mathcal{X}$ be a complex Euclidean space and $k$ be a positive integer.
+    Then the following statements are equivalent:
+    \begin{enumerate}
+        \item $X \in \mathcal{L}(\mathcal{X})^{\varovee k}$.
 
+        \item For $V \in U(\mathcal{X}^{\otimes k} \otimes \mathcal{X}^{\otimes k}, (\mathcal{X} \otimes \mathcal{X})^{\otimes k})$ being the isometry defined by
+        \begin{equation}
+            V \text{vec}(Y_1 \otimes \dots \otimes Y_k) = \text{vec}(Y_1) \otimes \dots \text{vec}(Y_n)
+        \end{equation}
+        holding for all $Y_1, \dots, Y_k \in \mathcal{L}(\mathcal{X})$, one has that
+        \begin{equation}
+            V \text{vec}(X) \in (\mathcal{X} \otimes \mathcal{X})^{\varovee k}.
+        \end{equation}
+
+        \item $X \in \text{Span}\{Y^{\otimes k} : Y \in \mathcal{L}(\mathcal{X})\}$
+    \end{enumerate}
+
+\end{proposition}
+
+%% THM 7.11
+\begin{theorem}[Equivalence of symmetric subspace and unitary tensor span]\label{thm:equivalence_sym_Lk_unitary_tensor_span}\uses{prop:sym_Lk_span_tensor_product, thm:tensor_power_span_theorem}
+    Let $\mathcal{X}$ be a complex Euclidean space and $k$ be a positive integer.
+    Then the symmetric subspace of linear operators is equivalent to the span of the unitary tensor products, i.e.,
+    \begin{equation}
+        \mathcal{L}(\mathcal{X})^{\varovee k} = \text{Span}\{U^{\otimes k} : U \in \mathcal{U}(\mathcal{X})\}.
+    \end{equation}
+
+\end{theorem}
+
+%% THM 7.13
+\begin{lemma}[Invariant subspace lemma]\label{lem:invariant_subspace}
+    Let $\mathcal{X}$ be a complex Euclidean space, let $\mathcal{V} \subseteq \mathcal{X}$ be a subspace, and let $A \in \mathcal{L}(\mathcal{X})$ be an operator.
+    The following statements are equivalent:
+    \begin{enumerate}
+        \item It holds that both $A\mathcal{V} \subseteq \mathcal{V}$ and $A^{*}\mathcal{V} \subseteq \mathcal{V}$.
+        \item It holds that $[A, \Pi_{\mathcal{V}}] = 0$.
+    \end{enumerate}
+
+\end{lemma}
+
+\begin{theorem}[Double Commutant Theorem]\label{thm:double_commutant}\uses{lem:invariant_subspace}
+    Let $\mathcal{A}$ be a self-adjoint, unital subalgebra of $\mathcal{L}(\mathcal{X})$.
+    Then the double commutant of $\mathcal{A}$ is equal to $\mathcal{A}$, i.e.,
+    \begin{equation}
+        \text{Comm}(\text{Comm}(\mathcal{A})) = \mathcal{A}.
+    \end{equation}
+
+\end{theorem}
 
 %% END GOAL
-\begin{theorem}{Schur-Weyl duality}\label{thm:schur_weyl_duality}
+
+\begin{theorem}[Schur-Weyl duality]\label{thm:schur_weyl_duality}\uses{prop:sym_Lk_span_tensor_product, def:sym_Lk, thm:double_commutant}
     Let $\mathcal{X}$ be a complex Euclidean space, $k$ be a positive integer, and $X \in \mathcal{L}(\mathcal{X}^{\otimes k})$ be an operator.
-    Then
+    Then the set of all commutators of the unitary group is equivalent to the span of the permutation operators, i.e.,
     \begin{equation}
         \text{Comm}(\mathcal{U}(\mathcal{X}), k) = \text{Span}\{W_{\pi} : \pi \in S_k \}
     \end{equation}

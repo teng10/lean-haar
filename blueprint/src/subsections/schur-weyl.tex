@@ -22,7 +22,7 @@ When $\mathcal{Y} = \mathcal{X}$, let the set of linear operators be $\mathcal{L
 for all $i, j \in [d]$, where $\{|i\rangle\}_{i \in [d]}$ is the standard computational basis of $\mathcal{X}$.
 \end{definition}
 
-\begin{definition}{operator-vector correspondence}{\label{def:operator_vector_correspondence}
+\begin{definition}{operator-vector correspondence}\label{def:operator_vector_correspondence}
     The {operator-vector correspondence} is a bijective mapping between the set of linear operators $\mathcal{L}(\mathcal{X})$ and the tensor product space $\mathcal{X} \otimes \mathcal{X}$ defined as
     \begin{equation}
     \text{vec} : \mathcal{L}(\mathcal{X}) \to \mathcal{X} \otimes \mathcal{X}, \quad E_{i, j} \mapsto |i\rangle \otimes |j\rangle\text{ for all } i, j \in [d].
@@ -80,4 +80,38 @@ That is, we have
 \end{equation}
 \end{definition}
 
+\begin{remark}{projection operators}\label{remark:projection_operators}
+    Let $\Pi$ denote the set of projection operators MARK
+\end{remark}
+
+\begin{remark}{isometries}\label{remark:isometries}
+    An operator $\mathcal{A} \in \mathcal{L}(\mathcal{X}, \mathcal{Y})$ is an isometry if it satisfies the condition
+    \begin{equation}
+        \mathcal{A}^{*} \mathcal{A} = I_{\mathcal{X}},
+    \end{equation}
+    which is equivalent to preserving the Euclidean norm of vectors in $\mathcal{X}$, i.e., $\|\mathcal{A}|\psi\rangle\| = \||\psi\rangle\|$ for all $|\psi\rangle \in \mathcal{X}$.
+    % MARK: I used bra-ket notation above, but am realizing I am inconsistently jumping between the two.
+\end{remark}
+
+
+\begin{remark}{unitary operators}\label{remark:unitary_operators}
+    Denote the set of isometries that map $\mathcal{X}$ to itself as the set of unitary operators $U(\mathcal{X})$.
+    Every unitary operator $U \in U(\mathcal{X})$ is necessarily invertible and satisfies the normal condition
+    \begin{equation}
+        UU^{*} = U^{*}U = I_{\mathcal{X}}.
+    \end{equation}
+\end{remark}
+
 \section{Permutation Invariance and Properties of Unitarily Invariant Measures}
+
+
+
+
+%% END GOAL
+\begin{theorem}{Schur-Weyl duality}\label{thm:schur_weyl_duality}
+    Let $\mathcal{X}$ be a complex Euclidean space, $k$ be a positive integer, and $X \in \mathcal{L}(\mathcal{X}^{\otimes k})$ be an operator.
+    Then
+    \begin{equation}
+        \text{Comm}(\mathcal{U}(\mathcal{X}), k) = \text{Span}\{W_{\pi} : \pi \in S_k \}
+    \end{equation}
+\end{theorem}

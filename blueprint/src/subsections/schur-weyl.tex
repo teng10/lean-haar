@@ -13,13 +13,7 @@ Suppose $\mathcal{X} = \mathbb{C}^{[d]}$ and $\mathcal{Y} = \mathbb{C}^{[d]}$ wh
 Let the set of linear operators be $\mathcal{L}(\mathcal{X}, \mathcal{Y})$.
 When $\mathcal{Y} = \mathcal{X}$, let the set of linear operators be $\mathcal{L}(\mathcal{X})$.
 
-\begin{definition}[Standard computational basis of linear operators]\label{def:standard_basis_Lk}
-  The {standard computational basis of linear operators} $\{E_{i, j}\}_{i, j \in [d]}$ is defined as the set of $d^2$ operators in $\mathcal{L}(\mathcal{X})$ such that
-\begin{equation}
-    E_{i, j} = |i \rangle \langle j|
-\end{equation}
-for all $i, j \in [d]$, where $\{|i\rangle\}_{i \in [d]}$ is the standard computational basis of $\mathcal{X}$.
-\end{definition}
+We briefly restate some relevant definitions and properties of linear operators that we will use in the subsequent sections.
 
 \begin{remark}\label{remark:LieBracket}
 For any pair of operators $X, Y \in \mathcal{L}(\mathcal{X})$, the Lie bracket $[X, Y] \in \mathcal{L}(\mathcal{X})$ is defined as
@@ -36,7 +30,6 @@ The commutant of $\mathcal{A}$ is given by
 \begin{equation}
     \text{Comm}(\mathcal{A}) = \{Y \in \mathcal{L}(\mathcal{X}) : [X, Y] = 0 \text{ for all } X \in \mathcal{A}\}.
 \end{equation}
-
 \end{remark}
 
 \begin{definition}[Diagonal operators]\label{def:diagonal_operators}
@@ -104,6 +97,14 @@ Let $S_k$ denote the symmetric group. Then given $\pi \in S_k$, the permutation 
 for all $|\psi_1 \rangle, \dots, |\psi_k\rangle \in \mathbb{C}^{d}$.
 \end{remark}
 
+\begin{definition}[Standard computational basis of linear operators]\label{def:standard_basis_Lk}
+  The {standard computational basis of linear operators} $\{E_{i, j}\}_{i, j \in [d]}$ is defined as the set of $d^2$ operators in $\mathcal{L}(\mathcal{X})$ such that
+\begin{equation}
+    E_{i, j} = |i \rangle \langle j|
+\end{equation}
+for all $i, j \in [d]$, where $\{|i\rangle\}_{i \in [d]}$ is the standard computational basis of $\mathcal{X}$.
+\end{definition}
+
 \begin{definition}[Operator-vector correspondence]\label{def:operator_vector_correspondence}
     The {operator-vector correspondence} is a bijective mapping between the set of linear operators $\mathcal{L}(\mathcal{X})$ and the tensor product space $\mathcal{X} \otimes \mathcal{X}$ defined as
     \begin{equation}
@@ -121,7 +122,6 @@ for all $|\psi_1 \rangle, \dots, |\psi_k\rangle \in \mathbb{C}^{d}$.
 
 %% THM 7.5
 % Name is fairly arbitrary
-% \uses{}
 \begin{theorem}[Tensor power span theorem]\label{thm:tensor_power_span_theorem}
     Let $k$ be a positive integer, and let $X \in \mathbb{C}^[d]$. For any set $\mathcal{A} \subseteq \mathbb{C}$ satisfying $|\mathcal{A}| \geq k + 1$, it holds that
     \begin{equation}
@@ -181,8 +181,93 @@ for all $|\psi_1 \rangle, \dots, |\psi_k\rangle \in \mathbb{C}^{d}$.
 
 \end{theorem}
 
-%% END GOAL
+\begin{proof}
+For all $X \in \text{Comm}(\mathcal{A})$ and any $A \in \mathcal{A}$, we have
+\begin{equation}
+    [X, A] = AX - XA = 0.
+\end{equation}
+Therefore, $A \in \text{Comm}(\text{Comm}(\mathcal{A}))$, so $\mathcal{A} \subseteq \text{Comm}(\text{Comm} (\mathcal{A}))$.
 
+To demonstrate reverse inclusion, consider the subalgebra $\mathcal{B} \subseteq \mathcal{L}(\mathcal{X} \otimes \mathcal{X})$ defined as
+\begin{equation}
+    \mathcal{B} = \{X \otimes \mathbb{I} : X \in \mathcal{A} \}.
+\end{equation}
+For all $Y \in \mathcal{L}(\mathcal{X} \otimes \mathcal{X})$, it can be written in terms of the standard computational basis
+\begin{equation}
+    Y = \sum_{i, j \in [d]} \sum_{a, b \in [d]} c_{i, j, a, b} |i \rangle \langle j| \otimes |a \rangle \langle b|.
+\end{equation}
+Using the definition of the standard computational basis of operators, we can rearrange the right-hand side into the form
+\begin{equation}
+    Y = \sum_{a, b \in [d]} Y_{a, b} \otimes E_{a, b}
+    \label{eq:tensor_decomposition}
+\end{equation}
+where $Y_{a, b} = \sum_{i, j \in [d]} c_{i, j, a, b} |i \rangle \langle j |$.
+
+$Y$ commutes with $\mathcal{B}$ if and only if $Y(X \otimes \mathbb{I}) = (X \otimes \mathbb{I}) Y$ for all $X \in \mathcal{A}$.
+Substituting Equation~\ref{eq:tensor_decomposition} and simplifying shows that $Y$ commutes with $\mathcal{B}$ if and only if $[Y_{a, b}, X] = 0$.
+For any $X \in \text{Comm}(\text{Comm}(\mathcal{A}))$, $X$ must commute with $\text{Comm}(\mathcal{A})$, and therefore
+\begin{equation}
+    X \otimes \mathbb{I} \in \text{Comm}(\text{Comm}(\mathcal{B})).
+    \label{eq:ccA_implies_ccB}
+\end{equation}
+
+It remains to show that every element in $\text{Comm}(\text{Comm}(\mathcal{B}))$ is of the form $X \otimes \mathbb{I}$.
+Define a subspace $\mathcal{V} \subseteq X \otimes X$, where
+\begin{equation}
+    \mathcal{V} = \left\{\text{vec}(X) = \sum_{a, b \in [d]} c_{a, b} |a \rangle \otimes |b \rangle : X \in \mathcal{A} \right\}.
+\end{equation}
+For any arbitrary $X \in \mathcal{A}$, we find that
+\begin{equation}
+    \begin{split}
+        (X \otimes \mathbb{I}) \mathcal{V}
+        = \{(X \otimes \mathbb{I}) V : V \in \mathcal{V}\}\\
+        = \left\{ (X \otimes \mathbb{I}) \left( \sum_{a, b \in [d]} c_{a, b} |a \rangle \otimes |b \rangle \right) : \sum_{a, b \in [d]} c_{a, b} |a \rangle \langle b | \in \mathcal{A} \right\}\\
+        = \left\{ \sum_{a, b \in [d]} c_{a, b} X|a\rangle \otimes |b\rangle : \sum_{a, b \in [d]} c_{a, b} |a \rangle \langle b | \in \mathcal{A} \right\}\\
+        \subseteq \mathcal{V},
+    \end{split}
+\end{equation}
+the inclusion of which follows from the fact that $\mathcal{A}$ is an algebra so $X|a\rangle = Xe_a \in \mathcal{A}$.
+Similarly, since $\mathcal{A}$ is self-adjoint,
+\begin{equation}
+    (X^{*} \otimes \mathbb{I}) \mathcal{V} \subseteq \mathcal{V}.
+\end{equation}
+By Lemma~\ref{lem:invariant_subspace}, this implies $[X \otimes \mathbb{I}, \Pi_{\mathcal{V}}] = 0$, and hence
+\begin{equation}
+    \Pi_{\mathcal{V}} \in \text{Comm}(\mathcal{B}).
+    \label{eq:pi_in_CommB}
+\end{equation}
+
+Therefore, for any arbitrary $X \in \text{Comm}(\text{Comm}(\mathcal{A}))$, Equation~\ref{eq:ccA_implies_ccB} implies
+\begin{equation}
+    X \otimes \mathbb{I} \in \text{Comm}(\text{Comm}(\mathcal{B})).
+\end{equation}
+It follows from Equation~\ref{eq:pi_in_CommB} that
+\begin{equation}
+    [X \otimes \mathbb{I}, \Pi_{\mathcal{V}}] = 0.
+\end{equation}
+By Lemma~\ref{lem:invariant_subspace}, this yields
+\begin{equation}
+    (X \otimes \mathbb{I})\mathcal{V} \subseteq \mathcal{V}.
+\end{equation}
+Since the subalgebra $\mathcal{A}$ is unital, $\mathbb{I} \in \mathcal{A}$ and thus $\text{vec}(\mathbb{I}) \in \mathcal{V}$.
+Therefore,
+\begin{equation}
+\begin{split}
+    (X \otimes \mathbb{I}) \text{vec}(\mathbb{I})
+    = (X \otimes \mathbb{I}) \sum_{a \in [d]} |a\rangle \otimes |a \rangle\\
+    = \sum_{a \in [d]} X|a\rangle \otimes |a\rangle
+    = \sum_{a \in [d]} \left( \sum_{b, c \in [d]} X_{b, c} |b \rangle \langle c| \right) |a \rangle \otimes |a \rangle\\
+    = \sum_{a \in [d]} \sum_{b \in [d]} X_{b, a} |b \rangle \otimes |a \rangle\\
+    = \sum_{b, a \in [d]} X_{b, a} |b \rangle \otimes |a \rangle
+    = \text{vec}(X) \in \mathcal{V}.
+\end{split}
+\end{equation}
+By the bijectivity of $\text{vec}$, $X \in \mathcal{A}$, so $\text{Comm}(\text{Comm}(\mathcal{A})) \subseteq \mathcal{A}$.
+\end{proof}
+
+
+
+%% END GOAL
 \begin{theorem}[Schur-Weyl duality]\label{thm:schur_weyl_duality}\uses{prop:sym_Lk_span_tensor_product, def:sym_Lk, thm:double_commutant}
     Let $\mathcal{X}$ be a complex Euclidean space, $k$ be a positive integer, and $X \in \mathcal{L}(\mathcal{X}^{\otimes k})$ be an operator.
     Then the set of all commutators of the unitary group is equivalent to the span of the permutation operators, i.e.,
@@ -190,3 +275,38 @@ for all $|\psi_1 \rangle, \dots, |\psi_k\rangle \in \mathbb{C}^{d}$.
         \text{Comm}(\mathcal{U}(\mathcal{X}), k) = \text{Span}\{W_{\pi} : \pi \in S_k \}
     \end{equation}
 \end{theorem}
+
+\begin{proof}
+Let $X \in \text{Comm}(\mathcal{U}(\mathcal{X}), k)$.
+then by the bilinearity of the Lie bracket,
+\begin{equation}
+    X \in \text{Comm}(\text{Span}\{ U^{\otimes k} : U \in U(\mathcal{X}) \})
+\end{equation}
+Proposition~\ref{prop:sym_Lk_span_tensor_product} implies that $X \in \text{Comm}(\mathcal{L}(\mathcal{X})^{\varovee k})$, so
+\begin{equation}
+    \text{Comm}(\text{Span}\{ U^{\otimes k} : U \in U(\mathcal{X}) \}) = \text{Comm}(\mathcal{L}(\mathcal{X})^{\varovee k}).
+    \label{eq:comm_span_unitary_equiv_comm_symLk}
+\end{equation}
+
+By Definition~\ref{def:sym_Lk}, $Z \in \mathcal{L}(\mathcal{X})^{\varovee}$ if and only if there exists some $X \in \mathcal{L}(\mathcal{X})$ such that
+\begin{equation}
+    Z = X = W_{\pi} X W_{\pi}^* \text{ for all } \pi \in S_k.
+\end{equation}
+Right-multiplying and rearranging by $W_\pi$ yields $XW_{\pi} - W_{\pi} X = 0$, and so by the bilinearity of the Lie bracket,
+\begin{equation}
+    Z = X \in \text{Comm}(\text{Span}\{W_{\pi} : \pi \in S_k\}).
+\end{equation}
+Hence
+\begin{equation}
+    \mathcal{L}(\mathcal{X})^{\varovee k} = \text{Comm}(\text{Span}\{W_{\pi} : \pi \in S_k\}).
+\end{equation}
+By Theorem~\ref{thm:double_commutant}, taking the commutant of both sides yields
+\begin{equation}
+    \text{Comm}(\mathcal{L}(\mathcal{X})^{\varovee k}) = \text{Span}\{W_{\pi} : \pi \in S_k\}.
+\end{equation}
+By substitution of Eq.~\ref{eq:comm_span_unitary_equiv_comm_symLk}, we have shown
+\begin{equation}
+    \text{Comm}(U(\mathcal{X}), k) = \text{Span}\{W_{\pi} : \pi \in S_{k} \}.
+\end{equation}
+
+\end{proof}

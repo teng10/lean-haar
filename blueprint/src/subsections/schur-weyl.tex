@@ -80,9 +80,8 @@ That is, we have
 \begin{definition}[Symmetric subspace of linear operators]\label{def:sym_Lk}
   The {symmetric subspace of linear operators} $\mathcal{L}(\mathcal{X})^{\varovee k}$ is the set of all operators $X \in \mathcal{L}(\mathcal{X}^{\otimes k})$ that remain unchanged (invariant) under the permutation $W_{\pi}$.
 That is,
-\begin{equation}
+\begin{equation}\label{eq:sym_Lk}
     \mathcal{L}(\mathcal{X})^{\varovee k} = \{X \in \mathcal{L}(\mathcal{X}^{\otimes k}) : X = W_{\pi} X W_{\pi}^{*} \text{ for all } \pi \in S_{k} \}.
-    \label{eq:sym_Lk}
 \end{equation}
 
 \end{definition}
@@ -112,9 +111,8 @@ for all $i, j \in [d]$, where $\{|i\rangle\}_{i \in [d]}$ is the standard comput
     \end{equation}
 
     One relevant identity we use is that for $A_0, A_1, B \in \mathcal{L}(\mathcal{X})$,
-    \begin{equation}
+    \begin{equation}\label{eq:operator_vector_distribution}
         (A_0 \otimes A_1) \text{vec}(B) = \text{vec}(A_0 B A_1^{\mathrm{T}}).
-        \label{eq:operator_vector_distribution}
     \end{equation}
 \end{definition}
 
@@ -197,18 +195,16 @@ For all $Y \in \mathcal{L}(\mathcal{X} \otimes \mathcal{X})$, it can be written 
     Y = \sum_{i, j \in [d]} \sum_{a, b \in [d]} c_{i, j, a, b} |i \rangle \langle j| \otimes |a \rangle \langle b|.
 \end{equation}
 Using the definition of the standard computational basis of operators, we can rearrange the right-hand side into the form
-\begin{equation}
+\begin{equation}\label{eq:tensor_decomposition}
     Y = \sum_{a, b \in [d]} Y_{a, b} \otimes E_{a, b}
-    \label{eq:tensor_decomposition}
 \end{equation}
 where $Y_{a, b} = \sum_{i, j \in [d]} c_{i, j, a, b} |i \rangle \langle j |$.
 
 $Y$ commutes with $\mathcal{B}$ if and only if $Y(X \otimes \mathbb{I}) = (X \otimes \mathbb{I}) Y$ for all $X \in \mathcal{A}$.
 Substituting Equation~\ref{eq:tensor_decomposition} and simplifying shows that $Y$ commutes with $\mathcal{B}$ if and only if $[Y_{a, b}, X] = 0$.
 For any $X \in \text{Comm}(\text{Comm}(\mathcal{A}))$, $X$ must commute with $\text{Comm}(\mathcal{A})$, and therefore
-\begin{equation}
+\begin{equation}\label{eq:ccA_implies_ccB}
     X \otimes \mathbb{I} \in \text{Comm}(\text{Comm}(\mathcal{B})).
-    \label{eq:ccA_implies_ccB}
 \end{equation}
 
 It remains to show that every element in $\text{Comm}(\text{Comm}(\mathcal{B}))$ is of the form $X \otimes \mathbb{I}$.
@@ -232,9 +228,8 @@ Similarly, since $\mathcal{A}$ is self-adjoint,
     (X^{*} \otimes \mathbb{I}) \mathcal{V} \subseteq \mathcal{V}.
 \end{equation}
 By Lemma~\ref{lem:invariant_subspace}, this implies $[X \otimes \mathbb{I}, \Pi_{\mathcal{V}}] = 0$, and hence
-\begin{equation}
+\begin{equation}\label{eq:pi_in_CommB}
     \Pi_{\mathcal{V}} \in \text{Comm}(\mathcal{B}).
-    \label{eq:pi_in_CommB}
 \end{equation}
 
 Therefore, for any arbitrary $X \in \text{Comm}(\text{Comm}(\mathcal{A}))$, Equation~\ref{eq:ccA_implies_ccB} implies
@@ -283,9 +278,8 @@ then by the bilinearity of the Lie bracket,
     X \in \text{Comm}(\text{Span}\{ U^{\otimes k} : U \in U(\mathcal{X}) \})
 \end{equation}
 Proposition~\ref{prop:sym_Lk_span_tensor_product} implies that $X \in \text{Comm}(\mathcal{L}(\mathcal{X})^{\varovee k})$, so
-\begin{equation}
+\begin{equation}\label{eq:comm_span_unitary_equiv_comm_symLk}
     \text{Comm}(\text{Span}\{ U^{\otimes k} : U \in U(\mathcal{X}) \}) = \text{Comm}(\mathcal{L}(\mathcal{X})^{\varovee k}).
-    \label{eq:comm_span_unitary_equiv_comm_symLk}
 \end{equation}
 
 By Definition~\ref{def:sym_Lk}, $Z \in \mathcal{L}(\mathcal{X})^{\varovee}$ if and only if there exists some $X \in \mathcal{L}(\mathcal{X})$ such that

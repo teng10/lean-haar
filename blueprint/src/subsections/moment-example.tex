@@ -1,0 +1,113 @@
+\section{Explicit Calculation of single qubit first moment}
+We consider systems of $n$ qubits, represented by vectors of dimension $d = 2^n$.
+Consider the calculation of the first moment of a system with $n = 1$.
+Due to the small size of the system, we can explicitly define the Haar measure and parameterize the unitary in our calculations, which we do in the example below.
+
+\begin{remark}[Explicit construction of $2 \times 2$ unitaries]\label{rm:2x2_unitary_explicit_construction}
+    Every unitary $U$ in the unitary group of size $2 \times 2$, denoted $U(2)$, can be parameterized in terms of $\phi, \theta, \omega \in \mathbb{R}$, where
+    \begin{equation}
+        U = \begin{bmatrix}
+            e^{-i (\phi + \omega) / 2} \cos{\frac{\theta}{2}} & -e^{i (\phi - \omega) / 2} \sin{\frac{\theta}{2}}\\
+            e^{-i (\phi - \omega) / 2} \sin{\frac{\theta}{2}} & e^{i (\phi + \omega) / 2} \cos{\frac{\theta}{2}}
+        \end{bmatrix}.
+    \end{equation}
+    The conjugate transpose $U^{\dagger}$ is given by
+    \begin{equation}
+        U^{\dagger} = \begin{bmatrix}
+        e^{i( \phi + \omega) / 2} \cos{\frac{\theta}{2}} & e^{i (\phi - \omega) / 2} \sin{\frac{\theta}{2}}\\
+        - e^{-i (\phi - \omega) / 2} \sin{\frac{\theta}{2}} & e^{-i(\phi + \omega)/ 2} \cos{\frac{\theta}{2}}
+        \end{bmatrix}.
+    \end{equation}
+\end{remark}
+
+Let $\mu_{H}$ denote the generalized Haar measure on any $n$-qubit system.
+On a single qubit, we can write the moment calculation in terms of the expectation value, which in turn can be written as an integral under $\mu_{H}$.
+The first moment of the operator of an $n$-qubit system $O$, where $O \in \mathcal{L}(\mathbb{C}^{d})$, is
+\begin{equation}
+    \mathbb{E}_{U \sim \mu_{H}} [U O U^{\dagger}] = \int_{U \sim \mu_{H}} U O U^{\dagger} d\mu_{H}.
+\end{equation}
+We now define a Haar measure specific to the case $n = 1$.
+
+\begin{definition}[Parameterized single-qubit Haar measure]\label{def:single_qubit_haar_measure}
+    Let $\mu_{2}$ denote the Haar measure on a single qubit, represented with vectors in $\mathbb{C}^{2}$.
+    Define the {single-qubit Haar measure} in terms of the parameters given in Remark~\ref{rm:2x2_unitary_explicit_construction}, where
+    \begin{equation}
+        d\mu_{2} = \sin{\theta} d\theta \cdot d\omega \cdot d\phi
+    \end{equation}
+    is the unnormalized Haar measure.
+    The normalized computation of moments using the Haar measure is given by
+    \begin{equation}\label{eq:normalized_haar_meas}
+       \mathbb{E}_{U \sim \mu_{2}} [U O U^{\dagger}] = \frac{1}{8\pi^2} \int_{\phi = 0}^{2\pi} \int_{\omega = 0}^{2\pi} \int_{\theta = 0}^{\pi} U O U^{\dagger} \sin{\theta} d\theta d\omega d\phi,
+    \end{equation}
+    where the factor of $\frac{1}{8\pi^2}$ can be found by computing the integral and setting $UOU^{\dagger} =1$.
+\end{definition}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MARK: MISSING GENERALIZED FIRST MOMENT CALCULATION ON 1-QUBIT SYSTEM HERE
+% See the Overleaf file.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{theorem}[Example: First moment of Pauli-Z operator]
+    Consider $O = \sigma_{z}$, the Pauli-Z operator.
+    We show that
+    \begin{equation}
+        \mathbb{E}_{U \sim \mu_{2}} [U\sigma_{z}U^{\dagger}] = \frac{\text{Tr}(\sigma_{z})}{2} I.
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+The Pauli-Z operator is given by
+\begin{equation}
+    \sigma_{z} = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}.
+\end{equation}
+Hence
+\begin{equation}
+    \frac{\text{Tr}(\sigma_{z})}{2}I = (1 - 1) I = \mathbf{0},
+\end{equation}
+where $\mathbf{0}$ is the zero matrix.
+Given Def.~\ref{def:single_qubit_haar_measure}, we seek to show that
+\begin{equation}
+    \mathbb{E}_{U \sim \mu_{2}} [U\sigma_{z}U^{\dagger}] = \frac{1}{8\pi^2}\int_{\phi = 0}^{2\pi} \int_{\omega = 0}^{2\pi} \int_{\theta = 0}^{\pi} UOU^{\dagger} \sin \theta d\theta d\omega d\phi
+\end{equation}
+is equivalent.
+We explicitly compute the inner matrix multiplication:
+\begin{equation}
+\begin{split}
+    U\sigma_{z} U^{\dagger} = \begin{bmatrix}
+            e^{-i (\phi + \omega) / 2} \cos{\frac{\theta}{2}} & -e^{i (\phi - \omega) / 2} \sin{\frac{\theta}{2}}\\
+            e^{-i (\phi - \omega) / 2} \sin{\frac{\theta}{2}} & e^{i (\phi + \omega) / 2} \cos{\frac{\theta}{2}}
+        \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}
+        \begin{bmatrix}
+        e^{i( \phi + \omega) / 2} \cos{\frac{\theta}{2}} & e^{i (\phi - \omega) / 2} \sin{\frac{\theta}{2}}\\
+        - e^{-i (\phi - \omega) / 2} \sin{\frac{\theta}{2}} & e^{-i(\phi + \omega)/ 2} \cos{\frac{\theta}{2}} \end{bmatrix}\\
+        = \begin{bmatrix}
+            \cos^{2}{\frac{\theta}{2}} - \sin^{2}{\frac{\theta}{2}}
+            & e^{-i \omega} \cos{\frac{\theta}{2}} \sin{\frac{\theta}{2}} + e^{-i\omega} \sin{\frac{\theta}{2}} \cos{\frac{\theta}{2}}\\
+            e^{i \omega} \sin{\frac{\theta}{2}} \cos{\frac{\theta}{2}} + e^{i \omega} \cos{\frac{\theta}{2}} \sin{\frac{\theta}{2}}
+            & \sin^{2}{\frac{\theta}{2}} - \cos^{2}{\frac{\theta}{2}}
+        \end{bmatrix}
+        % MARK
+\end{split}
+\end{equation}
+Evaluating the integral for either $\phi$ or $\omega$ in the interval $[0, 2\pi)$ gives
+\begin{equation}
+    \int_{\phi = 0}^{2\pi} e^{ic_{\phi} \phi} d\phi = 0 \qquad \text{and} \qquad \int_{\omega = 0}^{2\pi} e^{ic_{\omega} \omega} d\omega = 0.
+\end{equation}
+Consequently, in the expanded form of $UOU^{\dagger}$, any elements with a remaining dependence (i.e., a nonzero $c_{\phi}$ or $c_{\omega}$) on either $\phi$ or $\omega$ will integrate to zero.
+Consequently, we find
+\begin{equation}
+\begin{split}
+    \frac{1}{8\pi^2} \int_{\theta = 0}^{\pi} \int_{\phi = 0}^{2\pi} \int_{\omega = 0}^{2\pi} \begin{bmatrix}
+            \cos^{2}{\frac{\theta}{2}} - \sin^{2}{\frac{\theta}{2}}
+            & e^{-i \omega} \cos{\frac{\theta}{2}} \sin{\frac{\theta}{2}} + e^{-i\omega} \sin{\frac{\theta}{2}} \cos{\frac{\theta}{2}}\\
+            e^{i \omega} \sin{\frac{\theta}{2}} \cos{\frac{\theta}{2}} + e^{i \omega} \cos{\frac{\theta}{2}} \sin{\frac{\theta}{2}}
+            & \sin^{2}{\frac{\theta}{2}} - \cos^{2}{\frac{\theta}{2}}
+        \end{bmatrix} \sin \theta d\omega d\phi d\theta\\
+    = \frac{1}{8\pi^2} \int_{\theta = 0}^{\pi} 4 \pi^{2} \begin{bmatrix}
+            \cos^{2}{\frac{\theta}{2}} - \sin^{2}{\frac{\theta}{2}}
+            & 0 \\
+            0 & \sin^{2}{\frac{\theta}{2}} - \cos^{2}{\frac{\theta}{2}}
+        \end{bmatrix} \sin{\theta} d\theta\\
+    = \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix} = \mathbf{0}.
+\end{split}
+\end{equation}

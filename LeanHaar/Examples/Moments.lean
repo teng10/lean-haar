@@ -324,3 +324,7 @@ theorem expectation_sigmaZ_eq_zero :
     -- Resolve the evaluated zero to collapse the nested integration
     have eq5 : -(↑(2 * Real.pi) : ℂ) * (0 : ℂ) = 0 := by ring
     simp_rw [eq5, intervalIntegral.integral_zero]
+
+theorem expectation_sigmaZ_eq_trace_sigmaZ :
+    haarIntegral (fun ϕ θ ω => U ϕ θ ω * sigmaZ * U_dagger ϕ θ ω) = (Matrix.trace sigmaZ / 2) • (1 : Matrix (Fin 2) (Fin 2) ℂ) := by
+  rw [expectation_sigmaZ_eq_zero, trace_sigmaZ_smul_one]

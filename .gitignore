@@ -36,3 +36,6 @@ venv/
 *.synctex.gz
 *.synctex.gz(busy)
 *.pdfsync
+
+LeanHaar/TEST
+blueprint/src/subsections/TEST

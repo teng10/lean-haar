@@ -16,3 +16,8 @@ name = "checkdecls"
 git = "https://github.com/PatrickMassot/checkdecls.git"
 [[lean_lib]]
 name = "LeanHaar"
+
+[[require]]
+name = "Physlib"
+scope = "leanprover-community"
+git = "https://github.com/leanprover-community/physlib.git"

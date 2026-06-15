@@ -2,6 +2,8 @@
 import Mathlib.Data.Matrix.Basic
 import Mathlib.Data.Real.Basic
 
+import Physlib.StringTheory.Basic
+
 -- verify basic functions
 def hello := "Hello"
 

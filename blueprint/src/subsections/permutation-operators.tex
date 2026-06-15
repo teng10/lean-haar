@@ -1,0 +1,28 @@
+\section{TESTING Permutation Operators}
+Let $\mathcal{X}$ be the complex vector space of dimension $d \in \mathbb{N}$ given by $\mathbb{C}^{d}$.
+We denote the set of natural numbers $\{1, \dots, d\} = [d]$.
+Let $\mathcal{L}(\mathcal{X})$ be the set of endomorphisms from $\mathcal{X}$ to $\mathcal{X}$.
+Let $\{e_a\}_{a \in [d]}$ be the standard computational basis of $\mathcal{X}$ and $\{E_{a, b} = e_{a} \otimes e_{b} : a, b \in [d] \}$ be the standard computational basis of $\mathcal{L}(\mathcal{X})$.
+
+\begin{definition}
+    Let $\pi \in S_{k}$ be an element of the symmetric group $S_{k}$.
+    We define the permutation matrix $V_{d}(\pi)$ to be the unitary matrix that satisfies
+    \begin{equation}
+        V_{d}(\pi) |\psi_{1} \rangle \otimes \dots \otimes |\psi_{k} \rangle = |\psi_{\pi^{-1}(1)} \rangle \otimes \dots \otimes |\psi_{\psi^{-1}(k)} \rangle.
+    \end{equation}
+\end{definition}
+
+\begin{definition}
+    Define the \textbf{operator-vector correspondence}, given by the linear mapping
+    \begin{equation}
+        \text{vec}: \mathcal{L}(\mathcal{Y}, \mathcal{X}) \rightarrow \mathcal{X} \otimes \mathcal{Y}
+    \end{equation}
+    where $\text{vec}(E_{a, b}) = e_a \otimes e_b$.
+\end{definition}
+
+\begin{lemma}
+    Since $V_{d}(\pi)$ is a unitary matrix that exists in the space of real numbers,
+    \begin{equation}
+        V_{d}(\pi)^{T} = V_{d}(\pi)^{*}.
+    \end{equation}
+\end{lemma}

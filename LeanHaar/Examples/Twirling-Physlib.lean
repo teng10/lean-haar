@@ -13,12 +13,6 @@ lemma X_val : Qubit.X.val = ![![0, 1], ![1, 0]] := rfl
 lemma Y_val : Qubit.Y.val = ![![0, -I], ![I, 0]] := rfl
 lemma Z_val : Qubit.Z.val = ![![1, 0], ![0, -1]] := rfl
 
--- Helper lemma to reduce I ^ 3, which is generated when ring_nf groups variables
-lemma I_cubed : I ^ 3 = -I := by
-  have h : I ^ 3 = I ^ 2 * I := by ring
-  rw [h, Complex.I_sq]
-  ring
-
 -- Definition 1 (Group average) Pauli twirling:
 noncomputable def pauliTwirl (ρ : Matrix (Fin 2) (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ :=
   (1 / 4 : ℂ) • (Qubit.X.val * ρ * Qubit.X.val + Qubit.Y.val * ρ * Qubit.Y.val + Qubit.Z.val * ρ * Qubit.Z.val + pauliI * ρ * pauliI)

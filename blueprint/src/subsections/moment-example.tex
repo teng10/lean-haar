@@ -42,6 +42,15 @@ We now define a Haar measure specific to the case $n = 1$.
     where the factor of $\frac{1}{8\pi^2}$ can be found by computing the integral and setting $UOU^{\dagger} =1$.
 \end{definition}
 
+\begin{remark}[Reordering parameters]
+    We may reorder the parameters $\phi, \omega$, and $\theat$ in the integral by Fubini's theorem.
+    An alternative way to state the normalized computation of moments using the Haar measure is
+    \begin{equation}
+        \mathbb{E}_{U \sim \mu_{2}} [U O U^{\dagger}] = \frac{1}{8\pi^2} \int_{\theta = 0}^{\pi} \int_{\phi = 0}^{2\pi} \int_{\omega = 0}^{2\pi} U O U^{\dagger} \sin{\theta} d\omega d\phi d\theta.
+    \end{equation}
+    We can keep the boundaries of the parameters the same, as they are independent of the order of integration.
+\end{remark}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MARK: MISSING GENERALIZED FIRST MOMENT CALCULATION ON 1-QUBIT SYSTEM HERE
 % See the Overleaf file.

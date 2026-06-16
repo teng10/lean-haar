@@ -37,13 +37,14 @@ To illustrate this, we first consider the group average of the single-qubit Paul
 \end{remark}
 
 We note the following useful expressions.
-\begin{remark}[Bloch vectors]\label{rm:bloch_vector}
+\begin{definition}[Bloch vectors]\label{rm:bloch_vector}
+    \lean{Twirling.Physlib.blochState}\leanok
     For any single-qubit quantum state $\rho$, we can write it in terms of its Bloch vector,
     \begin{equation}
         \rho = \frac{1}{2} (I + r \cdot \sigma),
     \end{equation}
     where $r = (r_x, r_y, r_z) \in \mathbb{R}^3$ is the coordinate of the quantum state on the Bloch sphere and $\sigma = (\sigma_x, \sigma_y, \sigma_z)$ is a three-tuple of the Pauli operators.
-\end{remark}
+\end{definition}
 
 \begin{remark}[Pauli group identities]\label{rm:sigma_cubed}
     For all non-identity $\sigma_{i}, \sigma_{j}$ in the Pauli group where $i \neq j$, the following three statements are true.
@@ -55,7 +56,9 @@ We note the following useful expressions.
 \end{remark}
 
 We want to show the following simpler equivalence using matrix computations.
-\begin{theorem}[Pauli twirling of a single qubit]\label{thm:twirl_single_qubit}\uses{def:group_average}
+\begin{theorem}[Pauli twirling of a single qubit]\label{thm:twirl_single_qubit}
+    \lean{Twirling.Physlib.twirl_single_qubit}\leanok
+    \uses{rm:bloch_vector}
     For an arbitrary single-qubit state $\rho$,
     \begin{equation}
         \langle \rho \rangle_{G} = \frac{1}{N} \sum_{g} R(g) X R(g)^{\dagger} = \frac{I}{2},
@@ -63,7 +66,7 @@ We want to show the following simpler equivalence using matrix computations.
     the maximally mixed state (since it is proportional to the identity matrix).
 \end{theorem}
 
-\begin{proof}
+\begin{proof}\leanok
 Note that $G$ has order $N = 4$.
 For any Pauli operator $\pm (i) X \in G$, $X$ is self-adjoint.
 Thus, we have that

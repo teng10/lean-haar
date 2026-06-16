@@ -7,16 +7,17 @@ autoImplicit = false
 relaxedAutoImplicit = false
 
 [[require]]
-name = "physlib"
-scope = "leanprover-community"
-git = "https://github.com/leanprover-community/physlib.git"
-
-[[require]]
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4.git"
+
 
 [[require]]
 name = "checkdecls"
 git = "https://github.com/PatrickMassot/checkdecls.git"
 [[lean_lib]]
 name = "LeanHaar"
+
+[[require]]
+name = "Physlib"
+scope = "leanprover-community"
+git = "https://github.com/leanprover-community/physlib.git"

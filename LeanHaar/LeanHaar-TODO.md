@@ -13,7 +13,10 @@
 * [ ] Define or identify methods for projection operators
 
 ## Major Results
-* [ ]
+* [ ] (Insert supporting theorems here)
+* [ ] Double Commutant Theorem
+* [ ] Schur-Weyl Duality
+* [ ] Computation of first and second moments
 
 # Potential TODOs
 

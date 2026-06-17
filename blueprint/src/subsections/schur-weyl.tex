@@ -32,7 +32,7 @@ The commutant of $\mathcal{A}$ is given by
 \end{equation}
 \end{remark}
 
-\begin{definition}[Diagonal operators]\label{def:diagonal_operators}
+\begin{definition}[Diagonal operators]\label{def:DiagonalOperators}
 An operator $X \in \mathcal{L}(\mathcal{X})$ is a diagonal operator if $X_{a, b} = 0$ for all $a, b \in [d]$ where $a \neq b$.
 For a given vector $u \in \mathcal{X}$, we can define a {diagonal operator} $\text{Diag}(u) \in \mathcal{L}(\mathcal{X})$ to denote the diagonal operator whose diagonal entries are given by the entries of $u$.
 That is, we have
@@ -44,7 +44,7 @@ That is, we have
 \end{equation}
 \end{definition}
 
-\begin{remark}[Projection operators]\label{remark:projection_operators}
+\begin{remark}[Projection operators]\label{remark:ProjectionOperators}
     Let $\Pi$ denote the project operator onto a subspace $\mathcal{V}$.
     Then $\Pi$ is a linear operator that satisfies the following properties:
     \begin{itemize}
@@ -66,7 +66,7 @@ That is, we have
 \end{remark}
 
 
-\begin{remark}[Unitary operators]\label{remark:unitary_operators}
+\begin{remark}[Unitary operators]\label{remark:UnitaryOperators}
     Denote the set of isometries that map $\mathcal{X}$ to itself as the set of unitary operators $U(\mathcal{X})$.
     Every unitary operator $U \in U(\mathcal{X})$ is necessarily invertible and satisfies the normal condition
     \begin{equation}
@@ -77,10 +77,10 @@ That is, we have
 
 \section{Symmetric subspaces}
 
-\begin{definition}[Symmetric subspace of linear operators]\label{def:sym_Lk}
+\begin{definition}[Symmetric subspace of linear operators]\label{def:SymmetricLinearOperator}
   The {symmetric subspace of linear operators} $\mathcal{L}(\mathcal{X})^{\varovee k}$ is the set of all operators $X \in \mathcal{L}(\mathcal{X}^{\otimes k})$ that remain unchanged (invariant) under the permutation $W_{\pi}$.
 That is,
-\begin{equation}\label{eq:sym_Lk}
+\begin{equation}\label{eq:SymmetricLinearOperator}
     \mathcal{L}(\mathcal{X})^{\varovee k} = \{X \in \mathcal{L}(\mathcal{X}^{\otimes k}) : X = W_{\pi} X W_{\pi}^{*} \text{ for all } \pi \in S_{k} \}.
 \end{equation}
 
@@ -96,7 +96,7 @@ Let $S_k$ denote the symmetric group. Then given $\pi \in S_k$, the permutation 
 for all $|\psi_1 \rangle, \dots, |\psi_k\rangle \in \mathbb{C}^{d}$.
 \end{remark}
 
-\begin{definition}[Standard computational basis of linear operators]\label{def:standard_basis_Lk}
+\begin{definition}[Standard computational basis of linear operators]\label{def:StandardBasisLk}
   The {standard computational basis of linear operators} $\{E_{i, j}\}_{i, j \in [d]}$ is defined as the set of $d^2$ operators in $\mathcal{L}(\mathcal{X})$ such that
 \begin{equation}
     E_{i, j} = |i \rangle \langle j|
@@ -104,14 +104,14 @@ for all $|\psi_1 \rangle, \dots, |\psi_k\rangle \in \mathbb{C}^{d}$.
 for all $i, j \in [d]$, where $\{|i\rangle\}_{i \in [d]}$ is the standard computational basis of $\mathcal{X}$.
 \end{definition}
 
-\begin{definition}[Operator-vector correspondence]\label{def:operator_vector_correspondence}
+\begin{definition}[Operator-vector correspondence]\label{def:OperatorVectorCorrespondence}
     The {operator-vector correspondence} is a bijective mapping between the set of linear operators $\mathcal{L}(\mathcal{X})$ and the tensor product space $\mathcal{X} \otimes \mathcal{X}$ defined as
     \begin{equation}
     \text{vec} : \mathcal{L}(\mathcal{X}) \to \mathcal{X} \otimes \mathcal{X}, \quad E_{i, j} \mapsto |i\rangle \otimes |j\rangle\text{ for all } i, j \in [d].
     \end{equation}
 
     One relevant identity we use is that for $A_0, A_1, B \in \mathcal{L}(\mathcal{X})$,
-    \begin{equation}\label{eq:operator_vector_distribution}
+    \begin{equation}\label{eq:OperatorVectorDistribution}
         (A_0 \otimes A_1) \text{vec}(B) = \text{vec}(A_0 B A_1^{\mathrm{T}}).
     \end{equation}
 \end{definition}
@@ -120,7 +120,7 @@ for all $i, j \in [d]$, where $\{|i\rangle\}_{i \in [d]}$ is the standard comput
 
 %% THM 7.5
 % Name is fairly arbitrary
-\begin{theorem}[Tensor power span theorem]\label{thm:tensor_power_span_theorem}
+\begin{theorem}[Tensor power span theorem]\label{thm:TensorPowerSpanTheorem}
     Let $k$ be a positive integer, and let $X \in \mathbb{C}^[d]$. For any set $\mathcal{A} \subseteq \mathbb{C}$ satisfying $|\mathcal{A}| \geq k + 1$, it holds that
     \begin{equation}
         \text{Span}\{v^{\otimes k} : v \in \mathcal{A}^{[d]}\}=\mathcal{X}^{\varovee k}.
@@ -129,7 +129,7 @@ for all $i, j \in [d]$, where $\{|i\rangle\}_{i \in [d]}$ is the standard comput
 
 %% THM 7.10
 % \uses{}
-\begin{proposition}[Symmetric subspace and span of tensor product space]\label{prop:sym_Lk_span_tensor_product}
+\begin{proposition}[Symmetric subspace and span of tensor product space]\label{prop:symLkSpanTensorProduct}
     Let $\mathcal{X}$ be a complex Euclidean space and $k$ be a positive integer.
     Then the following statements are equivalent:
     \begin{enumerate}
@@ -150,7 +150,7 @@ for all $i, j \in [d]$, where $\{|i\rangle\}_{i \in [d]}$ is the standard comput
 \end{proposition}
 
 %% THM 7.11
-\begin{theorem}[Equivalence of symmetric subspace and unitary tensor span]\label{thm:equivalence_sym_Lk_unitary_tensor_span}\uses{prop:sym_Lk_span_tensor_product, thm:tensor_power_span_theorem}
+\begin{theorem}[Equivalence of symmetric subspace and unitary tensor span]\label{thm:equivalence_sym_Lk_unitary_tensor_span}\uses{prop:symLkSpanTensorProduct, thm:TensorPowerSpanTheorem}
     Let $\mathcal{X}$ be a complex Euclidean space and $k$ be a positive integer.
     Then the symmetric subspace of linear operators is equivalent to the span of the unitary tensor products, i.e.,
     \begin{equation}
@@ -160,7 +160,7 @@ for all $i, j \in [d]$, where $\{|i\rangle\}_{i \in [d]}$ is the standard comput
 \end{theorem}
 
 %% THM 7.13
-\begin{lemma}[Invariant subspace lemma]\label{lem:invariant_subspace}
+\begin{lemma}[Invariant subspace lemma]\label{lem:InvariantSubspace}
     Let $\mathcal{X}$ be a complex Euclidean space, let $\mathcal{V} \subseteq \mathcal{X}$ be a subspace, and let $A \in \mathcal{L}(\mathcal{X})$ be an operator.
     The following statements are equivalent:
     \begin{enumerate}
@@ -170,7 +170,7 @@ for all $i, j \in [d]$, where $\{|i\rangle\}_{i \in [d]}$ is the standard comput
 
 \end{lemma}
 
-\begin{theorem}[Double Commutant Theorem]\label{thm:double_commutant}\uses{lem:invariant_subspace}
+\begin{theorem}[Double Commutant Theorem]\label{thm:DoubleCommutant}\uses{lem:InvariantSubspace}
     Let $\mathcal{A}$ be a self-adjoint, unital subalgebra of $\mathcal{L}(\mathcal{X})$.
     Then the double commutant of $\mathcal{A}$ is equal to $\mathcal{A}$, i.e.,
     \begin{equation}
@@ -195,15 +195,15 @@ For all $Y \in \mathcal{L}(\mathcal{X} \otimes \mathcal{X})$, it can be written 
     Y = \sum_{i, j \in [d]} \sum_{a, b \in [d]} c_{i, j, a, b} |i \rangle \langle j| \otimes |a \rangle \langle b|.
 \end{equation}
 Using the definition of the standard computational basis of operators, we can rearrange the right-hand side into the form
-\begin{equation}\label{eq:tensor_decomposition}
+\begin{equation}\label{eq:TensorDecomposition}
     Y = \sum_{a, b \in [d]} Y_{a, b} \otimes E_{a, b}
 \end{equation}
 where $Y_{a, b} = \sum_{i, j \in [d]} c_{i, j, a, b} |i \rangle \langle j |$.
 
 $Y$ commutes with $\mathcal{B}$ if and only if $Y(X \otimes \mathbb{I}) = (X \otimes \mathbb{I}) Y$ for all $X \in \mathcal{A}$.
-Substituting Equation~\ref{eq:tensor_decomposition} and simplifying shows that $Y$ commutes with $\mathcal{B}$ if and only if $[Y_{a, b}, X] = 0$.
+Substituting Equation~\ref{eq:TensorDecomposition} and simplifying shows that $Y$ commutes with $\mathcal{B}$ if and only if $[Y_{a, b}, X] = 0$.
 For any $X \in \text{Comm}(\text{Comm}(\mathcal{A}))$, $X$ must commute with $\text{Comm}(\mathcal{A})$, and therefore
-\begin{equation}\label{eq:ccA_implies_ccB}
+\begin{equation}\label{eq:ccAImpliesccB}
     X \otimes \mathbb{I} \in \text{Comm}(\text{Comm}(\mathcal{B})).
 \end{equation}
 
@@ -227,20 +227,20 @@ Similarly, since $\mathcal{A}$ is self-adjoint,
 \begin{equation}
     (X^{*} \otimes \mathbb{I}) \mathcal{V} \subseteq \mathcal{V}.
 \end{equation}
-By Lemma~\ref{lem:invariant_subspace}, this implies $[X \otimes \mathbb{I}, \Pi_{\mathcal{V}}] = 0$, and hence
-\begin{equation}\label{eq:pi_in_CommB}
+By Lemma~\ref{lem:InvariantSubspace}, this implies $[X \otimes \mathbb{I}, \Pi_{\mathcal{V}}] = 0$, and hence
+\begin{equation}\label{eq:PiInCommB}
     \Pi_{\mathcal{V}} \in \text{Comm}(\mathcal{B}).
 \end{equation}
 
-Therefore, for any arbitrary $X \in \text{Comm}(\text{Comm}(\mathcal{A}))$, Equation~\ref{eq:ccA_implies_ccB} implies
+Therefore, for any arbitrary $X \in \text{Comm}(\text{Comm}(\mathcal{A}))$, Equation~\ref{eq:ccAImpliesccB} implies
 \begin{equation}
     X \otimes \mathbb{I} \in \text{Comm}(\text{Comm}(\mathcal{B})).
 \end{equation}
-It follows from Equation~\ref{eq:pi_in_CommB} that
+It follows from Equation~\ref{eq:PiInCommB} that
 \begin{equation}
     [X \otimes \mathbb{I}, \Pi_{\mathcal{V}}] = 0.
 \end{equation}
-By Lemma~\ref{lem:invariant_subspace}, this yields
+By Lemma~\ref{lem:InvariantSubspace}, this yields
 \begin{equation}
     (X \otimes \mathbb{I})\mathcal{V} \subseteq \mathcal{V}.
 \end{equation}
@@ -263,7 +263,7 @@ By the bijectivity of $\text{vec}$, $X \in \mathcal{A}$, so $\text{Comm}(\text{C
 
 
 %% END GOAL
-\begin{theorem}[Schur-Weyl duality]\label{thm:schur_weyl_duality}\uses{prop:sym_Lk_span_tensor_product, def:sym_Lk, thm:double_commutant}
+\begin{theorem}[Schur-Weyl duality]\label{thm:SchurWeylDuality}\uses{prop:symLkSpanTensorProduct, def:SymmetricLinearOperator, thm:DoubleCommutant}
     Let $\mathcal{X}$ be a complex Euclidean space, $k$ be a positive integer, and $X \in \mathcal{L}(\mathcal{X}^{\otimes k})$ be an operator.
     Then the set of all commutators of the unitary group is equivalent to the span of the permutation operators, i.e.,
     \begin{equation}
@@ -277,12 +277,12 @@ then by the bilinearity of the Lie bracket,
 \begin{equation}
     X \in \text{Comm}(\text{Span}\{ U^{\otimes k} : U \in U(\mathcal{X}) \})
 \end{equation}
-Proposition~\ref{prop:sym_Lk_span_tensor_product} implies that $X \in \text{Comm}(\mathcal{L}(\mathcal{X})^{\varovee k})$, so
-\begin{equation}\label{eq:comm_span_unitary_equiv_comm_symLk}
+Proposition~\ref{prop:symLkSpanTensorProduct} implies that $X \in \text{Comm}(\mathcal{L}(\mathcal{X})^{\varovee k})$, so
+\begin{equation}\label{eq:CommSpanUnitaryEquivCommSymLk}
     \text{Comm}(\text{Span}\{ U^{\otimes k} : U \in U(\mathcal{X}) \}) = \text{Comm}(\mathcal{L}(\mathcal{X})^{\varovee k}).
 \end{equation}
 
-By Definition~\ref{def:sym_Lk}, $Z \in \mathcal{L}(\mathcal{X})^{\varovee}$ if and only if there exists some $X \in \mathcal{L}(\mathcal{X})$ such that
+By Definition~\ref{def:SymmetricLinearOperator}, $Z \in \mathcal{L}(\mathcal{X})^{\varovee}$ if and only if there exists some $X \in \mathcal{L}(\mathcal{X})$ such that
 \begin{equation}
     Z = X = W_{\pi} X W_{\pi}^* \text{ for all } \pi \in S_k.
 \end{equation}
@@ -294,11 +294,11 @@ Hence
 \begin{equation}
     \mathcal{L}(\mathcal{X})^{\varovee k} = \text{Comm}(\text{Span}\{W_{\pi} : \pi \in S_k\}).
 \end{equation}
-By Theorem~\ref{thm:double_commutant}, taking the commutant of both sides yields
+By Theorem~\ref{thm:DoubleCommutant}, taking the commutant of both sides yields
 \begin{equation}
     \text{Comm}(\mathcal{L}(\mathcal{X})^{\varovee k}) = \text{Span}\{W_{\pi} : \pi \in S_k\}.
 \end{equation}
-By substitution of Eq.~\ref{eq:comm_span_unitary_equiv_comm_symLk}, we have shown
+By substitution of Eq.~\ref{eq:CommSpanUnitaryEquivCommSymLk}, we have shown
 \begin{equation}
     \text{Comm}(U(\mathcal{X}), k) = \text{Span}\{W_{\pi} : \pi \in S_{k} \}.
 \end{equation}

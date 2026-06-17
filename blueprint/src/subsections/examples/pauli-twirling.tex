@@ -2,7 +2,7 @@
 We illustrate some simple examples of Haar measure computations.
 In particular, we are interested in first-order computations on discrete and continuous groups.
 We approach this from the perspective of group averaging and twirling.
-\begin{definition}[Group average]\label{def:group_average}
+\begin{definition}[Group average]\label{def:GroupAverage}
     Let $G$ be a group of order $N$ and $R$ a representation of the group.
     Define the {group average} to be
     \begin{equation}
@@ -22,7 +22,7 @@ The end goal of this section is to prove the Irrep Group Averaging Corollary
 \end{equation}
 where $n_a = d$ is the dimension of the vector space of the representation.
 To illustrate this, we first consider the group average of the single-qubit Pauli group on some arbitrary initial state $\rho$.
-\begin{remark}[Pauli groups]\label{rm:pauli_group}
+\begin{remark}[Pauli groups]\label{rm:PauliGroup}
     We denote the single-qubit Pauli group as
     \begin{equation}
         G = \{\pm(i) \sigma_{x}, \pm(i) \sigma_y, \pm (i) \sigma_z, \pm (i) I\},
@@ -37,7 +37,7 @@ To illustrate this, we first consider the group average of the single-qubit Paul
 \end{remark}
 
 We note the following useful expressions.
-\begin{definition}[Bloch vectors]\label{rm:bloch_vector}
+\begin{definition}[Bloch vectors]\label{rm:BlochVector}
     \lean{Twirling.Physlib.blochState}\leanok
     For any single-qubit quantum state $\rho$, we can write it in terms of its Bloch vector,
     \begin{equation}
@@ -46,7 +46,7 @@ We note the following useful expressions.
     where $r = (r_x, r_y, r_z) \in \mathbb{R}^3$ is the coordinate of the quantum state on the Bloch sphere and $\sigma = (\sigma_x, \sigma_y, \sigma_z)$ is a three-tuple of the Pauli operators.
 \end{definition}
 
-\begin{remark}[Pauli group identities]\label{rm:sigma_cubed}
+\begin{remark}[Pauli group identities]\label{rm:SigmaCubed}
     For all non-identity $\sigma_{i}, \sigma_{j}$ in the Pauli group where $i \neq j$, the following three statements are true.
     \begin{enumerate}
         \item $\sigma_{i}\sigma_{j} \sigma_{i} = - \sigma_j$,
@@ -56,9 +56,9 @@ We note the following useful expressions.
 \end{remark}
 
 We want to show the following simpler equivalence using matrix computations.
-\begin{theorem}[Pauli twirling of a single qubit]\label{thm:twirl_single_qubit}
+\begin{theorem}[Pauli twirling of a single qubit]\label{thm:TwirlSingleQubit}
     \lean{Twirling.Physlib.twirl_single_qubit}\leanok
-    \uses{rm:bloch_vector}
+    \uses{rm:BlochVector}
     For an arbitrary single-qubit state $\rho$,
     \begin{equation}
         \langle \rho \rangle_{G} = \frac{1}{N} \sum_{g} R(g) X R(g)^{\dagger} = \frac{I}{2},
@@ -72,13 +72,13 @@ For any Pauli operator $\pm (i) X \in G$, $X$ is self-adjoint.
 Thus, we have that
 \begin{equation}
     \pm (i) X \rho (\pm (i) X)^{\dagger} = (\pm i) (\mp i) X \rho X = X \rho X.
-    \label{eq:simplified_sigma_rho_sigma*}
+    \label{eq:SimplifiedSigmaRhoSigma*}
 \end{equation}
-By Def.~\ref{def:group_average} and Eq.~\ref{eq:simplified_sigma_rho_sigma*},
+By Def.~\ref{def:GroupAverage} and Eq.~\ref{eq:SimplifiedSigmaRhoSigma*},
 \begin{equation}
     \langle \rho \rangle_{G} = \frac{1}{4} \left( \sigma_{x} \rho \sigma_{x} + \sigma_{y} \rho \sigma_{y} + \sigma_{z} \rho \sigma_{z} + I \rho I \right).
 \end{equation}
-By Remark~\ref{rm:bloch_vector} and Remark~\ref{rm:sigma_cubed}, we can rewrite $\rho$ such that
+By Remark~\ref{rm:BlochVector} and Remark~\ref{rm:SigmaCubed}, we can rewrite $\rho$ such that
 \begin{equation}
     \begin{split}
         \langle \rho \rangle_{G} = \frac{1}{4} \left( \sigma_{x} (\frac{1}{2} (I + r \cdot \sigma) \sigma_{x} + \sigma_{y} (\frac{1}{2} (I + r \cdot \sigma)) \sigma_{y} + \sigma_{z} (\frac{1}{2} (I + r \cdot \sigma)) \sigma_{z} + I (\frac{1}{2} (I + r \cdot \sigma)) I \right)\\

@@ -3,7 +3,7 @@ We consider systems of $n$ qubits, represented by vectors of dimension $d = 2^n$
 Consider the calculation of the first moment of a system with $n = 1$.
 Due to the small size of the system, we can explicitly define the Haar measure and parameterize the unitary in our calculations, which we do in the example below.
 
-\begin{remark}[Explicit construction of $2 \times 2$ unitaries]\label{rm:2x2_unitary_explicit_construction}
+\begin{remark}[Explicit construction of $2 \times 2$ unitaries]\label{rm:2x2UnitaryExplicitConstruction}
     Every unitary $U$ in the unitary group of size $2 \times 2$, denoted $U(2)$, can be parameterized in terms of $\phi, \theta, \omega \in \mathbb{R}$, where
     \begin{equation}
         U = \begin{bmatrix}
@@ -28,15 +28,15 @@ The first moment of the operator of an $n$-qubit system $O$, where $O \in \mathc
 \end{equation}
 We now define a Haar measure specific to the case $n = 1$.
 
-\begin{definition}[Parameterized single-qubit Haar measure]\label{def:single_qubit_haar_measure}
+\begin{definition}[Parameterized single-qubit Haar measure]\label{def:SingleQubitHaarMeasure}
     Let $\mu_{2}$ denote the Haar measure on a single qubit, represented with vectors in $\mathbb{C}^{2}$.
-    Define the {single-qubit Haar measure} in terms of the parameters given in Remark~\ref{rm:2x2_unitary_explicit_construction}, where
+    Define the {single-qubit Haar measure} in terms of the parameters given in Remark~\ref{rm:2x2UnitaryExplicitConstruction}, where
     \begin{equation}
         d\mu_{2} = \sin{\theta} d\theta \cdot d\omega \cdot d\phi
     \end{equation}
     is the unnormalized Haar measure.
     The normalized computation of moments using the Haar measure is given by
-    \begin{equation}\label{eq:normalized_haar_meas}
+    \begin{equation}\label{eq:NormalizedHaarMeas}
        \mathbb{E}_{U \sim \mu_{2}} [U O U^{\dagger}] = \frac{1}{8\pi^2} \int_{\phi = 0}^{2\pi} \int_{\omega = 0}^{2\pi} \int_{\theta = 0}^{\pi} U O U^{\dagger} \sin{\theta} d\theta d\omega d\phi,
     \end{equation}
     where the factor of $\frac{1}{8\pi^2}$ can be found by computing the integral and setting $UOU^{\dagger} =1$.
@@ -74,7 +74,7 @@ Hence
     \frac{\text{Tr}(\sigma_{z})}{2}I = \frac{0}{2} I = \mathbf{0},
 \end{equation}
 where $\mathbf{0}$ is the zero matrix.
-Given Def.~\ref{def:single_qubit_haar_measure}, we seek to show that
+Given Def.~\ref{def:SingleQubitHaarMeasure}, we seek to show that
 \begin{equation}
     \mathbb{E}_{U \sim \mu_{2}} [U\sigma_{z}U^{\dagger}] = \frac{1}{8\pi^2}\int_{\phi = 0}^{2\pi} \int_{\omega = 0}^{2\pi} \int_{\theta = 0}^{\pi} UOU^{\dagger} \sin \theta d\theta d\omega d\phi
 \end{equation}

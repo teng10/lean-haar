@@ -3,7 +3,7 @@
 ## Definitions
 * [x] Add permutation operator definitions
 * [ ] Define the kth-order commutant
-  * [ ] Prove Lie bracket properties
+  * [ ] Prove the space becomes a Lie algebra.
 * [ ] Define or identify methods for span
 * [ ] Define the expectation value E[UOU^{\dagger}]
 * [ ] Define the Haar measure, general probability measure
@@ -13,7 +13,7 @@
 * [ ] Define or identify methods for projection operators
 
 ## Major Results
-* [ ] (Insert supporting theorems here)
+* [ ] (Insert supporting theorems here, depending on the preferred proof)
 * [ ] Double Commutant Theorem
 * [ ] Schur-Weyl Duality
 * [ ] Computation of first and second moments

@@ -18,8 +18,14 @@ of the same shape.
 
 * `HilbertTensorPower d k` — the wrapper type, with notation `𝓗⊗[d, k]`.
 * `HilbertTensorPower.equivTensorPower` — the underlying equivalence to `⨂[ℂ]^k 𝓗[d]`.
-* `HilbertTensorPower.linearEquivTensorPower` — the same as a `ℂ`-linear equivalence; this is the
-  bridge through which the full `PiTensorProduct` API (`tprod`, `reindex`, `map`, …) is reused.
+* `HilbertTensorPower.linearEquivTensorPower` — the bridge to Mathlib's `PiTensorProduct` API.
+* `HilbertTensorPower.tprod` — pure (decomposable) tensors.
+* `HilbertTensorPower.map_tprod` — tensor products of operators.
+
+## Main results
+
+* `HilbertTensorPower.hom_ext` — extensionality principle for linear maps out of `𝓗⊗[d, k]`.
+* `HilbertTensorPower.map_tprod_tprod` — action of `map_tprod` on pure tensors.
 
 ## Scope
 
@@ -72,11 +78,7 @@ def equivTensorPower : 𝓗⊗[d, k] ≃ ⨂[ℂ]^k (FiniteHilbertSpace d) where
   left_inv _ := rfl
   right_inv _ := rfl
 
-/-!
-## The `ℂ`-vector space structure
-
-The vector space structure is transferred from `⨂[ℂ]^k 𝓗[d]` along `equivTensorPower`.
--/
+/-! ## The `ℂ`-vector space structure -/
 
 noncomputable instance : AddCommGroup (𝓗⊗[d, k]) := equivTensorPower.addCommGroup
 
@@ -108,27 +110,19 @@ noncomputable def linearEquivTensorPower : 𝓗⊗[d, k] ≃ₗ[ℂ] ⨂[ℂ]^k 
 @[simp] lemma linearEquivTensorPower_symm_apply (x : ⨂[ℂ]^k (FiniteHilbertSpace d)) :
     linearEquivTensorPower.symm x = ⟨x⟩ := rfl
 
-/-!
-## Finite-dimensionality
-
-`⨂[ℂ]^k 𝓗[d]` has the basis `Basis.piTensorProduct` indexed by multi-indices `Fin k → d`,
-which we transport to `𝓗⊗[d, k]` along `linearEquivTensorPower`. Being a finite basis, this makes
-the space finite dimensional.
--/
+/-! ## Finite-dimensionality -/
 
 instance : FiniteDimensional ℂ (𝓗⊗[d, k]) :=
   Module.Finite.of_basis
     ((Basis.piTensorProduct fun _ : Fin k => (FiniteHilbertSpace.basisFun d).toBasis).map
       linearEquivTensorPower.symm)
 
-/-!
-## Pure tensors
+/-! ## Pure tensors -/
 
-`tprod ψ` is the pure (decomposable) tensor `ψ 1 ⊗ ⋯ ⊗ ψ k`, the wrapper-level counterpart of
-`PiTensorProduct.tprod`. Pure tensors span `𝓗⊗[d, k]`, so it suffices to specify operators on them.
--/
+/-- The pure tensor `ψ 1 ⊗ ⋯ ⊗ ψ k` as an element of `𝓗⊗[d, k]`.
 
-/-- The pure tensor `ψ 1 ⊗ ⋯ ⊗ ψ k` as an element of `𝓗⊗[d, k]`. -/
+Pure (decomposable) tensors span `𝓗⊗[d, k]`, so it often suffices to specify operators
+on them via `hom_ext`. -/
 noncomputable def tprod (ψ : Fin k → FiniteHilbertSpace d) : 𝓗⊗[d, k] :=
   ⟨PiTensorProduct.tprod ℂ ψ⟩
 
@@ -155,13 +149,11 @@ lemma hom_ext {M : Type*} [AddCommMonoid M] [Module ℂ M] {f g : 𝓗⊗[d, k] 
   ext x
   simpa using LinearMap.congr_fun key (linearEquivTensorPower x)
 
-/-!
-## Tensor products of operators
+/-! ## Tensor products of operators -/
 
-`map_tprod f` is the operator `f 1 ⊗ ⋯ ⊗ f k` acting on `𝓗⊗[d, k]`.
--/
+/-- The tensor product of linear maps `f 1 ⊗ ⋯ ⊗ f k` as a linear map on `𝓗⊗[d, k]`.
 
-/-- The tensor product of linear maps `f 1 ⊗ ⋯ ⊗ f k` as a linear map on `𝓗⊗[d, k]`. -/
+This operator maps a pure tensor `ψ₁ ⊗ ⋯ ⊗ ψ_k` to `f 1 ψ₁ ⊗ ⋯ ⊗ f k ψ_k`. -/
 noncomputable def map_tprod (f : Fin k → (FiniteHilbertSpace d →ₗ[ℂ] FiniteHilbertSpace d)) :
     (𝓗⊗[d, k] →ₗ[ℂ] 𝓗⊗[d, k]) :=
   (linearEquivTensorPower.symm.toLinearMap).comp

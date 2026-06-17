@@ -6,10 +6,12 @@ import Mathlib.Tactic.FinCases
 # Demonstration of permutation operators on tensor products of operators
 
 This file demonstrates the action of the permutation operator `W_π` on the tensor product
-of three operators in the space `ℂ² ⊗ ℂ² ⊗ ℂ²` (represented as `𝓗⊗[Fin 2, 3]`).
+of operators. The main result demonstrated is the commutation relation:
+$W_\pi (A_1 \otimes \dots \otimes A_k) = (A_{\pi^{-1}(1)} \otimes \dots \otimes A_{\pi^{-1}(k)}) W_\pi$.
 
-The main result demonstrated is that $W_\pi$ permutes the factors in a tensor product of
-operators: $W_\pi (A_1 \otimes A_2 \otimes A_3) = (A_{\pi^{-1}(1)} \otimes A_{\pi^{-1}(2)} \otimes A_{\pi^{-1}(3)}) W_\pi$.
+## Results
+
+* `LeanHaar.commutation_example` — a specific demonstration for 3 qubits (`ℂ² ⊗ ℂ² ⊗ ℂ²`).
 -/
 
 namespace LeanHaar
@@ -19,7 +21,7 @@ open scoped TensorProduct
 
 variable {d : Type*} [Fintype d] [DecidableEq d] {k : ℕ}
 
-/-- Specific demonstration for 3 qubits (`ℂ² ⊗ ℂ² ⊗ ℂ²`). -/
+/-- Specific demonstration for the permutation of 3 qubits (`ℂ² ⊗ ℂ² ⊗ ℂ²`) using some π. -/
 example (π : Equiv.Perm (Fin 3))
     (A B C : FiniteHilbertSpace (Fin 2) →ₗ[ℂ] FiniteHilbertSpace (Fin 2)) :
     let f : Fin 3 → (FiniteHilbertSpace (Fin 2) →ₗ[ℂ] FiniteHilbertSpace (Fin 2)) :=

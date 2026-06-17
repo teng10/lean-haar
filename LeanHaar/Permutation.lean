@@ -16,6 +16,14 @@ on `𝓗⊗[d, k]`, which is a prerequisite for defining unitarity of `W_π`.
 
 * `HilbertTensorPower.linearEquivEuclidean` — the linear equivalence to `EuclideanSpace`.
 * `HilbertTensorPower.W` — the permutation operator `W_π`.
+* `HilbertTensorPower.W_equiv` — the permutation operator as a linear equivalence.
+
+## Main results
+
+* `HilbertTensorPower.W_tprod` — action of `W_π` on pure tensors.
+* `HilbertTensorPower.W_mul` — proves that `π ↦ W_π` is a group homomorphism.
+* `HilbertTensorPower.W_map_tprod_comm` — the commutation relation between `W_π` and tensor
+  products of operators.
 
 ## Implementation notes
 
@@ -32,14 +40,7 @@ namespace HilbertTensorPower
 
 variable {d : Type*} [Fintype d] [DecidableEq d] {k : ℕ}
 
-/-!
-## The Hilbert space structure on `𝓗⊗[d, k]`
-
-The inner product is induced from the standard inner product on `EuclideanSpace ℂ (Fin k → d)`
-along the linear equivalence established by the basis `Basis.piTensorProduct` of the
-standard orthonormal bases of the factors. This makes `𝓗⊗[d, k]` a finite dimensional
-(and hence complete) inner product space, that is, a Hilbert space.
--/
+/-! ## The Hilbert space structure on `𝓗⊗[d, k]` -/
 
 /-- The linear equivalence between `𝓗⊗[d, k]` and `EuclideanSpace ℂ (Fin k → d)`
   induced by the standard orthonormal basis on each factor. -/
@@ -76,9 +77,7 @@ noncomputable def isometryEquivEuclidean : 𝓗⊗[d, k] ≃ₗᵢ[ℂ] Euclidea
   toLinearEquiv := linearEquivEuclidean
   norm_map' _ := rfl
 
-/-!
-## The permutation operator `W_π`
--/
+/-! ## The permutation operator `W_π` -/
 
 /-- The permutation operator `W_π` on `𝓗⊗[d, k]`, which permutes the tensor factors according
 to a permutation `π : Equiv.Perm (Fin k)`.

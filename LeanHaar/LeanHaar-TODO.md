@@ -1,11 +1,19 @@
 # General Checklist
 
-* [ ] Add permutation operator definitions
-* [ ] Clean up and move written proof sketch into blueprint
+## Definitions
+* [x] Add permutation operator definitions
+* [ ] Define the kth-order commutant
+  * [ ] Prove Lie bracket properties
+* [ ] Define or identify methods for span
+* [ ] Define the expectation value E[UOU^{\dagger}]
+* [ ] Define the Haar measure, general probability measure
+* [ ] Define the moment operator
+* [ ] Define symmetric subspace over tensor product
+* [ ] Define vec function and corresponding characteristics $W_{\pi} \otimes W_{\pi} vec(X) = vec(W_{\pi} X W_{\pi}^{T})$
+* [ ] Define or identify methods for projection operators
+
+## Major Results
 * [ ]
-
-
-
 
 # Potential TODOs
 

@@ -155,6 +155,26 @@ lemma hom_ext {M : Type*} [AddCommMonoid M] [Module ℂ M] {f g : 𝓗⊗[d, k] 
   ext x
   simpa using LinearMap.congr_fun key (linearEquivTensorPower x)
 
+/-!
+## Tensor products of operators
+
+`map_tprod f` is the operator `f 1 ⊗ ⋯ ⊗ f k` acting on `𝓗⊗[d, k]`.
+-/
+
+/-- The tensor product of linear maps `f 1 ⊗ ⋯ ⊗ f k` as a linear map on `𝓗⊗[d, k]`. -/
+noncomputable def map_tprod (f : Fin k → (FiniteHilbertSpace d →ₗ[ℂ] FiniteHilbertSpace d)) :
+    (𝓗⊗[d, k] →ₗ[ℂ] 𝓗⊗[d, k]) :=
+  (linearEquivTensorPower.symm.toLinearMap).comp
+    ((PiTensorProduct.map f).comp linearEquivTensorPower.toLinearMap)
+
+/-- Action of `map_tprod` on pure tensors. -/
+@[simp]
+lemma map_tprod_tprod (f : Fin k → (FiniteHilbertSpace d →ₗ[ℂ] FiniteHilbertSpace d))
+    (ψ : Fin k → FiniteHilbertSpace d) :
+    map_tprod f (tprod ψ) = tprod (fun i => f i (ψ i)) := by
+  unfold map_tprod
+  simp only [LinearMap.coe_comp, Function.comp_apply]
+  erw [linearEquivTensorPower_tprod, PiTensorProduct.map_tprod, linearEquivTensorPower_symm_tprod]
 
 end HilbertTensorPower
 

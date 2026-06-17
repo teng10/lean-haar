@@ -19,30 +19,6 @@ open scoped TensorProduct
 
 variable {d : Type*} [Fintype d] [DecidableEq d] {k : ℕ}
 
-/-- The tensor product of linear maps `f 1 ⊗ ⋯ ⊗ f k` as a linear map on `𝓗⊗[d, k]`.
-  We define this locally to avoid modifying `TensorPower.lean`. -/
-noncomputable def map_tprod (f : Fin k → (FiniteHilbertSpace d →ₗ[ℂ] FiniteHilbertSpace d)) :
-    (𝓗⊗[d, k] →ₗ[ℂ] 𝓗⊗[d, k]) :=
-  (linearEquivTensorPower.symm.toLinearMap).comp
-    ((PiTensorProduct.map f).comp linearEquivTensorPower.toLinearMap)
-
-/-- Action of `map_tprod` on pure tensors. -/
-lemma map_tprod_tprod (f : Fin k → (FiniteHilbertSpace d →ₗ[ℂ] FiniteHilbertSpace d))
-    (ψ : Fin k → FiniteHilbertSpace d) :
-    map_tprod f (tprod ψ) = tprod (fun i => f i (ψ i)) := by
-  unfold map_tprod
-  simp only [LinearMap.coe_comp, Function.comp_apply]
-  erw [linearEquivTensorPower_tprod, PiTensorProduct.map_tprod, linearEquivTensorPower_symm_tprod]
-
-/-- The commutation relation between `W_π` and a tensor product of operators. -/
-theorem W_map_tprod_comm (π : Equiv.Perm (Fin k))
-    (f : Fin k → (FiniteHilbertSpace d →ₗ[ℂ] FiniteHilbertSpace d)) :
-    W π ∘ₗ map_tprod f = map_tprod (f ∘ π.symm) ∘ₗ W π := by
-  apply hom_ext
-  intro ψ
-  simp [map_tprod_tprod, W_tprod, Function.comp_apply]
-  rfl
-
 /-- Specific demonstration for 3 qubits (`ℂ² ⊗ ℂ² ⊗ ℂ²`). -/
 example (π : Equiv.Perm (Fin 3))
     (A B C : FiniteHilbertSpace (Fin 2) →ₗ[ℂ] FiniteHilbertSpace (Fin 2)) :

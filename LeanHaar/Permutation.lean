@@ -131,6 +131,14 @@ lemma W_inv (π : Equiv.Perm (Fin k)) :
   simp [W_equiv, PiTensorProduct.reindex_symm]
   rfl
 
+/-- The commutation relation between `W_π` and a tensor product of operators. -/
+theorem W_map_tprod_comm (π : Equiv.Perm (Fin k))
+    (f : Fin k → (FiniteHilbertSpace d →ₗ[ℂ] FiniteHilbertSpace d)) :
+    W π ∘ₗ map_tprod f = map_tprod (f ∘ π.symm) ∘ₗ W π := by
+  apply hom_ext
+  intro ψ
+  simp [W_tprod, Function.comp_apply]
+  rfl
 
 end HilbertTensorPower
 

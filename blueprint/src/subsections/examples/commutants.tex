@@ -4,6 +4,45 @@
     For finite-dimensional complex representation of a group $G$, every $G$-equivariant endormorphism of $V$ (i.e. linear map from $V \rightarrow V$) is a scalar multiple of the identity.
 \end{remark}
 
+%%% MARK %%%
+\begin{proposition}\label{lemma:Transitivity}
+Let $v, w \in \mathbb{C}^2$ be unit vectors (i.e., $\|v\| = \|w\| = 1$). Then there exists a unitary matrix $U \in U(2)$ such that $Uv = w$.
+\end{proposition}
+
+\begin{proof}
+Let $S^3 = \{ z \in \mathbb{C}^2 : \|z\| = 1 \}$ denote the unit sphere in $\mathbb{C}^2$, which is acted upon by $\mathcal{U}(2)$ by matrix multiplication.
+Since unitary matrices preserve the Hermitian inner product, for any $U \in \mathcal{U}(2)$ and vector $z \in \mathbb{C}^2$,
+\begin{equation}
+  |Uz|^2 = \langle Uz, Uz \rangle = \langle z, U^{\dagger} U z \rangle = \langle z, z \rangle = |z|^2.
+\end{equation}
+Hence the action of $U$ is restricted to a well-defined action on $S^3$.
+
+We show that the action of $\mathcal{U}(2)$ on $S^3$ is transitive.
+That is, for any $v, w \in S^3$, the orbit of $v$ contains $w$.
+Let $e_1$ be the standard basis vector in $S^{3}$, where $e_1$ is given by
+\begin{equation}
+e_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix}.
+\end{equation}
+Let $x \in S^3$ be an arbitrary unit vector. We can extend the singleton set $\{x\}$ to an orthonormal basis $\mathcal{B}_x = \{x, x^\perp\}$ of $\mathbb{C}^2$. Similarly, let $\mathcal{B}_{e_1} = \{e_1, e_2\}$ be the standard orthonormal basis.
+
+Define a linear operator $T: \mathbb{C}^2 \to \mathbb{C}^2$ by specifying its action on the basis $\mathcal{B}_{e_1}$:
+\begin{equation}
+T(e_1) = x \quad \text{and} \quad T(e_2) = x^\perp.
+\end{equation}
+Since $T$ maps an orthonormal basis to an orthonormal basis, it preserves inner products. Specifically, for any $u, v \in \mathbb{C}^2$, $\langle Tu, Tv \rangle = \langle u, v \rangle$. A linear operator on a finite-dimensional inner product space that preserves the inner product is unitary. Thus, $T \in U(2)$. By construction, $T e_1 = x$.
+
+Since $x$ was arbitrary, the orbit of $e_1$ is $S^3$. Now, let $v, w \in S^3$ be the given vectors. By the transitivity established above, there exist matrices $U_1, U_2 \in U(2)$ such that:
+\begin{equation}
+U_1 e_1 = v \quad \text{and} \quad U_2 e_1 = w.
+\begin{equation}
+Since $U(2)$ is a group, $U_1^{-1}$ exists and is unitary. Define $U = U_2 U_1^{-1}$. Then $U \in U(2)$, and:
+\begin{equation}
+U v = (U_2 U_1^{-1}) v = U_2 (U_1^{-1} v) = U_2 e_1 = w.
+\end{equation}
+Thus, there exists a unitary matrix $U$ such that $Uv = w$.
+\end{proof}
+%%% MARK %%%
+
 \begin{theorem}[Abstract: Commutant of first order unitaries is a scalar multiple of the identity]
     Given the identity $\mathbb{I} \in \mathcal{U}(2)$,
     \begin{equation}
@@ -18,7 +57,7 @@ We show that $V$ is irreducible.
 
 Clearly $\{0\}$ is a subspace of $V$.
 Suppose $W \subseteq V$ is a nonzero $\mathcal{U}$(2)-invariant subspace.
-Note that the natural action of $\mathcal{U}(2)$ is transitive on the unit sphere of $\mathbb{C}^2$.
+Note that the natural action of $\mathcal{U}(2)$ is transitive on the unit sphere of $\mathbb{C}^2$, as given in Lemma~\ref{lemma:Transitivity}.
 Since $V$ has dimension $2$ by definition, $\text{dim}(W) = 1$ or $\text{dim}(W) = 2$.
 Assume for contradiction that $\text{dim}(W) = 1$, and let $v \in W$ be a unit vector.
 By transitivity, $\mathcal{U}(2)v$ covers the entire unit sphere of $V$.

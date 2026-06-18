@@ -8,13 +8,6 @@ import Mathlib.Analysis.InnerProductSpace.Basic
 /-!
 # Schur–Weyl duality — abstract (algebraic) version
 
-Experimental, Mathlib-native development that deliberately avoids the inner-product / Hilbert-space
-scaffolding of `TensorPowerV2.lean`, `Permutation.lean`, `Operator.lean`. Schur–Weyl duality is
-purely *algebraic*: it concerns two subalgebras of `Module.End ℂ (⨂[ℂ]^k V)` for a
-finite-dimensional `ℂ`-vector space `V`, and the claim that each is the other's centralizer. So we
-work with Mathlib's `⨂[ℂ]^k V` (`PiTensorProduct`) **directly** — no wrapper structure, no inner
-product, no unitaries.
-
 ## The two actions
 
 * `permRep : Representation ℂ (Equiv.Perm (Fin k)) (⨂[ℂ]^k V)` — the symmetric group permuting tensor
@@ -251,5 +244,3 @@ theorem permSpan_eq_centralizer_unitaryTensorSpan :
 end Unitary
 
 end LeanHaar.SchurWeylAbstract
-
-

@@ -1,14 +1,12 @@
 import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.LinearAlgebra.TensorPower.Basic
 
 /-!
-# Basic definitions
+# The finite Hilbert space `𝓗[d]`
 
 This file defines `FiniteHilbertSpace n`, the finite-dimensional complex Hilbert space of
 dimension `n`, as an abbreviation for `EuclideanSpace ℂ (Fin n)`.
-
-For tensor powers we use Mathlib's `TensorPower` directly, written `⨂[ℂ]^k V`
-(available after `open scoped TensorProduct`).
+Its `ℂ`-vector space and Hilbert space structure are transported from `EuclideanSpace ℂ d` along the
+`val` equivalence.
 -/
 
 namespace LeanHaar

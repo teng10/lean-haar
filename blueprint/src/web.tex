@@ -16,6 +16,10 @@
 \input{macros/common}
 \input{macros/web}
 
+% MathJax fallback for \varovee since it does not support stmaryrd natively
+\providecommand{\varovee}{}
+\renewcommand{\varovee}{\mathbin{{\bigcirc}\mkern-15mu{\vee}}}
+
 \home{https://teng10.github.io/lean-haar}
 \github{https://github.com/teng10/lean-haar}
 \dochome{https://teng10.github.io/lean-haar/docs}

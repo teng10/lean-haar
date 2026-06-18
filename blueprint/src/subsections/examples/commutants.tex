@@ -1,0 +1,39 @@
+\subsection{Commutant of the First Order Unitary Group}
+
+\begin{remark}[Schur's Lemma]\label{rm:SchursLemma}
+    For finite-dimensional complex representation of a group $G$, every $G$-equivariant endormorphism of $V$ (i.e. linear map from $V \rightarrow V$) is a scalar multiple of the identity.
+\end{remark}
+
+\melody{I'm not sure if this is a valid work-around, but a nice way to arrive at the set equality would be to use Schur's Lemma, the abstract version of which does exist in Mathlib.}
+
+\begin{theorem}[Abstract: Commutant of first order unitarities is a scalar multiple of the identity]
+    Given the identity $\mathbb{I} \in \mathcal{U}(2)$,
+    \begin{equation}
+        \{M : M U = U M, \forall U \in \mathcal{U}(2) \} = \{\lambda \mathbb{I} : \lambda \in \mathbb{C} \}.
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+We first show forward inclusion, where $\{M : M U = U M, \forall U \in \mathcal{U}(2) \} \subseteq \{\lambda \mathbb{I} : \lambda \in \mathbb{C} \}$.
+Let $V = \mathbb{C}^2$ be the complex vector space of dimension $2$ acted upon by $\mathcal{U}(2)$.
+We show that $V$ is irreducible.
+
+Clearly $\{0\}$ is a subspace of $V$.
+Suppose $W \subseteq V$ is a nonzero $\mathcal{U}$(2)-invariant subspace.
+Note that the natural action of $\mathcal{U}(2)$ is transitive on the unit sphere of $\mathbb{C}^2$.
+Since $V$ has dimension $2$ by definition, $\text{dim}(W) = 1$ or $\text{dim}(W) = 2$.
+Assume for contradiction that $\text{dim}(W) = 1$, and let $v \in W$ be a unit vector.
+By transitivity, $\mathcal{U}(2)v$ covers the entire unit sphere of $V$.
+That is, for all $w \in W$, there exists a $U$ such that $Uv = w$.
+Since $W$ is $\mathcal{U}(2)$-invariant, $W$ must contain the entire unit sphere and therefore spans $V$, implying $\text{dim}(W) = 2$.
+So $V = W$.
+Since the only subspaces of $V$ are the zero subspace and itself, $V$ is irreducible.
+Note that $MU = UM$ implies $M$ is a $\mathcal{U}(2)$-equivariant endomorphism of $V$.
+By Schur's lemma, as restated in Remark~\ref{rm:SchursLemma}
+\begin{equation}
+    M = \lambda \mathbb{I},
+\end{equation}
+where $\lambda \in \mathbb{C}$.
+
+Conversely, it is trivial that any scalar multiple of the identity commutes with all $U \in \mathcal{U}(2)$.
+\end{proof}

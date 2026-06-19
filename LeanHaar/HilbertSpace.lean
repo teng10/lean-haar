@@ -124,6 +124,12 @@ noncomputable def basisFun (d : Type*) [Fintype d] [DecidableEq d] :
 lemma basisFun_apply (i : d) : basisFun d i = ⟨EuclideanSpace.single i 1⟩ := by
   rw [basisFun, OrthonormalBasis.map_apply, EuclideanSpace.basisFun_apply]; rfl
 
+instance [Nonempty d] : Nontrivial (FiniteHilbertSpace d) :=
+  ⟨by
+    obtain ⟨i⟩ := (inferInstance : Nonempty d)
+    use 0, basisFun d i
+    exact ((basisFun d).orthonormal.ne_zero i).symm⟩
+
 end FiniteHilbertSpace
 
 end LeanHaar

@@ -193,6 +193,7 @@ lemma conjSymm_eq_smul_id_iff (M : Module.End ℂ (FiniteHilbertSpace d)) (scala
     simp only [conjSymm, LinearMap.smul_comp, LinearMap.comp_smul, LinearMap.id_comp,
       E_symm_toLinearMap_comp]
 
+
 /-- **Commutant of first order unitaries** (Blueprint Theorem):
 The set of endomorphisms of `𝓗[d]` that commute with all unitaries consists exactly of
 scalar multiples of the identity. -/

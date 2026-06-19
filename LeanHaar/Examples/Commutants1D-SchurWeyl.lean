@@ -108,17 +108,21 @@ lemma conjSymm_commute (M : Module.End ℂ (FiniteHilbertSpace d)) (U : UnitaryG
       M.comp U.toLinearMap = U.toLinearMap.comp M := by
   constructor
   · intro h
+    -- We show they commute when evaluated at an arbitrary vector x after wrapping in E.symm
     refine LinearMap.ext fun x ↦ ?_
     have h1 := LinearMap.congr_fun h ((E d).symm x)
     simp only [LinearMap.coe_comp, Function.comp_apply, conjSymm, LinearEquiv.coe_coe] at h1
+    -- Evaluate using the E_comp_glPow conjugation identity
     have h_gl1 := LinearMap.congr_fun (E_comp_glPow (d := d) U.toLinearMap) ((E d).symm x)
     simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe,
       LinearEquiv.apply_symm_apply] at h_gl1
+    -- Evaluate using the glPow_comp_E_symm conjugation identity
     have h_gl2 := LinearMap.congr_fun (glPow_comp_E_symm (d := d) U.toLinearMap) (M x)
     simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe] at h_gl2
     simp only [LinearEquiv.apply_symm_apply] at h1
     rw [h_gl1] at h1
     rw [h_gl2] at h1
+    -- E.symm is injective, which yields the final commutation relation
     exact (E d).symm.injective h1
   · intro h
     rw [conjSymm_comp_glPow, glPow_comp_conjSymm, h]
@@ -133,6 +137,7 @@ lemma permSpan_one :
   simp only [Set.mem_range, Set.mem_singleton_iff]
   constructor
   · rintro ⟨π, rfl⟩
+    -- The symmetric group on 1 element contains only the identity permutation
     have : π = 1 := Subsingleton.elim π 1
     rw [this]
     exact map_one permRep
@@ -181,8 +186,15 @@ theorem commutant_unitary_eq_scalar :
     {M | ∃ (scalar : ℂ), M = scalar • LinearMap.id} := by
   ext M
   simp only [Set.mem_setOf_eq]
+  -- Step 1: Instantiate the abstract Schur-Weyl Duality for k = 1.
+  -- This equates permSpan and the centralizer of unitaryTensorSpan.
   have h_duality := permSpan_eq_centralizer_unitaryTensorSpan (W := FiniteHilbertSpace d) (k := 1)
+
+  -- Step 2: Rewrite using the k = 1 identifications.
+  -- permSpan is span(id), and the centralizer of unitaryTensorSpan is the centralizer of the range of glPow.
   rw [permSpan_one, unitaryTensorSpan, centralizer_span] at h_duality
+
+  -- Step 3: Establish that M commutes with all U iff conjSymm M commutes with all glPow U.
   have h_comm : (∀ U : UnitaryGroup d, M.comp U.toLinearMap = U.toLinearMap.comp M) ↔
                 (∀ U : UnitaryGroup d,
                   (conjSymm M).comp (glPow U.toLinearMap) =
@@ -195,6 +207,8 @@ theorem commutant_unitary_eq_scalar :
       rw [← conjSymm_commute]
       exact h U
   rw [h_comm]
+
+  -- Step 4: Express the commutation relation as membership in the centralizer set.
   have h_cent : (∀ U : UnitaryGroup d,
                   (conjSymm M).comp (glPow U.toLinearMap) =
                     (glPow U.toLinearMap).comp (conjSymm M)) ↔
@@ -209,6 +223,8 @@ theorem commutant_unitary_eq_scalar :
       have hU := h U
       exact hU.symm
   rw [h_cent]
+
+  -- Step 5: Apply Schur-Weyl duality to transition from the centralizer to the permutation span.
   have h_mem : conjSymm M ∈ Set.centralizer
                  (Set.range (fun U : UnitaryGroup d => glPow U.toLinearMap)) ↔
                conjSymm M ∈ ↑(Submodule.span ℂ
@@ -216,6 +232,8 @@ theorem commutant_unitary_eq_scalar :
     rw [← h_duality]
     rfl
   rw [h_mem]
+
+  -- Step 6: Bridge the span of id on the 1-fold power to the scalar multiples on H[d].
   have h_span : (conjSymm M ∈ ↑(Submodule.span ℂ
                   {(LinearMap.id : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d)))})) ↔
                 (∃ scalar : ℂ, M = scalar • LinearMap.id) := by

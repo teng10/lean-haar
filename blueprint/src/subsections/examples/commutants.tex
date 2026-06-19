@@ -1,7 +1,7 @@
 \subsection{Commutant of the First Order Unitary Group}
 
 \begin{remark}[Schur's Lemma]\label{rm:SchursLemma}
-    For finite-dimensional complex representation of a group $G$, every $G$-equivariant endormorphism of $V$ (i.e. linear map from $V \rightarrow V$) is a scalar multiple of the identity.
+    For finite-dimensional complex representation $V$ of a group $G$ that is irreducible under the action of $\mathcal{U}(2)$, every $G$-equivariant endormorphism of $V$ (i.e. linear map from $V \rightarrow V$) is a scalar multiple of the identity.
 \end{remark}
 
 %%% MARK %%%
@@ -73,4 +73,37 @@ By Schur's lemma, as restated in Remark~\ref{rm:SchursLemma}
 where $\lambda \in \mathbb{C}$.
 
 Conversely, it is trivial that any scalar multiple of the identity commutes with all $U \in \mathcal{U}(2)$.
+\end{proof}
+
+We now write an outline based on the Schur-Weyl duality.
+
+\begin{lemma}[Span of 1D permutations is the span of $\mathbb{I}$]\label{lemma:1DSpanPermutationEqId}
+    Let $d \in \mathbb{N}$ and $k = 1$.
+    Then
+    \begin{equation}
+        \text{Span}\{ V_{d}(\pi) : \pi \in S_{k} \} = \text{Span}(\mathbb{I}).
+    \end{equation}
+\end{lemma}
+
+\begin{proof}
+    In a tensor product composed of one element, any permutation of the tensor product simply returns the element itself.
+\end{proof}
+
+\begin{theorem}[Using Schur-Weyl Duality for Commutants]
+    Given the identity $\mathbb{I} \in \mathcal{U}(2)$,
+    \begin{equation}
+        \{M : M U = U M, \forall U \in \mathcal{U}(2) \} = \{\lambda \mathbb{I} : \lambda \in \mathbb{C} \}.
+    \end{equation}
+    We prove this statement now using the abstract Schur-Weyl duality.
+\end{theorem}
+
+\begin{proof}
+    Observe that the left-hand side can be equivalently written as
+    \begin{equation}
+        \{M : MU = UM, \forall U \in \mathcal{U}(2) \} = \{M : MU^{\otimes 1} = U^{\otimes 1} M, \forall U \in \mathcal{U}(2) \}.
+    \end{equation}
+    By the Schur-Weyl duality and transitivity of equality,
+    \begin{equation}
+        \{M : MU = UM, \forall U \in \mathcal{U}(2) \} = \text{Span}(\mathbb{I}) = \{ \lambda \mathbb{I} : \lambda \in \mathbb{C} \}
+    \end{equation}
 \end{proof}

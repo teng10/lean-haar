@@ -41,6 +41,26 @@ def E (d : Type*) [Fintype d] [DecidableEq d] :
     (⨂[ℂ]^1 (FiniteHilbertSpace d)) ≃ₗ[ℂ] FiniteHilbertSpace d :=
   PiTensorProduct.subsingletonEquiv (0 : Fin 1)
 
+/-- Evaluating `E` on `E.symm` yields the identity. -/
+lemma E_toLinearMap_comp_symm :
+    (E d).toLinearMap.comp (E d).symm.toLinearMap = LinearMap.id := by
+  ext; simp [E]
+
+/-- Evaluating `E.symm` on `E` yields the identity. -/
+lemma E_symm_toLinearMap_comp :
+    (E d).symm.toLinearMap.comp (E d).toLinearMap = LinearMap.id := by
+  ext; simp [E]
+
+/-- Associativity relation for composition of `E` and `E.symm`. -/
+lemma E_toLinearMap_comp_symm_assoc (f : Module.End ℂ (FiniteHilbertSpace d)) :
+    (E d).toLinearMap ∘ₗ ((E d).symm.toLinearMap ∘ₗ f) = f := by
+  rw [← LinearMap.comp_assoc, E_toLinearMap_comp_symm, LinearMap.id_comp]
+
+/-- Associativity relation for composition of `E.symm` and `E`. -/
+lemma E_symm_toLinearMap_comp_assoc (f : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d))) :
+    (E d).symm.toLinearMap ∘ₗ ((E d).toLinearMap ∘ₗ f) = f := by
+  rw [← LinearMap.comp_assoc, E_symm_toLinearMap_comp, LinearMap.id_comp]
+
 /-- Conjugation map taking an operator on `𝓗[d]` to the 1-fold tensor power. -/
 def conjSymm (M : Module.End ℂ (FiniteHilbertSpace d)) :
     Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d)) :=
@@ -53,15 +73,15 @@ def conj (M : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d))) :
 
 /-- Conjugation cancels `conjSymm`. -/
 lemma conj_conjSymm (M : Module.End ℂ (FiniteHilbertSpace d)) : conj (conjSymm M) = M := by
-  refine LinearMap.ext fun x ↦ ?_
-  simp only [conj, conjSymm, LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe,
-    LinearEquiv.apply_symm_apply]
+  simp only [conj, conjSymm, LinearMap.comp_assoc]
+  rw [E_toLinearMap_comp_symm_assoc, E_toLinearMap_comp_symm]
+  simp only [LinearMap.comp_id]
 
 /-- `conjSymm` cancels conjugation. -/
 lemma conjSymm_conj (M : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d))) : conjSymm (conj M) = M := by
-  refine LinearMap.ext fun x ↦ ?_
-  simp only [conj, conjSymm, LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe,
-    LinearEquiv.symm_apply_apply]
+  simp only [conj, conjSymm, LinearMap.comp_assoc]
+  rw [E_symm_toLinearMap_comp_assoc, E_symm_toLinearMap_comp]
+  simp only [LinearMap.comp_id]
 
 /-- Evaluation of `E` on `glPow` of an operator. -/
 lemma E_comp_glPow (A : Module.End ℂ (FiniteHilbertSpace d)) :
@@ -108,22 +128,18 @@ lemma conjSymm_commute (M : Module.End ℂ (FiniteHilbertSpace d)) (U : UnitaryG
       M.comp U.toLinearMap = U.toLinearMap.comp M := by
   constructor
   · intro h
-    -- We show they commute when evaluated at an arbitrary vector x after wrapping in E.symm
-    refine LinearMap.ext fun x ↦ ?_
-    have h1 := LinearMap.congr_fun h ((E d).symm x)
-    simp only [LinearMap.coe_comp, Function.comp_apply, conjSymm, LinearEquiv.coe_coe] at h1
-    -- Evaluate using the E_comp_glPow conjugation identity
-    have h_gl1 := LinearMap.congr_fun (E_comp_glPow (d := d) U.toLinearMap) ((E d).symm x)
-    simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe,
-      LinearEquiv.apply_symm_apply] at h_gl1
-    -- Evaluate using the glPow_comp_E_symm conjugation identity
-    have h_gl2 := LinearMap.congr_fun (glPow_comp_E_symm (d := d) U.toLinearMap) (M x)
-    simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe] at h_gl2
-    simp only [LinearEquiv.apply_symm_apply] at h1
-    rw [h_gl1] at h1
-    rw [h_gl2] at h1
-    -- E.symm is injective, which yields the final commutation relation
-    exact (E d).symm.injective h1
+    -- Take the conjugation of both sides
+    have h_conj : conj ((conjSymm M).comp (glPow U.toLinearMap)) =
+                  conj ((glPow U.toLinearMap).comp (conjSymm M)) := by rw [h]
+    -- Rewrite the inner terms using the E-glPow conjugation lemmas
+    rw [conjSymm_comp_glPow, glPow_comp_conjSymm] at h_conj
+    simp only [conj, LinearMap.comp_assoc] at h_conj
+    -- Apply the associativity helper lemmas to cancel E and E.symm on the left
+    rw [E_toLinearMap_comp_symm_assoc, E_toLinearMap_comp_symm_assoc] at h_conj
+    -- Cancel E and E.symm on the right
+    rw [E_toLinearMap_comp_symm] at h_conj
+    simp only [LinearMap.comp_id] at h_conj
+    exact h_conj
   · intro h
     rw [conjSymm_comp_glPow, glPow_comp_conjSymm, h]
 
@@ -165,17 +181,17 @@ lemma centralizer_span (S : Set (Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace 
 lemma conjSymm_eq_smul_id_iff (M : Module.End ℂ (FiniteHilbertSpace d)) (scalar : ℂ) :
     conjSymm M = scalar • (LinearMap.id : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d))) ↔
       M = scalar • (LinearMap.id : Module.End ℂ (FiniteHilbertSpace d)) := by
-  have hE1 : (E d).toLinearMap.comp (E d).symm.toLinearMap = LinearMap.id := by ext; simp [E]
-  have hE2 : (E d).symm.toLinearMap.comp (E d).toLinearMap = LinearMap.id := by ext; simp [E]
   constructor
   · intro h
     have h_conj : conj (conjSymm M) =
       conj (scalar • (LinearMap.id : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d)))) := by rw [h]
     rw [conj_conjSymm] at h_conj
     rw [h_conj]
-    simp only [conj, LinearMap.smul_comp, LinearMap.comp_smul, LinearMap.id_comp, hE1]
+    simp only [conj, LinearMap.smul_comp, LinearMap.comp_smul, LinearMap.id_comp,
+      E_toLinearMap_comp_symm]
   · rintro rfl
-    simp only [conjSymm, LinearMap.smul_comp, LinearMap.comp_smul, LinearMap.id_comp, hE2]
+    simp only [conjSymm, LinearMap.smul_comp, LinearMap.comp_smul, LinearMap.id_comp,
+      E_symm_toLinearMap_comp]
 
 /-- **Commutant of first order unitaries** (Blueprint Theorem):
 The set of endomorphisms of `𝓗[d]` that commute with all unitaries consists exactly of

@@ -5,10 +5,10 @@ import Mathlib.LinearAlgebra.PiTensorProduct
 /-!
 # Commutant of the first order unitary group via Schur–Weyl Duality with prior assumptions
 
-This file proves the theorem "Assume Tensor Power of 1 is Known" from the blueprint
-(subsections/examples/commutants.tex).
+This file assumes that we set the initial theorem that sets the left-hand side to be the centralizer of unitaries raised to a tensor power of 1,
+as opposed to the centralizer of unitaries.
 
-It states that the commutant of the 1-fold tensor power of unitaries `glPow U.toLinearMap`
+The theorem states that the commutant of the 1-fold tensor power of unitaries `glPow U.toLinearMap`
 on `⨂[ℂ]^1 𝓗[d]` consists exactly of the scalar multiples of the identity operator.
 This file is added to compare the difference between having to prove that $MU = MU^{⊗1}$ and already going into the proof with this assumption.
 This specific file is more representative of the expected steps for proving the claim holds true for any tensor power $k$.

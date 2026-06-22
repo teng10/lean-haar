@@ -1,8 +1,3 @@
-/-
-Copyright (c) 2026 Antigravity. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Antigravity
--/
 import LeanHaar.HilbertSpace
 import LeanHaar.SchurWeylAbstract
 import Mathlib.LinearAlgebra.PiTensorProduct

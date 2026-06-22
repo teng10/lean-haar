@@ -89,47 +89,17 @@ theorem commutant_unitary_eq_scalar :
   simp only [Set.mem_setOf_eq]
   -- Instantiate the abstract Schur-Weyl Duality for k = 1.
   have h_duality := permSpan_eq_centralizer_unitaryTensorSpan (W := FiniteHilbertSpace d) (k := 1)
-
   -- Rewrite using the k = 1 identifications.
   rw [permSpan_one, unitaryTensorSpan, centralizer_span] at h_duality
-
   -- Express the commutation relation as membership in the centralizer set.
   have h_cent : (∀ U : UnitaryGroup d, M.comp (glPow U.toLinearMap) = (glPow U.toLinearMap).comp M) ↔
-                (M ∈ Set.centralizer (Set.range (fun U : UnitaryGroup d => glPow U.toLinearMap))) := by
+                M ∈ Set.centralizer (Set.range (fun U : UnitaryGroup d => glPow U.toLinearMap)) := by
     simp only [Set.mem_centralizer_iff, Set.mem_range, forall_exists_index, forall_apply_eq_imp_iff]
-    constructor
-    · intro h U
-      have hU := h U
-      exact hU.symm
-    · intro h U
-      have hU := h U
-      exact hU.symm
-  rw [h_cent]
-
-  -- Apply Schur-Weyl duality to map the centralizer to the permutation span.
-  have h_mem : M ∈ Set.centralizer (Set.range (fun U : UnitaryGroup d => glPow U.toLinearMap)) ↔
-               M ∈ ↑(Submodule.span ℂ
-                 {(LinearMap.id : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d)))}) := by
-    rw [← h_duality]
-    rfl
-  rw [h_mem]
-
+    exact forall_congr' fun U ↦ eq_comm
+  rw [h_cent, ← h_duality]
   -- Unfold the definition of span to get scalar multiples of the identity.
-  have h_span : (M ∈ ↑(Submodule.span ℂ
-                  {(LinearMap.id : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d)))})) ↔
-                (∃ scalar : ℂ, M = scalar • LinearMap.id) := by
-    have h_def : (M ∈ ↑(Submodule.span ℂ
-                   {(LinearMap.id : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d)))})) ↔
-                 (M ∈ (Submodule.span ℂ {(LinearMap.id : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d)))} :
-                   Submodule ℂ (Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d))))) := Iff.rfl
-    rw [h_def, Submodule.mem_span_singleton]
-    constructor
-    · rintro ⟨scalar, h⟩
-      use scalar
-      exact h.symm
-    · rintro ⟨scalar, rfl⟩
-      refine ⟨scalar, ?_⟩
-      rfl
-  rw [h_span]
+  change M ∈ Submodule.span ℂ {LinearMap.id} ↔ ∃ scalar, M = scalar • LinearMap.id
+  rw [Submodule.mem_span_singleton]
+  constructor <;> rintro ⟨c, rfl⟩ <;> exact ⟨c, rfl⟩
 
 end LeanHaar

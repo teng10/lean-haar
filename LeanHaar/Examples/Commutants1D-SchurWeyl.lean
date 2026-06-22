@@ -204,27 +204,15 @@ theorem commutant_unitary_eq_scalar :
   ext M
   simp only [Set.mem_setOf_eq]
   -- Instantiate the abstract Schur-Weyl Duality for k = 1.
-  -- This equates permSpan and the centralizer of unitaryTensorSpan.
   have h_duality := permSpan_eq_centralizer_unitaryTensorSpan (W := FiniteHilbertSpace d) (k := 1)
-
   -- Rewrite using the k = 1 identifications.
-  -- permSpan is span(id), and the centralizer of unitaryTensorSpan is the centralizer of the range of glPow.
   rw [permSpan_one, unitaryTensorSpan, centralizer_span] at h_duality
-
   -- Establish that M commutes with all U iff conjSymm M commutes with all glPow U.
   have h_comm : (∀ U : UnitaryGroup d, M.comp U.toLinearMap = U.toLinearMap.comp M) ↔
                 (∀ U : UnitaryGroup d,
                   (conjSymm M).comp (glPow U.toLinearMap) =
                     (glPow U.toLinearMap).comp (conjSymm M)) := by
-    constructor
-    · intro h U
-      rw [conjSymm_commute]
-      exact h U
-    · intro h U
-      rw [← conjSymm_commute]
-      exact h U
-  rw [h_comm]
-
+    simp_rw [conjSymm_commute]
   -- Express the commutation relation as membership in the centralizer set.
   have h_cent : (∀ U : UnitaryGroup d,
                   (conjSymm M).comp (glPow U.toLinearMap) =
@@ -232,43 +220,17 @@ theorem commutant_unitary_eq_scalar :
                 (conjSymm M ∈ Set.centralizer
                   (Set.range (fun U : UnitaryGroup d => glPow U.toLinearMap))) := by
     simp only [Set.mem_centralizer_iff, Set.mem_range, forall_exists_index, forall_apply_eq_imp_iff]
-    constructor
-    · intro h U
-      have hU := h U
-      exact hU.symm
-    · intro h U
-      have hU := h U
-      exact hU.symm
-  rw [h_cent]
-
-  -- Apply Schur-Weyl duality to transition from the centralizer to the permutation span.
-  have h_mem : conjSymm M ∈ Set.centralizer
-                 (Set.range (fun U : UnitaryGroup d => glPow U.toLinearMap)) ↔
-               conjSymm M ∈ ↑(Submodule.span ℂ
-                 {(LinearMap.id : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d)))}) := by
-    rw [← h_duality]
-    rfl
-  rw [h_mem]
-
-  -- Bridge the span of id on the 1-fold power to the scalar multiples on H[d].
-  have h_span : (conjSymm M ∈ ↑(Submodule.span ℂ
-                  {(LinearMap.id : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d)))})) ↔
-                (∃ scalar : ℂ, M = scalar • LinearMap.id) := by
-    have h_def : (conjSymm M ∈ ↑(Submodule.span ℂ
-                   {(LinearMap.id : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d)))})) ↔
-                 (conjSymm M ∈ (Submodule.span ℂ
-                   {(LinearMap.id : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d)))} :
-                     Submodule ℂ (Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d))))) := Iff.rfl
-    rw [h_def, Submodule.mem_span_singleton]
-    constructor
-    · rintro ⟨scalar, h⟩
-      use scalar
-      have h_symm := h.symm
-      rwa [conjSymm_eq_smul_id_iff] at h_symm
-    · rintro ⟨scalar, rfl⟩
-      refine ⟨scalar, ?_⟩
-      symm
-      rw [conjSymm_eq_smul_id_iff]
-  rw [h_span]
+    exact forall_congr' fun U ↦ eq_comm
+  rw [h_comm, h_cent, ← h_duality]
+  -- Unfold the definition of span to get scalar multiples of the identity.
+  change conjSymm M ∈ Submodule.span ℂ {LinearMap.id} ↔ ∃ scalar, M = scalar • LinearMap.id
+  rw [Submodule.mem_span_singleton]
+  constructor
+  · rintro ⟨c, h⟩
+    rw [eq_comm, conjSymm_eq_smul_id_iff] at h
+    exact ⟨c, h⟩
+  · rintro ⟨c, rfl⟩
+    refine ⟨c, ?_⟩
+    rw [eq_comm, conjSymm_eq_smul_id_iff]
 
 end LeanHaar

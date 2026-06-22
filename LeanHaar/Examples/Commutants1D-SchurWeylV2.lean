@@ -87,13 +87,13 @@ theorem commutant_unitary_eq_scalar :
     {M | ∃ (scalar : ℂ), M = scalar • LinearMap.id} := by
   ext M
   simp only [Set.mem_setOf_eq]
-  -- Step 1: Instantiate the abstract Schur-Weyl Duality for k = 1.
+  -- Instantiate the abstract Schur-Weyl Duality for k = 1.
   have h_duality := permSpan_eq_centralizer_unitaryTensorSpan (W := FiniteHilbertSpace d) (k := 1)
 
-  -- Step 2: Rewrite using the k = 1 identifications.
+  -- Rewrite using the k = 1 identifications.
   rw [permSpan_one, unitaryTensorSpan, centralizer_span] at h_duality
 
-  -- Step 3: Express the commutation relation as membership in the centralizer set.
+  -- Express the commutation relation as membership in the centralizer set.
   have h_cent : (∀ U : UnitaryGroup d, M.comp (glPow U.toLinearMap) = (glPow U.toLinearMap).comp M) ↔
                 (M ∈ Set.centralizer (Set.range (fun U : UnitaryGroup d => glPow U.toLinearMap))) := by
     simp only [Set.mem_centralizer_iff, Set.mem_range, forall_exists_index, forall_apply_eq_imp_iff]
@@ -106,7 +106,7 @@ theorem commutant_unitary_eq_scalar :
       exact hU.symm
   rw [h_cent]
 
-  -- Step 4: Apply Schur-Weyl duality to map the centralizer to the permutation span.
+  -- Apply Schur-Weyl duality to map the centralizer to the permutation span.
   have h_mem : M ∈ Set.centralizer (Set.range (fun U : UnitaryGroup d => glPow U.toLinearMap)) ↔
                M ∈ ↑(Submodule.span ℂ
                  {(LinearMap.id : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d)))}) := by
@@ -114,7 +114,7 @@ theorem commutant_unitary_eq_scalar :
     rfl
   rw [h_mem]
 
-  -- Step 5: Unfold the definition of span to get scalar multiples of the identity.
+  -- Unfold the definition of span to get scalar multiples of the identity.
   have h_span : (M ∈ ↑(Submodule.span ℂ
                   {(LinearMap.id : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d)))})) ↔
                 (∃ scalar : ℂ, M = scalar • LinearMap.id) := by

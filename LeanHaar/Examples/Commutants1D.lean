@@ -153,67 +153,23 @@ Any equivariant linear map is a scalar multiple of the identity. -/
 lemma unitary_rep_schur_lemma (f : FiniteHilbertSpace d →ₗ[ℂ] FiniteHilbertSpace d)
     (hf : ∀ U : UnitaryGroup d, f.comp U.toLinearMap = U.toLinearMap.comp f) :
     ∃ (scalar : ℂ), f = scalar • LinearMap.id := by
-  -- Step 1: Find a complex eigenvalue of `f`.
-  obtain ⟨scalar, h_ev⟩ := Module.End.exists_eigenvalue f
-  -- Step 2: Obtain a corresponding non-zero eigenvector `v`.
-  obtain ⟨v, hv⟩ := h_ev.exists_hasEigenvector
-  -- Define the shifted equivariant operator `f_prime = f - scalar * id`.
-  let f_prime := f - scalar • LinearMap.id
-  have hv_mem : v ∈ f_prime.ker := by
-    rw [LinearMap.mem_ker]
-    simp only [f_prime, LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply]
-    have h_ev_eq : f v = scalar • v := Module.End.mem_eigenspace_iff.mp hv.1
-    rw [h_ev_eq, sub_self]
-  have hv0 : v ≠ 0 := hv.2
-  have hf_prime : ∀ U : UnitaryGroup d, f_prime.comp U.toLinearMap = U.toLinearMap.comp f_prime := by
-    intro U
-    simp only [f_prime, LinearMap.comp_sub, LinearMap.sub_comp, hf U, LinearMap.smul_comp,
-      LinearMap.comp_smul, LinearMap.id_comp, LinearMap.comp_id]
-  -- Show that `f_prime` commutes with the MonoidAlgebra action.
-  have h_algebra_comm : ∀ (r : ℂ[UnitaryGroup d]) (x : FiniteHilbertSpace d),
-      f_prime (r • x) = r • f_prime x := by
-    intro r x
-    induction r using MonoidAlgebra.induction_on with
-    | hM U =>
-      change f_prime ((Representation.asAlgebraHom (unitaryRep d) (MonoidAlgebra.of ℂ (UnitaryGroup d) U)) x) =
-        (Representation.asAlgebraHom (unitaryRep d) (MonoidAlgebra.of ℂ (UnitaryGroup d) U)) (f_prime x)
-      rw [Representation.asAlgebraHom_of]
-      exact LinearMap.congr_fun (hf_prime U) x
-    | hadd y z hy hz =>
-      rw [add_smul, map_add, hy, hz, add_smul]
-    | hsmul c y hy =>
-      rw [smul_assoc, map_smul, hy, smul_assoc]
-  -- The kernel of `f_prime` is invariant under the group algebra action.
-  let W : Submodule ℂ[UnitaryGroup d] (unitaryRep d).asModule := {
-    carrier := f_prime.ker
-    zero_mem' := f_prime.ker.zero_mem
-    add_mem' := f_prime.ker.add_mem
-    smul_mem' := fun r v hv ↦ by
-      change f_prime v = 0 at hv
-      change f_prime (r • v) = 0
-      rw [h_algebra_comm, hv, smul_zero]
-  }
-  -- Since `scalar` is an eigenvalue, `ker(f_prime)` is nontrivial.
-  have hW : W ≠ ⊥ := by
-    rw [Submodule.ne_bot_iff]
-    exact ⟨v, hv_mem, hv0⟩
-  -- By representation irreducibility, the invariant submodule `W` must equal `⊤`.
-  have h_top : W = ⊤ := by
-    haveI : IsSimpleModule ℂ[UnitaryGroup d] (unitaryRep d).asModule :=
-      (Representation.irreducible_iff_isSimpleModule_asModule (unitaryRep d)).mp unitary_irreducible
-    exact IsSimpleOrder.eq_bot_or_eq_top W |>.resolve_left hW
-  -- Therefore `f_prime` is zero, so `f = scalar • id`.
+  -- Construct the equivariant (intertwining) map `f_int` from the given linear map `f`.
+  let f_int : Representation.IntertwiningMap (unitaryRep d) (unitaryRep d) :=
+    LinearMap.intertwiningMap_of_isIntertwiningMap
+      (ρ := unitaryRep d) (σ := unitaryRep d) (f := f) (fun U v ↦ by
+      have := LinearMap.congr_fun (hf U) v
+      exact this)
+  -- Obtain the scalar multiple from Schur's Lemma for algebraically closed fields,
+  -- using the fact that the natural unitary representation is irreducible.
+  obtain ⟨scalar, h⟩ := Representation.IsIrreducible.algebraMap_intertwiningMap_bijective_of_isAlgClosed.surjective f_int
   use scalar
-  refine LinearMap.ext fun x ↦ ?_
-  have : x ∈ W := by rw [h_top]; exact Submodule.mem_top
-  have h_ker : x ∈ f_prime.ker := this
-  rw [LinearMap.mem_ker] at h_ker
-  have h_eq : f x = scalar • x := by
-    have : f_prime x = f x - scalar • x := rfl
-    rw [this] at h_ker
-    exact sub_eq_zero.mp h_ker
-  rw [h_eq]
-  rfl
+  -- Extract the underlying linear maps of the intertwining map equation to prove `f = scalar • id`.
+  have h_eq : (algebraMap ℂ (Representation.IntertwiningMap (unitaryRep d) (unitaryRep d)) scalar).toLinearMap = f_int.toLinearMap := by
+    rw [h]
+  rw [Representation.IntertwiningMap.algebraMap_apply] at h_eq
+  rw [Representation.IntertwiningMap.toLinearMap_smul] at h_eq
+  exact h_eq.symm
+
 
 /-- **Commutant of first order unitaries** (Blueprint Theorem):
 The set of endomorphisms of `𝓗[d]` that commute with all unitaries consists exactly of

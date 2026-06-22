@@ -203,15 +203,15 @@ theorem commutant_unitary_eq_scalar :
     {M | ∃ (scalar : ℂ), M = scalar • LinearMap.id} := by
   ext M
   simp only [Set.mem_setOf_eq]
-  -- Step 1: Instantiate the abstract Schur-Weyl Duality for k = 1.
+  -- Instantiate the abstract Schur-Weyl Duality for k = 1.
   -- This equates permSpan and the centralizer of unitaryTensorSpan.
   have h_duality := permSpan_eq_centralizer_unitaryTensorSpan (W := FiniteHilbertSpace d) (k := 1)
 
-  -- Step 2: Rewrite using the k = 1 identifications.
+  -- Rewrite using the k = 1 identifications.
   -- permSpan is span(id), and the centralizer of unitaryTensorSpan is the centralizer of the range of glPow.
   rw [permSpan_one, unitaryTensorSpan, centralizer_span] at h_duality
 
-  -- Step 3: Establish that M commutes with all U iff conjSymm M commutes with all glPow U.
+  -- Establish that M commutes with all U iff conjSymm M commutes with all glPow U.
   have h_comm : (∀ U : UnitaryGroup d, M.comp U.toLinearMap = U.toLinearMap.comp M) ↔
                 (∀ U : UnitaryGroup d,
                   (conjSymm M).comp (glPow U.toLinearMap) =
@@ -225,7 +225,7 @@ theorem commutant_unitary_eq_scalar :
       exact h U
   rw [h_comm]
 
-  -- Step 4: Express the commutation relation as membership in the centralizer set.
+  -- Express the commutation relation as membership in the centralizer set.
   have h_cent : (∀ U : UnitaryGroup d,
                   (conjSymm M).comp (glPow U.toLinearMap) =
                     (glPow U.toLinearMap).comp (conjSymm M)) ↔
@@ -241,7 +241,7 @@ theorem commutant_unitary_eq_scalar :
       exact hU.symm
   rw [h_cent]
 
-  -- Step 5: Apply Schur-Weyl duality to transition from the centralizer to the permutation span.
+  -- Apply Schur-Weyl duality to transition from the centralizer to the permutation span.
   have h_mem : conjSymm M ∈ Set.centralizer
                  (Set.range (fun U : UnitaryGroup d => glPow U.toLinearMap)) ↔
                conjSymm M ∈ ↑(Submodule.span ℂ
@@ -250,7 +250,7 @@ theorem commutant_unitary_eq_scalar :
     rfl
   rw [h_mem]
 
-  -- Step 6: Bridge the span of id on the 1-fold power to the scalar multiples on H[d].
+  -- Bridge the span of id on the 1-fold power to the scalar multiples on H[d].
   have h_span : (conjSymm M ∈ ↑(Submodule.span ℂ
                   {(LinearMap.id : Module.End ℂ (⨂[ℂ]^1 (FiniteHilbertSpace d)))})) ↔
                 (∃ scalar : ℂ, M = scalar • LinearMap.id) := by

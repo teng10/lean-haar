@@ -11,6 +11,9 @@ space `⨂[ℂ]^k 𝓗[d]` that commute with the $k$-fold tensor power of all un
 `glPow U.toLinearMap` consists exactly of the span of the permutation operators
 `permSpan`.
 
+It acts as a wrapper to `SchurWeylAbstract` and casts the module of commutants of a unitary group
+raised to tensor power $k$ to a set.
+
 When the dimension of the space is 2 (e.g. `card d = 2`), this corresponds to the
 commutant of $\mathcal{U}(2)^{\otimes k}$ being the span of $V_d(\pi)$ for $\pi \in S_k$,
 as described in `commutants.tex`.

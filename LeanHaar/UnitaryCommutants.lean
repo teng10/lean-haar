@@ -30,7 +30,7 @@ open SchurWeylAbstract
 abbrev UnitaryGroup (d : Type*) [Fintype d] [DecidableEq d] :=
   FiniteHilbertSpace d ≃ₗᵢ[ℂ] FiniteHilbertSpace d
 
-/-- NOTE: THIS IS A REPEAT METHOD FROM COMMUTANTS1D. In order to make this a standalone document, I have left it here.
+/-- In order to make this a standalone document, I have left it here.
 The centralizer of the span of a set of elements in an algebra equals the centralizer
 of the set itself. This general property states that commuting with a set of generators is
 equivalent to commuting with their linear span. -/

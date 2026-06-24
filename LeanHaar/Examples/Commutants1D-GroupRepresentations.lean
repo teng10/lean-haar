@@ -8,6 +8,8 @@ import Mathlib.Analysis.Complex.Polynomial.Basic
 /-!
 # Commutant of the first order unitary group
 
+Group Representation Theory Framework Approach
+
 This file formalizes the result from the blueprint (subsections/examples/commutants.tex)
 stating that any endomorphism of the Hilbert space `𝓗[d]` that commutes with all
 unitaries is a scalar multiple of the identity.
@@ -169,7 +171,6 @@ lemma unitary_rep_schur_lemma (f : FiniteHilbertSpace d →ₗ[ℂ] FiniteHilber
   rw [Representation.IntertwiningMap.algebraMap_apply] at h_eq
   rw [Representation.IntertwiningMap.toLinearMap_smul] at h_eq
   exact h_eq.symm
-
 
 /-- **Commutant of first order unitaries** (Blueprint Theorem):
 The set of endomorphisms of `𝓗[d]` that commute with all unitaries consists exactly of

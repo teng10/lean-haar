@@ -34,10 +34,6 @@ open scoped TensorProduct
 
 namespace ForMathlib.Tensor
 
-open SchurWeyl
-
--- namespace SchurWeyl
-
 variable {d k : ℕ}
 
 /-! ### Easy direction -/
@@ -86,7 +82,5 @@ theorem schur_weyl :
     (↑(Submodule.span ℂ (permImage d k)) : Set (Module.End ℂ (TensV d k))) :=
   Set.Subset.antisymm centralizer_diagImage_le_span_permImage
     span_permImage_le_centralizer_diagImage
-
--- end SchurWeyl
 
 end ForMathlib.Tensor

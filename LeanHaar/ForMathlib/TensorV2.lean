@@ -33,7 +33,7 @@ variable {d : ℕ} {k : ℕ}
 
 namespace ForMathlib.Tensor
 
-namespace SchurWeyl
+-- namespace SchurWeyl
 
 /-- The `k`-fold tensor power of `ℂ^d`, defined as `⨂[ℂ] (i : Fin k), (Fin d → ℂ)`. -/
 abbrev TensV (d k : ℕ) : Type :=
@@ -73,7 +73,7 @@ theorem diagAction_tprod (g : Module.End ℂ (Fin d → ℂ)) (v : Fin k → (Fi
     PiTensorProduct.tprod ℂ (fun i => g (v i)) :=
   PiTensorProduct.map_tprod _ v
 
-end SchurWeyl
+-- end SchurWeyl
 
 end ForMathlib.Tensor
 

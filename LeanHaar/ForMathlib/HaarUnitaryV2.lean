@@ -60,8 +60,6 @@ open Matrix MeasureTheory Topology
 
 namespace ForMathlib.Tensor
 
-open SchurWeyl
-
 /-! ### Compactness of the unitary group -/
 
 /-- Each entry of a unitary matrix has norm at most `1`. -/
@@ -267,12 +265,12 @@ theorem momentOp_trace (σ : Equiv.Perm (Fin k)) (O : Module.End ℂ (TensV d k)
     simp only [ h_trace_eq ];
   convert h_trace_eq using 1;
   · simp +decide [ Matrix.trace, Matrix.mul_apply, momentMatrix ];
-    rw [ MeasureTheory.integral_finset_sum ];
+    rw [ MeasureTheory.integral_finsetSum ];
     · rw [ Finset.sum_congr rfl ];
-      intro i hi; rw [ MeasureTheory.integral_finset_sum ] ;
+      intro i hi; rw [ MeasureTheory.integral_finsetSum ] ;
       · exact Finset.sum_congr rfl fun _ _ => by rw [ MeasureTheory.integral_const_mul ] ;
       · exact fun j _ => MeasureTheory.Integrable.const_mul ( ForMathlib.Tensor.integrable_actOn_entry O j i ) _;
-    · exact fun i _ => MeasureTheory.integrable_finset_sum _ fun j _ => MeasureTheory.Integrable.const_mul ( ForMathlib.Tensor.integrable_actOn_entry O j i ) _;
+    · exact fun i _ => MeasureTheory.integrable_finsetSum _ fun j _ => MeasureTheory.Integrable.const_mul ( ForMathlib.Tensor.integrable_actOn_entry O j i ) _;
   · simp +decide [ ForMathlib.Tensor.haarProb ]
 
 /-! ### Unitary invariance of the moment operator -/

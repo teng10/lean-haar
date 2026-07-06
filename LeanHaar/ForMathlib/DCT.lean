@@ -29,8 +29,6 @@ open scoped TensorProduct MonoidAlgebra
 
 namespace ForMathlib.Tensor
 
-namespace SchurWeyl
-
 variable (d k : ℕ)
 
 /-! ### Module.Finite for TensV -/
@@ -196,7 +194,7 @@ theorem double_centralizer_permImage' :
 
 end Bicommutant
 
-end SchurWeyl
+-- end SchurWeyl
 
 end ForMathlib.Tensor
 

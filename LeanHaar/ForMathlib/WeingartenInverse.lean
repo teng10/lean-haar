@@ -62,8 +62,6 @@ open Matrix
 
 namespace ForMathlib.Tensor
 
-open SchurWeyl
-
 /-! ### Abstract Gram system: matrix form, invertibility and uniqueness -/
 
 section Abstract

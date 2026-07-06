@@ -26,7 +26,6 @@ noncomputable section
 open scoped TensorProduct
 
 namespace ForMathlib.Tensor
-open SchurWeyl
 
 variable {d k : ℕ}
 

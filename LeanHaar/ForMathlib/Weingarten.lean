@@ -66,8 +66,6 @@ open scoped TensorProduct InnerProductSpace Matrix
 
 namespace ForMathlib.Tensor
 
-open SchurWeyl
-
 variable {d k : ℕ}
 
 /-! ### Abstract Gram-system solvability -/

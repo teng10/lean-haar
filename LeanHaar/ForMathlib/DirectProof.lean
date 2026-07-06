@@ -27,9 +27,6 @@ noncomputable section
 open scoped TensorProduct
 
 namespace ForMathlib.Tensor
-
-namespace SchurWeyl
-
 variable {d k : ℕ}
 
 
@@ -296,7 +293,7 @@ theorem centralizer_diagImage_le_span_permImage_of_le (hdk : k ≤ d) :
     exact sum_smul_perm_mem_span _;
   exact hX_eq_Y ▸ hY_in_span;
 
-end SchurWeyl
+-- end SchurWeyl
 
 end ForMathlib.Tensor
 

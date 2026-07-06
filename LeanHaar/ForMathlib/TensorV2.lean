@@ -31,6 +31,8 @@ open scoped TensorProduct
 
 variable {d : ℕ} {k : ℕ}
 
+namespace ForMathlib.Tensor
+
 namespace SchurWeyl
 
 /-- The `k`-fold tensor power of `ℂ^d`, defined as `⨂[ℂ] (i : Fin k), (Fin d → ℂ)`. -/
@@ -72,5 +74,7 @@ theorem diagAction_tprod (g : Module.End ℂ (Fin d → ℂ)) (v : Fin k → (Fi
   PiTensorProduct.map_tprod _ v
 
 end SchurWeyl
+
+end ForMathlib.Tensor
 
 end

@@ -20,9 +20,10 @@ matrices representing the permutation and diagonal actions.
 noncomputable section
 
 open scoped TensorProduct
-open SchurWeyl
 
 namespace ForMathlib.Tensor
+
+open SchurWeyl
 
 variable {d k : ℕ}
 

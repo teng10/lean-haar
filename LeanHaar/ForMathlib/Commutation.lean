@@ -23,9 +23,9 @@ and the general linear group in `End(V^{⊗k})` mutually commute.
 noncomputable section
 
 open scoped TensorProduct
-open SchurWeyl
 
 namespace ForMathlib.Tensor
+open SchurWeyl
 
 variable {d k : ℕ}
 

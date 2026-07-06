@@ -25,7 +25,8 @@ We prove: if `X ∈ End(V^{⊗k})` commutes with all `g^{⊗k}`, then `X ∈ Spa
 noncomputable section
 
 open scoped TensorProduct
-open ForMathlib.Tensor
+
+namespace ForMathlib.Tensor
 
 namespace SchurWeyl
 
@@ -296,5 +297,7 @@ theorem centralizer_diagImage_le_span_permImage_of_le (hdk : k ≤ d) :
   exact hX_eq_Y ▸ hY_in_span;
 
 end SchurWeyl
+
+end ForMathlib.Tensor
 
 end

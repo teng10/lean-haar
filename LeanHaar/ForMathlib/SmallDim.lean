@@ -28,9 +28,9 @@ noncomputable section
 
 open scoped TensorProduct
 
-open ForMathlib.Tensor
+namespace ForMathlib.Tensor
 
-namespace SchurWeyl
+open SchurWeyl
 
 variable {d k : ℕ}
 
@@ -286,6 +286,6 @@ theorem centralizer_diagImage_le_span_permImage_small :
     · intro c a _ ha; simp [ha]
   exact double_centralizer_permImage hX_in_A''
 
-end SchurWeyl
+end ForMathlib.Tensor
 
 end

@@ -27,6 +27,8 @@ noncomputable section
 
 open scoped TensorProduct MonoidAlgebra
 
+namespace ForMathlib.Tensor
+
 namespace SchurWeyl
 
 variable (d k : ℕ)
@@ -195,5 +197,7 @@ theorem double_centralizer_permImage' :
 end Bicommutant
 
 end SchurWeyl
+
+end ForMathlib.Tensor
 
 end

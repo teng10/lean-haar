@@ -17,7 +17,11 @@ import Mathlib.Topology.Defs.Filter
 import Mathlib.Topology.Instances.Matrix
 import Mathlib.Topology.Algebra.Star.Unitary
 
-import LeanHaar.ForMathlib.Tensor
+-- NOTE FROM MELODY: These updates have changed. I think Yan was working on reorganizing the files.
+-- For now, I've changed the import statements to reflect the new file structure, but
+-- the content of the file remains the same.
+import LeanHaar.ForMathlib.TensorV2
+import Leanhaar.ForMathlib.MatrixRepresentation
 
 
 
@@ -49,7 +53,7 @@ noncomputable section
 
 open scoped TensorProduct Matrix
 open Matrix MeasureTheory Topology
-open ForMathlib.Tensor
+namespace ForMathlib.Tensor
 
 namespace SchurWeyl
 
@@ -217,3 +221,7 @@ def momentOp (O : Module.End ℂ (TensV d k)) : Module.End ℂ (TensV d k) :=
 theorem toEndMatrix_momentOp (O : Module.End ℂ (TensV d k)) :
     toEndMatrix d k (momentOp O) = momentMatrix O := by
   simp [momentOp]
+
+end SchurWeyl
+
+end ForMathlib.Tensor

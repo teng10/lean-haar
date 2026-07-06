@@ -1,7 +1,3 @@
-/-
-Copyright (c) 2025. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
--/
 import Mathlib.LinearAlgebra.PiTensorProduct
 import Mathlib.Algebra.Group.Pi.Basic
 
@@ -36,7 +32,7 @@ theorem permAction_diagAction_tprod (σ : Equiv.Perm (Fin k))
     diagAction d k g ((permAction d σ) (PiTensorProduct.tprod ℂ v)) := by
   simp [permAction_tprod, diagAction_tprod]
 
-/-
+/--
 The permutation action commutes with the diagonal action:
 `W_σ ∘ g^{⊗k} = g^{⊗k} ∘ W_σ` as linear maps on `V^{⊗k}`.
 -/

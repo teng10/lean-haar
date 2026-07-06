@@ -1,7 +1,3 @@
-/-
-Copyright (c) 2025. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
--/
 import Mathlib.MeasureTheory.Measure.Haar.Basic
 import Mathlib.MeasureTheory.Measure.Typeclasses.Probability
 import Mathlib.MeasureTheory.Group.Defs
@@ -183,7 +179,7 @@ theorem diagAction_endOf_unitary_right (U : Matrix.unitaryGroup (Fin d) ℂ) :
     (Matrix.mem_unitaryGroup_iff.1 U.2)
   rw [this, endOf_one, diagAction_id]
 
-/-
+/--
 The matrix entry of the conjugation action is a continuous function of `U`.
 -/
 theorem continuous_actOn_entry (O : Module.End ℂ (TensV d k))
@@ -227,7 +223,7 @@ theorem toEndMatrix_momentOp (O : Module.End ℂ (TensV d k)) :
 
 /-! ### Property (P2): the trace identity -/
 
-/-
+/--
 **Pointwise (P2).** Since `V_d^†(σ)` commutes with `U^{⊗k}` and
 `(U†)^{⊗k} ∘ U^{⊗k} = id`, conjugating `O` by `U` does not change the value
 `Tr(V_d^†(σ) · )`.
@@ -245,7 +241,7 @@ theorem trace_permDual_actOn (σ : Equiv.Perm (Fin k)) (O : Module.End ℂ (Tens
     · rw [ ForMathlib.Tensor.diagAction_endOf_unitary_left U ] ; aesop ( simp_config := { singlePass := true } ) ;
     · convert LinearMap.trace_mul_comm ℂ ( diagAction d k ( endOf U ) ∘ₗ ( permDual d σ ∘ₗ O ) ) ( diagAction d k ( endOf ( star U ) ) ) using 1
 
-/-
+/--
 **Property (P2).** The Haar moment operator has the same `Tr(V_d^†(σ) · )` values
 as `O` for every permutation `σ`.
 -/
@@ -275,7 +271,7 @@ theorem momentOp_trace (σ : Equiv.Perm (Fin k)) (O : Module.End ℂ (TensV d k)
 
 /-! ### Unitary invariance of the moment operator -/
 
-/-
+/--
 Conjugating `actOn O U` by a unitary `W` corresponds to left-translating the
 argument: `W^{⊗k} (actOn O U) (W†)^{⊗k} = actOn O (W * U)`.
 -/
@@ -288,7 +284,7 @@ theorem conj_actOn (O : Module.End ℂ (TensV d k)) (W U : Matrix.unitaryGroup (
   rw [ ← diagAction_comp, ← diagAction_comp ];
   rfl
 
-/-
+/--
 **Unitary invariance (P1, geometric form).** The Haar moment operator is invariant
 under conjugation by every unitary `W`: `W^{⊗k} M (W†)^{⊗k} = M`. This is the
 left-invariance of the Haar measure.
@@ -327,7 +323,7 @@ theorem momentOp_conj_unitary (O : Module.End ℂ (TensV d k))
     rw [ ← conj_actOn ];
     rw [ LinearMap.comp_assoc ]
 
-/-
+/--
 The Haar moment operator commutes with `W^{⊗k}` for every unitary `W`.
 -/
 theorem momentOp_comm_unitary (O : Module.End ℂ (TensV d k))
@@ -356,7 +352,7 @@ unitaries and a diagonal matrix (`ForMathlib.Tensor.svd_exists`). Mathlib curren
 (nor polar decomposition) for matrices, so this one fact is left as the lone hypothesis;
 everything else — the diagonal case via a torus argument and the assembly — is proved. -/
 
-/-
+/--
 **Orthonormal completion of the normalized columns.** If `Nᴴ * N` is the diagonal
 matrix with nonnegative real entries `D`, then the columns of `N` are pairwise orthogonal
 and the `i`-th column has squared norm `D i`. Normalizing the columns with `D i ≠ 0` gives
@@ -377,7 +373,7 @@ theorem toEndMatrix_diagAction_diagonal (z : Fin d → ℂ) (I J : Fin k → Fin
   ext; simp [endOf, LinearMap.pi];
   rw [ Pi.single_apply, Pi.single_apply ] ; aesop
 
-/-
+/--
 A diagonal matrix with unit-modulus entries is unitary.
 -/
 theorem diagonal_mem_unitaryGroup (z : Fin d → ℂ) (hz : ∀ i, ‖z i‖ = 1) :
@@ -391,7 +387,7 @@ theorem diagonal_mem_unitaryGroup (z : Fin d → ℂ) (hz : ∀ i, ‖z i‖ = 1
     · simp +decide [ hi, Matrix.one_apply ];
     · exact Or.inr ( if_neg ( Ne.symm hi ) )
 
-/-
+/--
 An equality of index-monomials `∏ m, z (I m) = ∏ m, z (J m)` holding for all arguments
 on the unit torus holds for all arguments.
 -/
@@ -424,7 +420,7 @@ theorem prod_eq_of_torus (I J : Fin k → Fin d)
   replace h_poly_zero := congr_arg Polynomial.natDegree h_poly_zero ; aesop
 
 set_option maxHeartbeats 300000 in
-/-
+/--
 If `X` commutes with `g^{⊗k}` for every unitary `g`, then it commutes with the diagonal
 action of *every* diagonal matrix.
 -/
@@ -454,7 +450,7 @@ theorem comm_diagAction_diagonal (X : Module.End ℂ (TensV d k))
   · convert LinearMap.toMatrix_comp ( tensorBasis d k ) ( tensorBasis d k ) ( tensorBasis d k ) X ( diagAction d k ( endOf ( diagonal z ) ) ) using 1;
   · convert LinearMap.toMatrix_comp ( tensorBasis d k ) ( tensorBasis d k ) ( tensorBasis d k ) _ _ using 1
 
-/-
+/--
 **Density of the unitary group.** If `X` commutes with `g^{⊗k}` for every *unitary*
 `g`, then it commutes with `g^{⊗k}` for *every* `g`, i.e. it lies in the centralizer of
 the diagonal image. Proved from `svd_exists` together with `comm_diagAction_diagonal`.

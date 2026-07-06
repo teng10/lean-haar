@@ -1,7 +1,3 @@
-/-
-Copyright (c) 2025. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
--/
 import Mathlib.LinearAlgebra.PiTensorProduct.Basis
 import Mathlib.Algebra.MonoidAlgebra.Basic
 import Mathlib.RepresentationTheory.Basic
@@ -76,6 +72,7 @@ noncomputable instance permModule_module : Module (MonoidAlgebra ℂ (Equiv.Perm
 def permAlgHom : MonoidAlgebra ℂ (Equiv.Perm (Fin k)) →ₐ[ℂ] Module.End ℂ (TensV d k) :=
   (permRep d k).asAlgebraHom
 
+/-- Value of `permAlgHom` on the generator `σ` of the group algebra. -/
 @[simp]
 theorem permAlgHom_of (σ : Equiv.Perm (Fin k)) :
     permAlgHom d k (MonoidAlgebra.of ℂ _ σ) = (permAction d σ).toLinearMap := by
@@ -84,7 +81,7 @@ theorem permAlgHom_of (σ : Equiv.Perm (Fin k)) :
 
 /-! ### Range of the algebra homomorphism equals Span(permImage) -/
 
-/-
+/--
 The image of `ℂ[S_k] →ₐ[ℂ] End(V^{⊗k})` as a submodule equals `Span(permImage)`.
 -/
 theorem permAlgHom_range_eq :
@@ -116,7 +113,7 @@ instance permModule_finite_over_endRing :
 
 /-! ### Connecting centralizers -/
 
-/-
+/--
 A `ℂ[S_k]`-linear endomorphism of `PermModule`, restricted to a `ℂ`-linear map,
 lies in the centralizer of `Span(permImage)`.
 -/

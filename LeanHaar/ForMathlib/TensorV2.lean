@@ -1,7 +1,3 @@
-/-
-Copyright (c) 2025. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
--/
 import Mathlib.Data.Complex.Basic
 import Mathlib.LinearAlgebra.PiTensorProduct
 import Mathlib.GroupTheory.Perm.Basic
@@ -32,8 +28,6 @@ open scoped TensorProduct
 variable {d : ℕ} {k : ℕ}
 
 namespace ForMathlib.Tensor
-
--- namespace SchurWeyl
 
 /-- The `k`-fold tensor power of `ℂ^d`, defined as `⨂[ℂ] (i : Fin k), (Fin d → ℂ)`. -/
 abbrev TensV (d k : ℕ) : Type :=

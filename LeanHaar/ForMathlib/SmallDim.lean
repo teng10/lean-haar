@@ -1,7 +1,3 @@
-/-
-Copyright (c) 2025. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
--/
 import Mathlib.LinearAlgebra.Finsupp.LinearCombination
 import Mathlib.Tactic.Cases
 import Mathlib.Tactic.Linarith
@@ -42,7 +38,7 @@ def pairCount (I J : Fin k → Fin d) : (Fin d × Fin d) →₀ ℕ :=
     (fun p => (Finset.univ.filter (fun m => (I m, J m) = p)).card)
     (fun _ _ => Finset.mem_univ _)
 
-/-
+/--
 The product `∏_m g_{I(m),J(m)}` equals the monomial of the pair count.
 -/
 theorem prod_eq_monomial_eval (I J : Fin k → Fin d)
@@ -56,7 +52,7 @@ theorem prod_eq_monomial_eval (I J : Fin k → Fin d)
 
 /-! ### FFT helper lemmas -/
 
-/-
+/--
 Orbit invariance of matrix entries: if X commutes with all W_σ,
 then M_X[I ∘ σ, J ∘ σ] = M_X[I, J].
 -/
@@ -80,7 +76,7 @@ theorem matrix_orbit_invariant (X : Module.End ℂ (TensV d k))
       refine' Finset.sum_congr rfl fun m hm => _;
       rw [ map_smul, permAction_tensorBasis ] ; aesop
 
-/-
+/--
 Permuting indices preserves the pair count.
 -/
 theorem pairCount_perm (I J : Fin k → Fin d) (σ : Equiv.Perm (Fin k)) :
@@ -90,7 +86,7 @@ theorem pairCount_perm (I J : Fin k → Fin d) (σ : Equiv.Perm (Fin k)) :
   rw [ Finset.card_filter, Finset.card_filter ];
   conv_rhs => rw [ ← Equiv.sum_comp σ ] ;
 
-/-
+/--
 Grouping the polynomial evaluation by coincidence type:
 the sum `Σ_{I,J} C(I,J) ∏_m g(I(m),J(m))` equals
 `Σ_c (Σ_{pairCount I J = c} C(I,J)) · mono(c, g)`.
@@ -116,7 +112,7 @@ theorem sum_group_by_pairCount
       Fintype.sum_prod_type fun x =>
         C x.1 x.2 * ∏ p_1 ∈ (pairCount x.1 x.2).support, g p_1.1 p_1.2 ^ (pairCount x.1 x.2) p_1
 
-/-
+/--
 Separation lemma: if `x ∉ S` for a submodule `S` of a finite-dimensional
 space over ℂ, there exists a linear functional vanishing on `S` but not on `x`.
 -/
@@ -126,7 +122,7 @@ theorem exists_functional_separation
     ∃ φ : V →ₗ[ℂ] ℂ, φ x ≠ 0 ∧ ∀ s ∈ S, φ s = 0 := by
   exact Submodule.exists_le_ker_of_notMem hx
 
-/-
+/--
 If `M_X` is constant on coincidence types and the coincidence-type sums
 of `C` all vanish, then `Σ C(I,J) M_X[I,J] = 0`.
 -/
@@ -154,7 +150,7 @@ theorem sum_vanishes_of_coeff_and_const
 
 /-! ### FFT: Main theorem -/
 
-/-
+/--
 **First Fundamental Theorem**: `centralizer(permImage) ⊆ Span(diagImage)`.
 
 Proof: By finite-dimensional duality, it suffices to show that any linear

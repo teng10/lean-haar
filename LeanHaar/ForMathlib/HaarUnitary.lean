@@ -1,7 +1,3 @@
-/-
-Copyright (c) 2025. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
--/
 import Mathlib.Analysis.Complex.Basic
 import Mathlib.Data.Complex.Basic
 import Mathlib.Data.Real.Basic
@@ -180,7 +176,7 @@ theorem diagAction_endOf_unitary_right (U : Matrix.unitaryGroup (Fin d) ℂ) :
     (Matrix.mem_unitaryGroup_iff.1 U.2)
   rw [this, endOf_one, diagAction_id]
 
-/-
+/--
 The matrix entry of the conjugation action is a continuous function of `U`.
 -/
 theorem continuous_actOn_entry (O : Module.End ℂ (TensV d k))

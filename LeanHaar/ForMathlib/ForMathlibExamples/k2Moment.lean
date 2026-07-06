@@ -11,42 +11,42 @@ import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 -/
 
 open ForMathlib.Tensor
-open SchurWeyl
 
 variable {d : ℕ}
 
+/-- The swap operator `𝔽 d` on the tensor space `TensV d 2` representing the transposition `(0 1)`. -/
 noncomputable def 𝔽 (d : ℕ) : Module.End ℂ (TensV d 2) := permRep d 2 (Equiv.swap (0 : Fin 2) (1 : Fin 2))
 
-/- S_2 is composed of elements {id, SWAP}-/
+/-- S_2 is composed of elements {id, SWAP}-/
 lemma sum_perm_k2_eq_set_id_swap : (Finset.univ : Finset (Equiv.Perm (Fin 2))) = {Equiv.refl (Fin 2), Equiv.swap (0 : Fin 2) (1 : Fin 2)} := by
   decide
 
-/- The reflective permutation operator is the identity linear map. -/
+/-- The reflective permutation operator is the identity linear map. -/
 lemma permOp_k2_id : permOp d (Equiv.refl (Fin 2)) = LinearMap.id := by
   change permMonoidHom d 2 1 = LinearMap.id
   exact (permMonoidHom d 2).map_one
 
-/- The SWAP permutation operator is the SWAP linear map (as defined above).-/
+/-- The SWAP permutation operator is the SWAP linear map (as defined above).-/
 lemma permOp_k2_swap : permOp d (Equiv.swap 0 1) = 𝔽 d := by
   rfl
 
-/- The conjugate transpose of the identity is itself.-/
+/-- The conjugate transpose of the identity is itself.-/
 lemma permDual_k2_id : permDual d (Equiv.refl (Fin 2)) = LinearMap.id := by
   exact permOp_k2_id
 
-/- The conjugate transpose of the SWAP operator is itself.-/
+/-- The conjugate transpose of the SWAP operator is itself.-/
 lemma permDual_k2_swap : permDual d (Equiv.swap 0 1) = 𝔽 d := by
   unfold permDual
   rw [Equiv.swap_inv]
   exact permOp_k2_swap
 
-/- SWAP composed with SWAP is the identity.-/
+/-- SWAP composed with SWAP is the identity.-/
 lemma swap_swap : 𝔽 d ∘ₗ 𝔽 d = LinearMap.id := by
   change (permMonoidHom d 2 (Equiv.swap 0 1)) * (permMonoidHom d 2 (Equiv.swap 0 1)) = LinearMap.id
   rw [← (permMonoidHom d 2).map_mul, Equiv.swap_mul_self, (permMonoidHom d 2).map_one]
   rfl
 
-/- Calculate trace values for id. -/
+/-- Calculate trace values for id. -/
 lemma trace_k2_id : LinearMap.trace ℂ (TensV d 2) (LinearMap.id : Module.End ℂ (TensV d 2)) = (d : ℂ)^2 := by
   rw [LinearMap.trace_eq_matrix_trace ℂ (tensorBasis d 2)]
   have hid : LinearMap.toMatrix (tensorBasis d 2) (tensorBasis d 2) LinearMap.id = 1 := by
@@ -56,7 +56,7 @@ lemma trace_k2_id : LinearMap.trace ℂ (TensV d 2) (LinearMap.id : Module.End �
   push_cast
   rfl
 
-/- Calculate trace values for SWAP. -/
+/-- Calculate trace values for SWAP. -/
 lemma trace_k2_swap : LinearMap.trace ℂ (TensV d 2) (𝔽 d) = d := by
   rw [LinearMap.trace_eq_matrix_trace ℂ (tensorBasis d 2)]
   have hF : LinearMap.toMatrix (tensorBasis d 2) (tensorBasis d 2) (𝔽 d) = toEndMatrix d 2 ((permAction d (Equiv.swap 0 1)).toLinearMap) := rfl
@@ -86,7 +86,7 @@ lemma trace_k2_swap : LinearMap.trace ℂ (TensV d 2) (𝔽 d) = d := by
     rw [Finset.card_univ, Fintype.card_fin]
   exact hsum
 
-/- Compute the k = 2nd order moment and obtain the coefficients.
+/-- Compute the k = 2nd order moment and obtain the coefficients.
 -/
 theorem k2_moment (d : ℕ) [NeZero d] [Fact (2 ≤ d)] (O : Module.End ℂ (TensV d 2)) :
   momentOp O = ((LinearMap.trace ℂ (TensV d 2) O - (d : ℂ)⁻¹ • LinearMap.trace ℂ (TensV d 2) (𝔽 d • O)) / (d^2 - 1)) • LinearMap.id + ((LinearMap.trace ℂ (TensV d 2) (𝔽 d • O) - (d : ℂ)⁻¹ • LinearMap.trace ℂ (TensV d 2) O) / (d^2 - 1)) • 𝔽 d

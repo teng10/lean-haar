@@ -1,7 +1,3 @@
-/-
-Copyright (c) 2025. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
--/
 import Mathlib.LinearAlgebra.Finsupp.LinearCombination
 import Mathlib.Tactic.Cases
 import Mathlib.Tactic.Linarith
@@ -39,7 +35,7 @@ theorem sum_smul_perm_mem_span (c : Equiv.Perm (Fin k) → ℂ) :
 
 /-! ### Matrix commutation condition -/
 
-/-
+/--
 The commutation `X * g^{⊗k} = g^{⊗k} * X` at the matrix level.
 -/
 theorem matrix_comm_of_centralizer (X : Module.End ℂ (TensV d k))
@@ -60,7 +56,7 @@ theorem matrix_comm_of_centralizer (X : Module.End ℂ (TensV d k))
 
 
 
-/-
+/--
 If `X` commutes with all diagonal actions, then `X_{I,J} = 0` unless
 `I` and `J` are rearrangements (define the same `Finsupp`/multiset).
 -/
@@ -87,7 +83,7 @@ theorem matrix_zero_unless_rearrangement (X : Module.End ℂ (TensV d k))
 /-! ### Full constraint: coefficient constancy -/
 
 set_option maxHeartbeats 400000 in
-/-
+/--
 For X commuting with all g^{⊗k}: if `J = I ∘ σ` and `J' = I' ∘ σ`, and both
 `I` and `I'` are injective, then `X_{I,J} = X_{I',J'}`.
 -/
@@ -135,7 +131,7 @@ theorem matrix_coeff_constancy (X : Module.End ℂ (TensV d k))
 
 /-! ### Helper: rearrangements come from permutations -/
 
-/-
+/--
 If `I` and `J` define the same multiset, then there exists a permutation `σ`
 such that `J = I ∘ σ`.
 -/
@@ -177,7 +173,7 @@ theorem exists_perm_of_rearrangement (I J : Fin k → Fin d)
 
 /-! ### Spanning lemma -/
 
-/-
+/--
 The set `{g^{⊗k}(e_{I₀}) | g ∈ End(V)}` spans `V^{⊗k}` when `I₀` is injective.
 -/
 theorem diagAction_spans_of_injective (I₀ : Fin k → Fin d) (hI₀ : Function.Injective I₀) :
@@ -197,7 +193,7 @@ theorem diagAction_spans_of_injective (I₀ : Fin k → Fin d) (hI₀ : Function
     unfold diagAction tensorBasis; aesop;
   · exact Submodule.add_mem _ ‹_› ‹_›
 
-/-
+/--
 If `Z` commutes with all `g^{⊗k}` and `Z(v) = 0` for some `v` whose orbit
 under diagonal actions spans `V^{⊗k}`, then `Z = 0`.
 -/
@@ -219,7 +215,7 @@ theorem eq_zero_of_comm_and_vanish_on_orbit
 
 /-! ### Key identity for assembly -/
 
-/-
+/--
 For injective `I₀` and `X` in the centralizer, `X(e_{I₀})` equals `(∑ c(σ) W_σ)(e_{I₀})`
 where `c(σ) = toEndMatrix X I₀ (I₀ ∘ σ)`.
 -/
@@ -260,7 +256,7 @@ theorem apply_eq_sum_of_centralizer (X : Module.End ℂ (TensV d k))
 
 /-! ### Assembly for d ≥ k -/
 
-/-
+/--
 When `d ≥ k`, we can find injective tuples and the hard direction follows.
 -/
 theorem centralizer_diagImage_le_span_permImage_of_le (hdk : k ≤ d) :

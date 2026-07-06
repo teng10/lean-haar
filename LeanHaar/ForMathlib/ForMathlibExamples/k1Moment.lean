@@ -13,26 +13,26 @@ open SchurWeyl
 /-! The first three lemmas seem redundant, but I think it because I need to show 1 = LinearMap.id and that the set characterization holds.
 There is probably a good way to simplify this into fewer lemmas. -/
 
-/- The permutation of a single element is the identity 1. -/
+/-- The permutation of a single element is the identity 1. -/
 lemma perm_k1_eq_one (π : Equiv.Perm (Fin 1)) : π = 1 := by
   ext x -- do this element-by-element
   change (π x).val = x.val -- the permutation of an element is merely itself
   rw [Subsingleton.elim (π x) x]
 
-/- The set of permutations is a singleton. -/
+/-- The set of permutations is a singleton. -/
 lemma sum_perm_k1_eq_set_id : (Finset.univ : Finset (Equiv.Perm (Fin 1))) = {1} := by
   ext π
   simp only [Finset.mem_univ, Finset.mem_singleton, true_iff]
   exact perm_k1_eq_one π
 
-/- The permutation operator is the identity linear map. -/
+/-- The permutation operator is the identity linear map. -/
 lemma permOp_k1_eq_id (d : ℕ) : permOp d 1 = (LinearMap.id : TensV d 1 →ₗ[ℂ] TensV d 1) := by
   unfold permOp permAction
   change (PiTensorProduct.reindex ℂ (fun _ => Fin d → ℂ) (Equiv.refl (Fin 1))).toLinearMap = LinearMap.id
   rw [PiTensorProduct.reindex_refl]
   rfl
 
-/- Tr(Id) = d.-/
+/-- Tr(Id) = d.-/
 lemma trace_id_eq_d (d : ℕ) : LinearMap.trace ℂ (TensV d 1) LinearMap.id = d := by
   rw [LinearMap.trace_eq_matrix_trace ℂ (tensorBasis d 1)]
   -- Show that LinearMap.id is the generic identity 1.
@@ -43,13 +43,13 @@ lemma trace_id_eq_d (d : ℕ) : LinearMap.trace ℂ (TensV d 1) LinearMap.id = d
   rw [Matrix.trace_one]
   simp only [Fintype.card_fun, Fintype.card_fin, pow_one]
 
-/- The permutation dual operator is the identity linear map. -/
+/-- The permutation dual operator is the identity linear map. -/
 lemma permDual_k1_eq_id (d : ℕ) : permDual d (1 : Equiv.Perm (Fin 1)) = LinearMap.id := by
       unfold permDual
       rw [inv_one]
       exact permOp_k1_eq_id d
 
-/- The moment of a single operator O for tensor power k = 1 is Tr(O) / d • Id.-/
+/-- The moment of a single operator O for tensor power k = 1 is Tr(O) / d • Id.-/
 theorem k1_moment (d : ℕ) [NeZero d] (O : Module.End ℂ (TensV d 1)) :
   momentOp O = (LinearMap.trace ℂ (TensV d 1) O / (d : ℂ)) • LinearMap.id := by
   obtain ⟨c, hmoment, hperm⟩ := weingarten_moment_haar O

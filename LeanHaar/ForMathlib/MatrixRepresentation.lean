@@ -1,7 +1,3 @@
-/-
-Copyright (c) 2025. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
--/
 import Mathlib.LinearAlgebra.PiTensorProduct.Basis
 import Mathlib.LinearAlgebra.Matrix.ToLin
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
@@ -59,7 +55,7 @@ theorem toEndMatrix_diagAction (g : Module.End ℂ (Fin d → ℂ)) (I J : Fin k
   unfold diagAction tensorBasis
   simp +decide [PiTensorProduct.map_tprod, Basis.piTensorProduct_apply]
 
-/-
+/--
 For a diagonal `g` with entries `f`, `g^{⊗k}` is diagonal with entries `∏ f(I(m))`.
 -/
 theorem diagAction_diagonal (f : Fin d → ℂ) (I J : Fin k → Fin d) :

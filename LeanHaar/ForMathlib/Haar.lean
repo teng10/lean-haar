@@ -425,6 +425,7 @@ theorem prod_eq_of_torus (I J : Fin k → Fin d)
   simp_all +decide [ sub_eq_zero ];
   replace h_poly_zero := congr_arg Polynomial.natDegree h_poly_zero ; aesop
 
+set_option maxHeartbeats 300000 in
 /-
 If `X` commutes with `g^{⊗k}` for every unitary `g`, then it commutes with the diagonal
 action of *every* diagonal matrix.

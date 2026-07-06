@@ -4,4 +4,4 @@ import LeanHaar.Permutation
 import LeanHaar.Example
 import LeanHaar.Examples.TwirlingPhyslibV2
 
-import ForMathlib.Tensor
+import LeanHaar.ForMathlib.Tensor

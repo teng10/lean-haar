@@ -1,4 +1,4 @@
-import LeanHaar.ForMathlib.Haar
+import LeanHaar.ForMathlib.HaarUnitaryV2
 import LeanHaar.ForMathlib.TensorV2
 
 /-!
@@ -8,7 +8,6 @@ We seek to use Antonio's notes to write an expression for the first order moment
 -/
 
 open ForMathlib.Tensor
-open SchurWeyl
 
 /-! The first three lemmas seem redundant, but I think it because I need to show 1 = LinearMap.id and that the set characterization holds.
 There is probably a good way to simplify this into fewer lemmas. -/

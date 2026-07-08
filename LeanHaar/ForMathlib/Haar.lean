@@ -1,30 +1,21 @@
-import Mathlib.MeasureTheory.Measure.Haar.Basic
-import Mathlib.MeasureTheory.Measure.Typeclasses.Probability
-import Mathlib.MeasureTheory.Group.Defs
-import Mathlib.MeasureTheory.Group.Measure
-import Mathlib.MeasureTheory.Group.Integral
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
-import Mathlib.Topology.Instances.Complex
-import Mathlib.Topology.Instances.Matrix
-import Mathlib.Topology.Compactness.Compact
-import Mathlib.Topology.MetricSpace.Basic
-import Mathlib.Topology.ContinuousMap.Basic
-import Mathlib.LinearAlgebra.UnitaryGroup
-import Mathlib.Data.Complex.Basic
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.Linarith
-import Mathlib.Topology.Algebra.Star.Unitary
-import Mathlib.MeasureTheory.Function.LocallyIntegrable
+/-
+Copyright (c) 2025. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
 import Aesop
+import Mathlib.Analysis.Matrix.PosDef
+import Mathlib.MeasureTheory.Group.Integral
+import Mathlib.RingTheory.PicardGroup
+import Mathlib.Tactic
+import Mathlib.Topology.Algebra.Star.Unitary
+import Mathlib.Topology.UniformSpace.Matrix
+import Mathlib.Topology.UniformSpace.Uniformizable
 
-import LeanHaar.ForMathlib.TensorV2
+import LeanHaar.ForMathlib.Defs
 import LeanHaar.ForMathlib.Commutation
 import LeanHaar.ForMathlib.DirectProof
-import LeanHaar.ForMathlib.Duality
+import LeanHaar.ForMathlib.Main
 import LeanHaar.ForMathlib.Weingarten
-import LeanHaar.ForMathlib.Svd
-import LeanHaar.ForMathlib.MatrixRepresentation
-
 
 /-!
 # The Haar layer for Weingarten calculus
@@ -36,16 +27,16 @@ and constructs the genuine Haar moment operator
 ## Main contents
 
 * **Compactness** of the unitary group `U(d) = Matrix.unitaryGroup (Fin d) ℂ`
-  (`ForMathlib.Tensor.isCompact_unitaryGroup`, `ForMathlib.Tensor.instCompactSpaceUnitaryGroup`).
-* The **Haar probability measure** `ForMathlib.Tensor.haarProb d` on `U(d)`: the normalized
+  (`SchurWeyl.isCompact_unitaryGroup`, `SchurWeyl.instCompactSpaceUnitaryGroup`).
+* The **Haar probability measure** `SchurWeyl.haarProb d` on `U(d)`: the normalized
   (left-invariant, regular) Haar measure, with `IsProbabilityMeasure` and
   `IsMulLeftInvariant` instances.
-* `ForMathlib.Tensor.actOn` — the conjugation action `O ↦ U^{⊗k} O U^{†⊗k}`.
-* `ForMathlib.Tensor.momentOp` — the Haar moment operator, defined componentwise as the
+* `SchurWeyl.actOn` — the conjugation action `O ↦ U^{⊗k} O U^{†⊗k}`.
+* `SchurWeyl.momentOp` — the Haar moment operator, defined componentwise as the
   Haar average of `actOn O U`.
-* `ForMathlib.Tensor.momentOp_trace` — property **(P2)**: the moment operator has the same
+* `SchurWeyl.momentOp_trace` — property **(P2)**: the moment operator has the same
   `Tr(V_d^†(σ) · )` values as `O` (the constant-integrand identity).
-* `ForMathlib.Tensor.momentOp_conj_unitary` / `ForMathlib.Tensor.momentOp_comm_unitary` — the unitary
+* `SchurWeyl.momentOp_conj_unitary` / `SchurWeyl.momentOp_comm_unitary` — the unitary
   invariance of the moment operator.
 -/
 
@@ -54,7 +45,7 @@ noncomputable section
 open scoped TensorProduct Matrix
 open Matrix MeasureTheory Topology
 
-namespace ForMathlib.Tensor
+namespace SchurWeyl
 
 /-! ### Compactness of the unitary group -/
 
@@ -179,7 +170,7 @@ theorem diagAction_endOf_unitary_right (U : Matrix.unitaryGroup (Fin d) ℂ) :
     (Matrix.mem_unitaryGroup_iff.1 U.2)
   rw [this, endOf_one, diagAction_id]
 
-/--
+/-
 The matrix entry of the conjugation action is a continuous function of `U`.
 -/
 theorem continuous_actOn_entry (O : Module.End ℂ (TensV d k))
@@ -223,7 +214,7 @@ theorem toEndMatrix_momentOp (O : Module.End ℂ (TensV d k)) :
 
 /-! ### Property (P2): the trace identity -/
 
-/--
+/-
 **Pointwise (P2).** Since `V_d^†(σ)` commutes with `U^{⊗k}` and
 `(U†)^{⊗k} ∘ U^{⊗k} = id`, conjugating `O` by `U` does not change the value
 `Tr(V_d^†(σ) · )`.
@@ -235,13 +226,13 @@ theorem trace_permDual_actOn (σ : Equiv.Perm (Fin k)) (O : Module.End ℂ (Tens
   convert LinearMap.trace_mul_comm ℂ ( permDual d σ ∘ₗ O ∘ₗ diagAction d k ( endOf ( star U ) ) ) ( diagAction d k ( endOf U ) ) using 1;
   · convert LinearMap.trace_mul_comm ℂ ( permDual d σ ∘ₗ diagAction d k ( endOf U ) ) ( O ∘ₗ diagAction d k ( endOf ( star U ) ) ) using 1;
     convert LinearMap.trace_mul_comm ℂ ( permDual d σ ) ( O ∘ₗ diagAction d k ( endOf ( star U ) ) * diagAction d k ( endOf U ) ) using 1;
-    simp +decide [ mul_assoc, ForMathlib.Tensor.permDual, ForMathlib.Tensor.permAction_diagAction_comm ];
+    simp +decide [ mul_assoc, SchurWeyl.permDual, SchurWeyl.permAction_diagAction_comm ];
     rfl;
   · convert LinearMap.trace_mul_comm ℂ ( permDual d σ ∘ₗ O ) ( diagAction d k ( endOf ( star U ) ) ∘ₗ diagAction d k ( endOf U ) ) using 1;
-    · rw [ ForMathlib.Tensor.diagAction_endOf_unitary_left U ] ; aesop ( simp_config := { singlePass := true } ) ;
+    · rw [ SchurWeyl.diagAction_endOf_unitary_left U ] ; aesop ( simp_config := { singlePass := true } ) ;
     · convert LinearMap.trace_mul_comm ℂ ( diagAction d k ( endOf U ) ∘ₗ ( permDual d σ ∘ₗ O ) ) ( diagAction d k ( endOf ( star U ) ) ) using 1
 
-/--
+/-
 **Property (P2).** The Haar moment operator has the same `Tr(V_d^†(σ) · )` values
 as `O` for every permutation `σ`.
 -/
@@ -252,26 +243,26 @@ theorem momentOp_trace (σ : Equiv.Perm (Fin k)) (O : Module.End ℂ (TensV d k)
     intros f g; exact (by
     unfold toEndMatrix; simp +decide [ ← LinearMap.toMatrix_comp ] ;
     convert LinearMap.trace_eq_matrix_trace ℂ ( tensorBasis d k ) ( f ∘ₗ g ) using 1);
-  rw [ h_trace_eq, h_trace_eq, ForMathlib.Tensor.toEndMatrix_momentOp ];
+  rw [ h_trace_eq, h_trace_eq, SchurWeyl.toEndMatrix_momentOp ];
   have h_trace_eq : ∫ U : Matrix.unitaryGroup (Fin d) ℂ, Matrix.trace ((toEndMatrix d k (permDual d σ)) * (toEndMatrix d k (actOn O U))) ∂(haarProb d) = ∫ U : Matrix.unitaryGroup (Fin d) ℂ, Matrix.trace ((toEndMatrix d k (permDual d σ)) * (toEndMatrix d k O)) ∂(haarProb d) := by
     have h_trace_eq : ∀ U : Matrix.unitaryGroup (Fin d) ℂ, Matrix.trace ((toEndMatrix d k (permDual d σ)) * (toEndMatrix d k (actOn O U))) = Matrix.trace ((toEndMatrix d k (permDual d σ)) * (toEndMatrix d k O)) := by
       intro U
-      have := ForMathlib.Tensor.trace_permDual_actOn σ O U
-      simp_all +decide [ ForMathlib.Tensor.toEndMatrix ];
+      have := SchurWeyl.trace_permDual_actOn σ O U
+      simp_all +decide [ SchurWeyl.toEndMatrix ];
     simp only [ h_trace_eq ];
   convert h_trace_eq using 1;
-  · simp +decide [ Matrix.trace, Matrix.mul_apply, momentMatrix ];
-    rw [ MeasureTheory.integral_finsetSum ];
-    · rw [ Finset.sum_congr rfl ];
-      intro i hi; rw [ MeasureTheory.integral_finsetSum ] ;
-      · exact Finset.sum_congr rfl fun _ _ => by rw [ MeasureTheory.integral_const_mul ] ;
-      · exact fun j _ => MeasureTheory.Integrable.const_mul ( ForMathlib.Tensor.integrable_actOn_entry O j i ) _;
-    · exact fun i _ => MeasureTheory.integrable_finsetSum _ fun j _ => MeasureTheory.Integrable.const_mul ( ForMathlib.Tensor.integrable_actOn_entry O j i ) _;
-  · simp +decide [ ForMathlib.Tensor.haarProb ]
+  · simp +decide [ Matrix.trace, Matrix.mul_apply, momentMatrix ]
+    rw [ MeasureTheory.integral_finset_sum ]
+    · rw [ Finset.sum_congr rfl ]
+      intro i hi; rw [ MeasureTheory.integral_finset_sum ]
+      · exact Finset.sum_congr rfl fun _ _ => by rw [ MeasureTheory.integral_const_mul ]
+      · exact fun j _ => MeasureTheory.Integrable.const_mul ( SchurWeyl.integrable_actOn_entry O j i ) _
+    · exact fun i _ => MeasureTheory.integrable_finset_sum _ fun j _ => MeasureTheory.Integrable.const_mul ( SchurWeyl.integrable_actOn_entry O j i ) _
+  · simp +decide [ SchurWeyl.haarProb ]
 
 /-! ### Unitary invariance of the moment operator -/
 
-/--
+/-
 Conjugating `actOn O U` by a unitary `W` corresponds to left-translating the
 argument: `W^{⊗k} (actOn O U) (W†)^{⊗k} = actOn O (W * U)`.
 -/
@@ -284,7 +275,7 @@ theorem conj_actOn (O : Module.End ℂ (TensV d k)) (W U : Matrix.unitaryGroup (
   rw [ ← diagAction_comp, ← diagAction_comp ];
   rfl
 
-/--
+/-
 **Unitary invariance (P1, geometric form).** The Haar moment operator is invariant
 under conjugation by every unitary `W`: `W^{⊗k} M (W†)^{⊗k} = M`. This is the
 left-invariance of the Haar measure.
@@ -307,23 +298,23 @@ theorem momentOp_conj_unitary (O : Module.End ℂ (TensV d k))
       intro f hf;
       convert MeasureTheory.integral_mul_left_eq_self ( fun U => f U ) W using 1;
       infer_instance;
-    exact fun I J => h_integral _ ( ForMathlib.Tensor.integrable_actOn_entry O I J );
+    exact fun I J => h_integral _ ( SchurWeyl.integrable_actOn_entry O I J );
   ext I J; simp +decide [ *, Matrix.mul_apply ] ;
   convert h_integral I J using 1;
   rw [ show ( fun U : Matrix.unitaryGroup ( Fin d ) ℂ => ( toEndMatrix d k ) ( actOn O ( W * U ) ) I J ) = fun U : Matrix.unitaryGroup ( Fin d ) ℂ => ( toEndMatrix d k ( diagAction d k ( endOf ( W : Matrix ( Fin d ) ( Fin d ) ℂ ) ) ) * ( toEndMatrix d k ( actOn O U ) ) * ( toEndMatrix d k ( diagAction d k ( endOf ( star ( W : Matrix ( Fin d ) ( Fin d ) ℂ ) ) ) ) ) ) I J from funext fun U => ?_ ];
   · simp +decide [ Matrix.mul_apply, Finset.mul_sum _ _ _, Finset.sum_mul ];
-    rw [ MeasureTheory.integral_finsetSum ];
+    rw [ MeasureTheory.integral_finset_sum ];
     · rw [ Finset.sum_comm ];
       refine' Finset.sum_congr rfl fun i hi => _;
-      rw [ MeasureTheory.integral_finsetSum ];
+      rw [ MeasureTheory.integral_finset_sum ];
       · simp +decide [ mul_assoc, MeasureTheory.integral_const_mul, MeasureTheory.integral_mul_const, momentMatrix ];
-      · exact fun _ _ => MeasureTheory.Integrable.mul_const ( MeasureTheory.Integrable.const_mul ( ForMathlib.Tensor.integrable_actOn_entry O _ _ ) _ ) _;
-    · intro i hi; exact MeasureTheory.integrable_finsetSum _ fun j hj => MeasureTheory.Integrable.mul_const ( MeasureTheory.Integrable.const_mul ( ForMathlib.Tensor.integrable_actOn_entry O j i ) _ ) _;
+      · exact fun _ _ => MeasureTheory.Integrable.mul_const ( MeasureTheory.Integrable.const_mul ( SchurWeyl.integrable_actOn_entry O _ _ ) _ ) _;
+    · intro i hi; exact MeasureTheory.integrable_finset_sum _ fun j hj => MeasureTheory.Integrable.mul_const ( MeasureTheory.Integrable.const_mul ( SchurWeyl.integrable_actOn_entry O j i ) _ ) _;
   · rw [ ← h_linear, ← h_linear ];
     rw [ ← conj_actOn ];
     rw [ LinearMap.comp_assoc ]
 
-/--
+/-
 The Haar moment operator commutes with `W^{⊗k}` for every unitary `W`.
 -/
 theorem momentOp_comm_unitary (O : Module.End ℂ (TensV d k))
@@ -331,14 +322,14 @@ theorem momentOp_comm_unitary (O : Module.End ℂ (TensV d k))
     momentOp O ∘ₗ diagAction d k (endOf (W : Matrix (Fin d) (Fin d) ℂ)) =
       diagAction d k (endOf (W : Matrix (Fin d) (Fin d) ℂ)) ∘ₗ momentOp O := by
   -- Apply the equality from h_unitary_commutativity.
-  have := ForMathlib.Tensor.momentOp_conj_unitary O W;
+  have := SchurWeyl.momentOp_conj_unitary O W;
   simp_all +decide [ LinearMap.ext_iff ];
   intro x
   have := this ((diagAction d k (endOf (star (W : Matrix (Fin d) (Fin d) ℂ)))) x)
   simp_all +decide;
   rw [ ← this ];
   congr! 2;
-  convert ForMathlib.Tensor.diagAction_endOf_unitary_left W |> congr_arg ( fun f => f x ) using 1
+  convert SchurWeyl.diagAction_endOf_unitary_left W |> congr_arg ( fun f => f x ) using 1
 
 /-! ### Property (P1) and Theorem 10 for the genuine Haar moment operator
 
@@ -348,18 +339,86 @@ unitary commutant to the full commutant is the classical density of the unitary 
 
 We carry out this reduction in full, modulo a *single* classical input — the existence of a
 **singular value decomposition** `M = U₁ · diag(s) · U₂` of every complex matrix into two
-unitaries and a diagonal matrix (`ForMathlib.Tensor.svd_exists`). Mathlib currently has no SVD
+unitaries and a diagonal matrix (`SchurWeyl.svd_exists`). Mathlib currently has no SVD
 (nor polar decomposition) for matrices, so this one fact is left as the lone hypothesis;
 everything else — the diagonal case via a torus argument and the assembly — is proved. -/
 
-/--
+/-
 **Orthonormal completion of the normalized columns.** If `Nᴴ * N` is the diagonal
 matrix with nonnegative real entries `D`, then the columns of `N` are pairwise orthogonal
 and the `i`-th column has squared norm `D i`. Normalizing the columns with `D i ≠ 0` gives
 an orthonormal family, which extends to an orthonormal basis `b` of `EuclideanSpace ℂ (Fin d)`
 with `b i` equal to the normalized `i`-th column whenever `D i ≠ 0`.
 -/
+theorem exists_orthonormalBasis_cols (D : Fin d → ℝ) (hD : ∀ i, 0 ≤ D i)
+    (N : Matrix (Fin d) (Fin d) ℂ)
+    (hN : Nᴴ * N = Matrix.diagonal (fun i => (D i : ℂ))) :
+    ∃ b : OrthonormalBasis (Fin d) ℂ (EuclideanSpace ℂ (Fin d)),
+      ∀ i, D i ≠ 0 → ∀ j, b i j = (1 / (Real.sqrt (D i) : ℂ)) * N j i := by
+  have h_orthonormal : Orthonormal ℂ (fun i : { i : Fin d // D i ≠ 0 } => WithLp.toLp 2 (fun j => (1 / Real.sqrt (D i) : ℂ) • N j i)) := by
+    refine' ⟨ _, _ ⟩;
+    · simp +decide [ EuclideanSpace.norm_eq ];
+      intro i hi; simp +decide [ mul_pow, abs_of_nonneg ( Real.sqrt_nonneg _ ) ] ;
+      have := congr_fun ( congr_fun hN i ) i; simp_all +decide [ Matrix.mul_apply, Complex.ext_iff ] ;
+      simp_all +decide [ Complex.normSq, Complex.sq_norm, ← Finset.mul_sum _ _ _ ];
+    · intro i j hij; simp_all +decide [ inner ] ;
+      replace hN := congr_fun ( congr_fun hN i ) j; simp_all +decide [ Matrix.mul_apply, Matrix.diagonal ] ;
+      convert congr_arg ( fun x : ℂ => ( Real.sqrt ( D j ) : ℂ ) ⁻¹ * ( Real.sqrt ( D i ) : ℂ ) ⁻¹ * x ) hN using 1;
+      · rw [ Finset.mul_sum _ _ _ ] ; exact Finset.sum_congr rfl fun _ _ => by ring;
+      · grind;
+  obtain ⟨b, hb⟩ : ∃ b : OrthonormalBasis (Fin d) ℂ (EuclideanSpace ℂ (Fin d)), ∀ i : { i : Fin d // D i ≠ 0 }, b i = WithLp.toLp 2 (fun j => (1 / Real.sqrt (D i) : ℂ) • N j i) := by
+    have := @Orthonormal.exists_orthonormalBasis_extension_of_card_eq;
+    contrapose! this;
+    refine' ⟨ ℂ, inferInstance, EuclideanSpace ℂ ( Fin d ), inferInstance, inferInstance, _, Fin d, inferInstance, _, _ ⟩ <;> norm_num;
+    · infer_instance;
+    · refine' ⟨ fun i => WithLp.toLp 2 ( fun j => ( 1 / Real.sqrt ( D i ) : ℂ ) • N j i ), { i : Fin d | D i ≠ 0 }, _, _ ⟩ <;> aesop;
+  exact ⟨ b, fun i hi j => by simpa using congr_fun ( congr_arg ( fun x => x.ofLp ) ( hb ⟨ i, hi ⟩ ) ) j ⟩
 
+/-
+**Singular value decomposition (existence).** Every complex square matrix factors as
+`U₁ · diagonal s · U₂` with `U₁, U₂` unitary and `s` a (complex) diagonal.
+-/
+set_option maxHeartbeats 1000000 in
+theorem svd_exists (M : Matrix (Fin d) (Fin d) ℂ) :
+    ∃ (U₁ U₂ : Matrix.unitaryGroup (Fin d) ℂ) (s : Fin d → ℂ),
+      M = (U₁ : Matrix (Fin d) (Fin d) ℂ) * Matrix.diagonal s *
+        (U₂ : Matrix (Fin d) (Fin d) ℂ) := by
+  by_contra h_contra;
+  set A : Matrix (Fin d) (Fin d) ℂ := M.conjTranspose * M;
+  -- Since $A$ is positive semidefinite, it has a spectral decomposition $A = Q D Q^*$ where $Q$ is unitary and $D$ is diagonal with non-negative entries.
+  obtain ⟨Q, D, hQ, hD⟩ : ∃ Q : Matrix (Fin d) (Fin d) ℂ, ∃ D : Fin d → ℝ, (∀ i, 0 ≤ D i) ∧ Qᴴ * Q = 1 ∧ A = Q * Matrix.diagonal (fun i => (D i : ℂ)) * Qᴴ := by
+    have h_pos_semidef : Matrix.IsHermitian A := by
+      simp [A, Matrix.IsHermitian];
+    have := Matrix.IsHermitian.spectral_theorem h_pos_semidef;
+    refine' ⟨ h_pos_semidef.eigenvectorUnitary, fun i => h_pos_semidef.eigenvalues i, _, _, _ ⟩;
+    · intro i; exact (by
+      grind +suggestions);
+    · simp +decide [ Matrix.IsHermitian.eigenvectorUnitary ];
+    · convert this using 1;
+  -- Let $N = M Q$. Then $Nᴴ N = Qᴴ Mᴴ M Q = Qᴴ A Q = D$.
+  set N : Matrix (Fin d) (Fin d) ℂ := M * Q
+  have hN : Nᴴ * N = Matrix.diagonal (fun i => (D i : ℂ)) := by
+    simp +zetaDelta at *;
+    grind;
+  obtain ⟨b, hb⟩ : ∃ b : OrthonormalBasis (Fin d) ℂ (EuclideanSpace ℂ (Fin d)), ∀ i, D i ≠ 0 → ∀ j, b i j = (1 / (Real.sqrt (D i) : ℂ)) * N j i := by
+    convert SchurWeyl.exists_orthonormalBasis_cols D hQ N hN using 1;
+  -- Let $U₁$ be the matrix whose columns are the vectors $b_i$.
+  obtain ⟨U₁, hU₁⟩ : ∃ U₁ : Matrix (Fin d) (Fin d) ℂ, U₁ ∈ Matrix.unitaryGroup (Fin d) ℂ ∧ ∀ i j, U₁ j i = b i j := by
+    refine' ⟨ _, _, _ ⟩;
+    exact ( EuclideanSpace.basisFun ( Fin d ) ℂ ).toBasis.toMatrix b;
+    · convert OrthonormalBasis.toMatrix_orthonormalBasis_mem_unitary ( EuclideanSpace.basisFun ( Fin d ) ℂ ) b using 1;
+    · aesop;
+  -- Then $U₁ * diagonal s = N$ where $s_i = \sqrt{D_i}$.
+  have hU₁_diag : U₁ * Matrix.diagonal (fun i => (Real.sqrt (D i) : ℂ)) = N := by
+    ext i j; by_cases hi : D j = 0 <;> simp_all +decide [ Matrix.mul_apply, Matrix.diagonal ] ;
+    · replace hN := congr_fun ( congr_fun hN j ) j; simp_all +decide [ Matrix.mul_apply, Complex.ext_iff ] ;
+      simp_all +decide [ Finset.sum_eq_zero_iff_of_nonneg, add_nonneg, mul_self_nonneg ];
+      constructor <;> nlinarith only [ hN.1 i ];
+    · rw [ inv_mul_eq_div, div_mul_cancel₀ _ ( Complex.ofReal_ne_zero.mpr <| ne_of_gt <| Real.sqrt_pos.mpr <| lt_of_le_of_ne ( hQ j ) <| Ne.symm hi ) ];
+  refine' h_contra ⟨ ⟨ U₁, hU₁.1 ⟩, ⟨ Qᴴ, _ ⟩, fun i => Real.sqrt ( D i ), _ ⟩ <;> simp_all +decide [ Matrix.mul_assoc ];
+  · simp_all +decide [ Matrix.mem_unitaryGroup_iff ];
+    simp_all +decide [ Matrix.star_eq_conjTranspose ];
+  · rw [ Matrix.mul_assoc, mul_eq_one_comm.mp hD.1, Matrix.mul_one ]
 
 /-
 The diagonal action of a diagonal matrix is diagonal in the tensor basis, with entry
@@ -368,12 +427,12 @@ The diagonal action of a diagonal matrix is diagonal in the tensor basis, with e
 theorem toEndMatrix_diagAction_diagonal (z : Fin d → ℂ) (I J : Fin k → Fin d) :
     toEndMatrix d k (diagAction d k (endOf (Matrix.diagonal z))) I J =
       if I = J then ∏ m, z (I m) else 0 := by
-  convert ForMathlib.Tensor.diagAction_diagonal ( fun i => z i ) I J using 1;
+  convert SchurWeyl.diagAction_diagonal ( fun i => z i ) I J using 1;
   congr! 2;
   ext; simp [endOf, LinearMap.pi];
   rw [ Pi.single_apply, Pi.single_apply ] ; aesop
 
-/--
+/-
 A diagonal matrix with unit-modulus entries is unitary.
 -/
 theorem diagonal_mem_unitaryGroup (z : Fin d → ℂ) (hz : ∀ i, ‖z i‖ = 1) :
@@ -387,7 +446,7 @@ theorem diagonal_mem_unitaryGroup (z : Fin d → ℂ) (hz : ∀ i, ‖z i‖ = 1
     · simp +decide [ hi, Matrix.one_apply ];
     · exact Or.inr ( if_neg ( Ne.symm hi ) )
 
-/--
+/-
 An equality of index-monomials `∏ m, z (I m) = ∏ m, z (J m)` holding for all arguments
 on the unit torus holds for all arguments.
 -/
@@ -419,11 +478,11 @@ theorem prod_eq_of_torus (I J : Fin k → Fin d)
   simp_all +decide [ sub_eq_zero ];
   replace h_poly_zero := congr_arg Polynomial.natDegree h_poly_zero ; aesop
 
-set_option maxHeartbeats 300000 in
-/--
+/-
 If `X` commutes with `g^{⊗k}` for every unitary `g`, then it commutes with the diagonal
 action of *every* diagonal matrix.
 -/
+set_option maxHeartbeats 1000000 in
 theorem comm_diagAction_diagonal (X : Module.End ℂ (TensV d k))
     (h : ∀ W : Matrix.unitaryGroup (Fin d) ℂ,
       X ∘ₗ diagAction d k (endOf (W : Matrix (Fin d) (Fin d) ℂ)) =
@@ -433,24 +492,24 @@ theorem comm_diagAction_diagonal (X : Module.End ℂ (TensV d k))
       diagAction d k (endOf (Matrix.diagonal z)) ∘ₗ X := by
   have h_diagonal : ∀ I J, toEndMatrix d k X I J * (∏ m, z (J m)) = (∏ m, z (I m)) * toEndMatrix d k X I J := by
     intro I J; by_cases hIJ : toEndMatrix d k X I J = 0 <;> simp_all +decide [ mul_comm ] ;
-    apply ForMathlib.Tensor.prod_eq_of_torus;
+    apply SchurWeyl.prod_eq_of_torus;
     intro z hz;
-    have := h ( Matrix.diagonal z ) ( ForMathlib.Tensor.diagonal_mem_unitaryGroup z hz ) ; replace := congr_arg ( fun f => toEndMatrix d k f I J ) this; simp_all +decide ;
+    have := h ( Matrix.diagonal z ) ( SchurWeyl.diagonal_mem_unitaryGroup z hz ) ; replace := congr_arg ( fun f => toEndMatrix d k f I J ) this; simp_all +decide ;
     have h_eq : toEndMatrix d k (X ∘ₗ diagAction d k (endOf (Matrix.diagonal z))) I J = toEndMatrix d k X I J * (∏ m, z (J m)) ∧ toEndMatrix d k (diagAction d k (endOf (Matrix.diagonal z)) ∘ₗ X) I J = (∏ m, z (I m)) * toEndMatrix d k X I J := by
       have h_eq : ∀ (f g : Module.End ℂ (TensV d k)), toEndMatrix d k (f ∘ₗ g) = toEndMatrix d k f * toEndMatrix d k g := by
         intros f g; exact (by
           convert LinearMap.toMatrix_comp ( tensorBasis d k ) ( tensorBasis d k ) ( tensorBasis d k ) f g using 1);
-      simp_all +decide [ Matrix.mul_apply, ForMathlib.Tensor.toEndMatrix_diagAction_diagonal ];
+      simp_all +decide [ Matrix.mul_apply, SchurWeyl.toEndMatrix_diagAction_diagonal ];
     grind;
   have h_diagonal : toEndMatrix d k X * toEndMatrix d k (diagAction d k (endOf (Matrix.diagonal z))) = toEndMatrix d k (diagAction d k (endOf (Matrix.diagonal z))) * toEndMatrix d k X := by
-    ext I J; simp +decide [ Matrix.mul_apply, ForMathlib.Tensor.toEndMatrix_diagAction_diagonal ] ;
+    ext I J; simp +decide [ Matrix.mul_apply, SchurWeyl.toEndMatrix_diagAction_diagonal ] ;
     exact h_diagonal I J;
   convert ( toEndMatrix d k ).injective ( show toEndMatrix d k ( X ∘ₗ diagAction d k ( endOf ( diagonal z ) ) ) = toEndMatrix d k ( diagAction d k ( endOf ( diagonal z ) ) ∘ₗ X ) from ?_ ) using 1;
   convert h_diagonal using 1;
   · convert LinearMap.toMatrix_comp ( tensorBasis d k ) ( tensorBasis d k ) ( tensorBasis d k ) X ( diagAction d k ( endOf ( diagonal z ) ) ) using 1;
   · convert LinearMap.toMatrix_comp ( tensorBasis d k ) ( tensorBasis d k ) ( tensorBasis d k ) _ _ using 1
 
-/--
+/-
 **Density of the unitary group.** If `X` commutes with `g^{⊗k}` for every *unitary*
 `g`, then it commutes with `g^{⊗k}` for *every* `g`, i.e. it lies in the centralizer of
 the diagonal image. Proved from `svd_exists` together with `comm_diagAction_diagonal`.
@@ -471,7 +530,7 @@ theorem mem_centralizer_of_comm_unitary (X : Module.End ℂ (TensV d k))
       intro g
       obtain ⟨U₁, U₂, s, hg⟩ := svd_exists g;
       have h_comm_diag : X ∘ₗ diagAction d k (endOf (Matrix.diagonal s)) = diagAction d k (endOf (Matrix.diagonal s)) ∘ₗ X := by
-        apply ForMathlib.Tensor.comm_diagAction_diagonal X h_comm s;
+        apply SchurWeyl.comm_diagAction_diagonal X h_comm s;
       have h_comm_diag : X ∘ₗ (diagAction d k (endOf (U₁ : Matrix (Fin d) (Fin d) ℂ)) ∘ₗ diagAction d k (endOf (Matrix.diagonal s)) ∘ₗ diagAction d k (endOf (U₂ : Matrix (Fin d) (Fin d) ℂ))) = (diagAction d k (endOf (U₁ : Matrix (Fin d) (Fin d) ℂ)) ∘ₗ diagAction d k (endOf (Matrix.diagonal s)) ∘ₗ diagAction d k (endOf (U₂ : Matrix (Fin d) (Fin d) ℂ))) ∘ₗ X := by
         simp_all +decide [ LinearMap.ext_iff, LinearMap.comp_assoc ];
       convert h_comm_diag using 1 <;> simp +decide [ hg, endOf_mul, diagAction_comp ];
@@ -505,6 +564,6 @@ theorem weingarten_moment_haar (O : Module.End ℂ (TensV d k)) :
   weingarten_moment_decomposition_of_props O (momentOp O) (momentOp_mem_span O)
     (fun σ => momentOp_trace σ O)
 
-end ForMathlib.Tensor
+end SchurWeyl
 
 end

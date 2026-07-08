@@ -1,15 +1,13 @@
-import Mathlib.Data.Complex.Basic
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.Linarith
-import Mathlib.Data.Fintype.Perm
-import Mathlib.Analysis.InnerProductSpace.Basic
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.LinearAlgebra.Trace
-import Aesop
+/-
+Copyright (c) 2025. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
+import Mathlib.Analysis.CStarAlgebra.Module.Constructions
+import Mathlib.Tactic
 
-import LeanHaar.ForMathlib.TensorV2
+import LeanHaar.ForMathlib.Defs
 import LeanHaar.ForMathlib.Commutation
-import LeanHaar.ForMathlib.MatrixRepresentation
+import LeanHaar.ForMathlib.DirectProof
 
 /-!
 # Weingarten calculus: computing moments
@@ -60,7 +58,7 @@ noncomputable section
 
 open scoped TensorProduct InnerProductSpace Matrix
 
-namespace ForMathlib.Tensor
+namespace SchurWeyl
 
 variable {d k : ℕ}
 
@@ -260,6 +258,6 @@ theorem weingarten_moment_decomposition_of_props (O M : Module.End ℂ (TensV d 
   refine ⟨c, hc.symm, fun σ => ?_⟩
   rw [← hMtrace σ, ← hc, trace_permDual_comp_sum]
 
-end ForMathlib.Tensor
+end SchurWeyl
 
 end

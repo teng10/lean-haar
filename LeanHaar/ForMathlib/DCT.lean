@@ -1,15 +1,14 @@
-import Mathlib.LinearAlgebra.PiTensorProduct.Basis
-import Mathlib.Algebra.MonoidAlgebra.Basic
-import Mathlib.RepresentationTheory.Basic
-import Mathlib.RepresentationTheory.Maschke
-import Mathlib.RingTheory.Finiteness.Defs
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.Data.Complex.Basic
-import Mathlib.GroupTheory.Perm.Basic
-import Mathlib.Tactic.Cases
+/-
+Copyright (c) 2025. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
 import Aesop
+import Mathlib.Analysis.Normed.Lp.lpSpace
+import Mathlib.LinearAlgebra.PiTensorProduct.Basis
+import Mathlib.RepresentationTheory.Maschke
+import Mathlib.Tactic
 
-import LeanHaar.ForMathlib.TensorV2
+import LeanHaar.ForMathlib.Defs
 
 /-!
 # Double Commutant Theorem for the Permutation Algebra
@@ -23,7 +22,7 @@ noncomputable section
 
 open scoped TensorProduct MonoidAlgebra
 
-namespace ForMathlib.Tensor
+namespace SchurWeyl
 
 variable (d k : ℕ)
 
@@ -34,15 +33,13 @@ instance tensV_module_finite : Module.Finite ℂ (TensV d k) :=
 
 /-! ### The permutation representation -/
 
-example : AddCommGroup (TensV d k) := inferInstance
-
 /-- The permutation action as a monoid homomorphism `S_k →* End(V^{⊗k})`. -/
 def permMonoidHom : Equiv.Perm (Fin k) →* Module.End ℂ (TensV d k) where
   toFun σ := (permAction d σ).toLinearMap
   map_one' := by
     refine LinearMap.ext fun x => ?_; show permAction d 1 x = x
     induction x using PiTensorProduct.induction_on with
-    | smul_tprod r v => simp [permAction_tprod, Equiv.Perm.one_def]
+    | smul_tprod r v => simp [permAction_tprod]
     | add x y ihx ihy => simp [map_add, ihx, ihy]
   map_mul' σ τ := by
     refine LinearMap.ext fun x => ?_
@@ -52,7 +49,7 @@ def permMonoidHom : Equiv.Perm (Fin k) →* Module.End ℂ (TensV d k) where
     | add x y ihx ihy => simp [map_add, ihx, ihy]
 
 /-- The permutation representation of `S_k` on `V^{⊗k}`. -/
-abbrev permRep : Representation ℂ (Equiv.Perm (Fin k)) (TensV d k) :=
+def permRep : Representation ℂ (Equiv.Perm (Fin k)) (TensV d k) :=
   permMonoidHom d k
 
 /-- The natural number cardinality of `S_k` is nonzero in `ℂ` (needed for Maschke). -/
@@ -64,15 +61,10 @@ instance neZero_card_perm : NeZero (Nat.card (Equiv.Perm (Fin k)) : ℂ) := by
 /-- Abbreviation for the `ℂ[S_k]`-module structure on `V^{⊗k}`. -/
 abbrev PermModule := (permRep d k).asModule
 
-noncomputable instance permModule_module : Module (MonoidAlgebra ℂ (Equiv.Perm (Fin k))) (PermModule d k) :=
-  Representation.instModuleMonoidAlgebraAsModule (permRep d k)
-
-
 /-- The algebra homomorphism `ℂ[S_k] →ₐ[ℂ] End(V^{⊗k})`. -/
 def permAlgHom : MonoidAlgebra ℂ (Equiv.Perm (Fin k)) →ₐ[ℂ] Module.End ℂ (TensV d k) :=
   (permRep d k).asAlgebraHom
 
-/-- Value of `permAlgHom` on the generator `σ` of the group algebra. -/
 @[simp]
 theorem permAlgHom_of (σ : Equiv.Perm (Fin k)) :
     permAlgHom d k (MonoidAlgebra.of ℂ _ σ) = (permAction d σ).toLinearMap := by
@@ -81,7 +73,7 @@ theorem permAlgHom_of (σ : Equiv.Perm (Fin k)) :
 
 /-! ### Range of the algebra homomorphism equals Span(permImage) -/
 
-/--
+/-
 The image of `ℂ[S_k] →ₐ[ℂ] End(V^{⊗k})` as a submodule equals `Span(permImage)`.
 -/
 theorem permAlgHom_range_eq :
@@ -113,7 +105,7 @@ instance permModule_finite_over_endRing :
 
 /-! ### Connecting centralizers -/
 
-/--
+/-
 A `ℂ[S_k]`-linear endomorphism of `PermModule`, restricted to a `ℂ`-linear map,
 lies in the centralizer of `Span(permImage)`.
 -/
@@ -163,21 +155,41 @@ def doubleCentralizer_to_endEndModule
     have hf_cen := endModule_mem_centralizer d k f
     exact (congr_fun (congr_arg DFunLike.coe (hT _ hf_cen)) m).symm
 
-section Bicommutant
+/-! ### The Double Commutant Theorem -/
 
-set_option allowUnsafeReducibility true
-attribute [local reducible] Representation.asModule
+/-- `PermModule` is a semisimple `ℂ[S_k]`-module (Maschke's theorem).
+
+We pin down the `AddCommGroup`/`Module` instances explicitly: in current Mathlib
+the generic `Representation.asModule` carries an `AddCommMonoid` derived directly
+from the base module together with an `AddCommGroup` that is only *defeq* to it,
+and typeclass search does not always reconcile the two when the `AddCommGroup`
+variant is forced first (as happens inside `IsSemisimpleModule`). Supplying the
+instances by hand avoids that resolution gap. -/
+@[reducible]
+noncomputable def permModule_isSemisimple :
+    @IsSemisimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin k))) _ (PermModule d k)
+      (Representation.instAddCommGroupAsModule (permRep d k))
+      (Representation.instModuleMonoidAlgebraAsModule (permRep d k)) :=
+  inferInstance
+
+/-- Surjectivity of `Module.toModuleEnd : ℂ[S_k] → End_{End}(PermModule)`.
+This is the Jacobson density input to the double commutant theorem. The instance
+arguments are supplied explicitly for the same reason as in
+`permModule_isSemisimple`. -/
+noncomputable def permModule_toModuleEnd_surjective :=
+  @Module.Finite.toModuleEnd_moduleEnd_surjective
+    (MonoidAlgebra ℂ (Equiv.Perm (Fin k))) _ (PermModule d k)
+    (Representation.instAddCommGroupAsModule (permRep d k))
+    (Representation.instModuleMonoidAlgebraAsModule (permRep d k))
+    (permModule_isSemisimple d k)
+    (permModule_finite_over_endRing d k)
 
 /-- **Double Commutant Theorem** for the permutation algebra. -/
 theorem double_centralizer_permImage' :
     ((↑(Submodule.span ℂ (permImage d k)) : Set (Module.End ℂ (TensV d k))).centralizer).centralizer ⊆
     (↑(Submodule.span ℂ (permImage d k)) : Set (Module.End ℂ (TensV d k))) := by
   intro T hT
-  letI : Module ℂ[Equiv.Perm (Fin k)] (PermModule d k) :=
-    Representation.instModuleMonoidAlgebraAsModule (permRep d k)
-  haveI : IsSemisimpleModule ℂ[Equiv.Perm (Fin k)] (PermModule d k) := inferInstance
-  obtain ⟨r, hr⟩ := @Module.Finite.toModuleEnd_moduleEnd_surjective
-    ℂ[Equiv.Perm (Fin k)] _ (PermModule d k) _ _ _ (permModule_finite_over_endRing d k)
+  obtain ⟨r, hr⟩ := permModule_toModuleEnd_surjective d k
     (doubleCentralizer_to_endEndModule d k T hT)
   suffices h : T = permAlgHom d k r by
     rw [h]; exact mem_span_permImage_of_mem_range d k ⟨r, rfl⟩
@@ -189,10 +201,6 @@ theorem double_centralizer_permImage' :
   -- Now this should be: r • m = T m, where r • m in PermModule = permAlgHom(r)(m)
   exact this.symm
 
-end Bicommutant
-
--- end SchurWeyl
-
-end ForMathlib.Tensor
+end SchurWeyl
 
 end

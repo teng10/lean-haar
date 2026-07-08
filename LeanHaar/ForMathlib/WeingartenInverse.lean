@@ -1,16 +1,11 @@
-import Mathlib.LinearAlgebra.Matrix.ToLin
-import Mathlib.Data.Matrix.Basic
-import Mathlib.Algebra.Group.Invertible.Basic
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Cases
-import Mathlib.Data.Fintype.Perm
-import Mathlib.Analysis.InnerProductSpace.Basic
-import Mathlib.Analysis.InnerProductSpace.PiL2
+/-
+Copyright (c) 2025. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
 import Aesop
+import Mathlib.Tactic
 
 import LeanHaar.ForMathlib.Weingarten
-import LeanHaar.ForMathlib.MatrixRepresentation
 
 /-!
 # Weingarten calculus: the unique solution for `k ≤ d`
@@ -56,7 +51,7 @@ noncomputable section
 open scoped TensorProduct InnerProductSpace Matrix
 open Matrix
 
-namespace ForMathlib.Tensor
+namespace SchurWeyl
 
 /-! ### Abstract Gram system: matrix form, invertibility and uniqueness -/
 
@@ -192,11 +187,9 @@ def endVecₗ (d k : ℕ) :
 @[simp] theorem endVecₗ_apply (O : Module.End ℂ (TensV d k)) :
     endVecₗ d k O = endVec O := rfl
 
-/-- Injectivity of the linear map version of `endVec`. -/
 theorem endVecₗ_injective : Function.Injective (endVecₗ d k) :=
   (endVecEquiv d k).injective
 
-/-- The kernel of the linear map version of `endVec` is trivial. -/
 theorem endVecₗ_ker : LinearMap.ker (endVecₗ d k) = ⊥ :=
   LinearMap.ker_eq_bot_of_injective endVecₗ_injective
 
@@ -208,7 +201,7 @@ section LinIndep
 
 variable {d k : ℕ}
 
-/--
+/-
 For `k ≤ d` the vectorised permutation operators `endVec (V_d(σ))` are linearly
 independent in the Euclidean space of matrix entries.
 
@@ -267,7 +260,7 @@ theorem weingartenVec_eq_gramVec (O : Module.End ℂ (TensV d k)) :
   funext σ
   rw [weingartenVec, gramVec_apply, inner_endVec_perm_eq_trace]
 
-/--
+/-
 **Closed form of the Gram-matrix entries.** The entry `Tr(V_d^†(σ) V_d(π))` equals the
 number of index functions `J : Fin k → Fin d` satisfying the coincidence condition
 `J ∘ σ⁻¹ = J ∘ π⁻¹` (equivalently, `J` is constant on the cycles of `σ⁻¹π`; this count is
@@ -354,6 +347,6 @@ theorem weingarten_solution_eq_inv (h : k ≤ d) (O : Module.End ℂ (TensV d k)
 
 end Weingarten
 
-end ForMathlib.Tensor
+end SchurWeyl
 
 end

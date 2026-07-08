@@ -1,9 +1,11 @@
-import Mathlib.Data.Complex.Basic
-import Mathlib.Algebra.MvPolynomial.Basic
-import Mathlib.Algebra.MvPolynomial.Eval
+/-
+Copyright (c) 2025. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
 import Mathlib.Algebra.MvPolynomial.Funext
-import Mathlib.Algebra.CharZero.Infinite
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+import Mathlib.Analysis.CStarAlgebra.Classes
+import Mathlib.Analysis.Complex.Polynomial.Basic
+import Mathlib.RingTheory.SimpleRing.Principal
 
 /-!
 # Polynomial independence of monomials

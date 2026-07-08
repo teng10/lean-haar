@@ -1,7 +1,9 @@
-import Mathlib.Data.Complex.Basic
+/-
+Copyright (c) 2025. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
+import Mathlib.Analysis.CStarAlgebra.Classes
 import Mathlib.LinearAlgebra.PiTensorProduct
-import Mathlib.GroupTheory.Perm.Basic
-
 
 /-!
 # Schur-Weyl Duality: Definitions
@@ -27,7 +29,7 @@ open scoped TensorProduct
 
 variable {d : ℕ} {k : ℕ}
 
-namespace ForMathlib.Tensor
+namespace SchurWeyl
 
 /-- The `k`-fold tensor power of `ℂ^d`, defined as `⨂[ℂ] (i : Fin k), (Fin d → ℂ)`. -/
 abbrev TensV (d k : ℕ) : Type :=
@@ -67,8 +69,6 @@ theorem diagAction_tprod (g : Module.End ℂ (Fin d → ℂ)) (v : Fin k → (Fi
     PiTensorProduct.tprod ℂ (fun i => g (v i)) :=
   PiTensorProduct.map_tprod _ v
 
--- end SchurWeyl
-
-end ForMathlib.Tensor
+end SchurWeyl
 
 end

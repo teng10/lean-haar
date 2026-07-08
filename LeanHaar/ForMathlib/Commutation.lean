@@ -1,7 +1,10 @@
-import Mathlib.LinearAlgebra.PiTensorProduct
-import Mathlib.Algebra.Group.Pi.Basic
-
-import LeanHaar.ForMathlib.TensorV2
+/-
+Copyright (c) 2025. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
+import Mathlib.LinearAlgebra.Multilinear.Pi
+import Mathlib.Tactic
+import LeanHaar.ForMathlib.Defs
 
 /-!
 # Commutation of permutation and diagonal actions
@@ -21,7 +24,7 @@ noncomputable section
 
 open scoped TensorProduct
 
-namespace ForMathlib.Tensor
+namespace SchurWeyl
 
 variable {d k : ℕ}
 
@@ -32,7 +35,7 @@ theorem permAction_diagAction_tprod (σ : Equiv.Perm (Fin k))
     diagAction d k g ((permAction d σ) (PiTensorProduct.tprod ℂ v)) := by
   simp [permAction_tprod, diagAction_tprod]
 
-/--
+/-
 The permutation action commutes with the diagonal action:
 `W_σ ∘ g^{⊗k} = g^{⊗k} ∘ W_σ` as linear maps on `V^{⊗k}`.
 -/
@@ -40,8 +43,8 @@ theorem permAction_diagAction_comm (σ : Equiv.Perm (Fin k))
     (g : Module.End ℂ (Fin d → ℂ)) :
     (permAction d σ).toLinearMap ∘ₗ diagAction d k g =
     diagAction d k g ∘ₗ (permAction d σ).toLinearMap := by
-  ext x
-  exact permAction_diagAction_tprod σ g x
+  ext x;
+  convert permAction_diagAction_tprod σ g ( fun i => Pi.single ( x i ) 1 ) using 1
 
 /-- Every permutation operator lies in the centralizer of the diagonal image. -/
 theorem permImage_subset_centralizer_diagImage :
@@ -61,6 +64,6 @@ theorem diagImage_subset_centralizer_permImage :
   obtain ⟨σ, rfl⟩ := hy
   exact permAction_diagAction_comm σ g
 
-end ForMathlib.Tensor
+end SchurWeyl
 
 end

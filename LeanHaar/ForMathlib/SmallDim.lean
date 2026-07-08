@@ -1,17 +1,14 @@
-import Mathlib.LinearAlgebra.Finsupp.LinearCombination
-import Mathlib.Tactic.Cases
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
-import Mathlib.Data.Fin.Basic
-import Mathlib.Data.Fintype.Perm
-import Mathlib.CategoryTheory.Category.Basic
+/-
+Copyright (c) 2025. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
 import Aesop
+import Mathlib.Tactic
 
-import LeanHaar.ForMathlib.TensorV2
+import LeanHaar.ForMathlib.Defs
 import LeanHaar.ForMathlib.Commutation
 import LeanHaar.ForMathlib.PolyIndep
 import LeanHaar.ForMathlib.DCT
-import LeanHaar.ForMathlib.MatrixRepresentation
 
 /-!
 # Schur-Weyl duality: the d < k case
@@ -24,10 +21,40 @@ noncomputable section
 
 open scoped TensorProduct
 
-namespace ForMathlib.Tensor
+namespace SchurWeyl
 
 variable {d k : ℕ}
 
+/-! ### Tensor basis and matrix representation -/
+
+/-- The standard basis of `V^{⊗k}`. -/
+def tensorBasis' (d k : ℕ) :
+    Module.Basis ((i : Fin k) → Fin d) ℂ (TensV d k) :=
+  Basis.piTensorProduct (fun (_ : Fin k) => Pi.basisFun ℂ (Fin d))
+
+/-- Matrix representation of endomorphisms. -/
+def toEndMatrix' (d k : ℕ) :
+    Module.End ℂ (TensV d k) ≃ₗ[ℂ]
+    Matrix (Fin k → Fin d) (Fin k → Fin d) ℂ :=
+  LinearMap.toMatrix (tensorBasis' d k) (tensorBasis' d k)
+
+/-
+Matrix of `g^{⊗k}`.
+-/
+theorem toEndMatrix'_diagAction (g : Module.End ℂ (Fin d → ℂ)) (I J : Fin k → Fin d) :
+    toEndMatrix' d k (diagAction d k g) I J =
+    ∏ m : Fin k,
+      LinearMap.toMatrix (Pi.basisFun ℂ (Fin d)) (Pi.basisFun ℂ (Fin d)) g (I m) (J m) := by
+  unfold toEndMatrix' diagAction;
+  simp +decide [ LinearMap.toMatrix_apply, tensorBasis' ]
+
+/-
+`W_σ(e_I) = e_{I ∘ σ⁻¹}`.
+-/
+theorem permAction_tensorBasis' (σ : Equiv.Perm (Fin k)) (I : Fin k → Fin d) :
+    (permAction d σ) (tensorBasis' d k I) = tensorBasis' d k (I ∘ σ.symm) := by
+  simp +decide [ tensorBasis' ];
+  convert permAction_tprod σ _ using 1
 
 /-! ### FFT helper: the pairCount function -/
 
@@ -38,7 +65,7 @@ def pairCount (I J : Fin k → Fin d) : (Fin d × Fin d) →₀ ℕ :=
     (fun p => (Finset.univ.filter (fun m => (I m, J m) = p)).card)
     (fun _ _ => Finset.mem_univ _)
 
-/--
+/-
 The product `∏_m g_{I(m),J(m)}` equals the monomial of the pair count.
 -/
 theorem prod_eq_monomial_eval (I J : Fin k → Fin d)
@@ -52,31 +79,31 @@ theorem prod_eq_monomial_eval (I J : Fin k → Fin d)
 
 /-! ### FFT helper lemmas -/
 
-/--
+/-
 Orbit invariance of matrix entries: if X commutes with all W_σ,
 then M_X[I ∘ σ, J ∘ σ] = M_X[I, J].
 -/
 theorem matrix_orbit_invariant (X : Module.End ℂ (TensV d k))
     (hX : X ∈ (permImage d k).centralizer)
     (I J : Fin k → Fin d) (σ : Equiv.Perm (Fin k)) :
-    toEndMatrix d k X (I ∘ σ) (J ∘ σ) = toEndMatrix d k X I J := by
+    toEndMatrix' d k X (I ∘ σ) (J ∘ σ) = toEndMatrix' d k X I J := by
   have h_comm : X ∘ₗ (permAction d σ⁻¹).toLinearMap = (permAction d σ⁻¹).toLinearMap ∘ₗ X := by
     convert hX _ ( Set.mem_range_self σ⁻¹ ) using 1;
     · exact hX _ ( Set.mem_range_self _ ) ▸ rfl;
     · exact hX _ ( Set.mem_range_self _ );
-  apply_fun fun f => f ( tensorBasis d k J ) at h_comm;
-  convert congr_arg ( fun x => ( tensorBasis d k |> Module.Basis.repr ) x ( I ∘ σ ) ) h_comm using 1 <;> norm_num [ toEndMatrix, permAction_tensorBasis ];
+  apply_fun fun f => f ( tensorBasis' d k J ) at h_comm;
+  convert congr_arg ( fun x => ( tensorBasis' d k |> Module.Basis.repr ) x ( I ∘ σ ) ) h_comm using 1 <;> norm_num [ toEndMatrix', permAction_tensorBasis' ];
   · unfold LinearMap.toMatrix; aesop;
-  · rw [ show ( permAction d σ⁻¹ ) ( X ( tensorBasis d k J ) ) = ∑ m, ( tensorBasis d k |> Module.Basis.repr ) ( X ( tensorBasis d k J ) ) m • ( tensorBasis d k ) ( m ∘ σ ) from ?_ ];
+  · rw [ show ( permAction d σ⁻¹ ) ( X ( tensorBasis' d k J ) ) = ∑ m, ( tensorBasis' d k |> Module.Basis.repr ) ( X ( tensorBasis' d k J ) ) m • ( tensorBasis' d k ) ( m ∘ σ ) from ?_ ];
     · simp +decide [ LinearMap.toMatrix_apply, Finsupp.single_apply ];
       rw [ Finset.sum_eq_single I ] <;> simp +contextual [ funext_iff ];
       exact fun b x hx₁ hx₂ => False.elim <| hx₁ <| by simpa using hx₂ ( σ.symm x ) ;
-    · conv_lhs => rw [ ← ( tensorBasis d k ).sum_repr ( X ( tensorBasis d k J ) ) ];
+    · conv_lhs => rw [ ← ( tensorBasis' d k ).sum_repr ( X ( tensorBasis' d k J ) ) ];
       rw [ map_sum ];
       refine' Finset.sum_congr rfl fun m hm => _;
-      rw [ map_smul, permAction_tensorBasis ] ; aesop
+      rw [ map_smul, permAction_tensorBasis' ] ; aesop
 
-/--
+/-
 Permuting indices preserves the pair count.
 -/
 theorem pairCount_perm (I J : Fin k → Fin d) (σ : Equiv.Perm (Fin k)) :
@@ -86,7 +113,7 @@ theorem pairCount_perm (I J : Fin k → Fin d) (σ : Equiv.Perm (Fin k)) :
   rw [ Finset.card_filter, Finset.card_filter ];
   conv_rhs => rw [ ← Equiv.sum_comp σ ] ;
 
-/--
+/-
 Grouping the polynomial evaluation by coincidence type:
 the sum `Σ_{I,J} C(I,J) ∏_m g(I(m),J(m))` equals
 `Σ_c (Σ_{pairCount I J = c} C(I,J)) · mono(c, g)`.
@@ -112,7 +139,7 @@ theorem sum_group_by_pairCount
       Fintype.sum_prod_type fun x =>
         C x.1 x.2 * ∏ p_1 ∈ (pairCount x.1 x.2).support, g p_1.1 p_1.2 ^ (pairCount x.1 x.2) p_1
 
-/--
+/-
 Separation lemma: if `x ∉ S` for a submodule `S` of a finite-dimensional
 space over ℂ, there exists a linear functional vanishing on `S` but not on `x`.
 -/
@@ -122,7 +149,7 @@ theorem exists_functional_separation
     ∃ φ : V →ₗ[ℂ] ℂ, φ x ≠ 0 ∧ ∀ s ∈ S, φ s = 0 := by
   exact Submodule.exists_le_ker_of_notMem hx
 
-/--
+/-
 If `M_X` is constant on coincidence types and the coincidence-type sums
 of `C` all vanish, then `Σ C(I,J) M_X[I,J] = 0`.
 -/
@@ -150,7 +177,7 @@ theorem sum_vanishes_of_coeff_and_const
 
 /-! ### FFT: Main theorem -/
 
-/--
+/-
 **First Fundamental Theorem**: `centralizer(permImage) ⊆ Span(diagImage)`.
 
 Proof: By finite-dimensional duality, it suffices to show that any linear
@@ -177,11 +204,11 @@ theorem centralizer_permImage_le_span_diagImage :
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.End ℂ (TensV d k) →ₗ[ℂ] ℂ, φ X ≠ 0 ∧ ∀ s ∈ Submodule.span ℂ (diagImage d k), φ s = 0 := by
     convert exists_functional_separation _ X h_not_in_span using 1;
   -- Define the coefficients $C(I,J)$ such that $\varphi(T) = \sum_{I,J} C(I,J) \cdot M_T[I,J]$ for any endomorphism $T$.
-  obtain ⟨C, hC⟩ : ∃ C : (Fin k → Fin d) → (Fin k → Fin d) → ℂ, ∀ T : Module.End ℂ (TensV d k), φ T = ∑ I : Fin k → Fin d, ∑ J : Fin k → Fin d, C I J * (toEndMatrix d k T) I J := by
-    use fun I J => φ ((toEndMatrix d k).symm (Matrix.single I J 1));
+  obtain ⟨C, hC⟩ : ∃ C : (Fin k → Fin d) → (Fin k → Fin d) → ℂ, ∀ T : Module.End ℂ (TensV d k), φ T = ∑ I : Fin k → Fin d, ∑ J : Fin k → Fin d, C I J * (toEndMatrix' d k T) I J := by
+    use fun I J => φ ((toEndMatrix' d k).symm (Matrix.single I J 1));
     intro T
-    have h_decomp : T = ∑ I : Fin k → Fin d, ∑ J : Fin k → Fin d, (toEndMatrix d k T) I J • (toEndMatrix d k).symm (Matrix.single I J 1) := by
-      apply (toEndMatrix d k).injective;
+    have h_decomp : T = ∑ I : Fin k → Fin d, ∑ J : Fin k → Fin d, (toEndMatrix' d k T) I J • (toEndMatrix' d k).symm (Matrix.single I J 1) := by
+      apply (toEndMatrix' d k).injective;
       ext I J; simp +decide [ Matrix.single ] ;
       simp +decide [ Matrix.sum_apply, Matrix.of_apply ];
       rw [ Finset.sum_eq_single I ] <;> aesop;
@@ -195,7 +222,7 @@ theorem centralizer_permImage_le_span_diagImage :
       have h_diag_zero : φ (diagAction d k g) = 0 := by
         exact hφ.2 _ <| Submodule.subset_span <| Set.mem_range_self _;
       rw [ ← h_diag_zero, hC ];
-      exact Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => by rw [ toEndMatrix_diagAction ] ;
+      exact Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => by rw [ toEndMatrix'_diagAction ] ;
     intro c hc
     have h_poly_zero : ∀ g : Fin d → Fin d → ℂ, ∑ I : Fin k → Fin d, ∑ J : Fin k → Fin d, C I J * (∏ m : Fin k, g (I m) (J m)) = 0 := by
       intro g
@@ -210,7 +237,7 @@ theorem centralizer_permImage_le_span_diagImage :
     convert monomial_coeff_zero_of_eval_zero ( fun c => ∑ I : Fin k → Fin d, ∑ J : Fin k → Fin d, if pairCount I J = c then C I J else 0 ) ( Finset.image ( fun p : ( Fin k → Fin d ) × ( Fin k → Fin d ) => pairCount p.1 p.2 ) Finset.univ ) ( fun g => ?_ ) c hc using 1;
     convert h_poly_zero ( fun i j => g ( i, j ) ) using 1;
   -- Since $X$ is in the centralizer of $\text{permImage}$, the matrix $M_X$ is constant on coincidence types.
-  have h_const : ∀ I J I' J' : Fin k → Fin d, pairCount I J = pairCount I' J' → (toEndMatrix d k X) I J = (toEndMatrix d k X) I' J' := by
+  have h_const : ∀ I J I' J' : Fin k → Fin d, pairCount I J = pairCount I' J' → (toEndMatrix' d k X) I J = (toEndMatrix' d k X) I' J' := by
     intros I J I' J' h_pairCount
     obtain ⟨σ, hσ⟩ : ∃ σ : Equiv.Perm (Fin k), I' = I ∘ σ ∧ J' = J ∘ σ := by
       have h_exists_perm : ∃ σ : Fin k ≃ Fin k, ∀ m : Fin k, (I' m, J' m) = (I (σ m), J (σ m)) := by
@@ -280,6 +307,6 @@ theorem centralizer_diagImage_le_span_permImage_small :
     · intro c a _ ha; simp [ha]
   exact double_centralizer_permImage hX_in_A''
 
-end ForMathlib.Tensor
+end SchurWeyl
 
 end

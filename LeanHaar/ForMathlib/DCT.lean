@@ -39,7 +39,7 @@ def permMonoidHom : Equiv.Perm (Fin k) →* Module.End ℂ (TensV d k) where
   map_one' := by
     refine LinearMap.ext fun x => ?_; show permAction d 1 x = x
     induction x using PiTensorProduct.induction_on with
-    | smul_tprod r v => simp [permAction_tprod]
+    | smul_tprod r v => simp [permAction_tprod, Equiv.Perm.one_def]
     | add x y ihx ihy => simp [map_add, ihx, ihy]
   map_mul' σ τ := by
     refine LinearMap.ext fun x => ?_

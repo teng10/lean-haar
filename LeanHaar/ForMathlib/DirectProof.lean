@@ -4,7 +4,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Aesop
 import Mathlib.Tactic
-import RequestProject.SchurWeyl.Defs
+
+import LeanHaar.ForMathlib.Defs
 import LeanHaar.ForMathlib.Commutation
 import LeanHaar.ForMathlib.SmallDim
 

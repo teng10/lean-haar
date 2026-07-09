@@ -1,5 +1,5 @@
-import LeanHaar.ForMathlib.HaarUnitaryV2
-import LeanHaar.ForMathlib.TensorV2
+import LeanHaar.ForMathlib.Haar
+import LeanHaar.ForMathlib.Tensor
 
 /-!
 # Example: Computing moments for k = 1

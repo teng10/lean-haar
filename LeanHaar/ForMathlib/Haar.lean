@@ -252,12 +252,12 @@ theorem momentOp_trace (σ : Equiv.Perm (Fin k)) (O : Module.End ℂ (TensV d k)
     simp only [ h_trace_eq ];
   convert h_trace_eq using 1;
   · simp +decide [ Matrix.trace, Matrix.mul_apply, momentMatrix ]
-    rw [ MeasureTheory.integral_finset_sum ]
+    rw [ MeasureTheory.integral_finsetSum ]
     · rw [ Finset.sum_congr rfl ]
-      intro i hi; rw [ MeasureTheory.integral_finset_sum ]
+      intro i hi; rw [ MeasureTheory.integral_finsetSum ]
       · exact Finset.sum_congr rfl fun _ _ => by rw [ MeasureTheory.integral_const_mul ]
       · exact fun j _ => MeasureTheory.Integrable.const_mul ( SchurWeyl.integrable_actOn_entry O j i ) _
-    · exact fun i _ => MeasureTheory.integrable_finset_sum _ fun j _ => MeasureTheory.Integrable.const_mul ( SchurWeyl.integrable_actOn_entry O j i ) _
+    · exact fun i _ => MeasureTheory.integrable_finsetSum _ fun j _ => MeasureTheory.Integrable.const_mul ( SchurWeyl.integrable_actOn_entry O j i ) _
   · simp +decide [ SchurWeyl.haarProb ]
 
 /-! ### Unitary invariance of the moment operator -/
@@ -303,13 +303,13 @@ theorem momentOp_conj_unitary (O : Module.End ℂ (TensV d k))
   convert h_integral I J using 1;
   rw [ show ( fun U : Matrix.unitaryGroup ( Fin d ) ℂ => ( toEndMatrix d k ) ( actOn O ( W * U ) ) I J ) = fun U : Matrix.unitaryGroup ( Fin d ) ℂ => ( toEndMatrix d k ( diagAction d k ( endOf ( W : Matrix ( Fin d ) ( Fin d ) ℂ ) ) ) * ( toEndMatrix d k ( actOn O U ) ) * ( toEndMatrix d k ( diagAction d k ( endOf ( star ( W : Matrix ( Fin d ) ( Fin d ) ℂ ) ) ) ) ) ) I J from funext fun U => ?_ ];
   · simp +decide [ Matrix.mul_apply, Finset.mul_sum _ _ _, Finset.sum_mul ];
-    rw [ MeasureTheory.integral_finset_sum ];
+    rw [ MeasureTheory.integral_finsetSum ];
     · rw [ Finset.sum_comm ];
       refine' Finset.sum_congr rfl fun i hi => _;
-      rw [ MeasureTheory.integral_finset_sum ];
+      rw [ MeasureTheory.integral_finsetSum ];
       · simp +decide [ mul_assoc, MeasureTheory.integral_const_mul, MeasureTheory.integral_mul_const, momentMatrix ];
       · exact fun _ _ => MeasureTheory.Integrable.mul_const ( MeasureTheory.Integrable.const_mul ( SchurWeyl.integrable_actOn_entry O _ _ ) _ ) _;
-    · intro i hi; exact MeasureTheory.integrable_finset_sum _ fun j hj => MeasureTheory.Integrable.mul_const ( MeasureTheory.Integrable.const_mul ( SchurWeyl.integrable_actOn_entry O j i ) _ ) _;
+    · intro i hi; exact MeasureTheory.integrable_finsetSum _ fun j hj => MeasureTheory.Integrable.mul_const ( MeasureTheory.Integrable.const_mul ( SchurWeyl.integrable_actOn_entry O j i ) _ ) _;
   · rw [ ← h_linear, ← h_linear ];
     rw [ ← conj_actOn ];
     rw [ LinearMap.comp_assoc ]

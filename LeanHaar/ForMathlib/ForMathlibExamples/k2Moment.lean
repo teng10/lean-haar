@@ -1,4 +1,4 @@
-import LeanHaar.ForMathlib.HaarUnitaryV2
+import LeanHaar.ForMathlib.Haar
 import LeanHaar.ForMathlib.TensorV2
 import LeanHaar.ForMathlib.DCT
 
@@ -10,7 +10,7 @@ import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 # Example: Computing moments for k = 2
 -/
 
-open ForMathlib.Tensor
+open SchurWeyl
 
 variable {d : ℕ}
 

@@ -1,12 +1,14 @@
 import LeanHaar.TensorPower
 import LeanHaar.Permutation
 import LeanHaar.TensorPower
+import LeanHaar.SchurWeylAbstract
 import Mathlib.Tactic.FinCases
 
 -- Test file
 
 open LeanHaar
 open HilbertTensorPower
+open SchurWeylAbstract
 
 /- ## Test Hilbert and tensor power space
 
@@ -35,3 +37,12 @@ example (π : Equiv.Perm (Fin 3))
       ![A, B, C]
     W π ∘ₗ map_tprod f = map_tprod (f ∘ π.symm) ∘ₗ W π := by
   apply W_map_tprod_comm
+
+
+/- ## Test for unitary tensor span -/
+variable {W : Type*} [NormedAddCommGroup W] [InnerProductSpace ℂ W] [FiniteDimensional ℂ W]
+#check unitaryTensorSpan (W := W) (k := 1)
+#check (↑(unitaryTensorSpan (W := W) (k := 1)) : Set (Module.End ℂ (TensorPower ℂ 1 W)))
+
+
+variable {V : Type*} [AddCommGroup V] [Module ℂ V]

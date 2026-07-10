@@ -1,5 +1,5 @@
 import LeanHaar.ForMathlib.Haar
-import LeanHaar.ForMathlib.Tensor
+import LeanHaar.ForMathlib.Defs
 
 /-!
 # Example: Computing moments for k = 1
@@ -7,7 +7,7 @@ import LeanHaar.ForMathlib.Tensor
 We seek to use Antonio's notes to write an expression for the first order moment of the Haar measure.
 -/
 
-open ForMathlib.Tensor
+open SchurWeyl
 
 /-! The first three lemmas seem redundant, but I think it because I need to show 1 = LinearMap.id and that the set characterization holds.
 There is probably a good way to simplify this into fewer lemmas. -/

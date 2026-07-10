@@ -1,5 +1,5 @@
 import LeanHaar.ForMathlib.Haar
-import LeanHaar.ForMathlib.TensorV2
+import LeanHaar.ForMathlib.Defs
 import LeanHaar.ForMathlib.DCT
 
 import Mathlib.LinearAlgebra.Alternating.Basic

@@ -1,0 +1,2250 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dependency graph</title>
+  <meta name="generator" content="plasTeX" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles/theme-white.css" />
+  <link rel="stylesheet" href="styles/dep_graph.css" />
+  
+  <script type="text/x-mathjax-config">
+  
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  
+  </script>
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">  </script>
+
+
+<link rel="stylesheet" href="styles/extra_styles.css" />
+
+</head>
+
+<body>
+<header>
+  <a class="toc" href="index.html">Home</a>
+  <h1 id="doc_title">Dependencies</h1>
+</header>
+<div class="wrapper">
+<div class="content">
+  <div id="Legend">
+    <span id="legend_title" class="title">Legend
+    <div class="btn">
+       <div class="bar"></div>
+       <div class="bar"></div>
+       <div class="bar"></div>
+    </div></span> 
+    <dl class="legend">
+      
+      <dt>Boxes</dt><dd>definitions</dd>
+      
+      <dt>Ellipses</dt><dd>theorems and lemmas</dd>
+      
+      <dt>Blue border</dt><dd>the <em>statement</em> of this result is ready to be formalized; all prerequisites are done</dd>
+      
+      <dt>Orange border</dt><dd>the <em>statement</em> of this result is not ready to be formalized; the blueprint needs more work</dd>
+      
+      <dt>Blue background</dt><dd>the <em>proof</em> of this result is ready to be formalized; all prerequisites are done</dd>
+      
+      <dt>Green border</dt><dd>the <em>statement</em> of this result is formalized</dd>
+      
+      <dt>Green background</dt><dd>the <em>proof</em> of this result is formalized</dd>
+      
+      <dt>Dark green background</dt><dd>the <em>proof</em> of this result and all its ancestors are formalized</dd>
+      
+      <dt>Dark green border</dt><dd>this is in Mathlib</dd>
+      
+    </dl>
+  </div>
+    <div id="graph"></div>
+<div id="statements">
+
+    
+    <div class="dep-modal-container" id="def:actOn_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:actOn" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">2.3.2</span><span class="definition_thmtitle">Conjugation Action</span></div>
+    <div class="thm_thmcontent"><p> For \(O \in \text{End}(V^{\otimes k})\) and \(U \in U(d)\), the conjugation action is: </p>
+<div class="equation" id="a0000000033">
+<p>
+  <div class="equation_content">
+    \begin{equation}  U^{\otimes k} O (U^\dagger )^{\otimes k} \end{equation}
+  </div>
+  <span class="equation_label">5</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:actOn">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.actOn">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:diagAction_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:diagAction" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.1.3</span><span class="definition_thmtitle">Diagonal Action</span></div>
+    <div class="thm_thmcontent"><p> Given an operator \(g \in \text{End}(V)\), the diagonal action \(g^{\otimes k}\) on \(V^{\otimes k}\) acts as \(g\) on each tensor factor: </p>
+<div class="equation" id="a0000000007">
+<p>
+  <div class="equation_content">
+    \begin{equation}  g^{\otimes k}(v_1 \otimes \dots \otimes v_k) = g(v_1) \otimes \dots \otimes g(v_k) \end{equation}
+  </div>
+  <span class="equation_label">3</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#def:diagAction">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.diagAction">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:diagImage_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:diagImage" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.1.5</span><span class="definition_thmtitle">Diagonal Image</span></div>
+    <div class="thm_thmcontent"><p> The diagonal image \(\mathcal{D}_{d,k} \subseteq \text{End}(V^{\otimes k})\) is the set of all diagonal action operators: </p>
+<div class="equation" id="a0000000009">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \mathcal{D}_{d,k} = \{  g^{\otimes k} \mid g \in \text{End}(V) \}  \end{equation}
+  </div>
+  <span class="equation_label">5</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#def:diagImage">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.diagImage">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:endVec_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:endVec" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">2.1.5</span><span class="definition_thmtitle">Matrix Vectorization</span></div>
+    <div class="thm_thmcontent"><p> The vectorization \(\text{endVec}(O)\) of an operator \(O \in \text{End}(V^{\otimes k})\) is the vector of its matrix entries in the computational basis, viewed as an element of the Euclidean space. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:endVec">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.endVec">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:gramMatrix_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:gramMatrix" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">2.2.1</span><span class="definition_thmtitle">Abstract Gram Matrix</span></div>
+    <div class="thm_thmcontent"><p> The Gram matrix of a family \(v\) is \(G_{j, i} = \langle v_j, v_i \rangle \). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:gramMatrix">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.gramMatrix">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:gramVec_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:gramVec" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">2.2.2</span><span class="definition_thmtitle">Abstract Gram Target Vector</span></div>
+    <div class="thm_thmcontent"><p> The Gram target vector is \(u_j = \langle v_j, w \rangle \). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:gramVec">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.gramVec">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:haarProb_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:haarProb" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">2.3.1</span><span class="definition_thmtitle">Haar Probability Measure</span></div>
+    <div class="thm_thmcontent"><p> The Haar probability measure \(\mu _H\) is the left Haar measure on the compact unitary group \(U(d)\) normalized to total mass 1. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:haarProb">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.haarProb">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:momentOp_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:momentOp" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">2.3.3</span><span class="definition_thmtitle">Haar Moment Operator</span></div>
+    <div class="thm_thmcontent"><p> The Haar moment operator \(\mathbb {E}_{U \sim \mu _H}[U^{\otimes k} O (U^\dagger )^{\otimes k}]\) is the entrywise average of the conjugation action. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:momentOp">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.momentOp">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:pairCount_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:pairCount" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.2.2</span><span class="definition_thmtitle">Pair Count Coincidence</span></div>
+    <div class="thm_thmcontent"><p> For two index functions \(I, J: [k] \to [d]\), the coincidence count \(\text{pairCount}(I, J)\) is a function counting how many indices \(m\) have \((I(m), J(m)) = (a, b)\) for each \((a, b) \in [d] \times [d]\). </p>
+</div>
+
+    <a class="latex_link" href="sect0001.html#def:pairCount">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.pairCount">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:permAction_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:permAction" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.1.2</span><span class="definition_thmtitle">Permutation Action</span></div>
+    <div class="thm_thmcontent"><p> Given a permutation \(\sigma \in S_k\), the permutation operator \(W_\sigma \) on \(V^{\otimes k}\) acts by permuting the tensor factors: </p>
+<div class="equation" id="a0000000006">
+<p>
+  <div class="equation_content">
+    \begin{equation}  W_\sigma (v_1 \otimes \dots \otimes v_k) = v_{\sigma ^{-1}(1)} \otimes \dots \otimes v_{\sigma ^{-1}(k)} \end{equation}
+  </div>
+  <span class="equation_label">2</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#def:permAction">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permAction">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:permAlgHom_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:permAlgHom" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.3.3</span><span class="definition_thmtitle">Permutation Algebra Homomorphism</span></div>
+    <div class="thm_thmcontent"><p> The algebra homomorphism \(\tilde{\rho }: \mathbb {C}[S_k] \to \text{End}(V^{\otimes k})\) induced by the representation. </p>
+</div>
+
+    <a class="latex_link" href="sect0001.html#def:permAlgHom">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permAlgHom">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:permDual_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:permDual" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">2.1.3</span><span class="definition_thmtitle">Adjoint Permutation Operators</span></div>
+    <div class="thm_thmcontent"><p> The dual permutation operator \(V_d^\dagger (\sigma )\) is defined as the permutation operator of \(\sigma ^{-1}\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:permDual">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permDual">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:permImage_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:permImage" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.1.4</span><span class="definition_thmtitle">Permutation Image</span></div>
+    <div class="thm_thmcontent"><p> The permutation image \(\mathcal{P}_{d,k} \subseteq \text{End}(V^{\otimes k})\) is the set of all permutation operators: </p>
+<div class="equation" id="a0000000008">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \mathcal{P}_{d,k} = \{  W_\sigma \mid \sigma \in S_k \}  \end{equation}
+  </div>
+  <span class="equation_label">4</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#def:permImage">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permImage">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:PermModule_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:PermModule" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.3.2</span><span class="definition_thmtitle">Permutation Module</span></div>
+    <div class="thm_thmcontent"><p> The space \(V^{\otimes k}\) viewed as a \(\mathbb {C}[S_k]\)-module under the permutation representation. </p>
+</div>
+
+    <a class="latex_link" href="sect0001.html#def:PermModule">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.PermModule">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:permOp_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:permOp" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">2.1.2</span><span class="definition_thmtitle">Permutation Operators</span></div>
+    <div class="thm_thmcontent"><p> The permutation operator \(V_d(\sigma ) \in \text{End}(V^{\otimes k})\) is the linear map corresponding to \(\sigma \in S_k\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:permOp">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permOp">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:permRep_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:permRep" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.3.1</span><span class="definition_thmtitle">Permutation Representation</span></div>
+    <div class="thm_thmcontent"><p> The permutation representation is the monoid homomorphism \(\rho : S_k \to \text{End}(V^{\otimes k})\) mapping \(\sigma \mapsto W_\sigma \). </p>
+</div>
+
+    <a class="latex_link" href="sect0001.html#def:permRep">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permRep">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:TensV_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:TensV" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">1.1.1</span><span class="definition_thmtitle">Tensor Power Space</span></div>
+    <div class="thm_thmcontent"><p> The \(k\)-fold tensor power of \(V\) is defined as: </p>
+<div class="equation" id="a0000000005">
+<p>
+  <div class="equation_content">
+    \begin{equation}  V^{\otimes k} = \bigotimes _{i=1}^k V \end{equation}
+  </div>
+  <span class="equation_label">1</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#def:TensV">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.TensV">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:weingartenGram_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:weingartenGram" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">2.2.8</span><span class="definition_thmtitle">Weingarten Gram Matrix</span></div>
+    <div class="thm_thmcontent"><p> The Weingarten Gram matrix is defined by \(G_{\sigma , \pi } = \text{Tr}(V_d^\dagger (\sigma ) V_d(\pi ))\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:weingartenGram">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingartenGram">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:weingartenVec_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:weingartenVec" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">2.2.9</span><span class="definition_thmtitle">Weingarten Target Vector</span></div>
+    <div class="thm_thmcontent"><p> The Weingarten target vector is \(u_\sigma = \text{Tr}(V_d^\dagger (\sigma ) O)\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#def:weingartenVec">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingartenVec">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:diagAction_tprod_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:diagAction_tprod" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">1.1.7</span><span class="lemma_thmtitle">Diagonal Action on Simple Tensors</span></div>
+    <div class="thm_thmcontent"><p> For any simple tensor \(\bigotimes _{i} v_i\), we have: </p>
+<div class="equation" id="a0000000011">
+<p>
+  <div class="equation_content">
+    \begin{equation}  g^{\otimes k}(\bigotimes _{i} v_i) = \bigotimes _{i} g(v_i) \end{equation}
+  </div>
+  <span class="equation_label">7</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#lem:diagAction_tprod">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.diagAction_tprod">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:matrix_orbit_invariant_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:matrix_orbit_invariant" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">1.2.4</span><span class="lemma_thmtitle">Matrix Orbit Invariance</span></div>
+    <div class="thm_thmcontent"><p> If an operator \(X \in \text{End}(V^{\otimes k})\) commutes with all permutation operators \(W_\sigma \), then its matrix entries in the computational basis satisfy \(X_{I \circ \sigma , J \circ \sigma } = X_{I, J}\) for all \(\sigma \in S_k\). </p>
+</div>
+
+    <a class="latex_link" href="sect0001.html#lem:matrix_orbit_invariant">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.matrix_orbit_invariant">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:monomial_coeff_zero_of_eval_zero_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:monomial_coeff_zero_of_eval_zero" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">1.2.1</span><span class="lemma_thmtitle">Monomial Coefficient Independence</span></div>
+    <div class="thm_thmcontent"><p> If a linear combination of distinct monomials in \(d^2\) variables over \(\mathbb {C}\) evaluates to zero at all points, then all coefficients are zero. </p>
+</div>
+
+    <a class="latex_link" href="sect0001.html#lem:monomial_coeff_zero_of_eval_zero">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/monomial_coeff_zero_of_eval_zero">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:pairCount_perm_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:pairCount_perm" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">1.2.5</span><span class="lemma_thmtitle">Pair Count Permutation Invariance</span></div>
+    <div class="thm_thmcontent"><p> Permuting the indices by \(\sigma \) preserves the pair count: </p>
+<div class="equation" id="a0000000018">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{pairCount}(I \circ \sigma , J \circ \sigma ) = \text{pairCount}(I, J) \end{equation}
+  </div>
+  <span class="equation_label">13</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#lem:pairCount_perm">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.pairCount_perm">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:permAction_diagAction_tprod_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:permAction_diagAction_tprod" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">1.1.8</span><span class="lemma_thmtitle">Action Commutativity on Simple Tensors</span></div>
+    <div class="thm_thmcontent"><p> For any permutation \(\sigma \in S_k\), operator \(g \in \text{End}(V)\), and vector family \(v\): </p>
+<div class="equation" id="a0000000012">
+<p>
+  <div class="equation_content">
+    \begin{equation}  W_\sigma (g^{\otimes k}(v_1 \otimes \dots \otimes v_k)) = g^{\otimes k}(W_\sigma (v_1 \otimes \dots \otimes v_k)) \end{equation}
+  </div>
+  <span class="equation_label">8</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#lem:permAction_diagAction_tprod">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permAction_diagAction_tprod">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:permAction_tprod_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:permAction_tprod" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">1.1.6</span><span class="lemma_thmtitle">Permutation Action on Simple Tensors</span></div>
+    <div class="thm_thmcontent"><p> For any simple tensor \(\bigotimes _{i} v_i\), we have: </p>
+<div class="equation" id="a0000000010">
+<p>
+  <div class="equation_content">
+    \begin{equation}  W_\sigma (\bigotimes _{i} v_i) = \bigotimes _{i} v_{\sigma ^{-1}(i)} \end{equation}
+  </div>
+  <span class="equation_label">6</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#lem:permAction_tprod">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permAction_tprod">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:permModule_isSemisimple_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:permModule_isSemisimple" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">1.3.5</span><span class="lemma_thmtitle">Semisimplicity of Permutation Module</span></div>
+    <div class="thm_thmcontent"><p> The permutation module \(V^{\otimes k}\) is a semisimple \(\mathbb {C}[S_k]\)-module. This is a consequence of Maschke’s theorem. </p>
+</div>
+
+    <a class="latex_link" href="sect0001.html#lem:permModule_isSemisimple">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permModule_isSemisimple">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:prod_eq_monomial_eval_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:prod_eq_monomial_eval" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">1.2.3</span><span class="lemma_thmtitle">Product Monomial Representation</span></div>
+    <div class="thm_thmcontent"><p> The product of matrix elements can be written as a monomial evaluation of the pair count: </p>
+<div class="equation" id="a0000000017">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \prod _{m=1}^k g_{I(m), J(m)} = \prod _{(a,b)} g_{a,b}^{\text{pairCount}(I,J)(a,b)} \end{equation}
+  </div>
+  <span class="equation_label">12</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#lem:prod_eq_monomial_eval">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.prod_eq_monomial_eval">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:sum_group_by_pairCount_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:sum_group_by_pairCount" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">1.2.6</span><span class="lemma_thmtitle">Sum Grouped by Pair Count</span></div>
+    <div class="thm_thmcontent"><p> A double sum over indices can be grouped by the coincidence type (pair count). </p>
+</div>
+
+    <a class="latex_link" href="sect0001.html#lem:sum_group_by_pairCount">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.sum_group_by_pairCount">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:sum_smul_permOp_mem_span_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:sum_smul_permOp_mem_span" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">2.1.9</span><span class="lemma_thmtitle">Operator Span Inclusion</span></div>
+    <div class="thm_thmcontent"><p> A linear combination of permutation operators lies in their span. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#lem:sum_smul_permOp_mem_span">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.sum_smul_permOp_mem_span">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:sum_vanishes_of_coeff_and_const_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:sum_vanishes_of_coeff_and_const" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">1.2.7</span><span class="lemma_thmtitle">Linear Functional Vanishing</span></div>
+    <div class="thm_thmcontent"><p> If a matrix is constant on coincidence types, and the coincidence-type sums of coefficients vanish, then the total inner product sum vanishes. </p>
+</div>
+
+    <a class="latex_link" href="sect0001.html#lem:sum_vanishes_of_coeff_and_const">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.sum_vanishes_of_coeff_and_const">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:trace_permDual_comp_sum_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:trace_permDual_comp_sum" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">2.1.8</span><span class="lemma_thmtitle">Adjoint Trace Linearity</span></div>
+    <div class="thm_thmcontent"><p> The trace against \(V_d^\dagger (\sigma )\) is linear in combinations of permutation operators. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#lem:trace_permDual_comp_sum">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.trace_permDual_comp_sum">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:centralizer_diagImage_le_span_permImage_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:centralizer_diagImage_le_span_permImage" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.3.8</span><span class="theorem_thmtitle">Hard Direction of Schur-Weyl Duality</span></div>
+    <div class="thm_thmcontent"><p> The centralizer of the diagonal image is contained in the span of the permutation image: </p>
+<div class="equation" id="a0000000023">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Comm}(\mathcal{D}_{d,k}) \subseteq \text{Span}(\mathcal{P}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">17</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#thm:centralizer_diagImage_le_span_permImage">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.centralizer_diagImage_le_span_permImage">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:centralizer_permImage_le_span_diagImage_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:centralizer_permImage_le_span_diagImage" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.2.8</span><span class="theorem_thmtitle">First Fundamental Theorem</span></div>
+    <div class="thm_thmcontent"><p> The centralizer of the permutation action is contained in the span of the diagonal image: </p>
+<div class="equation" id="a0000000019">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Comm}(\mathcal{P}_{d,k}) \subseteq \text{Span}(\mathcal{D}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">14</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#thm:centralizer_permImage_le_span_diagImage">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.centralizer_permImage_le_span_diagImage">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:diagImage_subset_centralizer_permImage_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:diagImage_subset_centralizer_permImage" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.1.11</span><span class="theorem_thmtitle">Diagonal Image Centralizes Permutation Image</span></div>
+    <div class="thm_thmcontent"><p> The diagonal image is contained in the centralizer of the permutation image: </p>
+<div class="equation" id="a0000000015">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \mathcal{D}_{d,k} \subseteq \text{Comm}(\mathcal{P}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">11</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#thm:diagImage_subset_centralizer_permImage">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.diagImage_subset_centralizer_permImage">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:double_centralizer_permImage_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:double_centralizer_permImage" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.3.7</span><span class="theorem_thmtitle">Double Commutant for Permutation Algebra</span></div>
+    <div class="thm_thmcontent"><p> The double centralizer of the span of permutation operators is the span itself: </p>
+<div class="equation" id="a0000000022">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Comm}(\text{Comm}(\text{Span}(\mathcal{P}_{d,k}))) = \text{Span}(\mathcal{P}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">16</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#thm:double_centralizer_permImage">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.double_centralizer_permImage">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:gram_solution_eq_inv_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:gram_solution_eq_inv" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.2.5</span><span class="theorem_thmtitle">Unique Gram Solution</span></div>
+    <div class="thm_thmcontent"><p> If the vectors are linearly independent, the Gram system has a unique solution given by \(c = G^{-1} u\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:gram_solution_eq_inv">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.gram_solution_eq_inv">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:gram_system_solvable_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:gram_system_solvable" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.1.1</span><span class="theorem_thmtitle">Abstract Gram-System Solvability</span></div>
+    <div class="thm_thmcontent"><p> Let \(H\) be a finite-dimensional complex Hilbert space, \(v_1, \dots , v_n \in H\), and \(w \in H\). The linear system: </p>
+<div class="equation" id="a0000000029">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \langle v_j, w \rangle = \sum _{i=1}^n c_i \langle v_j, v_i \rangle \quad \text{for all } j \end{equation}
+  </div>
+  <span class="equation_label">1</span>
+</p>
+</div>
+<p> always has at least one solution \(c \in \mathbb {C}^n\), which is given by the coefficients of the orthogonal projection of \(w\) onto \(\text{Span}(v_1, \dots , v_n)\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:gram_system_solvable">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.gram_system_solvable">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:gramMatrix_det_ne_zero_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:gramMatrix_det_ne_zero" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.2.4</span><span class="theorem_thmtitle">Invertibility of Independent Gram Matrix</span></div>
+    <div class="thm_thmcontent"><p> If the vectors \(v_1, \dots , v_n\) are linearly independent, then their Gram matrix is invertible. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:gramMatrix_det_ne_zero">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.gramMatrix_det_ne_zero">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:inner_endVec_perm_eq_trace_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:inner_endVec_perm_eq_trace" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.1.6</span><span class="theorem_thmtitle">The Trace Bridge</span></div>
+    <div class="thm_thmcontent"><p> The Euclidean inner product of the vectorizations of \(V_d(\sigma )\) and \(O\) equals the trace of their product: </p>
+<div class="equation" id="a0000000030">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \langle \text{endVec}(V_d(\sigma )), \text{endVec}(O) \rangle = \text{Tr}(V_d^\dagger (\sigma ) O) \end{equation}
+  </div>
+  <span class="equation_label">2</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:inner_endVec_perm_eq_trace">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.inner_endVec_perm_eq_trace">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:isGramSolution_iff_mulVec_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:isGramSolution_iff_mulVec" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.2.3</span><span class="theorem_thmtitle">Matrix Formulation of Gram System</span></div>
+    <div class="thm_thmcontent"><p> A vector \(c\) solves the Gram system if and only if \(G c = u\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:isGramSolution_iff_mulVec">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.isGramSolution_iff_mulVec">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:linearIndependent_endVec_permOp_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:linearIndependent_endVec_permOp" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.2.6</span><span class="theorem_thmtitle">Linear Independence of Vectorized Permutations</span></div>
+    <div class="thm_thmcontent"><p> For \(k \le d\), the vectorized permutation operators \(\text{endVec}(V_d(\sigma ))\) are linearly independent. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:linearIndependent_endVec_permOp">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.linearIndependent_endVec_permOp">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:linearIndependent_permOp_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:linearIndependent_permOp" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.2.7</span><span class="theorem_thmtitle">Linear Independence of Permutation Operators</span></div>
+    <div class="thm_thmcontent"><p> For \(k \le d\), the permutation operators \(V_d(\sigma )\) are linearly independent in \(\text{End}(V^{\otimes k})\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:linearIndependent_permOp">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.linearIndependent_permOp">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mem_centralizer_of_comm_unitary_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mem_centralizer_of_comm_unitary" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.3.7</span><span class="theorem_thmtitle">Unitary Commutant implies Centralizer</span></div>
+    <div class="thm_thmcontent"><p> An operator that commutes with all unitary diagonal actions commutes with all diagonal actions. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:mem_centralizer_of_comm_unitary">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.mem_centralizer_of_comm_unitary">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:momentOp_comm_unitary_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:momentOp_comm_unitary" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.3.5</span><span class="theorem_thmtitle">Unitary Commutativity of Moment Operator</span></div>
+    <div class="thm_thmcontent"><p> The moment operator commutes with \(W^{\otimes k}\) for any unitary matrix \(W \in U(d)\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:momentOp_comm_unitary">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.momentOp_comm_unitary">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:momentOp_mem_span_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:momentOp_mem_span" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.3.8</span><span class="theorem_thmtitle">Moment Operator lies in Permutation Span</span></div>
+    <div class="thm_thmcontent"><p> The Haar moment operator lies in the span of the permutation operators: </p>
+<div class="equation" id="a0000000035">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \mathbb {E}_{U}[U^{\otimes k} O (U^\dagger )^{\otimes k}] \in \text{Span}(\mathcal{P}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">7</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:momentOp_mem_span">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.momentOp_mem_span">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:momentOp_trace_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:momentOp_trace" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.3.4</span><span class="theorem_thmtitle">Trace Invariance of Moment Operator</span></div>
+    <div class="thm_thmcontent"><p> The moment operator preserves the traces: </p>
+<div class="equation" id="a0000000034">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Tr}(V_d^\dagger (\sigma ) \mathbb {E}[U^{\otimes k} O (U^\dagger )^{\otimes k}]) = \text{Tr}(V_d^\dagger (\sigma ) O) \end{equation}
+  </div>
+  <span class="equation_label">6</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:momentOp_trace">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.momentOp_trace">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:permAction_diagAction_comm_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:permAction_diagAction_comm" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.1.9</span><span class="theorem_thmtitle">Permutation-Diagonal Commutativity</span></div>
+    <div class="thm_thmcontent"><p> For any \(\sigma \in S_k\) and \(g \in \text{End}(V)\), the permutation action and diagonal action commute as endomorphisms: </p>
+<div class="equation" id="a0000000013">
+<p>
+  <div class="equation_content">
+    \begin{equation}  W_\sigma \circ g^{\otimes k} = g^{\otimes k} \circ W_\sigma \end{equation}
+  </div>
+  <span class="equation_label">9</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#thm:permAction_diagAction_comm">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permAction_diagAction_comm">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:permAlgHom_range_eq_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:permAlgHom_range_eq" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.3.4</span><span class="theorem_thmtitle">Range of Algebra Homomorphism</span></div>
+    <div class="thm_thmcontent"><p> The image of the group algebra homomorphism is the span of the permutation operators: </p>
+<div class="equation" id="a0000000021">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Im}(\tilde{\rho }) = \text{Span}(\mathcal{P}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">15</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#thm:permAlgHom_range_eq">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permAlgHom_range_eq">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:permDual_eq_conjTranspose_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:permDual_eq_conjTranspose" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.1.4</span><span class="theorem_thmtitle">Hermitian Adjoint Agreement</span></div>
+    <div class="thm_thmcontent"><p> In the computational basis of \(V^{\otimes k}\), the matrix representation of \(V_d^\dagger (\sigma )\) is the conjugate transpose of the matrix representation of \(V_d(\sigma )\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:permDual_eq_conjTranspose">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permDual_eq_conjTranspose">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:permImage_subset_centralizer_diagImage_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:permImage_subset_centralizer_diagImage" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.1.10</span><span class="theorem_thmtitle">Permutation Image Centralizes Diagonal Image</span></div>
+    <div class="thm_thmcontent"><p> The permutation image is contained in the centralizer of the diagonal image: </p>
+<div class="equation" id="a0000000014">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \mathcal{P}_{d,k} \subseteq \text{Comm}(\mathcal{D}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">10</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#thm:permImage_subset_centralizer_diagImage">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permImage_subset_centralizer_diagImage">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:permModule_toModuleEnd_surjective_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:permModule_toModuleEnd_surjective" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.3.6</span><span class="theorem_thmtitle">Jacobson Density for Permutation Representation</span></div>
+    <div class="thm_thmcontent"><p> The natural map from the group algebra \(\mathbb {C}[S_k]\) to the double endomorphism ring of the permutation module is surjective. </p>
+</div>
+
+    <a class="latex_link" href="sect0001.html#thm:permModule_toModuleEnd_surjective">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permModule_toModuleEnd_surjective">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:schur_weyl_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:schur_weyl" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.3.10</span><span class="theorem_thmtitle">Schur-Weyl Duality</span></div>
+    <div class="thm_thmcontent"><p> The centralizer of the diagonal image is exactly equal to the span of the permutation image: </p>
+<div class="equation" id="a0000000025">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Comm}(\mathcal{D}_{d,k}) = \text{Span}(\mathcal{P}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">19</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#thm:schur_weyl">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.schur_weyl">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:span_permImage_le_centralizer_diagImage_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:span_permImage_le_centralizer_diagImage" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">1.3.9</span><span class="theorem_thmtitle">Easy Direction of Schur-Weyl Duality</span></div>
+    <div class="thm_thmcontent"><p> The span of the permutation image is contained in the centralizer of the diagonal image: </p>
+<div class="equation" id="a0000000024">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Span}(\mathcal{P}_{d,k}) \subseteq \text{Comm}(\mathcal{D}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">18</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0001.html#thm:span_permImage_le_centralizer_diagImage">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.span_permImage_le_centralizer_diagImage">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:svd_exists_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:svd_exists" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.3.6</span><span class="theorem_thmtitle">SVD Existence</span></div>
+    <div class="thm_thmcontent"><p> Any complex matrix can be written as \(M = U_1 D U_2\) with \(U_1, U_2 \in U(d)\) and diagonal \(D\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:svd_exists">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.svd_exists">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:weingarten_linear_system_solvable_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:weingarten_linear_system_solvable" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.1.7</span><span class="theorem_thmtitle">Solvability of Weingarten Linear System</span></div>
+    <div class="thm_thmcontent"><p> For any operator \(O \in \text{End}(V^{\otimes k})\), the Weingarten system of \(k!\) equations: </p>
+<div class="equation" id="a0000000031">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Tr}(V_d^\dagger (\sigma ) O) = \sum _{\pi \in S_k} c_\pi \text{Tr}(V_d^\dagger (\sigma ) V_d(\pi )) \quad \text{for all } \sigma \in S_k \end{equation}
+  </div>
+  <span class="equation_label">3</span>
+</p>
+</div>
+<p> always has at least one solution \(c: S_k \to \mathbb {C}\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:weingarten_linear_system_solvable">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingarten_linear_system_solvable">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:weingarten_moment_decomposition_of_props_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:weingarten_moment_decomposition_of_props" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.1.11</span><span class="theorem_thmtitle">Moment Operator Decomposition from Trace and Span Properties</span></div>
+    <div class="thm_thmcontent"><p> If any operator \(M\) lies in \(\text{Span}(\mathcal{P}_{d,k})\) and has \(\text{Tr}(V_d^\dagger (\sigma ) M) = \text{Tr}(V_d^\dagger (\sigma ) O)\) for all \(\sigma \), then its coefficients solve the Weingarten system. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:weingarten_moment_decomposition_of_props">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingarten_moment_decomposition_of_props">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:weingarten_moment_haar_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:weingarten_moment_haar" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.3.9</span><span class="theorem_thmtitle">Weingarten Moments for Haar Integral</span></div>
+    <div class="thm_thmcontent"><p> The Haar moment operator is a linear combination of the permutation operators whose coefficients solve the Weingarten system. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:weingarten_moment_haar">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingarten_moment_haar">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:weingarten_moment_operator_spec_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:weingarten_moment_operator_spec" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.1.10</span><span class="theorem_thmtitle">Existence of Moment Representation Operator</span></div>
+    <div class="thm_thmcontent"><p> There exists a linear combination \(M = \sum _{\pi } c_\pi V_d(\pi )\) lying in \(\text{Span}(\mathcal{P}_{d,k})\) whose traces match \(O\): </p>
+<div class="equation" id="a0000000032">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Tr}(V_d^\dagger (\sigma ) M) = \text{Tr}(V_d^\dagger (\sigma ) O) \quad \text{for all } \sigma \in S_k \end{equation}
+  </div>
+  <span class="equation_label">4</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:weingarten_moment_operator_spec">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingarten_moment_operator_spec">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:weingarten_solution_eq_inv_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:weingarten_solution_eq_inv" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.2.15</span><span class="theorem_thmtitle">Inverse Solution Form</span></div>
+    <div class="thm_thmcontent"><p> For \(k \le d\), the unique coefficient vector is given by \(c = G^{-1} u\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:weingarten_solution_eq_inv">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingarten_solution_eq_inv">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:weingarten_solution_unique_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:weingarten_solution_unique" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.2.14</span><span class="theorem_thmtitle">Unique Weingarten Solution</span></div>
+    <div class="thm_thmcontent"><p> For \(k \le d\), the Weingarten system has a unique solution. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:weingarten_solution_unique">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingarten_solution_unique">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:weingartenGram_det_ne_zero_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:weingartenGram_det_ne_zero" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.2.13</span><span class="theorem_thmtitle">Invertibility of Weingarten Gram Matrix</span></div>
+    <div class="thm_thmcontent"><p> For \(k \le d\), the Weingarten Gram matrix is invertible. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:weingartenGram_det_ne_zero">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingartenGram_det_ne_zero">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:weingartenGram_eq_card_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:weingartenGram_eq_card" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.2.12</span><span class="theorem_thmtitle">Cycle Count Formula for Gram Entries</span></div>
+    <div class="thm_thmcontent"><p> The entry \(\text{Tr}(V_d^\dagger (\sigma ) V_d(\pi ))\) equals the number of index functions invariant under \(\sigma ^{-1}\pi \), which evaluates to \(d^{\#  \text{cycles}(\sigma ^{-1}\pi )}\). </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:weingartenGram_eq_card">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingartenGram_eq_card">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:weingartenGram_eq_gramMatrix_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:weingartenGram_eq_gramMatrix" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.2.10</span><span class="theorem_thmtitle">Weingarten Gram as Vectorized Gram</span></div>
+    <div class="thm_thmcontent"><p> The Weingarten Gram matrix is the Gram matrix of vectorized permutation operators. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:weingartenGram_eq_gramMatrix">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingartenGram_eq_gramMatrix">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:weingartenVec_eq_gramVec_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:weingartenVec_eq_gramVec" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">2.2.11</span><span class="theorem_thmtitle">Weingarten Target as Vectorized Target</span></div>
+    <div class="thm_thmcontent"><p> The Weingarten target vector is the Gram vector of vectorized permutation operators. </p>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:weingartenVec_eq_gramVec">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingartenVec_eq_gramVec">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+</div>
+</div> <!-- content -->
+</div> <!-- wrapper -->
+<script src="js/jquery.min.js" type="text/javascript"></script>
+
+<script src="js/d3.min.js"></script>
+<script src="js/hpcc.min.js"></script>
+<script src="js/d3-graphviz.js"></script>
+
+<script type="text/javascript">
+const graphContainer = d3.select("#graph");
+const width = graphContainer.node().clientWidth;
+const height = graphContainer.node().clientHeight;
+
+
+graphContainer.graphviz({useWorker: true})
+    .width(width)
+    .height(height)
+    .fit(true)
+    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"thm:permImage_subset_centralizer_diagImage"	[color=green,		label=permImage_subset_centralizer_diagImage,		shape=ellipse];	"thm:span_permImage_le_centralizer_diagImage"	[color=green,		label=span_permImage_le_centralizer_diagImage,		shape=ellipse];	"thm:permImage_subset_centralizer_diagImage" -> "thm:span_permImage_le_centralizer_diagImage"	[style=dashed];	"thm:schur_weyl"	[color=green,		label=schur_weyl,		shape=ellipse];	"thm:span_permImage_le_centralizer_diagImage" -> "thm:schur_weyl"	[style=dashed];	"thm:momentOp_mem_span"	[color=green,		label=momentOp_mem_span,		shape=ellipse];	"thm:schur_weyl" -> "thm:momentOp_mem_span"	[style=dashed];	"thm:weingarten_moment_haar"	[color=green,		label=weingarten_moment_haar,		shape=ellipse];	"thm:momentOp_mem_span" -> "thm:weingarten_moment_haar"	[style=dashed];	"thm:momentOp_comm_unitary"	[color=green,		label=momentOp_comm_unitary,		shape=ellipse];	"thm:momentOp_comm_unitary" -> "thm:momentOp_mem_span"	[style=dashed];	"thm:svd_exists"	[color=green,		label=svd_exists,		shape=ellipse];	"thm:mem_centralizer_of_comm_unitary"	[color=green,		label=mem_centralizer_of_comm_unitary,		shape=ellipse];	"thm:svd_exists" -> "thm:mem_centralizer_of_comm_unitary"	[style=dashed];	"thm:mem_centralizer_of_comm_unitary" -> "thm:momentOp_mem_span"	[style=dashed];	"thm:weingarten_moment_decomposition_of_props"	[color=green,		label=weingarten_moment_decomposition_of_props,		shape=ellipse];	"thm:weingarten_moment_decomposition_of_props" -> "thm:weingarten_moment_haar"	[style=dashed];	"thm:centralizer_permImage_le_span_diagImage"	[color=green,		label=centralizer_permImage_le_span_diagImage,		shape=ellipse];	"thm:centralizer_diagImage_le_span_permImage"	[color=green,		label=centralizer_diagImage_le_span_permImage,		shape=ellipse];	"thm:centralizer_permImage_le_span_diagImage" -> "thm:centralizer_diagImage_le_span_permImage"	[style=dashed];	"thm:centralizer_diagImage_le_span_permImage" -> "thm:schur_weyl"	[style=dashed];	"thm:isGramSolution_iff_mulVec"	[color=green,		label=isGramSolution_iff_mulVec,		shape=ellipse];	"thm:gram_solution_eq_inv"	[color=green,		label=gram_solution_eq_inv,		shape=ellipse];	"thm:isGramSolution_iff_mulVec" -> "thm:gram_solution_eq_inv"	[style=dashed];	"def:permDual"	[color=green,		fillcolor="#B0ECA3",		label=permDual,		shape=box,		style=filled];	"def:weingartenVec"	[color=green,		fillcolor="#B0ECA3",		label=weingartenVec,		shape=box,		style=filled];	"def:permDual" -> "def:weingartenVec"	[style=dashed];	"thm:permDual_eq_conjTranspose"	[color=green,		label=permDual_eq_conjTranspose,		shape=ellipse];	"def:permDual" -> "thm:permDual_eq_conjTranspose"	[style=dashed];	"thm:inner_endVec_perm_eq_trace"	[color=green,		label=inner_endVec_perm_eq_trace,		shape=ellipse];	"def:permDual" -> "thm:inner_endVec_perm_eq_trace"	[style=dashed];	"def:weingartenGram"	[color=green,		fillcolor="#B0ECA3",		label=weingartenGram,		shape=box,		style=filled];	"def:permDual" -> "def:weingartenGram"	[style=dashed];	"thm:momentOp_trace"	[color=green,		label=momentOp_trace,		shape=ellipse];	"def:permDual" -> "thm:momentOp_trace"	[style=dashed];	"lem:trace_permDual_comp_sum"	[color=green,		label=trace_permDual_comp_sum,		shape=ellipse];	"def:permDual" -> "lem:trace_permDual_comp_sum"	[style=dashed];	"thm:weingartenVec_eq_gramVec"	[color=green,		label=weingartenVec_eq_gramVec,		shape=ellipse];	"def:weingartenVec" -> "thm:weingartenVec_eq_gramVec"	[style=dashed];	"thm:inner_endVec_perm_eq_trace" -> "thm:weingartenVec_eq_gramVec"	[style=dashed];	"thm:weingartenGram_eq_gramMatrix"	[color=green,		label=weingartenGram_eq_gramMatrix,		shape=ellipse];	"thm:inner_endVec_perm_eq_trace" -> "thm:weingartenGram_eq_gramMatrix"	[style=dashed];	"thm:weingartenGram_eq_card"	[color=green,		label=weingartenGram_eq_card,		shape=ellipse];	"thm:inner_endVec_perm_eq_trace" -> "thm:weingartenGram_eq_card"	[style=dashed];	"thm:weingarten_linear_system_solvable"	[color=green,		label=weingarten_linear_system_solvable,		shape=ellipse];	"thm:inner_endVec_perm_eq_trace" -> "thm:weingarten_linear_system_solvable"	[style=dashed];	"def:weingartenGram" -> "thm:weingartenGram_eq_gramMatrix"	[style=dashed];	"thm:momentOp_trace" -> "thm:weingarten_moment_haar"	[style=dashed];	"lem:trace_permDual_comp_sum" -> "thm:weingarten_moment_decomposition_of_props"	[style=dashed];	"thm:weingarten_moment_operator_spec"	[color=green,		label=weingarten_moment_operator_spec,		shape=ellipse];	"lem:trace_permDual_comp_sum" -> "thm:weingarten_moment_operator_spec"	[style=dashed];	"thm:weingarten_solution_unique"	[color=green,		label=weingarten_solution_unique,		shape=ellipse];	"thm:weingartenVec_eq_gramVec" -> "thm:weingarten_solution_unique"	[style=dashed];	"thm:weingartenGram_eq_gramMatrix" -> "thm:weingarten_solution_unique"	[style=dashed];	"thm:weingartenGram_det_ne_zero"	[color=green,		label=weingartenGram_det_ne_zero,		shape=ellipse];	"thm:weingartenGram_eq_gramMatrix" -> "thm:weingartenGram_det_ne_zero"	[style=dashed];	"thm:weingarten_linear_system_solvable" -> "thm:weingarten_moment_operator_spec"	[style=dashed];	"thm:weingarten_solution_eq_inv"	[color=green,		label=weingarten_solution_eq_inv,		shape=ellipse];	"thm:weingarten_solution_unique" -> "thm:weingarten_solution_eq_inv"	[style=dashed];	"def:endVec"	[color=green,		fillcolor="#B0ECA3",		label=endVec,		shape=box,		style=filled];	"def:endVec" -> "thm:inner_endVec_perm_eq_trace"	[style=dashed];	"thm:linearIndependent_endVec_permOp"	[color=green,		label=linearIndependent_endVec_permOp,		shape=ellipse];	"def:endVec" -> "thm:linearIndependent_endVec_permOp"	[style=dashed];	"thm:linearIndependent_endVec_permOp" -> "thm:weingarten_solution_unique"	[style=dashed];	"thm:linearIndependent_endVec_permOp" -> "thm:weingartenGram_det_ne_zero"	[style=dashed];	"thm:linearIndependent_permOp"	[color=green,		label=linearIndependent_permOp,		shape=ellipse];	"thm:linearIndependent_endVec_permOp" -> "thm:linearIndependent_permOp"	[style=dashed];	"def:momentOp"	[color=green,		fillcolor="#B0ECA3",		label=momentOp,		shape=box,		style=filled];	"def:momentOp" -> "thm:momentOp_comm_unitary"	[style=dashed];	"def:momentOp" -> "thm:momentOp_trace"	[style=dashed];	"def:TensV"	[color=green,		fillcolor="#B0ECA3",		label=TensV,		shape=box,		style=filled];	"def:permAction"	[color=green,		fillcolor="#B0ECA3",		label=permAction,		shape=box,		style=filled];	"def:permAction" -> "def:permDual"	[style=dashed];	"lem:permAction_tprod"	[color=green,		label=permAction_tprod,		shape=ellipse];	"def:permAction" -> "lem:permAction_tprod"	[style=dashed];	"def:permImage"	[color=green,		fillcolor="#B0ECA3",		label=permImage,		shape=box,		style=filled];	"def:permAction" -> "def:permImage"	[style=dashed];	"def:permRep"	[color=green,		fillcolor="#B0ECA3",		label=permRep,		shape=box,		style=filled];	"def:permAction" -> "def:permRep"	[style=dashed];	"def:permOp"	[color=green,		fillcolor="#B0ECA3",		label=permOp,		shape=box,		style=filled];	"def:permAction" -> "def:permOp"	[style=dashed];	"lem:permAction_diagAction_tprod"	[color=green,		label=permAction_diagAction_tprod,		shape=ellipse];	"lem:permAction_tprod" -> "lem:permAction_diagAction_tprod"	[style=dashed];	"def:permImage" -> "thm:permImage_subset_centralizer_diagImage"	[style=dashed];	"def:permImage" -> "thm:weingarten_moment_decomposition_of_props"	[style=dashed];	"thm:permAlgHom_range_eq"	[color=green,		label=permAlgHom_range_eq,		shape=ellipse];	"def:permImage" -> "thm:permAlgHom_range_eq"	[style=dashed];	"thm:diagImage_subset_centralizer_permImage"	[color=green,		label=diagImage_subset_centralizer_permImage,		shape=ellipse];	"def:permImage" -> "thm:diagImage_subset_centralizer_permImage"	[style=dashed];	"lem:matrix_orbit_invariant"	[color=green,		label=matrix_orbit_invariant,		shape=ellipse];	"def:permImage" -> "lem:matrix_orbit_invariant"	[style=dashed];	"lem:sum_smul_permOp_mem_span"	[color=green,		label=sum_smul_permOp_mem_span,		shape=ellipse];	"def:permImage" -> "lem:sum_smul_permOp_mem_span"	[style=dashed];	"def:permAlgHom"	[color=green,		fillcolor="#B0ECA3",		label=permAlgHom,		shape=box,		style=filled];	"def:permRep" -> "def:permAlgHom"	[style=dashed];	"lem:permModule_isSemisimple"	[color=green,		label=permModule_isSemisimple,		shape=ellipse];	"def:permRep" -> "lem:permModule_isSemisimple"	[style=dashed];	"def:PermModule"	[color=green,		fillcolor="#B0ECA3",		label=PermModule,		shape=box,		style=filled];	"def:permRep" -> "def:PermModule"	[style=dashed];	"def:permOp" -> "thm:permDual_eq_conjTranspose"	[style=dashed];	"def:permOp" -> "thm:inner_endVec_perm_eq_trace"	[style=dashed];	"def:permOp" -> "def:weingartenGram"	[style=dashed];	"def:permOp" -> "lem:trace_permDual_comp_sum"	[style=dashed];	"def:permOp" -> "thm:linearIndependent_endVec_permOp"	[style=dashed];	"def:permOp" -> "lem:sum_smul_permOp_mem_span"	[style=dashed];	"thm:permAction_diagAction_comm"	[color=green,		label=permAction_diagAction_comm,		shape=ellipse];	"lem:permAction_diagAction_tprod" -> "thm:permAction_diagAction_comm"	[style=dashed];	"thm:double_centralizer_permImage"	[color=green,		label=double_centralizer_permImage,		shape=ellipse];	"thm:permAlgHom_range_eq" -> "thm:double_centralizer_permImage"	[style=dashed];	"lem:matrix_orbit_invariant" -> "thm:centralizer_permImage_le_span_diagImage"	[style=dashed];	"lem:sum_smul_permOp_mem_span" -> "thm:weingarten_moment_operator_spec"	[style=dashed];	"def:permAlgHom" -> "thm:permAlgHom_range_eq"	[style=dashed];	"thm:permModule_toModuleEnd_surjective"	[color=green,		label=permModule_toModuleEnd_surjective,		shape=ellipse];	"lem:permModule_isSemisimple" -> "thm:permModule_toModuleEnd_surjective"	[style=dashed];	"thm:double_centralizer_permImage" -> "thm:centralizer_diagImage_le_span_permImage"	[style=dashed];	"def:haarProb"	[color=green,		fillcolor="#B0ECA3",		label=haarProb,		shape=box,		style=filled];	"thm:permAction_diagAction_comm" -> "thm:permImage_subset_centralizer_diagImage"	[style=dashed];	"thm:permAction_diagAction_comm" -> "thm:diagImage_subset_centralizer_permImage"	[style=dashed];	"lem:diagAction_tprod"	[color=green,		label=diagAction_tprod,		shape=ellipse];	"lem:diagAction_tprod" -> "lem:permAction_diagAction_tprod"	[style=dashed];	"lem:pairCount_perm"	[color=green,		label=pairCount_perm,		shape=ellipse];	"lem:pairCount_perm" -> "thm:centralizer_permImage_le_span_diagImage"	[style=dashed];	"lem:prod_eq_monomial_eval"	[color=green,		label=prod_eq_monomial_eval,		shape=ellipse];	"lem:sum_group_by_pairCount"	[color=green,		label=sum_group_by_pairCount,		shape=ellipse];	"lem:prod_eq_monomial_eval" -> "lem:sum_group_by_pairCount"	[style=dashed];	"lem:sum_group_by_pairCount" -> "thm:centralizer_permImage_le_span_diagImage"	[style=dashed];	"thm:gramMatrix_det_ne_zero"	[color=green,		label=gramMatrix_det_ne_zero,		shape=ellipse];	"thm:gramMatrix_det_ne_zero" -> "thm:gram_solution_eq_inv"	[style=dashed];	"lem:monomial_coeff_zero_of_eval_zero"	[color=green,		label=monomial_coeff_zero_of_eval_zero,		shape=ellipse];	"lem:monomial_coeff_zero_of_eval_zero" -> "thm:centralizer_permImage_le_span_diagImage"	[style=dashed];	"thm:gram_system_solvable"	[color=green,		label=gram_system_solvable,		shape=ellipse];	"thm:gram_system_solvable" -> "thm:weingarten_linear_system_solvable"	[style=dashed];	"thm:permModule_toModuleEnd_surjective" -> "thm:double_centralizer_permImage"	[style=dashed];	"def:gramVec"	[color=green,		fillcolor="#B0ECA3",		label=gramVec,		shape=box,		style=filled];	"def:gramVec" -> "thm:isGramSolution_iff_mulVec"	[style=dashed];	"def:gramVec" -> "thm:weingartenVec_eq_gramVec"	[style=dashed];	"def:actOn"	[color=green,		fillcolor="#B0ECA3",		label=actOn,		shape=box,		style=filled];	"def:actOn" -> "def:momentOp"	[style=dashed];	"def:diagAction"	[color=green,		fillcolor="#B0ECA3",		label=diagAction,		shape=box,		style=filled];	"def:diagAction" -> "lem:diagAction_tprod"	[style=dashed];	"def:diagAction" -> "def:actOn"	[style=dashed];	"def:diagImage"	[color=green,		fillcolor="#B0ECA3",		label=diagImage,		shape=box,		style=filled];	"def:diagAction" -> "def:diagImage"	[style=dashed];	"def:diagImage" -> "thm:permImage_subset_centralizer_diagImage"	[style=dashed];	"def:diagImage" -> "thm:centralizer_permImage_le_span_diagImage"	[style=dashed];	"def:diagImage" -> "thm:diagImage_subset_centralizer_permImage"	[style=dashed];	"def:pairCount"	[color=green,		fillcolor="#B0ECA3",		label=pairCount,		shape=box,		style=filled];	"def:pairCount" -> "lem:pairCount_perm"	[style=dashed];	"def:pairCount" -> "lem:prod_eq_monomial_eval"	[style=dashed];	"lem:sum_vanishes_of_coeff_and_const"	[color=green,		label=sum_vanishes_of_coeff_and_const,		shape=ellipse];	"def:pairCount" -> "lem:sum_vanishes_of_coeff_and_const"	[style=dashed];	"lem:sum_vanishes_of_coeff_and_const" -> "thm:centralizer_permImage_le_span_diagImage"	[style=dashed];	"def:gramMatrix"	[color=green,		fillcolor="#B0ECA3",		label=gramMatrix,		shape=box,		style=filled];	"def:gramMatrix" -> "thm:isGramSolution_iff_mulVec"	[style=dashed];	"def:gramMatrix" -> "thm:weingartenGram_eq_gramMatrix"	[style=dashed];	"def:gramMatrix" -> "thm:gramMatrix_det_ne_zero"	[style=dashed];}`)
+    .on("end", interactive);
+
+latexLabelEscaper = function(label) {
+  return label.replace(/\./g, '\\.').replace(/:/g, '\\:')
+}
+
+clickNode = function() {
+  $("#statements div").hide()
+  var node_id = $('text', this).text();
+  $('.thm').hide();
+  $('#'+latexLabelEscaper(node_id)).show().children().show();
+}
+function interactive() {
+    $("span#legend_title").on("click", function () {
+           $(this).siblings('dl').toggle();
+        })
+
+    d3.selectAll('.node')
+        .attr('pointer-events', 'fill')
+        .on('click', function () {
+           var title = d3.select(this).selectAll('title').text().trim();
+           $('#statements > div').hide()
+           $('.thm').hide();
+           $('#'+latexLabelEscaper(title)+'_modal').show().children().show().children().show();
+           $('#statements').show()
+        });
+
+    d3.selectAll('.dep-closebtn').on('click', function() {
+        var modal =
+            d3.select(this).node().parentNode.parentNode.parentNode ;
+        d3.select(modal).style('display', 'none');
+    });
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+% This file makes a web version of the blueprint
+% It should include all the \usepackage needed for this version.
+% The template includes standard AMS packages.
+% It is otherwise a very minimal preamble (you should probably at least
+% add cleveref and tikz-cd).
+
+\documentclass{report}
+
+\usepackage{amssymb, amsthm, amsmath, mathtools, amsfonts}
+\usepackage{hyperref}
+\usepackage[showmore, dep_graph]{blueprint}
+
+\usepackage{geometry}
+
+\input{macros/common}
+\input{macros/web}
+
+% MathJax fallback for \varovee since it does not support stmaryrd natively
+\newcommand{\varovee}{\mathbin{\bigcirc\mkern-15mu\vee}}
+
+\home{https://teng10.github.io/lean-haar}
+\github{https://github.com/teng10/lean-haar}
+\dochome{https://teng10.github.io/lean-haar/docs}
+
+\title{Formalization of Weingarten Calculus}
+\author{Melody Lee \and Yanting Teng}
+
+\begin{document}
+\maketitle
+\input{content}
+\end{document}

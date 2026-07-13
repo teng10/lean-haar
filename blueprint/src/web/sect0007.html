@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Formalization of Weingarten Calculus: Pauli twirling</title>
+<link rel="next" href="sect0008.html" title="Explicit Calculation of single qubit first moment" />
+<link rel="prev" href="sect0006.html" title="Group Averaging and Pauli Twirling" />
+<link rel="up" href="sect0005.html" title="Examples" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of Weingarten Calculus</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Schur Weyl Duality</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Operator Space</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Symmetric subspaces</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Permutation Invariance and Properties of Unitarily Invariant Measures</span></a>
+ </li>
+<li class=" active">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Examples</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-2 active">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.4.1</span> <span class="toc_entry">Group Averaging and Pauli Twirling</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0007.html"><span class="toc_ref">1.4.2</span> <span class="toc_entry">Pauli twirling</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">1.4.3</span> <span class="toc_entry">Explicit Calculation of single qubit first moment</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">1.4.4</span> <span class="toc_entry">Commutant of the First Order Unitary Group</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h2 id="a0000000008">1.4.2 Pauli twirling</h2>
+<p> The end goal of this section is to prove the Irrep Group Averaging Corollary </p>
+<div class="equation" id="a0000000045">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \langle X \rangle _{G} = \frac{1}{d} \text{Tr}[X] I, \end{equation}
+  </div>
+  <span class="equation_label">48</span>
+</p>
+</div>
+<p> where \(n_a = d\) is the dimension of the vector space of the representation. To illustrate this, we first consider the group average of the single-qubit Pauli group on some arbitrary initial state \(\rho \). </p>
+<div class="remark_thmwrapper theorem-style-remark" id="rm:PauliGroup">
+  <div class="remark_thmheading">
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">1.4.3</span>
+    <span class="remark_thmtitle">Pauli groups</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> We denote the single-qubit Pauli group as </p>
+<div class="equation" id="a0000000046">
+<p>
+  <div class="equation_content">
+    \begin{equation}  G = \{ \pm (i) \sigma _{x}, \pm (i) \sigma _y, \pm (i) \sigma _z, \pm (i) I\} , \end{equation}
+  </div>
+  <span class="equation_label">49</span>
+</p>
+</div>
+<p> where the Pauli matrices are given by </p>
+<div class="equation" id="a0000000047">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \sigma _0 = I = \begin{bmatrix}  1 
+
+&  0 
+
+\\ 0 
+
+&  1 
+
+\end{bmatrix}, \sigma _{x} = X = \begin{bmatrix}  0 
+
+&  1 
+
+\\ 1 
+
+&  0 
+
+\end{bmatrix}, \sigma _y = Y = \begin{bmatrix}  0 
+
+&  -i 
+
+\\ i 
+
+&  0 
+
+\end{bmatrix}, \sigma _z = Z = \begin{bmatrix}  1 
+
+&  0 
+
+\\ 0 
+
+&  -1 
+
+\end{bmatrix}. \end{equation}
+  </div>
+  <span class="equation_label">50</span>
+</p>
+</div>
+
+  </div>
+</div>
+<p>We note the following useful expressions. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="rm:BlochVector">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.4.4</span>
+    <span class="definition_thmtitle">Bloch vectors</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Twirling.Physlib.blochStateFor any single-qubit quantum state \(\rho \), we can write it in terms of its Bloch vector, </p>
+<div class="equation" id="a0000000048">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \rho = \frac{1}{2} (I + r \cdot \sigma ), \end{equation}
+  </div>
+  <span class="equation_label">51</span>
+</p>
+</div>
+<p> where \(r = (r_x, r_y, r_z) \in \mathbb {R}^3\) is the coordinate of the quantum state on the Bloch sphere and \(\sigma = (\sigma _x, \sigma _y, \sigma _z)\) is a three-tuple of the Pauli operators. </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="rm:SigmaCubed">
+  <div class="remark_thmheading">
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">1.4.5</span>
+    <span class="remark_thmtitle">Pauli group identities</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> For all non-identity \(\sigma _{i}, \sigma _{j}\) in the Pauli group where \(i \neq j\), the following three statements are true. </p>
+<ol class="enumerate">
+  <li><p>\(\sigma _{i}\sigma _{j} \sigma _{i} = - \sigma _j\), </p>
+</li>
+  <li><p>\( \sigma _{j}^3 = \sigma _{j}\), and </p>
+</li>
+  <li><p>\(\sigma _i^2 = \sigma _i\), since \(\sigma _i\) is represented by a self-adjoint matrix. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<p>We want to show the following simpler equivalence using matrix computations. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:TwirlSingleQubit">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.4.6</span>
+    <span class="theorem_thmtitle">Pauli twirling of a single qubit</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Twirling.Physlib.twirl_single_qubitrm:BlochVector For an arbitrary single-qubit state \(\rho \), </p>
+<div class="equation" id="a0000000049">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \langle \rho \rangle _{G} = \frac{1}{N} \sum _{g} R(g) X R(g)^{\dagger } = \frac{I}{2}, \end{equation}
+  </div>
+  <span class="equation_label">52</span>
+</p>
+</div>
+<p> the maximally mixed state (since it is proportional to the identity matrix). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000050">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p>Note that \(G\) has order \(N = 4\). For any Pauli operator \(\pm (i) X \in G\), \(X\) is self-adjoint. Thus, we have that </p>
+<div class="equation" id="eq:SimplifiedSigmaRhoSigma*">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \pm (i) X \rho (\pm (i) X)^{\dagger } = (\pm i) (\mp i) X \rho X = X \rho X. \label{eq:SimplifiedSigmaRhoSigma*} \end{equation}
+  </div>
+  <span class="equation_label">53</span>
+</p>
+</div>
+<p> By Def.&#160;<a href="sect0006.html#def:GroupAverage">1.4.1</a> and Eq.&#160;<a href="sect0007.html#eq:SimplifiedSigmaRhoSigma*">53</a>, </p>
+<div class="equation" id="a0000000051">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \langle \rho \rangle _{G} = \frac{1}{4} \left( \sigma _{x} \rho \sigma _{x} + \sigma _{y} \rho \sigma _{y} + \sigma _{z} \rho \sigma _{z} + I \rho I \right). \end{equation}
+  </div>
+  <span class="equation_label">54</span>
+</p>
+</div>
+<p> By Remark&#160;<a href="sect0007.html#rm:BlochVector">1.4.4</a> and Remark&#160;<a href="sect0007.html#rm:SigmaCubed">1.4.5</a>, we can rewrite \(\rho \) such that </p>
+<div class="equation" id="a0000000052">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \begin{split}  \langle \rho \rangle _{G} = \frac{1}{4} \left( \sigma _{x} (\frac{1}{2} (I + r \cdot \sigma ) \sigma _{x} + \sigma _{y} (\frac{1}{2} (I + r \cdot \sigma )) \sigma _{y} + \sigma _{z} (\frac{1}{2} (I + r \cdot \sigma )) \sigma _{z} + I (\frac{1}{2} (I + r \cdot \sigma )) I \right)\\ = \frac{1}{4} \left( \frac{1}{2} \left[ \sigma _x I \sigma _x + r_x \sigma _x^3 + r_y \sigma _x \sigma _y \sigma _x + r_z \sigma _x \sigma _z \sigma _x \right] + \frac{1}{2} \left[ \sigma _y I \sigma _y + r_x \sigma _y \sigma _x \sigma _y + r_y \sigma _y^3 + r_z \sigma _y \sigma _z \sigma _y \right] \right.\\ + \frac{1}{2} \left[ \sigma _z I \sigma _z + r_x \sigma _z \sigma _x \sigma _z + r_y \sigma _z \sigma _y \sigma _z + r_z \sigma _z^3 \right] + \frac{1}{2} \left[ I^3 + r_x I \sigma _x I + r_y I \sigma _y I + r_z I \sigma _z I \right] \left. \right)\\ = \frac{1}{8} \left( \right. [I + r_x \sigma _x - r_y \sigma _y - r_z \sigma _z] + [I - r_x \sigma _x + r_y \sigma _y - r_z \sigma _z]\\ + [I - r_x \sigma _x - r_y \sigma _y + r_z \sigma _z] + [I + r_x \sigma _x + r_y \sigma _y + r_z \sigma _z ]\left. \right)\\ = \frac{1}{8}\left( 4I\right) = \frac{I}{2}. \end{split} \end{equation}
+  </div>
+  <span class="equation_label">55</span>
+</p>
+</div>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <a href="sect0006.html" title="Group Averaging and Pauli Twirling"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0005.html" title="Examples"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0008.html" title="Explicit Calculation of single qubit first moment"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+</body>
+</html>

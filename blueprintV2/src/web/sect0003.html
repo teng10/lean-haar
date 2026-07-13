@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Formalization of Weingarten Calculus: First Fundamental Theorem of Invariant Theory</title>
+<link rel="next" href="sect0004.html" title="Double Commutant Theorem and Schur-Weyl Duality" />
+<link rel="prev" href="sect0002.html" title="Definitions and Commutants" />
+<link rel="up" href="sect0001.html" title="Schur-Weyl Duality" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of Weingarten Calculus</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Schur-Weyl Duality</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Definitions and Commutants</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">First Fundamental Theorem of Invariant Theory</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Double Commutant Theorem and Schur-Weyl Duality</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">2</span> <span class="toc_entry">Weingarten Calculus</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Solvability of the Weingarten System</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Uniqueness and the Gram Matrix for \(k \le d\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">2.3</span> <span class="toc_entry">The Haar Moment Operator</span></a>
+ </li>
+
+  </ul>
+ </li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000004">1.2 First Fundamental Theorem of Invariant Theory</h1>
+<p>To prove the hard direction of Schur-Weyl duality, we first prove that the centralizer of the permutation image is contained in the span of the diagonal image. This is a form of the First Fundamental Theorem (FFT) of invariant theory. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:monomial_coeff_zero_of_eval_zero">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.1</span>
+    <span class="lemma_thmtitle">Monomial Coefficient Independence</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> monomial_coeff_zero_of_eval_zeroIf a linear combination of distinct monomials in \(d^2\) variables over \(\mathbb {C}\) evaluates to zero at all points, then all coefficients are zero. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:pairCount">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.2.2</span>
+    <span class="definition_thmtitle">Pair Count Coincidence</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.pairCountFor two index functions \(I, J: [k] \to [d]\), the coincidence count \(\text{pairCount}(I, J)\) is a function counting how many indices \(m\) have \((I(m), J(m)) = (a, b)\) for each \((a, b) \in [d] \times [d]\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:prod_eq_monomial_eval">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.3</span>
+    <span class="lemma_thmtitle">Product Monomial Representation</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.prod_eq_monomial_evaldef:pairCountThe product of matrix elements can be written as a monomial evaluation of the pair count: </p>
+<div class="equation" id="a0000000021">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \prod _{m=1}^k g_{I(m), J(m)} = \prod _{(a,b)} g_{a,b}^{\text{pairCount}(I,J)(a,b)} \end{equation}
+  </div>
+  <span class="equation_label">12</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:matrix_orbit_invariant">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.4</span>
+    <span class="lemma_thmtitle">Matrix Orbit Invariance</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.matrix_orbit_invariantdef:permImageIf an operator \(X \in \text{End}(V^{\otimes k})\) commutes with all permutation operators \(W_\sigma \), then its matrix entries in the computational basis satisfy \(X_{I \circ \sigma , J \circ \sigma } = X_{I, J}\) for all \(\sigma \in S_k\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:pairCount_perm">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.5</span>
+    <span class="lemma_thmtitle">Pair Count Permutation Invariance</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.pairCount_permdef:pairCountPermuting the indices by \(\sigma \) preserves the pair count: </p>
+<div class="equation" id="a0000000022">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{pairCount}(I \circ \sigma , J \circ \sigma ) = \text{pairCount}(I, J) \end{equation}
+  </div>
+  <span class="equation_label">13</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:sum_group_by_pairCount">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.6</span>
+    <span class="lemma_thmtitle">Sum Grouped by Pair Count</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.sum_group_by_pairCountlem:prod_eq_monomial_eval, def:pairCountA double sum over indices can be grouped by the coincidence type (pair count). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:sum_vanishes_of_coeff_and_const">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.7</span>
+    <span class="lemma_thmtitle">Linear Functional Vanishing</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.sum_vanishes_of_coeff_and_constdef:pairCountIf a matrix is constant on coincidence types, and the coincidence-type sums of coefficients vanish, then the total inner product sum vanishes. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:centralizer_permImage_le_span_diagImage">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.2.8</span>
+    <span class="theorem_thmtitle">First Fundamental Theorem</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.centralizer_permImage_le_span_diagImagelem:monomial_coeff_zero_of_eval_zero, lem:matrix_orbit_invariant, lem:pairCount_perm, lem:sum_group_by_pairCount, lem:sum_vanishes_of_coeff_and_const, def:permImage, def:diagImageThe centralizer of the permutation action is contained in the span of the diagonal image: </p>
+<div class="equation" id="a0000000023">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Comm}(\mathcal{P}_{d,k}) \subseteq \text{Span}(\mathcal{D}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">14</span>
+</p>
+</div>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <a href="sect0002.html" title="Definitions and Commutants"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0001.html" title="Schur-Weyl Duality"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0004.html" title="Double Commutant Theorem and Schur-Weyl Duality"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+</body>
+</html>

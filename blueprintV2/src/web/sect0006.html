@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Formalization of Weingarten Calculus: Solvability of the Weingarten System</title>
+<link rel="next" href="sect0007.html" title="Uniqueness and the Gram Matrix for k ≤d" />
+<link rel="prev" href="sect0005.html" title="Weingarten Calculus" />
+<link rel="up" href="sect0005.html" title="Weingarten Calculus" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of Weingarten Calculus</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Schur-Weyl Duality</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Definitions and Commutants</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">First Fundamental Theorem of Invariant Theory</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Double Commutant Theorem and Schur-Weyl Duality</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="sect0005.html"><span class="toc_ref">2</span> <span class="toc_entry">Weingarten Calculus</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class=" active current">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Solvability of the Weingarten System</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Uniqueness and the Gram Matrix for \(k \le d\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">2.3</span> <span class="toc_entry">The Haar Moment Operator</span></a>
+ </li>
+
+  </ul>
+ </li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000007">2.1 Solvability of the Weingarten System</h1>
+<p>We study the moment computations of operators under the Haar measure, which reduces to solving a system of linear equations. We first analyze this system in an abstract Hilbert-space setting. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:gram_system_solvable">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.1.1</span>
+    <span class="theorem_thmtitle">Abstract Gram-System Solvability</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.gram_system_solvableLet \(H\) be a finite-dimensional complex Hilbert space, \(v_1, \dots , v_n \in H\), and \(w \in H\). The linear system: </p>
+<div class="equation" id="a0000000029">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \langle v_j, w \rangle = \sum _{i=1}^n c_i \langle v_j, v_i \rangle \quad \text{for all } j \end{equation}
+  </div>
+  <span class="equation_label">1</span>
+</p>
+</div>
+<p> always has at least one solution \(c \in \mathbb {C}^n\), which is given by the coefficients of the orthogonal projection of \(w\) onto \(\text{Span}(v_1, \dots , v_n)\). </p>
+
+  </div>
+</div>
+<p>To apply this to operators on \(V^{\otimes k}\), we define permutation operators and their adjoints. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:permOp">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.1.2</span>
+    <span class="definition_thmtitle">Permutation Operators</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.permOpdef:permActionThe permutation operator \(V_d(\sigma ) \in \text{End}(V^{\otimes k})\) is the linear map corresponding to \(\sigma \in S_k\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:permDual">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.1.3</span>
+    <span class="definition_thmtitle">Adjoint Permutation Operators</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.permDualdef:permActionThe dual permutation operator \(V_d^\dagger (\sigma )\) is defined as the permutation operator of \(\sigma ^{-1}\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:permDual_eq_conjTranspose">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.1.4</span>
+    <span class="theorem_thmtitle">Hermitian Adjoint Agreement</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.permDual_eq_conjTransposedef:permOp, def:permDualIn the computational basis of \(V^{\otimes k}\), the matrix representation of \(V_d^\dagger (\sigma )\) is the conjugate transpose of the matrix representation of \(V_d(\sigma )\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:endVec">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.1.5</span>
+    <span class="definition_thmtitle">Matrix Vectorization</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.endVecThe vectorization \(\text{endVec}(O)\) of an operator \(O \in \text{End}(V^{\otimes k})\) is the vector of its matrix entries in the computational basis, viewed as an element of the Euclidean space. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:inner_endVec_perm_eq_trace">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.1.6</span>
+    <span class="theorem_thmtitle">The Trace Bridge</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.inner_endVec_perm_eq_tracedef:permOp, def:permDual, def:endVecThe Euclidean inner product of the vectorizations of \(V_d(\sigma )\) and \(O\) equals the trace of their product: </p>
+<div class="equation" id="a0000000030">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \langle \text{endVec}(V_d(\sigma )), \text{endVec}(O) \rangle = \text{Tr}(V_d^\dagger (\sigma ) O) \end{equation}
+  </div>
+  <span class="equation_label">2</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:weingarten_linear_system_solvable">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.1.7</span>
+    <span class="theorem_thmtitle">Solvability of Weingarten Linear System</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.weingarten_linear_system_solvablethm:gram_system_solvable, thm:inner_endVec_perm_eq_traceFor any operator \(O \in \text{End}(V^{\otimes k})\), the Weingarten system of \(k!\) equations: </p>
+<div class="equation" id="a0000000031">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Tr}(V_d^\dagger (\sigma ) O) = \sum _{\pi \in S_k} c_\pi \text{Tr}(V_d^\dagger (\sigma ) V_d(\pi )) \quad \text{for all } \sigma \in S_k \end{equation}
+  </div>
+  <span class="equation_label">3</span>
+</p>
+</div>
+<p> always has at least one solution \(c: S_k \to \mathbb {C}\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:trace_permDual_comp_sum">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">2.1.8</span>
+    <span class="lemma_thmtitle">Adjoint Trace Linearity</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.trace_permDual_comp_sumdef:permDual, def:permOpThe trace against \(V_d^\dagger (\sigma )\) is linear in combinations of permutation operators. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:sum_smul_permOp_mem_span">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">2.1.9</span>
+    <span class="lemma_thmtitle">Operator Span Inclusion</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.sum_smul_permOp_mem_spandef:permOp, def:permImageA linear combination of permutation operators lies in their span. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:weingarten_moment_operator_spec">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.1.10</span>
+    <span class="theorem_thmtitle">Existence of Moment Representation Operator</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.weingarten_moment_operator_specthm:weingarten_linear_system_solvable, lem:sum_smul_permOp_mem_span, lem:trace_permDual_comp_sumThere exists a linear combination \(M = \sum _{\pi } c_\pi V_d(\pi )\) lying in \(\text{Span}(\mathcal{P}_{d,k})\) whose traces match \(O\): </p>
+<div class="equation" id="a0000000032">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Tr}(V_d^\dagger (\sigma ) M) = \text{Tr}(V_d^\dagger (\sigma ) O) \quad \text{for all } \sigma \in S_k \end{equation}
+  </div>
+  <span class="equation_label">4</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:weingarten_moment_decomposition_of_props">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.1.11</span>
+    <span class="theorem_thmtitle">Moment Operator Decomposition from Trace and Span Properties</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.weingarten_moment_decomposition_of_propslem:trace_permDual_comp_sum, def:permImage, def:permOpIf any operator \(M\) lies in \(\text{Span}(\mathcal{P}_{d,k})\) and has \(\text{Tr}(V_d^\dagger (\sigma ) M) = \text{Tr}(V_d^\dagger (\sigma ) O)\) for all \(\sigma \), then its coefficients solve the Weingarten system. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <a href="sect0005.html" title="Weingarten Calculus"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0005.html" title="Weingarten Calculus"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0007.html" title="Uniqueness and the Gram Matrix for \(k \le d\)"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+</body>
+</html>

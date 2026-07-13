@@ -1,0 +1,217 @@
+\section{Definitions and Commutants}
+
+Let $V = \mathbb{C}^d$ denote the $d$-dimensional complex Euclidean space (modeled as \texttt{Fin d $\to$ $\mathbb{C}$}). We study the $k$-fold tensor power of $V$ and the actions of the symmetric group $S_k$ and the endomorphism algebra $\text{End}(V)$ on it.
+
+\begin{definition}[Tensor Power Space]\label{def:TensV}
+  \lean{SchurWeyl.TensV}\leanok
+  The $k$-fold tensor power of $V$ is defined as:
+  \begin{equation}
+    V^{\otimes k} = \bigotimes_{i=1}^k V
+  \end{equation}
+\end{definition}
+
+\begin{definition}[Permutation Action]\label{def:permAction}
+  \lean{SchurWeyl.permAction}\leanok
+  Given a permutation $\sigma \in S_k$, the permutation operator $W_\sigma$ on $V^{\otimes k}$ acts by permuting the tensor factors:
+  \begin{equation}
+    W_\sigma(v_1 \otimes \dots \otimes v_k) = v_{\sigma^{-1}(1)} \otimes \dots \otimes v_{\sigma^{-1}(k)}
+  \end{equation}
+\end{definition}
+
+\begin{definition}[Diagonal Action]\label{def:diagAction}
+  \lean{SchurWeyl.diagAction}\leanok
+  Given an operator $g \in \text{End}(V)$, the diagonal action $g^{\otimes k}$ on $V^{\otimes k}$ acts as $g$ on each tensor factor:
+  \begin{equation}
+    g^{\otimes k}(v_1 \otimes \dots \otimes v_k) = g(v_1) \otimes \dots \otimes g(v_k)
+  \end{equation}
+\end{definition}
+
+\begin{definition}[Permutation Image]\label{def:permImage}
+  \lean{SchurWeyl.permImage}\uses{def:permAction}\leanok
+  The permutation image $\mathcal{P}_{d,k} \subseteq \text{End}(V^{\otimes k})$ is the set of all permutation operators:
+  \begin{equation}
+    \mathcal{P}_{d,k} = \{ W_\sigma \mid \sigma \in S_k \}
+  \end{equation}
+\end{definition}
+
+\begin{definition}[Diagonal Image]\label{def:diagImage}
+  \lean{SchurWeyl.diagImage}\uses{def:diagAction}\leanok
+  The diagonal image $\mathcal{D}_{d,k} \subseteq \text{End}(V^{\otimes k})$ is the set of all diagonal action operators:
+  \begin{equation}
+    \mathcal{D}_{d,k} = \{ g^{\otimes k} \mid g \in \text{End}(V) \}
+  \end{equation}
+\end{definition}
+
+\begin{lemma}[Permutation Action on Simple Tensors]\label{lem:permAction_tprod}
+  \lean{SchurWeyl.permAction_tprod}\uses{def:permAction}\leanok
+  For any simple tensor $\bigotimes_{i} v_i$, we have:
+  \begin{equation}
+    W_\sigma(\bigotimes_{i} v_i) = \bigotimes_{i} v_{\sigma^{-1}(i)}
+  \end{equation}
+\end{lemma}
+
+\begin{lemma}[Diagonal Action on Simple Tensors]\label{lem:diagAction_tprod}
+  \lean{SchurWeyl.diagAction_tprod}\uses{def:diagAction}\leanok
+  For any simple tensor $\bigotimes_{i} v_i$, we have:
+  \begin{equation}
+    g^{\otimes k}(\bigotimes_{i} v_i) = \bigotimes_{i} g(v_i)
+  \end{equation}
+\end{lemma}
+
+\begin{lemma}[Action Commutativity on Simple Tensors]\label{lem:permAction_diagAction_tprod}
+  \lean{SchurWeyl.permAction_diagAction_tprod}\uses{lem:permAction_tprod, lem:diagAction_tprod}\leanok
+  For any permutation $\sigma \in S_k$, operator $g \in \text{End}(V)$, and vector family $v$:
+  \begin{equation}
+    W_\sigma(g^{\otimes k}(v_1 \otimes \dots \otimes v_k)) = g^{\otimes k}(W_\sigma(v_1 \otimes \dots \otimes v_k))
+  \end{equation}
+\end{lemma}
+
+\begin{theorem}[Permutation-Diagonal Commutativity]\label{thm:permAction_diagAction_comm}
+  \lean{SchurWeyl.permAction_diagAction_comm}\uses{lem:permAction_diagAction_tprod}\leanok
+  For any $\sigma \in S_k$ and $g \in \text{End}(V)$, the permutation action and diagonal action commute as endomorphisms:
+  \begin{equation}
+    W_\sigma \circ g^{\otimes k} = g^{\otimes k} \circ W_\sigma
+  \end{equation}
+\end{theorem}
+
+\begin{theorem}[Permutation Image Centralizes Diagonal Image]\label{thm:permImage_subset_centralizer_diagImage}
+  \lean{SchurWeyl.permImage_subset_centralizer_diagImage}\uses{thm:permAction_diagAction_comm, def:permImage, def:diagImage}\leanok
+  The permutation image is contained in the centralizer of the diagonal image:
+  \begin{equation}
+    \mathcal{P}_{d,k} \subseteq \text{Comm}(\mathcal{D}_{d,k})
+  \end{equation}
+\end{theorem}
+
+\begin{theorem}[Diagonal Image Centralizes Permutation Image]\label{thm:diagImage_subset_centralizer_permImage}
+  \lean{SchurWeyl.diagImage_subset_centralizer_permImage}\uses{thm:permAction_diagAction_comm, def:permImage, def:diagImage}\leanok
+  The diagonal image is contained in the centralizer of the permutation image:
+  \begin{equation}
+    \mathcal{D}_{d,k} \subseteq \text{Comm}(\mathcal{P}_{d,k})
+  \end{equation}
+\end{theorem}
+
+
+\section{First Fundamental Theorem of Invariant Theory}
+
+To prove the hard direction of Schur-Weyl duality, we first prove that the centralizer of the permutation image is contained in the span of the diagonal image. This is a form of the First Fundamental Theorem (FFT) of invariant theory.
+
+\begin{lemma}[Monomial Coefficient Independence]\label{lem:monomial_coeff_zero_of_eval_zero}
+  \lean{monomial_coeff_zero_of_eval_zero}\leanok
+  If a linear combination of distinct monomials in $d^2$ variables over $\mathbb{C}$ evaluates to zero at all points, then all coefficients are zero.
+\end{lemma}
+
+\begin{definition}[Pair Count Coincidence]\label{def:pairCount}
+  \lean{SchurWeyl.pairCount}\leanok
+  For two index functions $I, J: [k] \to [d]$, the coincidence count $\text{pairCount}(I, J)$ is a function counting how many indices $m$ have $(I(m), J(m)) = (a, b)$ for each $(a, b) \in [d] \times [d]$.
+\end{definition}
+
+\begin{lemma}[Product Monomial Representation]\label{lem:prod_eq_monomial_eval}
+  \lean{SchurWeyl.prod_eq_monomial_eval}\uses{def:pairCount}\leanok
+  The product of matrix elements can be written as a monomial evaluation of the pair count:
+  \begin{equation}
+    \prod_{m=1}^k g_{I(m), J(m)} = \prod_{(a,b)} g_{a,b}^{\text{pairCount}(I,J)(a,b)}
+  \end{equation}
+\end{lemma}
+
+\begin{lemma}[Matrix Orbit Invariance]\label{lem:matrix_orbit_invariant}
+  \lean{SchurWeyl.matrix_orbit_invariant}\uses{def:permImage}\leanok
+  If an operator $X \in \text{End}(V^{\otimes k})$ commutes with all permutation operators $W_\sigma$, then its matrix entries in the computational basis satisfy $X_{I \circ \sigma, J \circ \sigma} = X_{I, J}$ for all $\sigma \in S_k$.
+\end{lemma}
+
+\begin{lemma}[Pair Count Permutation Invariance]\label{lem:pairCount_perm}
+  \lean{SchurWeyl.pairCount_perm}\uses{def:pairCount}\leanok
+  Permuting the indices by $\sigma$ preserves the pair count:
+  \begin{equation}
+    \text{pairCount}(I \circ \sigma, J \circ \sigma) = \text{pairCount}(I, J)
+  \end{equation}
+\end{lemma}
+
+\begin{lemma}[Sum Grouped by Pair Count]\label{lem:sum_group_by_pairCount}
+  \lean{SchurWeyl.sum_group_by_pairCount}\uses{lem:prod_eq_monomial_eval, def:pairCount}\leanok
+  A double sum over indices can be grouped by the coincidence type (pair count).
+\end{lemma}
+
+\begin{lemma}[Linear Functional Vanishing]\label{lem:sum_vanishes_of_coeff_and_const}
+  \lean{SchurWeyl.sum_vanishes_of_coeff_and_const}\uses{def:pairCount}\leanok
+  If a matrix is constant on coincidence types, and the coincidence-type sums of coefficients vanish, then the total inner product sum vanishes.
+\end{lemma}
+
+\begin{theorem}[First Fundamental Theorem]\label{thm:centralizer_permImage_le_span_diagImage}
+  \lean{SchurWeyl.centralizer_permImage_le_span_diagImage}\uses{lem:monomial_coeff_zero_of_eval_zero, lem:matrix_orbit_invariant, lem:pairCount_perm, lem:sum_group_by_pairCount, lem:sum_vanishes_of_coeff_and_const, def:permImage, def:diagImage}\leanok
+  The centralizer of the permutation action is contained in the span of the diagonal image:
+  \begin{equation}
+    \text{Comm}(\mathcal{P}_{d,k}) \subseteq \text{Span}(\mathcal{D}_{d,k})
+  \end{equation}
+\end{theorem}
+
+
+\section{Double Commutant Theorem and Schur-Weyl Duality}
+
+Using representation theory, we can establish the Double Commutant Theorem for the permutation algebra.
+
+\begin{definition}[Permutation Representation]\label{def:permRep}
+  \lean{SchurWeyl.permRep}\uses{def:permAction}\leanok
+  The permutation representation is the monoid homomorphism $\rho: S_k \to \text{End}(V^{\otimes k})$ mapping $\sigma \mapsto W_\sigma$.
+\end{definition}
+
+\begin{definition}[Permutation Module]\label{def:PermModule}
+  \lean{SchurWeyl.PermModule}\uses{def:permRep}\leanok
+  The space $V^{\otimes k}$ viewed as a $\mathbb{C}[S_k]$-module under the permutation representation.
+\end{definition}
+
+\begin{definition}[Permutation Algebra Homomorphism]\label{def:permAlgHom}
+  \lean{SchurWeyl.permAlgHom}\uses{def:permRep}\leanok
+  The algebra homomorphism $\tilde{\rho}: \mathbb{C}[S_k] \to \text{End}(V^{\otimes k})$ induced by the representation.
+\end{definition}
+
+\begin{theorem}[Range of Algebra Homomorphism]\label{thm:permAlgHom_range_eq}
+  \lean{SchurWeyl.permAlgHom_range_eq}\uses{def:permAlgHom, def:permImage}\leanok
+  The image of the group algebra homomorphism is the span of the permutation operators:
+  \begin{equation}
+    \text{Im}(\tilde{\rho}) = \text{Span}(\mathcal{P}_{d,k})
+  \end{equation}
+\end{theorem}
+
+\begin{lemma}[Semisimplicity of Permutation Module]\label{lem:permModule_isSemisimple}
+  \lean{SchurWeyl.permModule_isSemisimple}\uses{def:permRep}\leanok
+  The permutation module $V^{\otimes k}$ is a semisimple $\mathbb{C}[S_k]$-module. This is a consequence of Maschke's theorem.
+\end{lemma}
+
+\begin{theorem}[Jacobson Density for Permutation Representation]\label{thm:permModule_toModuleEnd_surjective}
+  \lean{SchurWeyl.permModule_toModuleEnd_surjective}\uses{lem:permModule_isSemisimple}\leanok
+  The natural map from the group algebra $\mathbb{C}[S_k]$ to the double endomorphism ring of the permutation module is surjective.
+\end{theorem}
+
+\begin{theorem}[Double Commutant for Permutation Algebra]\label{thm:double_centralizer_permImage}
+  \lean{SchurWeyl.double_centralizer_permImage}\uses{thm:permModule_toModuleEnd_surjective, thm:permAlgHom_range_eq, def:permImage}\leanok
+  The double centralizer of the span of permutation operators is the span itself:
+  \begin{equation}
+    \text{Comm}(\text{Comm}(\text{Span}(\mathcal{P}_{d,k}))) = \text{Span}(\mathcal{P}_{d,k})
+  \end{equation}
+\end{theorem}
+
+We now assemble the main result.
+
+\begin{theorem}[Hard Direction of Schur-Weyl Duality]\label{thm:centralizer_diagImage_le_span_permImage}
+  \lean{SchurWeyl.centralizer_diagImage_le_span_permImage}\uses{thm:centralizer_permImage_le_span_diagImage, thm:double_centralizer_permImage, def:diagImage, def:permImage}\leanok
+  The centralizer of the diagonal image is contained in the span of the permutation image:
+  \begin{equation}
+    \text{Comm}(\mathcal{D}_{d,k}) \subseteq \text{Span}(\mathcal{P}_{d,k})
+  \end{equation}
+\end{theorem}
+
+\begin{theorem}[Easy Direction of Schur-Weyl Duality]\label{thm:span_permImage_le_centralizer_diagImage}
+  \lean{SchurWeyl.span_permImage_le_centralizer_diagImage}\uses{thm:permImage_subset_centralizer_diagImage}\leanok
+  The span of the permutation image is contained in the centralizer of the diagonal image:
+  \begin{equation}
+    \text{Span}(\mathcal{P}_{d,k}) \subseteq \text{Comm}(\mathcal{D}_{d,k})
+  \end{equation}
+\end{theorem}
+
+\begin{theorem}[Schur-Weyl Duality]\label{thm:schur_weyl}
+  \lean{SchurWeyl.schur_weyl}\uses{thm:centralizer_diagImage_le_span_permImage, thm:span_permImage_le_centralizer_diagImage, def:diagImage, def:permImage}\leanok
+  The centralizer of the diagonal image is exactly equal to the span of the permutation image:
+  \begin{equation}
+    \text{Comm}(\mathcal{D}_{d,k}) = \text{Span}(\mathcal{P}_{d,k})
+  \end{equation}
+\end{theorem}

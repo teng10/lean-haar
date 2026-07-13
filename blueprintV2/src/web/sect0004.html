@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Formalization of Weingarten Calculus: Double Commutant Theorem and Schur-Weyl Duality</title>
+<link rel="next" href="sect0005.html" title="Weingarten Calculus" />
+<link rel="prev" href="sect0003.html" title="First Fundamental Theorem of Invariant Theory" />
+<link rel="up" href="sect0001.html" title="Schur-Weyl Duality" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of Weingarten Calculus</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Schur-Weyl Duality</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Definitions and Commutants</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">First Fundamental Theorem of Invariant Theory</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Double Commutant Theorem and Schur-Weyl Duality</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">2</span> <span class="toc_entry">Weingarten Calculus</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Solvability of the Weingarten System</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Uniqueness and the Gram Matrix for \(k \le d\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">2.3</span> <span class="toc_entry">The Haar Moment Operator</span></a>
+ </li>
+
+  </ul>
+ </li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000005">1.3 Double Commutant Theorem and Schur-Weyl Duality</h1>
+<p>Using representation theory, we can establish the Double Commutant Theorem for the permutation algebra. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:permRep">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.3.1</span>
+    <span class="definition_thmtitle">Permutation Representation</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.permRepdef:permActionThe permutation representation is the monoid homomorphism \(\rho : S_k \to \text{End}(V^{\otimes k})\) mapping \(\sigma \mapsto W_\sigma \). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:PermModule">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.3.2</span>
+    <span class="definition_thmtitle">Permutation Module</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.PermModuledef:permRepThe space \(V^{\otimes k}\) viewed as a \(\mathbb {C}[S_k]\)-module under the permutation representation. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:permAlgHom">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.3.3</span>
+    <span class="definition_thmtitle">Permutation Algebra Homomorphism</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.permAlgHomdef:permRepThe algebra homomorphism \(\tilde{\rho }: \mathbb {C}[S_k] \to \text{End}(V^{\otimes k})\) induced by the representation. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:permAlgHom_range_eq">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.3.4</span>
+    <span class="theorem_thmtitle">Range of Algebra Homomorphism</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.permAlgHom_range_eqdef:permAlgHom, def:permImageThe image of the group algebra homomorphism is the span of the permutation operators: </p>
+<div class="equation" id="a0000000024">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Im}(\tilde{\rho }) = \text{Span}(\mathcal{P}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">15</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:permModule_isSemisimple">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.3.5</span>
+    <span class="lemma_thmtitle">Semisimplicity of Permutation Module</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.permModule_isSemisimpledef:permRepThe permutation module \(V^{\otimes k}\) is a semisimple \(\mathbb {C}[S_k]\)-module. This is a consequence of Maschke’s theorem. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:permModule_toModuleEnd_surjective">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.3.6</span>
+    <span class="theorem_thmtitle">Jacobson Density for Permutation Representation</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.permModule_toModuleEnd_surjectivelem:permModule_isSemisimpleThe natural map from the group algebra \(\mathbb {C}[S_k]\) to the double endomorphism ring of the permutation module is surjective. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:double_centralizer_permImage">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.3.7</span>
+    <span class="theorem_thmtitle">Double Commutant for Permutation Algebra</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.double_centralizer_permImagethm:permModule_toModuleEnd_surjective, thm:permAlgHom_range_eq, def:permImageThe double centralizer of the span of permutation operators is the span itself: </p>
+<div class="equation" id="a0000000025">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Comm}(\text{Comm}(\text{Span}(\mathcal{P}_{d,k}))) = \text{Span}(\mathcal{P}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">16</span>
+</p>
+</div>
+
+  </div>
+</div>
+<p>We now assemble the main result. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:centralizer_diagImage_le_span_permImage">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.3.8</span>
+    <span class="theorem_thmtitle">Hard Direction of Schur-Weyl Duality</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.centralizer_diagImage_le_span_permImagethm:centralizer_permImage_le_span_diagImage, thm:double_centralizer_permImage, def:diagImage, def:permImageThe centralizer of the diagonal image is contained in the span of the permutation image: </p>
+<div class="equation" id="a0000000026">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Comm}(\mathcal{D}_{d,k}) \subseteq \text{Span}(\mathcal{P}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">17</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:span_permImage_le_centralizer_diagImage">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.3.9</span>
+    <span class="theorem_thmtitle">Easy Direction of Schur-Weyl Duality</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.span_permImage_le_centralizer_diagImagethm:permImage_subset_centralizer_diagImageThe span of the permutation image is contained in the centralizer of the diagonal image: </p>
+<div class="equation" id="a0000000027">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Span}(\mathcal{P}_{d,k}) \subseteq \text{Comm}(\mathcal{D}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">18</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:schur_weyl">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.3.10</span>
+    <span class="theorem_thmtitle">Schur-Weyl Duality</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.schur_weylthm:centralizer_diagImage_le_span_permImage, thm:span_permImage_le_centralizer_diagImage, def:diagImage, def:permImageThe centralizer of the diagonal image is exactly equal to the span of the permutation image: </p>
+<div class="equation" id="a0000000028">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Comm}(\mathcal{D}_{d,k}) = \text{Span}(\mathcal{P}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">19</span>
+</p>
+</div>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <a href="sect0003.html" title="First Fundamental Theorem of Invariant Theory"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0001.html" title="Schur-Weyl Duality"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0005.html" title="Weingarten Calculus"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+</body>
+</html>

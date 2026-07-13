@@ -1,0 +1,217 @@
+\section{Solvability of the Weingarten System}
+
+We study the moment computations of operators under the Haar measure, which reduces to solving a system of linear equations. We first analyze this system in an abstract Hilbert-space setting.
+
+\begin{theorem}[Abstract Gram-System Solvability]\label{thm:gram_system_solvable}
+  \lean{SchurWeyl.gram_system_solvable}\leanok
+  Let $H$ be a finite-dimensional complex Hilbert space, $v_1, \dots, v_n \in H$, and $w \in H$. The linear system:
+  \begin{equation}
+    \langle v_j, w \rangle = \sum_{i=1}^n c_i \langle v_j, v_i \rangle \quad \text{for all } j
+  \end{equation}
+  always has at least one solution $c \in \mathbb{C}^n$, which is given by the coefficients of the orthogonal projection of $w$ onto $\text{Span}(v_1, \dots, v_n)$.
+\end{theorem}
+
+To apply this to operators on $V^{\otimes k}$, we define permutation operators and their adjoints.
+
+\begin{definition}[Permutation Operators]\label{def:permOp}
+  \lean{SchurWeyl.permOp}\uses{def:permAction}\leanok
+  The permutation operator $V_d(\sigma) \in \text{End}(V^{\otimes k})$ is the linear map corresponding to $\sigma \in S_k$.
+\end{definition}
+
+\begin{definition}[Adjoint Permutation Operators]\label{def:permDual}
+  \lean{SchurWeyl.permDual}\uses{def:permAction}\leanok
+  The dual permutation operator $V_d^\dagger(\sigma)$ is defined as the permutation operator of $\sigma^{-1}$.
+\end{definition}
+
+\begin{theorem}[Hermitian Adjoint Agreement]\label{thm:permDual_eq_conjTranspose}
+  \lean{SchurWeyl.permDual_eq_conjTranspose}\uses{def:permOp, def:permDual}\leanok
+  In the computational basis of $V^{\otimes k}$, the matrix representation of $V_d^\dagger(\sigma)$ is the conjugate transpose of the matrix representation of $V_d(\sigma)$.
+\end{theorem}
+
+\begin{definition}[Matrix Vectorization]\label{def:endVec}
+  \lean{SchurWeyl.endVec}\leanok
+  The vectorization $\text{endVec}(O)$ of an operator $O \in \text{End}(V^{\otimes k})$ is the vector of its matrix entries in the computational basis, viewed as an element of the Euclidean space.
+\end{definition}
+
+\begin{theorem}[The Trace Bridge]\label{thm:inner_endVec_perm_eq_trace}
+  \lean{SchurWeyl.inner_endVec_perm_eq_trace}\uses{def:permOp, def:permDual, def:endVec}\leanok
+  The Euclidean inner product of the vectorizations of $V_d(\sigma)$ and $O$ equals the trace of their product:
+  \begin{equation}
+    \langle \text{endVec}(V_d(\sigma)), \text{endVec}(O) \rangle = \text{Tr}(V_d^\dagger(\sigma) O)
+  \end{equation}
+\end{theorem}
+
+\begin{theorem}[Solvability of Weingarten Linear System]\label{thm:weingarten_linear_system_solvable}
+  \lean{SchurWeyl.weingarten_linear_system_solvable}\uses{thm:gram_system_solvable, thm:inner_endVec_perm_eq_trace}\leanok
+  For any operator $O \in \text{End}(V^{\otimes k})$, the Weingarten system of $k!$ equations:
+  \begin{equation}
+    \text{Tr}(V_d^\dagger(\sigma) O) = \sum_{\pi \in S_k} c_\pi \text{Tr}(V_d^\dagger(\sigma) V_d(\pi)) \quad \text{for all } \sigma \in S_k
+  \end{equation}
+  always has at least one solution $c: S_k \to \mathbb{C}$.
+\end{theorem}
+
+\begin{lemma}[Adjoint Trace Linearity]\label{lem:trace_permDual_comp_sum}
+  \lean{SchurWeyl.trace_permDual_comp_sum}\uses{def:permDual, def:permOp}\leanok
+  The trace against $V_d^\dagger(\sigma)$ is linear in combinations of permutation operators.
+\end{lemma}
+
+\begin{lemma}[Operator Span Inclusion]\label{lem:sum_smul_permOp_mem_span}
+  \lean{SchurWeyl.sum_smul_permOp_mem_span}\uses{def:permOp, def:permImage}\leanok
+  A linear combination of permutation operators lies in their span.
+\end{lemma}
+
+\begin{theorem}[Existence of Moment Representation Operator]\label{thm:weingarten_moment_operator_spec}
+  \lean{SchurWeyl.weingarten_moment_operator_spec}\uses{thm:weingarten_linear_system_solvable, lem:sum_smul_permOp_mem_span, lem:trace_permDual_comp_sum}\leanok
+  There exists a linear combination $M = \sum_{\pi} c_\pi V_d(\pi)$ lying in $\text{Span}(\mathcal{P}_{d,k})$ whose traces match $O$:
+  \begin{equation}
+    \text{Tr}(V_d^\dagger(\sigma) M) = \text{Tr}(V_d^\dagger(\sigma) O) \quad \text{for all } \sigma \in S_k
+  \end{equation}
+\end{theorem}
+
+\begin{theorem}[Moment Operator Decomposition from Trace and Span Properties]\label{thm:weingarten_moment_decomposition_of_props}
+  \lean{SchurWeyl.weingarten_moment_decomposition_of_props}\uses{lem:trace_permDual_comp_sum, def:permImage, def:permOp}\leanok
+  If any operator $M$ lies in $\text{Span}(\mathcal{P}_{d,k})$ and has $\text{Tr}(V_d^\dagger(\sigma) M) = \text{Tr}(V_d^\dagger(\sigma) O)$ for all $\sigma$, then its coefficients solve the Weingarten system.
+\end{theorem}
+
+
+\section{Uniqueness and the Gram Matrix for $k \le d$}
+
+When the number of tensor factors $k$ is at most the dimension $d$, the permutation operators are linearly independent, which implies that the solution to the Weingarten system is unique.
+
+\begin{definition}[Abstract Gram Matrix]\label{def:gramMatrix}
+  \lean{SchurWeyl.gramMatrix}\leanok
+  The Gram matrix of a family $v$ is $G_{j, i} = \langle v_j, v_i \rangle$.
+\end{definition}
+
+\begin{definition}[Abstract Gram Target Vector]\label{def:gramVec}
+  \lean{SchurWeyl.gramVec}\leanok
+  The Gram target vector is $u_j = \langle v_j, w \rangle$.
+\end{definition}
+
+\begin{theorem}[Matrix Formulation of Gram System]\label{thm:isGramSolution_iff_mulVec}
+  \lean{SchurWeyl.isGramSolution_iff_mulVec}\uses{def:gramMatrix, def:gramVec}\leanok
+  A vector $c$ solves the Gram system if and only if $G c = u$.
+\end{theorem}
+
+\begin{theorem}[Invertibility of Independent Gram Matrix]\label{thm:gramMatrix_det_ne_zero}
+  \lean{SchurWeyl.gramMatrix_det_ne_zero}\uses{def:gramMatrix}\leanok
+  If the vectors $v_1, \dots, v_n$ are linearly independent, then their Gram matrix is invertible.
+\end{theorem}
+
+\begin{theorem}[Unique Gram Solution]\label{thm:gram_solution_eq_inv}
+  \lean{SchurWeyl.gram_solution_eq_inv}\uses{thm:isGramSolution_iff_mulVec, thm:gramMatrix_det_ne_zero}\leanok
+  If the vectors are linearly independent, the Gram system has a unique solution given by $c = G^{-1} u$.
+\end{theorem}
+
+We apply this to permutation operators.
+
+\begin{theorem}[Linear Independence of Vectorized Permutations]\label{thm:linearIndependent_endVec_permOp}
+  \lean{SchurWeyl.linearIndependent_endVec_permOp}\uses{def:endVec, def:permOp}\leanok
+  For $k \le d$, the vectorized permutation operators $\text{endVec}(V_d(\sigma))$ are linearly independent.
+\end{theorem}
+
+\begin{theorem}[Linear Independence of Permutation Operators]\label{thm:linearIndependent_permOp}
+  \lean{SchurWeyl.linearIndependent_permOp}\uses{thm:linearIndependent_endVec_permOp}\leanok
+  For $k \le d$, the permutation operators $V_d(\sigma)$ are linearly independent in $\text{End}(V^{\otimes k})$.
+\end{theorem}
+
+\begin{definition}[Weingarten Gram Matrix]\label{def:weingartenGram}
+  \lean{SchurWeyl.weingartenGram}\uses{def:permDual, def:permOp}\leanok
+  The Weingarten Gram matrix is defined by $G_{\sigma, \pi} = \text{Tr}(V_d^\dagger(\sigma) V_d(\pi))$.
+\end{definition}
+
+\begin{definition}[Weingarten Target Vector]\label{def:weingartenVec}
+  \lean{SchurWeyl.weingartenVec}\uses{def:permDual}\leanok
+  The Weingarten target vector is $u_\sigma = \text{Tr}(V_d^\dagger(\sigma) O)$.
+\end{definition}
+
+\begin{theorem}[Weingarten Gram as Vectorized Gram]\label{thm:weingartenGram_eq_gramMatrix}
+  \lean{SchurWeyl.weingartenGram_eq_gramMatrix}\uses{def:weingartenGram, def:gramMatrix, thm:inner_endVec_perm_eq_trace, def:endVec, def:permOp}\leanok
+  The Weingarten Gram matrix is the Gram matrix of vectorized permutation operators.
+\end{theorem}
+
+\begin{theorem}[Weingarten Target as Vectorized Target]\label{thm:weingartenVec_eq_gramVec}
+  \lean{SchurWeyl.weingartenVec_eq_gramVec}\uses{def:weingartenVec, def:gramVec, thm:inner_endVec_perm_eq_trace, def:endVec, def:permOp}\leanok
+  The Weingarten target vector is the Gram vector of vectorized permutation operators.
+\end{theorem}
+
+\begin{theorem}[Cycle Count Formula for Gram Entries]\label{thm:weingartenGram_eq_card}
+  \lean{SchurWeyl.weingartenGram_eq_card}\uses{thm:inner_endVec_perm_eq_trace, def:permOp}\leanok
+  The entry $\text{Tr}(V_d^\dagger(\sigma) V_d(\pi))$ equals the number of index functions invariant under $\sigma^{-1}\pi$, which evaluates to $d^{\# \text{cycles}(\sigma^{-1}\pi)}$.
+\end{theorem}
+
+\begin{theorem}[Invertibility of Weingarten Gram Matrix]\label{thm:weingartenGram_det_ne_zero}
+  \lean{SchurWeyl.weingartenGram_det_ne_zero}\uses{thm:weingartenGram_eq_gramMatrix, thm:linearIndependent_endVec_permOp}\leanok
+  For $k \le d$, the Weingarten Gram matrix is invertible.
+\end{theorem}
+
+\begin{theorem}[Unique Weingarten Solution]\label{thm:weingarten_solution_unique}
+  \lean{SchurWeyl.weingarten_solution_unique}\uses{thm:linearIndependent_endVec_permOp, thm:weingartenGram_eq_gramMatrix, thm:weingartenVec_eq_gramVec}\leanok
+  For $k \le d$, the Weingarten system has a unique solution.
+\end{theorem}
+
+\begin{theorem}[Inverse Solution Form]\label{thm:weingarten_solution_eq_inv}
+  \lean{SchurWeyl.weingarten_solution_eq_inv}\uses{thm:weingarten_solution_unique}\leanok
+  For $k \le d$, the unique coefficient vector is given by $c = G^{-1} u$.
+\end{theorem}
+
+
+\section{The Haar Moment Operator}
+
+We define the normalized Haar measure on the unitary group and use it to define the moment operator.
+
+\begin{definition}[Haar Probability Measure]\label{def:haarProb}
+  \lean{SchurWeyl.haarProb}\leanok
+  The Haar probability measure $\mu_H$ is the left Haar measure on the compact unitary group $U(d)$ normalized to total mass 1.
+\end{definition}
+
+\begin{definition}[Conjugation Action]\label{def:actOn}
+  \lean{SchurWeyl.actOn}\uses{def:diagAction}\leanok
+  For $O \in \text{End}(V^{\otimes k})$ and $U \in U(d)$, the conjugation action is:
+  \begin{equation}
+    U^{\otimes k} O (U^\dagger)^{\otimes k}
+  \end{equation}
+\end{definition}
+
+\begin{definition}[Haar Moment Operator]\label{def:momentOp}
+  \lean{SchurWeyl.momentOp}\uses{def:actOn}\leanok
+  The Haar moment operator $\mathbb{E}_{U \sim \mu_H}[U^{\otimes k} O (U^\dagger)^{\otimes k}]$ is the entrywise average of the conjugation action.
+\end{definition}
+
+\begin{theorem}[Trace Invariance of Moment Operator]\label{thm:momentOp_trace}
+  \lean{SchurWeyl.momentOp_trace}\uses{def:momentOp, def:permDual}\leanok
+  The moment operator preserves the traces:
+  \begin{equation}
+    \text{Tr}(V_d^\dagger(\sigma) \mathbb{E}[U^{\otimes k} O (U^\dagger)^{\otimes k}]) = \text{Tr}(V_d^\dagger(\sigma) O)
+  \end{equation}
+\end{theorem}
+
+\begin{theorem}[Unitary Commutativity of Moment Operator]\label{thm:momentOp_comm_unitary}
+  \lean{SchurWeyl.momentOp_comm_unitary}\uses{def:momentOp}\leanok
+  The moment operator commutes with $W^{\otimes k}$ for any unitary matrix $W \in U(d)$.
+\end{theorem}
+
+We extend this to all matrices using density.
+
+\begin{theorem}[SVD Existence]\label{thm:svd_exists}
+  \lean{SchurWeyl.svd_exists}\leanok
+  Any complex matrix can be written as $M = U_1 D U_2$ with $U_1, U_2 \in U(d)$ and diagonal $D$.
+\end{theorem}
+
+\begin{theorem}[Unitary Commutant implies Centralizer]\label{thm:mem_centralizer_of_comm_unitary}
+  \lean{SchurWeyl.mem_centralizer_of_comm_unitary}\uses{thm:svd_exists}\leanok
+  An operator that commutes with all unitary diagonal actions commutes with all diagonal actions.
+\end{theorem}
+
+\begin{theorem}[Moment Operator lies in Permutation Span]\label{thm:momentOp_mem_span}
+  \lean{SchurWeyl.momentOp_mem_span}\uses{def:momentOp, thm:momentOp_comm_unitary, thm:mem_centralizer_of_comm_unitary, thm:schur_weyl}\leanok
+  The Haar moment operator lies in the span of the permutation operators:
+  \begin{equation}
+    \mathbb{E}_{U}[U^{\otimes k} O (U^\dagger)^{\otimes k}] \in \text{Span}(\mathcal{P}_{d,k})
+  \end{equation}
+\end{theorem}
+
+\begin{theorem}[Weingarten Moments for Haar Integral]\label{thm:weingarten_moment_haar}
+  \lean{SchurWeyl.weingarten_moment_haar}\uses{def:momentOp, thm:momentOp_mem_span, thm:momentOp_trace, thm:weingarten_moment_decomposition_of_props}\leanok
+  The Haar moment operator is a linear combination of the permutation operators whose coefficients solve the Weingarten system.
+\end{theorem}

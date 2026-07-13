@@ -251,13 +251,13 @@ theorem momentOp_trace (σ : Equiv.Perm (Fin k)) (O : Module.End ℂ (TensV d k)
       simp_all +decide [ SchurWeyl.toEndMatrix ];
     simp only [ h_trace_eq ];
   convert h_trace_eq using 1;
-  · simp +decide [ Matrix.trace, Matrix.mul_apply, momentMatrix ]
-    rw [ MeasureTheory.integral_finsetSum ]
-    · rw [ Finset.sum_congr rfl ]
-      intro i hi; rw [ MeasureTheory.integral_finsetSum ]
-      · exact Finset.sum_congr rfl fun _ _ => by rw [ MeasureTheory.integral_const_mul ]
-      · exact fun j _ => MeasureTheory.Integrable.const_mul ( SchurWeyl.integrable_actOn_entry O j i ) _
-    · exact fun i _ => MeasureTheory.integrable_finsetSum _ fun j _ => MeasureTheory.Integrable.const_mul ( SchurWeyl.integrable_actOn_entry O j i ) _
+  · simp +decide [ Matrix.trace, Matrix.mul_apply, momentMatrix ];
+    rw [ MeasureTheory.integral_finsetSum ];
+    · rw [ Finset.sum_congr rfl ];
+      intro i hi; rw [ MeasureTheory.integral_finsetSum ] ;
+      · exact Finset.sum_congr rfl fun _ _ => by rw [ MeasureTheory.integral_const_mul ] ;
+      · exact fun j _ => MeasureTheory.Integrable.const_mul ( SchurWeyl.integrable_actOn_entry O j i ) _;
+    · exact fun i _ => MeasureTheory.integrable_finsetSum _ fun j _ => MeasureTheory.Integrable.const_mul ( SchurWeyl.integrable_actOn_entry O j i ) _;
   · simp +decide [ SchurWeyl.haarProb ]
 
 /-! ### Unitary invariance of the moment operator -/
@@ -375,50 +375,85 @@ theorem exists_orthonormalBasis_cols (D : Fin d → ℝ) (hD : ∀ i, 0 ≤ D i)
   exact ⟨ b, fun i hi j => by simpa using congr_fun ( congr_arg ( fun x => x.ofLp ) ( hb ⟨ i, hi ⟩ ) ) j ⟩
 
 /-
+**Spectral decomposition of `Mᴴ * M`.** As `Mᴴ * M` is Hermitian, the spectral theorem
+provides a unitary `Q` and real eigenvalues `D`; positive semidefiniteness gives `D ≥ 0`.
+-/
+theorem svd_spectral (M : Matrix (Fin d) (Fin d) ℂ) :
+    ∃ (Q : Matrix (Fin d) (Fin d) ℂ) (D : Fin d → ℝ),
+      (∀ i, 0 ≤ D i) ∧ Qᴴ * Q = 1 ∧
+        Mᴴ * M = Q * Matrix.diagonal (fun i => (D i : ℂ)) * Qᴴ := by
+  convert Matrix.IsHermitian.spectral_theorem ( show Matrix.IsHermitian ( Mᴴ * M ) from ?_ ) using 1;
+  constructor <;> intro h;
+  convert Matrix.IsHermitian.spectral_theorem _;
+  refine' ⟨ _, _, _, _, h ⟩;
+  all_goals norm_num [ Matrix.IsHermitian ];
+  · grind +suggestions;
+  · simp +decide [ Matrix.IsHermitian.eigenvectorUnitary ]
+
+/-
+If `Qᴴ * Q = 1` and `Mᴴ * M = Q · diag D · Qᴴ`, then `N = M * Q` satisfies
+`Nᴴ * N = diag D`.
+-/
+theorem conjTranspose_mul_self_of_spectral (M Q : Matrix (Fin d) (Fin d) ℂ)
+    (D : Fin d → ℝ) (hQ : Qᴴ * Q = 1)
+    (hA : Mᴴ * M = Q * Matrix.diagonal (fun i => (D i : ℂ)) * Qᴴ) :
+    (M * Q)ᴴ * (M * Q) = Matrix.diagonal (fun i => (D i : ℂ)) := by
+  convert congr_arg ( fun x => Qᴴ * x * Q ) hA using 1 <;> simp +decide [ Matrix.mul_assoc, hQ ];
+  rw [ ← Matrix.mul_assoc, hQ, Matrix.one_mul ]
+
+/-
+An orthonormal basis of `EuclideanSpace ℂ (Fin d)` assembles into a unitary matrix whose
+`i`-th column is the `i`-th basis vector.
+-/
+theorem exists_unitary_of_orthonormalBasis
+    (b : OrthonormalBasis (Fin d) ℂ (EuclideanSpace ℂ (Fin d))) :
+    ∃ U₁ : Matrix (Fin d) (Fin d) ℂ,
+      U₁ ∈ Matrix.unitaryGroup (Fin d) ℂ ∧ ∀ i j, U₁ j i = b i j := by
+  exact ⟨(EuclideanSpace.basisFun (Fin d) ℂ).toBasis.toMatrix b,
+    OrthonormalBasis.toMatrix_orthonormalBasis_mem_unitary (EuclideanSpace.basisFun (Fin d) ℂ) b,
+    fun i j => rfl⟩
+
+/-
+With `N`, `D`, `b`, `U₁` as in the SVD construction (`Nᴴ * N = diag D`, `U₁` the matrix of
+the basis `b`, and `b i` the normalized `i`-th column of `N` whenever `D i ≠ 0`), one has
+`U₁ · diag(√D) = N`.
+-/
+theorem cols_mul_diag_sqrt (D : Fin d → ℝ) (hD : ∀ i, 0 ≤ D i)
+    (N : Matrix (Fin d) (Fin d) ℂ)
+    (hN : Nᴴ * N = Matrix.diagonal (fun i => (D i : ℂ)))
+    (U₁ : Matrix (Fin d) (Fin d) ℂ)
+    (b : OrthonormalBasis (Fin d) ℂ (EuclideanSpace ℂ (Fin d)))
+    (hU₁ : ∀ i j, U₁ j i = b i j)
+    (hb : ∀ i, D i ≠ 0 → ∀ j, b i j = (1 / (Real.sqrt (D i) : ℂ)) * N j i) :
+    U₁ * Matrix.diagonal (fun i => (Real.sqrt (D i) : ℂ)) = N := by
+  ext i j; by_cases hj : D j = 0 <;> simp_all +decide [ Matrix.mul_apply, Matrix.diagonal ] ;
+  · replace hN := congr_fun ( congr_fun hN j ) j; simp_all +decide [ Matrix.mul_apply, Complex.ext_iff ];
+    simp_all +decide [ Finset.sum_eq_zero_iff_of_nonneg, add_nonneg, mul_self_nonneg ];
+    constructor <;> nlinarith only [ hN.1 i ];
+  · rw [ inv_mul_eq_div, div_mul_cancel₀ _ ( Complex.ofReal_ne_zero.mpr <| ne_of_gt <| Real.sqrt_pos.mpr <| lt_of_le_of_ne ( hD j ) <| Ne.symm hj ) ]
+
+/-
 **Singular value decomposition (existence).** Every complex square matrix factors as
 `U₁ · diagonal s · U₂` with `U₁, U₂` unitary and `s` a (complex) diagonal.
 -/
-set_option maxHeartbeats 1000000 in
 theorem svd_exists (M : Matrix (Fin d) (Fin d) ℂ) :
     ∃ (U₁ U₂ : Matrix.unitaryGroup (Fin d) ℂ) (s : Fin d → ℂ),
       M = (U₁ : Matrix (Fin d) (Fin d) ℂ) * Matrix.diagonal s *
         (U₂ : Matrix (Fin d) (Fin d) ℂ) := by
-  by_contra h_contra;
-  set A : Matrix (Fin d) (Fin d) ℂ := M.conjTranspose * M;
-  -- Since $A$ is positive semidefinite, it has a spectral decomposition $A = Q D Q^*$ where $Q$ is unitary and $D$ is diagonal with non-negative entries.
-  obtain ⟨Q, D, hQ, hD⟩ : ∃ Q : Matrix (Fin d) (Fin d) ℂ, ∃ D : Fin d → ℝ, (∀ i, 0 ≤ D i) ∧ Qᴴ * Q = 1 ∧ A = Q * Matrix.diagonal (fun i => (D i : ℂ)) * Qᴴ := by
-    have h_pos_semidef : Matrix.IsHermitian A := by
-      simp [A, Matrix.IsHermitian];
-    have := Matrix.IsHermitian.spectral_theorem h_pos_semidef;
-    refine' ⟨ h_pos_semidef.eigenvectorUnitary, fun i => h_pos_semidef.eigenvalues i, _, _, _ ⟩;
-    · intro i; exact (by
-      grind +suggestions);
-    · simp +decide [ Matrix.IsHermitian.eigenvectorUnitary ];
-    · convert this using 1;
-  -- Let $N = M Q$. Then $Nᴴ N = Qᴴ Mᴴ M Q = Qᴴ A Q = D$.
-  set N : Matrix (Fin d) (Fin d) ℂ := M * Q
-  have hN : Nᴴ * N = Matrix.diagonal (fun i => (D i : ℂ)) := by
-    simp +zetaDelta at *;
-    grind;
-  obtain ⟨b, hb⟩ : ∃ b : OrthonormalBasis (Fin d) ℂ (EuclideanSpace ℂ (Fin d)), ∀ i, D i ≠ 0 → ∀ j, b i j = (1 / (Real.sqrt (D i) : ℂ)) * N j i := by
-    convert SchurWeyl.exists_orthonormalBasis_cols D hQ N hN using 1;
-  -- Let $U₁$ be the matrix whose columns are the vectors $b_i$.
-  obtain ⟨U₁, hU₁⟩ : ∃ U₁ : Matrix (Fin d) (Fin d) ℂ, U₁ ∈ Matrix.unitaryGroup (Fin d) ℂ ∧ ∀ i j, U₁ j i = b i j := by
-    refine' ⟨ _, _, _ ⟩;
-    exact ( EuclideanSpace.basisFun ( Fin d ) ℂ ).toBasis.toMatrix b;
-    · convert OrthonormalBasis.toMatrix_orthonormalBasis_mem_unitary ( EuclideanSpace.basisFun ( Fin d ) ℂ ) b using 1;
-    · aesop;
-  -- Then $U₁ * diagonal s = N$ where $s_i = \sqrt{D_i}$.
-  have hU₁_diag : U₁ * Matrix.diagonal (fun i => (Real.sqrt (D i) : ℂ)) = N := by
-    ext i j; by_cases hi : D j = 0 <;> simp_all +decide [ Matrix.mul_apply, Matrix.diagonal ] ;
-    · replace hN := congr_fun ( congr_fun hN j ) j; simp_all +decide [ Matrix.mul_apply, Complex.ext_iff ] ;
-      simp_all +decide [ Finset.sum_eq_zero_iff_of_nonneg, add_nonneg, mul_self_nonneg ];
-      constructor <;> nlinarith only [ hN.1 i ];
-    · rw [ inv_mul_eq_div, div_mul_cancel₀ _ ( Complex.ofReal_ne_zero.mpr <| ne_of_gt <| Real.sqrt_pos.mpr <| lt_of_le_of_ne ( hQ j ) <| Ne.symm hi ) ];
-  refine' h_contra ⟨ ⟨ U₁, hU₁.1 ⟩, ⟨ Qᴴ, _ ⟩, fun i => Real.sqrt ( D i ), _ ⟩ <;> simp_all +decide [ Matrix.mul_assoc ];
-  · simp_all +decide [ Matrix.mem_unitaryGroup_iff ];
-    simp_all +decide [ Matrix.star_eq_conjTranspose ];
-  · rw [ Matrix.mul_assoc, mul_eq_one_comm.mp hD.1, Matrix.mul_one ]
+  obtain ⟨Q, D, hD, hQ, hA⟩ := svd_spectral M
+  have hN : (M * Q)ᴴ * (M * Q) = Matrix.diagonal (fun i => (D i : ℂ)) :=
+    conjTranspose_mul_self_of_spectral M Q D hQ hA
+  obtain ⟨b, hb⟩ := exists_orthonormalBasis_cols D hD (M * Q) hN
+  obtain ⟨U₁, hU₁mem, hU₁⟩ := exists_unitary_of_orthonormalBasis b
+  have hdiag : U₁ * Matrix.diagonal (fun i => (Real.sqrt (D i) : ℂ)) = M * Q :=
+    cols_mul_diag_sqrt D hD (M * Q) hN U₁ b hU₁ hb
+  have hQinv : Q * Qᴴ = 1 := mul_eq_one_comm.mp hQ
+  refine ⟨⟨U₁, hU₁mem⟩, ⟨Qᴴ, ?_⟩, fun i => Real.sqrt (D i), ?_⟩
+  · rw [Matrix.mem_unitaryGroup_iff, Matrix.star_eq_conjTranspose,
+      Matrix.conjTranspose_conjTranspose]
+    exact hQ
+  · show M = U₁ * Matrix.diagonal (fun i => (Real.sqrt (D i) : ℂ)) * Qᴴ
+    rw [hdiag, Matrix.mul_assoc, hQinv, Matrix.mul_one]
 
 /-
 The diagonal action of a diagonal matrix is diagonal in the tensor basis, with entry
@@ -479,10 +514,35 @@ theorem prod_eq_of_torus (I J : Fin k → Fin d)
   replace h_poly_zero := congr_arg Polynomial.natDegree h_poly_zero ; aesop
 
 /-
+Matrix of a composition: `toEndMatrix (f ∘ₗ g) = toEndMatrix f * toEndMatrix g`.
+-/
+theorem toEndMatrix_comp (f g : Module.End ℂ (TensV d k)) :
+    toEndMatrix d k (f ∘ₗ g) = toEndMatrix d k f * toEndMatrix d k g :=
+  LinearMap.toMatrix_comp (tensorBasis d k) (tensorBasis d k) (tensorBasis d k) f g
+
+/-
+**Entrywise commutation.** If `X` commutes with every unitary diagonal action, then in the
+tensor basis the entry `toEndMatrix X I J` is annihilated unless the index-monomials
+`∏ z (I m)` and `∏ z (J m)` agree, i.e. `toEndMatrix X I J · ∏ z (J m) = ∏ z (I m) · toEndMatrix X I J`.
+-/
+theorem comm_diagAction_diagonal_entry (X : Module.End ℂ (TensV d k))
+    (h : ∀ W : Matrix.unitaryGroup (Fin d) ℂ,
+      X ∘ₗ diagAction d k (endOf (W : Matrix (Fin d) (Fin d) ℂ)) =
+        diagAction d k (endOf (W : Matrix (Fin d) (Fin d) ℂ)) ∘ₗ X)
+    (z : Fin d → ℂ) (I J : Fin k → Fin d) :
+    toEndMatrix d k X I J * (∏ m, z (J m)) = (∏ m, z (I m)) * toEndMatrix d k X I J := by
+  by_cases hI : toEndMatrix d k X I J = 0;
+  · simp +decide [ hI ];
+  · have h_prod_eq : ∀ w : Fin d → ℂ, (∀ i, ‖w i‖ = 1) → ∏ m, w (I m) = ∏ m, w (J m) := by
+      intro w hw; specialize h ( ⟨ Matrix.diagonal w, diagonal_mem_unitaryGroup w hw ⟩ : Matrix.unitaryGroup ( Fin d ) ℂ ) ; replace h := congr_arg ( fun f => toEndMatrix d k f I J ) h ; simp_all +decide [ SchurWeyl.toEndMatrix_comp, Matrix.mul_apply, SchurWeyl.toEndMatrix_diagAction_diagonal ] ;
+      exact mul_left_cancel₀ hI <| by linear_combination' h.symm;
+    contrapose! h_prod_eq;
+    exact not_forall_not.mp fun h => h_prod_eq <| by have := prod_eq_of_torus ( d := d ) ( k := k ) I J ( fun w hw => by aesop ) z; simp_all +decide [ mul_comm ] ;
+
+/-
 If `X` commutes with `g^{⊗k}` for every unitary `g`, then it commutes with the diagonal
 action of *every* diagonal matrix.
 -/
-set_option maxHeartbeats 1000000 in
 theorem comm_diagAction_diagonal (X : Module.End ℂ (TensV d k))
     (h : ∀ W : Matrix.unitaryGroup (Fin d) ℂ,
       X ∘ₗ diagAction d k (endOf (W : Matrix (Fin d) (Fin d) ℂ)) =
@@ -490,24 +550,15 @@ theorem comm_diagAction_diagonal (X : Module.End ℂ (TensV d k))
     (z : Fin d → ℂ) :
     X ∘ₗ diagAction d k (endOf (Matrix.diagonal z)) =
       diagAction d k (endOf (Matrix.diagonal z)) ∘ₗ X := by
-  have h_diagonal : ∀ I J, toEndMatrix d k X I J * (∏ m, z (J m)) = (∏ m, z (I m)) * toEndMatrix d k X I J := by
-    intro I J; by_cases hIJ : toEndMatrix d k X I J = 0 <;> simp_all +decide [ mul_comm ] ;
-    apply SchurWeyl.prod_eq_of_torus;
-    intro z hz;
-    have := h ( Matrix.diagonal z ) ( SchurWeyl.diagonal_mem_unitaryGroup z hz ) ; replace := congr_arg ( fun f => toEndMatrix d k f I J ) this; simp_all +decide ;
-    have h_eq : toEndMatrix d k (X ∘ₗ diagAction d k (endOf (Matrix.diagonal z))) I J = toEndMatrix d k X I J * (∏ m, z (J m)) ∧ toEndMatrix d k (diagAction d k (endOf (Matrix.diagonal z)) ∘ₗ X) I J = (∏ m, z (I m)) * toEndMatrix d k X I J := by
-      have h_eq : ∀ (f g : Module.End ℂ (TensV d k)), toEndMatrix d k (f ∘ₗ g) = toEndMatrix d k f * toEndMatrix d k g := by
-        intros f g; exact (by
-          convert LinearMap.toMatrix_comp ( tensorBasis d k ) ( tensorBasis d k ) ( tensorBasis d k ) f g using 1);
-      simp_all +decide [ Matrix.mul_apply, SchurWeyl.toEndMatrix_diagAction_diagonal ];
-    grind;
-  have h_diagonal : toEndMatrix d k X * toEndMatrix d k (diagAction d k (endOf (Matrix.diagonal z))) = toEndMatrix d k (diagAction d k (endOf (Matrix.diagonal z))) * toEndMatrix d k X := by
-    ext I J; simp +decide [ Matrix.mul_apply, SchurWeyl.toEndMatrix_diagAction_diagonal ] ;
-    exact h_diagonal I J;
-  convert ( toEndMatrix d k ).injective ( show toEndMatrix d k ( X ∘ₗ diagAction d k ( endOf ( diagonal z ) ) ) = toEndMatrix d k ( diagAction d k ( endOf ( diagonal z ) ) ∘ₗ X ) from ?_ ) using 1;
-  convert h_diagonal using 1;
-  · convert LinearMap.toMatrix_comp ( tensorBasis d k ) ( tensorBasis d k ) ( tensorBasis d k ) X ( diagAction d k ( endOf ( diagonal z ) ) ) using 1;
-  · convert LinearMap.toMatrix_comp ( tensorBasis d k ) ( tensorBasis d k ) ( tensorBasis d k ) _ _ using 1
+  have hmat : toEndMatrix d k X * toEndMatrix d k (diagAction d k (endOf (Matrix.diagonal z)))
+      = toEndMatrix d k (diagAction d k (endOf (Matrix.diagonal z))) * toEndMatrix d k X := by
+    ext I J
+    simp only [Matrix.mul_apply, SchurWeyl.toEndMatrix_diagAction_diagonal, mul_ite, mul_zero,
+      ite_mul, zero_mul, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    exact comm_diagAction_diagonal_entry X h z I J
+  refine (toEndMatrix d k).injective ?_
+  rw [toEndMatrix_comp, toEndMatrix_comp]
+  exact hmat
 
 /-
 **Density of the unitary group.** If `X` commutes with `g^{⊗k}` for every *unitary*

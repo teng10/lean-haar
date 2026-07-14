@@ -240,51 +240,225 @@ We apply this to permutation operators.
   For $k \le d$, the unique coefficient vector is given by $c = G^{-1} u$.
 \end{theorem}
 
-
 \section{The Haar Moment Operator}
 
 We define the normalized Haar measure on the unitary group and use it to define the moment operator.
+
+\begin{theorem}[Unitary Entry Norm Bound]\label{thm:unitary_entry_norm_le_one}
+  \lean{SchurWeyl.unitary_entry_norm_le_one}\leanok
+  Each entry of a unitary matrix $M \in U(d)$ has norm at most $1$.
+\end{theorem}
+
+\begin{theorem}[Compactness of the Unitary Group]\label{thm:isCompact_unitaryGroup}
+  \lean{SchurWeyl.isCompact_unitaryGroup}\uses{thm:unitary_entry_norm_le_one}\leanok
+  The unitary group $U(d)$ is a compact subset of the space of $d \times d$ complex matrices.
+\end{theorem}
+
+\begin{theorem}[Compact Space Instance of Unitary Group]\label{thm:instCompactSpaceUnitaryGroup}
+  \lean{SchurWeyl.instCompactSpaceUnitaryGroup}\uses{thm:isCompact_unitaryGroup}\leanok
+  The unitary group $U(d)$ is a compact topological space.
+\end{theorem}
+
+\begin{theorem}[Second Countability of Matrix Space]\label{thm:instSecondCountableMatrix}
+  \lean{SchurWeyl.instSecondCountableMatrix}\leanok
+  The space of $d \times d$ complex matrices has second countable topology.
+\end{theorem}
+
+\begin{theorem}[Measurable Space Instance of Unitary Group]\label{thm:instMeasurableSpaceUnitaryGroup}
+  \lean{SchurWeyl.instMeasurableSpaceUnitaryGroup}\leanok
+  The unitary group $U(d)$ carries the Borel $\sigma$-algebra.
+\end{theorem}
+
+\begin{theorem}[Borel Space Instance of Unitary Group]\label{thm:instBorelSpaceUnitaryGroup}
+  \lean{SchurWeyl.instBorelSpaceUnitaryGroup}\leanok
+  The unitary group $U(d)$ is a Borel space.
+\end{theorem}
+
+\begin{theorem}[Haar Measure of Universe is Positive]\label{thm:haar_univ_ne_zero}
+  \lean{SchurWeyl.haar_univ_ne_zero}\leanok
+  The left Haar measure of the entire unitary group is positive.
+\end{theorem}
+
+\begin{theorem}[Haar Measure of Universe is Finite]\label{thm:haar_univ_ne_top}
+  \lean{SchurWeyl.haar_univ_ne_top}\leanok
+  The left Haar measure of the compact unitary group is finite.
+\end{theorem}
 
 \begin{definition}[Haar Probability Measure]\label{def:haarProb}
   \lean{SchurWeyl.haarProb}\leanok
   The Haar probability measure $\mu_H$ is the left Haar measure on the compact unitary group $U(d)$ normalized to total mass 1.
 \end{definition}
 
+\begin{theorem}[Haar Probability is Probability Measure]\label{thm:instIsProbabilityMeasureHaarProb}
+  \lean{SchurWeyl.instIsProbabilityMeasureHaarProb}\uses{def:haarProb}\leanok
+  The Haar probability measure $\mu_H$ is indeed a probability measure (has total mass 1).
+\end{theorem}
+
+\begin{theorem}[Haar Probability is Left Invariant]\label{thm:instIsMulLeftInvariantHaarProb}
+  \lean{SchurWeyl.instIsMulLeftInvariantHaarProb}\uses{def:haarProb}\leanok
+  The Haar probability measure $\mu_H$ is left-invariant under multiplication.
+\end{theorem}
+
+\begin{definition}[Endomorphism of Matrix]\label{def:endOf}
+  \lean{SchurWeyl.endOf}\leanok
+  The representation of a matrix $U \in \text{Mat}_{d \times d}(\mathbb{C})$ as a linear endomorphism of $\mathbb{C}^d$.
+\end{definition}
+
+\begin{theorem}[Multiplicativity of endOf]\label{thm:endOf_mul}
+  \lean{SchurWeyl.endOf_mul}\uses{def:endOf}\leanok
+  The map `endOf` satisfies $\text{endOf}(A B) = \text{endOf}(A) \circ \text{endOf}(B)$.
+\end{theorem}
+
+\begin{theorem}[Identity Matrix endOf]\label{thm:endOf_one}
+  \lean{SchurWeyl.endOf_one}\uses{def:endOf}\leanok
+  The map `endOf` maps the identity matrix to the identity endomorphism.
+\end{theorem}
+
+\begin{theorem}[Diagonal Action Composition]\label{thm:diagAction_comp}
+  \lean{SchurWeyl.diagAction_comp}\uses{def:diagAction}\leanok
+  The diagonal action is multiplicative: $g^{\otimes k} \circ h^{\otimes k} = (g \circ h)^{\otimes k}$.
+\end{theorem}
+
+\begin{theorem}[Diagonal Action Identity]\label{thm:diagAction_id}
+  \lean{SchurWeyl.diagAction_id}\uses{def:diagAction}\leanok
+  The diagonal action of the identity endomorphism is the identity on the tensor space.
+\end{theorem}
+
 \begin{definition}[Conjugation Action]\label{def:actOn}
-  \lean{SchurWeyl.actOn}\uses{def:diagAction}\leanok
+  \lean{SchurWeyl.actOn}\uses{def:diagAction, def:endOf}\leanok
   For $O \in \text{End}(V^{\otimes k})$ and $U \in U(d)$, the conjugation action is:
   \begin{equation}
     U^{\otimes k} O (U^\dagger)^{\otimes k}
   \end{equation}
 \end{definition}
 
-\begin{definition}[Haar Moment Operator]\label{def:momentOp}
-  \lean{SchurWeyl.momentOp}\uses{def:actOn}\leanok
-  The Haar moment operator $\mathbb{E}_{U \sim \mu_H}[U^{\otimes k} O (U^\dagger)^{\otimes k}]$ is the entrywise average of the conjugation action.
+\begin{theorem}[Unitary Diagonal Action Left Inverse]\label{thm:diagAction_endOf_unitary_left}
+  \lean{SchurWeyl.diagAction_endOf_unitary_left}\uses{def:endOf, def:diagAction, thm:diagAction_comp, thm:endOf_mul, thm:endOf_one, thm:diagAction_id}\leanok
+  For any unitary matrix $U$, $(U^\dagger)^{\otimes k} \circ U^{\otimes k} = \text{id}$.
+\end{theorem}
+
+\begin{theorem}[Unitary Diagonal Action Right Inverse]\label{thm:diagAction_endOf_unitary_right}
+  \lean{SchurWeyl.diagAction_endOf_unitary_right}\uses{def:endOf, def:diagAction, thm:diagAction_comp, thm:endOf_mul, thm:endOf_one, thm:diagAction_id}\leanok
+  For any unitary matrix $U$, $U^{\otimes k} \circ (U^\dagger)^{\otimes k} = \text{id}$.
+\end{theorem}
+
+\begin{theorem}[Continuity of Conjugation Action Entries]\label{thm:continuous_actOn_entry}
+  \lean{SchurWeyl.continuous_actOn_entry}\uses{def:actOn, def:toEndMatrix, def:diagAction, lem:toEndMatrix_diagAction}\leanok
+  For any operator $O \in \text{End}(V^{\otimes k})$, the matrix entries of the conjugation action $\text{actOn}(O, U)$ are continuous functions of $U \in U(d)$.
+\end{theorem}
+
+\begin{theorem}[Integrability of Conjugation Action Entries]\label{thm:integrable_actOn_entry}
+  \lean{SchurWeyl.integrable_actOn_entry}\uses{thm:continuous_actOn_entry, thm:instCompactSpaceUnitaryGroup, def:haarProb, def:toEndMatrix, def:actOn}\leanok
+  Each matrix entry of the conjugation action is integrable with respect to the Haar probability measure.
+\end{theorem}
+
+\begin{definition}[Haar Moment Matrix]\label{def:momentMatrix}
+  \lean{SchurWeyl.momentMatrix}\uses{def:actOn, def:toEndMatrix, def:haarProb}\leanok
+  The matrix formed by integrating the entries of the conjugation action over the unitary group.
 \end{definition}
 
+\begin{definition}[Haar Moment Operator]\label{def:momentOp}
+  \lean{SchurWeyl.momentOp}\uses{def:momentMatrix, def:toEndMatrix}\leanok
+  The Haar moment operator $\mathbb{E}_{U \sim \mu_H}[U^{\otimes k} O (U^\dagger)^{\otimes k}]$, defined as the operator whose matrix in the computational basis is the Haar average of the conjugation action.
+\end{definition}
+
+\begin{theorem}[Matrix of Haar Moment Operator]\label{thm:toEndMatrix_momentOp}
+  \lean{SchurWeyl.toEndMatrix_momentOp}\uses{def:momentOp, def:momentMatrix, def:toEndMatrix}\leanok
+  The matrix representation of the Haar moment operator matches the Haar moment matrix.
+\end{theorem}
+
+\begin{theorem}[Pointwise Trace Invariance under Conjugation]\label{thm:trace_permDual_actOn}
+  \lean{SchurWeyl.trace_permDual_actOn}\uses{def:permDual, def:actOn, def:diagAction, def:endOf,thm:diagAction_endOf_unitary_left, thm:permAction_diagAction_comm}\leanok
+  The trace against $V_d^\dagger(\sigma)$ is invariant under unitary conjugation of the operator.
+\end{theorem}
+
 \begin{theorem}[Trace Invariance of Moment Operator]\label{thm:momentOp_trace}
-  \lean{SchurWeyl.momentOp_trace}\uses{def:momentOp, def:permDual}\leanok
+  \lean{SchurWeyl.momentOp_trace}\uses{def:momentOp, def:permDual, def:toEndMatrix, def:actOn, thm:trace_permDual_actOn, thm:toEndMatrix_momentOp, thm:integrable_actOn_entry, def:haarProb}\leanok
   The moment operator preserves the traces:
   \begin{equation}
     \text{Tr}(V_d^\dagger(\sigma) \mathbb{E}[U^{\otimes k} O (U^\dagger)^{\otimes k}]) = \text{Tr}(V_d^\dagger(\sigma) O)
   \end{equation}
 \end{theorem}
 
+\begin{theorem}[Translation of Conjugation Action]\label{thm:conj_actOn}
+  \lean{SchurWeyl.conj_actOn}\uses{def:diagAction, def:endOf, def:actOn, thm:diagAction_comp}\leanok
+  Conjugating the action by a unitary matrix $W$ corresponds to left translating the variable in the conjugation action: $W^{\otimes k} (\text{actOn}(O, U)) (W^\dagger)^{\otimes k} = \text{actOn}(O, W U)$.
+\end{theorem}
+
+\begin{theorem}[Unitary Invariance of Haar Moment Operator]\label{thm:momentOp_conj_unitary}
+  \lean{SchurWeyl.momentOp_conj_unitary}\uses{def:actOn, def:endOf, thm:diagAction_comp, def:diagAction, thm:endOf_mul, def:momentOp, def:momentMatrix, thm:toEndMatrix_momentOp, def:toEndMatrix, def:tensorBasis, def:haarProb, thm:integrable_actOn_entry, thm:conj_actOn}\leanok
+  The Haar moment operator is invariant under conjugation by any unitary matrix.
+\end{theorem}
+
 \begin{theorem}[Unitary Commutativity of Moment Operator]\label{thm:momentOp_comm_unitary}
-  \lean{SchurWeyl.momentOp_comm_unitary}\uses{def:momentOp}\leanok
+  \lean{SchurWeyl.momentOp_comm_unitary}\uses{def:momentOp, def:diagAction, def:endOf, thm:momentOp_conj_unitary, thm:diagAction_endOf_unitary_left}\leanok
   The moment operator commutes with $W^{\otimes k}$ for any unitary matrix $W \in U(d)$.
 \end{theorem}
 
 We extend this to all matrices using density.
 
+\begin{theorem}[Orthonormal Basis from Matrix Columns]\label{thm:exists_orthonormalBasis_cols}
+  \lean{SchurWeyl.exists_orthonormalBasis_cols}\leanok
+  An orthonormal family can be constructed from the columns of a matrix $N$ when normalized.
+\end{theorem}
+
+\begin{theorem}[Spectral Decomposition of Hermetian Matrix]\label{thm:svd_spectral}
+  \lean{SchurWeyl.svd_spectral}\leanok
+  Any positive semidefinite Hermetian matrix $M^\dagger M$ can be diagonalized by a unitary matrix.
+\end{theorem}
+
+\begin{theorem}[Conjugate Transpose Multiplicative Spectral Relation]\label{thm:conjTranspose_mul_self_of_spectral}
+  \lean{SchurWeyl.conjTranspose_mul_self_of_spectral}\uses{thm:svd_spectral}\leanok
+  If $M^\dagger M = Q D Q^\dagger$, then $(M Q)^\dagger (M Q) = D$.
+\end{theorem}
+
+\begin{theorem}[Unitary Matrix from Orthonormal Basis]\label{thm:exists_unitary_of_orthonormalBasis}
+  \lean{SchurWeyl.exists_unitary_of_orthonormalBasis}\leanok
+  An orthonormal basis can be assembled into a unitary matrix.
+\end{theorem}
+
+\begin{theorem}[Column Normalization Relation]\label{thm:cols_mul_diag_sqrt}
+  \lean{SchurWeyl.cols_mul_diag_sqrt}\leanok
+  The unitary matrix times the diagonal square root matrix recovers the normalized columns.
+\end{theorem}
+
 \begin{theorem}[SVD Existence]\label{thm:svd_exists}
-  \lean{SchurWeyl.svd_exists}\leanok
+  \lean{SchurWeyl.svd_exists}\uses{thm:svd_spectral, thm:conjTranspose_mul_self_of_spectral, thm:exists_orthonormalBasis_cols, thm:exists_unitary_of_orthonormalBasis, thm:cols_mul_diag_sqrt}\leanok
   Any complex matrix can be written as $M = U_1 D U_2$ with $U_1, U_2 \in U(d)$ and diagonal $D$.
 \end{theorem}
 
+\begin{theorem}[Matrix of Diagonal Diagonal Action]\label{thm:toEndMatrix_diagAction_diagonal}
+  \lean{SchurWeyl.toEndMatrix_diagAction_diagonal}\uses{def:toEndMatrix, def:diagAction, def:endOf, lem:diagAction_diagonal}\leanok
+  The matrix representation of the diagonal action of a diagonal matrix is diagonal in the tensor basis.
+\end{theorem}
+
+\begin{theorem}[Diagonal Matrix Unitary Criterion]\label{thm:diagonal_mem_unitaryGroup}
+  \lean{SchurWeyl.diagonal_mem_unitaryGroup}\leanok
+  A diagonal matrix with entries on the unit circle is unitary.
+\end{theorem}
+
+\begin{theorem}[Identity extension from Torus]\label{thm:prod_eq_of_torus}
+  \lean{SchurWeyl.prod_eq_of_torus}\leanok
+  An identity of index-monomials holding on the unit torus holds on all inputs.
+\end{theorem}
+
+\begin{theorem}[Matrix of Composition]\label{thm:toEndMatrix_comp}
+  \lean{SchurWeyl.toEndMatrix_comp}\uses{def:toEndMatrix, def:tensorBasis}\leanok
+  The matrix representation map is multiplicative: $\text{toEndMatrix}(f \circ g) = \text{toEndMatrix}(f) \text{toEndMatrix}(g)$.
+\end{theorem}
+
+\begin{theorem}[Entrywise Commutation with Diagonal Action]\label{thm:comm_diagAction_diagonal_entry}
+  \lean{SchurWeyl.comm_diagAction_diagonal_entry}\uses{def:diagAction, def:endOf, thm:toEndMatrix_comp, thm:toEndMatrix_diagAction_diagonal, thm:diagonal_mem_unitaryGroup, thm:prod_eq_of_torus}\leanok
+  An operator commuting with all unitary diagonal actions commutes entrywise with all diagonal actions.
+\end{theorem}
+
+\begin{theorem}[Commutation with all Diagonal Actions]\label{thm:comm_diagAction_diagonal}
+  \lean{SchurWeyl.comm_diagAction_diagonal}\uses{def:diagAction, def:endOf, def:toEndMatrix, thm:comm_diagAction_diagonal_entry, thm:toEndMatrix_comp, thm:toEndMatrix_diagAction_diagonal}\leanok
+  An operator commuting with all unitary diagonal actions commutes with the diagonal action of any diagonal matrix.
+\end{theorem}
+
 \begin{theorem}[Unitary Commutant implies Centralizer]\label{thm:mem_centralizer_of_comm_unitary}
-  \lean{SchurWeyl.mem_centralizer_of_comm_unitary}\uses{thm:svd_exists}\leanok
+  \lean{SchurWeyl.mem_centralizer_of_comm_unitary}\uses{def:diagAction, thm:svd_exists, thm:comm_diagAction_diagonal, def:endOf, thm:endOf_mul, thm:diagAction_comp}\leanok
   An operator that commutes with all unitary diagonal actions commutes with all diagonal actions.
 \end{theorem}
 
@@ -297,6 +471,6 @@ We extend this to all matrices using density.
 \end{theorem}
 
 \begin{theorem}[Weingarten Moments for Haar Integral]\label{thm:weingarten_moment_haar}
-  \lean{SchurWeyl.weingarten_moment_haar}\uses{def:momentOp, thm:momentOp_mem_span, thm:momentOp_trace, thm:weingarten_moment_decomposition_of_props}\leanok
+  \lean{SchurWeyl.weingarten_moment_haar}\uses{def:momentOp, def:permOp, def:permDual, thm:momentOp_mem_span, thm:momentOp_trace, thm:weingarten_moment_decomposition_of_props}\leanok
   The Haar moment operator is a linear combination of the permutation operators whose coefficients solve the Weingarten system.
 \end{theorem}

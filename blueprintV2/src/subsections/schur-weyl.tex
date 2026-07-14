@@ -11,7 +11,7 @@ Let $V = \mathbb{C}^d$ denote the $d$-dimensional complex Euclidean space (model
 \end{definition}
 
 \begin{definition}[Permutation Action]\label{def:permAction}
-  \lean{SchurWeyl.permAction}\leanok
+  \lean{SchurWeyl.permAction}\uses{def:TensV}\leanok
   Given a permutation $\sigma \in S_k$, the permutation operator $W_\sigma$ on $V^{\otimes k}$ acts by permuting the tensor factors:
   \begin{equation}
     W_\sigma(v_1 \otimes \dots \otimes v_k) = v_{\sigma^{-1}(1)} \otimes \dots \otimes v_{\sigma^{-1}(k)}
@@ -19,7 +19,7 @@ Let $V = \mathbb{C}^d$ denote the $d$-dimensional complex Euclidean space (model
 \end{definition}
 
 \begin{definition}[Diagonal Action]\label{def:diagAction}
-  \lean{SchurWeyl.diagAction}\leanok
+  \lean{SchurWeyl.diagAction}\uses{def:TensV}\leanok
   Given an operator $g \in \text{End}(V)$, the diagonal action $g^{\otimes k}$ on $V^{\otimes k}$ acts as $g$ on each tensor factor:
   \begin{equation}
     g^{\otimes k}(v_1 \otimes \dots \otimes v_k) = g(v_1) \otimes \dots \otimes g(v_k)
@@ -27,7 +27,7 @@ Let $V = \mathbb{C}^d$ denote the $d$-dimensional complex Euclidean space (model
 \end{definition}
 
 \begin{definition}[Permutation Image]\label{def:permImage}
-  \lean{SchurWeyl.permImage}\uses{def:permAction}\leanok
+  \lean{SchurWeyl.permImage}\uses{def:permAction, def:TensV}\leanok
   The permutation image $\mathcal{P}_{d,k} \subseteq \text{End}(V^{\otimes k})$ is the set of all permutation operators:
   \begin{equation}
     \mathcal{P}_{d,k} = \{ W_\sigma \mid \sigma \in S_k \}
@@ -35,7 +35,7 @@ Let $V = \mathbb{C}^d$ denote the $d$-dimensional complex Euclidean space (model
 \end{definition}
 
 \begin{definition}[Diagonal Image]\label{def:diagImage}
-  \lean{SchurWeyl.diagImage}\uses{def:diagAction}\leanok
+  \lean{SchurWeyl.diagImage}\uses{def:diagAction, def:TensV}\leanok
   The diagonal image $\mathcal{D}_{d,k} \subseteq \text{End}(V^{\otimes k})$ is the set of all diagonal action operators:
   \begin{equation}
     \mathcal{D}_{d,k} = \{ g^{\otimes k} \mid g \in \text{End}(V) \}
@@ -104,7 +104,7 @@ To prove the hard direction of Schur-Weyl duality, we first prove that the centr
 \end{definition}
 
 \begin{definition}[Endomorphism Matrix Representation (Primed)]\label{def:toEndMatrix'}
-  \lean{SchurWeyl.toEndMatrix'}\uses{def:tensorBasis'}\leanok
+  \lean{SchurWeyl.toEndMatrix'}\uses{def:tensorBasis', def:TensV}\leanok
   The linear equivalence between the endomorphism algebra $\text{End}(V^{\otimes k})$ and the algebra of $d^k \times d^k$ complex matrices:
   \begin{equation}
     \text{End}(V^{\otimes k}) \simeq \text{Mat}_{d^k \times d^k}(\mathbb{C})
@@ -136,7 +136,7 @@ To prove the hard direction of Schur-Weyl duality, we first prove that the centr
 \end{definition}
 
 \begin{definition}[Endomorphism Matrix Representation]\label{def:toEndMatrix}
-  \lean{SchurWeyl.toEndMatrix}\uses{def:tensorBasis}\leanok
+  \lean{SchurWeyl.toEndMatrix}\uses{def:tensorBasis, def:TensV}\leanok
   The linear equivalence between the endomorphism algebra $\text{End}(V^{\otimes k})$ and the algebra of $d^k \times d^k$ complex matrices:
   \begin{equation}
     \text{End}(V^{\otimes k}) \simeq \text{Mat}_{d^k \times d^k}(\mathbb{C})
@@ -232,22 +232,22 @@ To prove the hard direction of Schur-Weyl duality, we first prove that the centr
 Using representation theory, we can establish the Double Commutant Theorem for the permutation algebra.
 
 \begin{definition}[Permutation Monoid Homomorphism]\label{def:permMonoidHom}
-  \lean{SchurWeyl.permMonoidHom}\uses{lem:permAction_tprod, def:permAction}\leanok
+  \lean{SchurWeyl.permMonoidHom}\uses{lem:permAction_tprod, def:permAction, def:TensV}\leanok
   The permutation action as a monoid homomorphism $\rho_{\text{mon}}: S_k \to \text{End}(V^{\otimes k})$ mapping $\sigma \mapsto W_\sigma$.
 \end{definition}
 
 \begin{definition}[Permutation Representation]\label{def:permRep}
-  \lean{SchurWeyl.permRep}\uses{def:permMonoidHom}\leanok
+  \lean{SchurWeyl.permRep}\uses{def:permMonoidHom, def:TensV}\leanok
   The permutation representation is the representation $\rho: S_k \to \text{End}(V^{\otimes k})$ obtained from the permutation monoid homomorphism.
 \end{definition}
 
 \begin{definition}[Permutation Module]\label{def:PermModule}
-  \lean{SchurWeyl.PermModule}\uses{def:permRep}\leanok
+  \lean{SchurWeyl.PermModule}\uses{def:permRep, def:TensV}\leanok
   The space $V^{\otimes k}$ viewed as a $\mathbb{C}[S_k]$-module under the permutation representation.
 \end{definition}
 
 \begin{definition}[Permutation Algebra Homomorphism]\label{def:permAlgHom}
-  \lean{SchurWeyl.permAlgHom}\uses{def:permRep}\leanok
+  \lean{SchurWeyl.permAlgHom}\uses{def:permRep, def:TensV}\leanok
   The algebra homomorphism $\tilde{\rho}: \mathbb{C}[S_k] \to \text{End}(V^{\otimes k})$ induced by the representation.
 \end{definition}
 
@@ -260,17 +260,17 @@ Using representation theory, we can establish the Double Commutant Theorem for t
 \end{lemma}
 
 \begin{definition}[Centralizer to EndModule Mapping]\label{def:centralizer_to_endModule}
-  \lean{SchurWeyl.centralizer_to_endModule}\uses{def:PermModule, def:permRep, def:permImage, thm:permAlgHom_range_eq}\leanok
+  \lean{SchurWeyl.centralizer_to_endModule}\uses{def:PermModule, def:permRep, def:permImage, thm:permAlgHom_range_eq, def:TensV}\leanok
   The mapping that identifies any $\mathbb{C}$-linear endomorphism $f$ in the centralizer of the span of permutation operators as a $\mathbb{C}[S_k]$-linear endomorphism of the permutation module.
 \end{definition}
 
 \begin{definition}[Double Centralizer to EndEndModule Mapping]\label{def:doubleCentralizer_to_endEndModule}
-  \lean{SchurWeyl.doubleCentralizer_to_endEndModule}\uses{def:PermModule, def:permImage, lem:endModule_mem_centralizer}\leanok
+  \lean{SchurWeyl.doubleCentralizer_to_endEndModule}\uses{def:PermModule, def:permImage, lem:endModule_mem_centralizer, def:TensV}\leanok
   The mapping that identifies any $\mathbb{C}$-linear endomorphism $T$ in the double centralizer of the span of permutation operators as an endomorphism over the $\mathbb{C}[S_k]$-linear endomorphism ring of the permutation module.
 \end{definition}
 
 \begin{lemma}[EndModule is in Centralizer]\label{lem:endModule_mem_centralizer}
-  \lean{SchurWeyl.endModule_mem_centralizer}\uses{def:PermModule, def:permImage, def:permRep}\leanok
+  \lean{SchurWeyl.endModule_mem_centralizer}\uses{def:PermModule, def:permImage, def:permRep, def:TensV}\leanok
   Any $\mathbb{C}[S_k]$-linear endomorphism of the permutation module restricts to a $\mathbb{C}$-linear endomorphism that lies in the centralizer of the span of permutation operators.
 \end{lemma}
 
@@ -291,17 +291,17 @@ Using representation theory, we can establish the Double Commutant Theorem for t
 \end{lemma}
 
 \begin{lemma}[Semisimplicity of Permutation Module]\label{lem:permModule_isSemisimple}
-  \lean{SchurWeyl.permModule_isSemisimple}\uses{def:permRep, def:PermModule}\leanok
+  \lean{SchurWeyl.permModule_isSemisimple}\uses{def:permRep, def:PermModule, def:TensV}\leanok
   The permutation module $V^{\otimes k}$ is a semisimple $\mathbb{C}[S_k]$-module. This is a consequence of Maschke's theorem.
 \end{lemma}
 
 \begin{lemma}[Finiteness of Permutation Module over Endomorphism Ring]\label{lem:permModule_finite_over_endRing}
-  \lean{SchurWeyl.permModule_finite_over_endRing}\uses{def:PermModule}\leanok
+  \lean{SchurWeyl.permModule_finite_over_endRing}\uses{def:PermModule, def:TensV}\leanok
   The permutation module $V^{\otimes k}$ is finitely generated as a module over its $\mathbb{C}[S_k]$-endomorphism ring.
 \end{lemma}
 
 \begin{theorem}[Jacobson Density for Permutation Representation]\label{thm:permModule_toModuleEnd_surjective}
-  \lean{SchurWeyl.permModule_toModuleEnd_surjective}\uses{lem:permModule_isSemisimple, lem:permModule_finite_over_endRing, def:permRep}\leanok
+  \lean{SchurWeyl.permModule_toModuleEnd_surjective}\uses{lem:permModule_isSemisimple, lem:permModule_finite_over_endRing, def:permRep, def:TensV}\leanok
   The natural map from the group algebra $\mathbb{C}[S_k]$ to the double endomorphism ring of the permutation module is surjective.
 \end{theorem}
 

@@ -14,12 +14,12 @@ We study the moment computations of operators under the Haar measure, which redu
 To apply this to operators on $V^{\otimes k}$, we define permutation operators and their adjoints.
 
 \begin{definition}[Permutation Operators]\label{def:permOp}
-  \lean{SchurWeyl.permOp}\uses{def:permAction}\leanok
+  \lean{SchurWeyl.permOp}\uses{def:permAction, def:TensV}\leanok
   The permutation operator $V_d(\sigma) \in \text{End}(V^{\otimes k})$ is the linear map corresponding to $\sigma \in S_k$.
 \end{definition}
 
 \begin{definition}[Adjoint Permutation Operators]\label{def:permDual}
-  \lean{SchurWeyl.permDual}\uses{def:permAction}\leanok
+  \lean{SchurWeyl.permDual}\uses{def:permAction, def:TensV}\leanok
   The dual permutation operator $V_d^\dagger(\sigma)$ is defined as the permutation operator of $\sigma^{-1}$.
 \end{definition}
 
@@ -29,7 +29,7 @@ To apply this to operators on $V^{\otimes k}$, we define permutation operators a
 \end{theorem}
 
 \begin{definition}[Matrix Vectorization]\label{def:endVec}
-  \lean{SchurWeyl.endVec}\uses{def:toEndMatrix}\leanok
+  \lean{SchurWeyl.endVec}\uses{def:toEndMatrix, def:TensV}\leanok
   The vectorization $\text{endVec}(O)$ of an operator $O \in \text{End}(V^{\otimes k})$ is the vector of its matrix entries in the computational basis, viewed as an element of the Euclidean space.
 \end{definition}
 
@@ -141,12 +141,12 @@ We apply this to permutation operators.
 \end{definition}
 
 \begin{definition}[Endomorphism Vectorization Equivalence]\label{def:endVecEquiv}
-  \lean{SchurWeyl.endVecEquiv}\uses{def:toEndMatrix, def:matrixEntriesEquiv}\leanok
+  \lean{SchurWeyl.endVecEquiv}\uses{def:toEndMatrix, def:matrixEntriesEquiv, def:TensV}\leanok
   The linear equivalence between endomorphisms and the Euclidean space of their matrix entries.
 \end{definition}
 
 \begin{definition}[Linear Endomorphism Vectorization]\label{def:endVecₗ}
-  \lean{SchurWeyl.endVecₗ}\uses{def:endVecEquiv}\leanok
+  \lean{SchurWeyl.endVecₗ}\uses{def:endVecEquiv, def:TensV}\leanok
   The linear map representing the vectorization of endomorphisms.
 \end{definition}
 
@@ -176,12 +176,12 @@ We apply this to permutation operators.
 \end{theorem}
 
 \begin{definition}[Weingarten Gram Matrix]\label{def:weingartenGram}
-  \lean{SchurWeyl.weingartenGram}\uses{def:permDual, def:permOp}\leanok
+  \lean{SchurWeyl.weingartenGram}\uses{def:permDual, def:permOp, def:TensV}\leanok
   The Weingarten Gram matrix is defined by $G_{\sigma, \pi} = \text{Tr}(V_d^\dagger(\sigma) V_d(\pi))$.
 \end{definition}
 
 \begin{definition}[Weingarten Target Vector]\label{def:weingartenVec}
-  \lean{SchurWeyl.weingartenVec}\uses{def:permDual}\leanok
+  \lean{SchurWeyl.weingartenVec}\uses{def:permDual, def:TensV}\leanok
   The Weingarten target vector is $u_\sigma = \text{Tr}(V_d^\dagger(\sigma) O)$.
 \end{definition}
 
@@ -221,7 +221,7 @@ We apply this to permutation operators.
 \end{theorem}
 
 \begin{definition}[Weingarten Solution Set]\label{def:weingartenSolutionSet}
-  \lean{SchurWeyl.weingartenSolutionSet}\uses{def:weingartenGram, def:weingartenVec}\leanok
+  \lean{SchurWeyl.weingartenSolutionSet}\uses{def:weingartenGram, def:weingartenVec, def:TensV}\leanok
   The set of solution vectors $c$ to the Weingarten system.
 \end{definition}
 

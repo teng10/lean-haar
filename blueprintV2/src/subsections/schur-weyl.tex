@@ -95,8 +95,40 @@ Let $V = \mathbb{C}^d$ denote the $d$-dimensional complex Euclidean space (model
 
 To prove the hard direction of Schur-Weyl duality, we first prove that the centralizer of the permutation image is contained in the span of the diagonal image. This is a form of the First Fundamental Theorem (FFT) of invariant theory.
 
+\begin{definition}[Tensor Basis (Primed)]\label{def:tensorBasis'}
+  \lean{SchurWeyl.tensorBasis'}\uses{def:TensV}\leanok
+  The standard basis of $V^{\otimes k}$ constructed as the tensor product of the standard basis of $V$:
+  \begin{equation}
+    (e_I)_{I \in [d]^k}
+  \end{equation}
+\end{definition}
+
+\begin{definition}[Endomorphism Matrix Representation (Primed)]\label{def:toEndMatrix'}
+  \lean{SchurWeyl.toEndMatrix'}\uses{def:tensorBasis'}\leanok
+  The linear equivalence between the endomorphism algebra $\text{End}(V^{\otimes k})$ and the algebra of $d^k \times d^k$ complex matrices:
+  \begin{equation}
+    \text{End}(V^{\otimes k}) \simeq \text{Mat}_{d^k \times d^k}(\mathbb{C})
+  \end{equation}
+\end{definition}
+
+\begin{lemma}[Matrix Representation of Diagonal Action (Primed)]\label{lem:toEndMatrix'_diagAction}
+  \lean{SchurWeyl.toEndMatrix'_diagAction}\uses{def:toEndMatrix', def:diagAction}\leanok
+  For any operator $g \in \text{End}(V)$, the matrix elements of its diagonal action $g^{\otimes k}$ in the tensor basis are given by:
+  \begin{equation}
+    (g^{\otimes k})_{I, J} = \prod_{m=1}^k g_{I(m), J(m)}
+  \end{equation}
+\end{lemma}
+
+\begin{lemma}[Permutation Action on Tensor Basis (Primed)]\label{lem:permAction_tensorBasis'}
+  \lean{SchurWeyl.permAction_tensorBasis'}\uses{def:tensorBasis', def:permAction, lem:permAction_tprod}\leanok
+  The permutation action of $W_\sigma$ on a basis element $e_I$ permutes the indices:
+  \begin{equation}
+    W_\sigma(e_I) = e_{I \circ \sigma^{-1}}
+  \end{equation}
+\end{lemma}
+
 \begin{definition}[Tensor Basis]\label{def:tensorBasis}
-  \lean{SchurWeyl.tensorBasis'}\leanok
+  \lean{SchurWeyl.tensorBasis}\leanok
   The standard basis of $V^{\otimes k}$ constructed as the tensor product of the standard basis of $V$:
   \begin{equation}
     (e_I)_{I \in [d]^k}
@@ -104,27 +136,40 @@ To prove the hard direction of Schur-Weyl duality, we first prove that the centr
 \end{definition}
 
 \begin{definition}[Endomorphism Matrix Representation]\label{def:toEndMatrix}
-  \lean{SchurWeyl.toEndMatrix'}\uses{def:tensorBasis, def:diagAction}\leanok
+  \lean{SchurWeyl.toEndMatrix}\uses{def:tensorBasis}\leanok
   The linear equivalence between the endomorphism algebra $\text{End}(V^{\otimes k})$ and the algebra of $d^k \times d^k$ complex matrices:
   \begin{equation}
     \text{End}(V^{\otimes k}) \simeq \text{Mat}_{d^k \times d^k}(\mathbb{C})
   \end{equation}
 \end{definition}
 
-\begin{lemma}[Matrix Representation of Diagonal Action]\label{lem:toEndMatrix'_diagAction}
-  \lean{SchurWeyl.toEndMatrix'_diagAction}\uses{def:toEndMatrix, def:diagAction}\leanok
+\begin{lemma}[Permutation Action on Tensor Basis]\label{lem:permAction_tensorBasis}
+  \lean{SchurWeyl.permAction_tensorBasis}\uses{def:tensorBasis, def:permAction}\leanok
+  The permutation action of $W_\sigma$ on a basis element $e_I$ permutes the indices:
+  \begin{equation}
+    W_\sigma(e_I) = e_{I \circ \sigma^{-1}}
+  \end{equation}
+\end{lemma}
+
+\begin{lemma}[Matrix of Permutation Action]\label{lem:toEndMatrix_permAction}
+  \lean{SchurWeyl.toEndMatrix_permAction}\uses{def:toEndMatrix, lem:permAction_tensorBasis, def:permAction}\leanok
+  The matrix entries of the permutation action $W_\sigma$ are:
+  \begin{equation}
+    (W_\sigma)_{I, J} = \delta_{I, J \circ \sigma^{-1}}
+  \end{equation}
+\end{lemma}
+
+\begin{lemma}[Matrix Representation of Diagonal Action]\label{lem:toEndMatrix_diagAction}
+  \lean{SchurWeyl.toEndMatrix_diagAction}\uses{def:toEndMatrix, def:diagAction, def:tensorBasis}\leanok
   For any operator $g \in \text{End}(V)$, the matrix elements of its diagonal action $g^{\otimes k}$ in the tensor basis are given by:
   \begin{equation}
     (g^{\otimes k})_{I, J} = \prod_{m=1}^k g_{I(m), J(m)}
   \end{equation}
 \end{lemma}
 
-\begin{lemma}[Permutation Action on Tensor Basis]\label{lem:permAction_tensorBasis'}
-  \lean{SchurWeyl.permAction_tensorBasis'}\uses{def:tensorBasis, def:permAction, lem:permAction_tprod}\leanok
-  The permutation action of $W_\sigma$ on a basis element $e_I$ permutes the indices:
-  \begin{equation}
-    W_\sigma(e_I) = e_{I \circ \sigma^{-1}}
-  \end{equation}
+\begin{lemma}[DiagAction of Diagonal Operator]\label{lem:diagAction_diagonal}
+  \lean{SchurWeyl.diagAction_diagonal}\uses{def:toEndMatrix, def:diagAction,lem:toEndMatrix_diagAction}\leanok
+  If $g \in \text{End}(V)$ is a diagonal operator with entries $f$, then $g^{\otimes k}$ is a diagonal operator with entries $\prod_{m=1}^k f(I(m))$.
 \end{lemma}
 
 \begin{lemma}[Monomial Coefficient Independence]\label{lem:monomial_coeff_zero_of_eval_zero}
@@ -146,7 +191,7 @@ To prove the hard direction of Schur-Weyl duality, we first prove that the centr
 \end{lemma}
 
 \begin{lemma}[Matrix Orbit Invariance]\label{lem:matrix_orbit_invariant}
-  \lean{SchurWeyl.matrix_orbit_invariant}\uses{def:permImage, def:toEndMatrix, lem:permAction_tensorBasis', def:permAction, def:toEndMatrix, lem:permAction_tensorBasis', def:tensorBasis}\leanok
+  \lean{SchurWeyl.matrix_orbit_invariant}\uses{def:permImage, def:toEndMatrix', lem:permAction_tensorBasis', def:permAction, def:tensorBasis'}\leanok
   If an operator $X \in \text{End}(V^{\otimes k})$ commutes with all permutation operators $W_\sigma$, then its matrix entries in the computational basis satisfy $X_{I \circ \sigma, J \circ \sigma} = X_{I, J}$ for all $\sigma \in S_k$.
 \end{lemma}
 
@@ -284,7 +329,7 @@ We now assemble the main result.
 \end{theorem}
 
 \begin{theorem}[Hard Direction of Schur-Weyl Duality]\label{thm:centralizer_diagImage_le_span_permImage}
-  \lean{SchurWeyl.centralizer_diagImage_le_span_permImage}\uses{thm:centralizer_diagImage_le_span_permImage_small}\leanok
+  \lean{SchurWeyl.centralizer_diagImage_le_span_permImage}\uses{thm:centralizer_diagImage_le_span_permImage_small, def:diagImage, def:permImage}\leanok
   The centralizer of the diagonal image is contained in the span of the permutation image:
   \begin{equation}
     \text{Comm}(\mathcal{D}_{d,k}) \subseteq \text{Span}(\mathcal{P}_{d,k})

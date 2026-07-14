@@ -24,17 +24,17 @@ To apply this to operators on $V^{\otimes k}$, we define permutation operators a
 \end{definition}
 
 \begin{theorem}[Hermitian Adjoint Agreement]\label{thm:permDual_eq_conjTranspose}
-  \lean{SchurWeyl.permDual_eq_conjTranspose}\uses{def:permOp, def:permDual}\leanok
+  \lean{SchurWeyl.permDual_eq_conjTranspose}\uses{def:toEndMatrix, def:permOp, def:permDual, lem:toEndMatrix_permAction}\leanok
   In the computational basis of $V^{\otimes k}$, the matrix representation of $V_d^\dagger(\sigma)$ is the conjugate transpose of the matrix representation of $V_d(\sigma)$.
 \end{theorem}
 
 \begin{definition}[Matrix Vectorization]\label{def:endVec}
-  \lean{SchurWeyl.endVec}\leanok
+  \lean{SchurWeyl.endVec}\uses{def:toEndMatrix}\leanok
   The vectorization $\text{endVec}(O)$ of an operator $O \in \text{End}(V^{\otimes k})$ is the vector of its matrix entries in the computational basis, viewed as an element of the Euclidean space.
 \end{definition}
 
 \begin{theorem}[The Trace Bridge]\label{thm:inner_endVec_perm_eq_trace}
-  \lean{SchurWeyl.inner_endVec_perm_eq_trace}\uses{def:permOp, def:permDual, def:endVec}\leanok
+  \lean{SchurWeyl.inner_endVec_perm_eq_trace}\uses{def:permOp, def:permDual, def:tensorBasis, def:endVec, lem:toEndMatrix_permAction}\leanok
   The Euclidean inner product of the vectorizations of $V_d(\sigma)$ and $O$ equals the trace of their product:
   \begin{equation}
     \langle \text{endVec}(V_d(\sigma)), \text{endVec}(O) \rangle = \text{Tr}(V_d^\dagger(\sigma) O)
@@ -42,7 +42,7 @@ To apply this to operators on $V^{\otimes k}$, we define permutation operators a
 \end{theorem}
 
 \begin{theorem}[Solvability of Weingarten Linear System]\label{thm:weingarten_linear_system_solvable}
-  \lean{SchurWeyl.weingarten_linear_system_solvable}\uses{thm:gram_system_solvable, thm:inner_endVec_perm_eq_trace}\leanok
+  \lean{SchurWeyl.weingarten_linear_system_solvable}\uses{thm:gram_system_solvable, thm:inner_endVec_perm_eq_trace, def:permOp, def:endVec}\leanok
   For any operator $O \in \text{End}(V^{\otimes k})$, the Weingarten system of $k!$ equations:
   \begin{equation}
     \text{Tr}(V_d^\dagger(\sigma) O) = \sum_{\pi \in S_k} c_\pi \text{Tr}(V_d^\dagger(\sigma) V_d(\pi)) \quad \text{for all } \sigma \in S_k
@@ -61,7 +61,7 @@ To apply this to operators on $V^{\otimes k}$, we define permutation operators a
 \end{lemma}
 
 \begin{theorem}[Existence of Moment Representation Operator]\label{thm:weingarten_moment_operator_spec}
-  \lean{SchurWeyl.weingarten_moment_operator_spec}\uses{thm:weingarten_linear_system_solvable, lem:sum_smul_permOp_mem_span, lem:trace_permDual_comp_sum}\leanok
+  \lean{SchurWeyl.weingarten_moment_operator_spec}\uses{thm:weingarten_linear_system_solvable, lem:sum_smul_permOp_mem_span, lem:trace_permDual_comp_sum, def:permOp, def:permImage, def:permDual}\leanok
   There exists a linear combination $M = \sum_{\pi} c_\pi V_d(\pi)$ lying in $\text{Span}(\mathcal{P}_{d,k})$ whose traces match $O$:
   \begin{equation}
     \text{Tr}(V_d^\dagger(\sigma) M) = \text{Tr}(V_d^\dagger(\sigma) O) \quad \text{for all } \sigma \in S_k
@@ -69,7 +69,7 @@ To apply this to operators on $V^{\otimes k}$, we define permutation operators a
 \end{theorem}
 
 \begin{theorem}[Moment Operator Decomposition from Trace and Span Properties]\label{thm:weingarten_moment_decomposition_of_props}
-  \lean{SchurWeyl.weingarten_moment_decomposition_of_props}\uses{lem:trace_permDual_comp_sum, def:permImage, def:permOp}\leanok
+  \lean{SchurWeyl.weingarten_moment_decomposition_of_props}\uses{lem:trace_permDual_comp_sum, def:permImage, def:permOp, def:permDual}\leanok
   If any operator $M$ lies in $\text{Span}(\mathcal{P}_{d,k})$ and has $\text{Tr}(V_d^\dagger(\sigma) M) = \text{Tr}(V_d^\dagger(\sigma) O)$ for all $\sigma$, then its coefficients solve the Weingarten system.
 \end{theorem}
 

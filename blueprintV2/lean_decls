@@ -13,6 +13,12 @@ SchurWeyl.tensorBasis'
 SchurWeyl.toEndMatrix'
 SchurWeyl.toEndMatrix'_diagAction
 SchurWeyl.permAction_tensorBasis'
+SchurWeyl.tensorBasis
+SchurWeyl.toEndMatrix
+SchurWeyl.permAction_tensorBasis
+SchurWeyl.toEndMatrix_permAction
+SchurWeyl.toEndMatrix_diagAction
+SchurWeyl.diagAction_diagonal
 monomial_coeff_zero_of_eval_zero
 SchurWeyl.pairCount
 SchurWeyl.prod_eq_monomial_eval

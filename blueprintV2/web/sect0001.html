@@ -43,7 +43,7 @@
   <a href="sect0001.html#a0000000016"><span class="toc_ref">1.2</span> <span class="toc_entry">First Fundamental Theorem of Invariant Theory</span></a>
  </li>
 <li class="">
-  <a href="sect0001.html#a0000000020"><span class="toc_ref">1.3</span> <span class="toc_entry">Double Commutant Theorem and Schur-Weyl Duality</span></a>
+  <a href="sect0001.html#a0000000029"><span class="toc_ref">1.3</span> <span class="toc_entry">Double Commutant Theorem and Schur-Weyl Duality</span></a>
  </li>
 
   </ul>
@@ -53,13 +53,13 @@
   <span class="expand-toc">▶</span>
   <ul class="sub-toc-1">
      <li class="">
-  <a href="sect0002.html#a0000000026"><span class="toc_ref">2.1</span> <span class="toc_entry">Solvability of the Weingarten System</span></a>
+  <a href="sect0002.html#a0000000038"><span class="toc_ref">2.1</span> <span class="toc_entry">Solvability of the Weingarten System</span></a>
  </li>
 <li class="">
-  <a href="sect0002.html#a0000000027"><span class="toc_ref">2.2</span> <span class="toc_entry">Uniqueness and the Gram Matrix for \(k \le d\)</span></a>
+  <a href="sect0002.html#a0000000039"><span class="toc_ref">2.2</span> <span class="toc_entry">Uniqueness and the Gram Matrix for \(k \le d\)</span></a>
  </li>
 <li class="">
-  <a href="sect0002.html#a0000000028"><span class="toc_ref">2.3</span> <span class="toc_entry">The Haar Moment Operator</span></a>
+  <a href="sect0002.html#a0000000040"><span class="toc_ref">2.3</span> <span class="toc_entry">The Haar Moment Operator</span></a>
  </li>
 
   </ul>
@@ -145,6 +145,26 @@
     <a class="icon proof" href="sect0001.html#def:permAction">#</a>
     
     
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
     
     <button class="modal lean">L∃∀N</button>
         <div class="modal-container">
@@ -196,6 +216,26 @@
 
     <a class="icon proof" href="sect0001.html#def:diagAction">#</a>
     
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
     
     
     <button class="modal lean">L∃∀N</button>
@@ -262,6 +302,8 @@
         <ul class="uses">
           
           <li><a href="sect0001.html#def:permAction">Definition 1.1.2</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
           
         </ul>
     
@@ -334,6 +376,8 @@
         <ul class="uses">
           
           <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
           
         </ul>
     
@@ -553,6 +597,10 @@
           
           <li><a href="sect0001.html#lem:diagAction_tprod">Lemma 1.1.7</a></li>
           
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0001.html#def:permAction">Definition 1.1.2</a></li>
+          
         </ul>
     
       </div>
@@ -624,6 +672,10 @@
         <ul class="uses">
           
           <li><a href="sect0001.html#lem:permAction_diagAction_tprod">Lemma 1.1.8</a></li>
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0001.html#def:permAction">Definition 1.1.2</a></li>
           
         </ul>
     
@@ -820,12 +872,728 @@
 </div>
 <h1 id="a0000000016">1.2 First Fundamental Theorem of Invariant Theory</h1>
 <p>To prove the hard direction of Schur-Weyl duality, we first prove that the centralizer of the permutation image is contained in the span of the diagonal image. This is a form of the First Fundamental Theorem (FFT) of invariant theory. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:tensorBasis'">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.2.1</span>
+    <span class="definition_thmtitle">Tensor Basis (Primed)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:tensorBasis'">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.tensorBasis'" class="lean_decl">SchurWeyl.tensorBasis'</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The standard basis of \(V^{\otimes k}\) constructed as the tensor product of the standard basis of \(V\): </p>
+<div class="equation" id="a0000000017">
+<p>
+  <div class="equation_content">
+    \begin{equation}  (e_I)_{I \in [d]^k} \end{equation}
+  </div>
+  <span class="equation_label">12</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:toEndMatrix'">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.2.2</span>
+    <span class="definition_thmtitle">Endomorphism Matrix Representation (Primed)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:toEndMatrix'">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:tensorBasis'">Definition 1.2.1</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.toEndMatrix'" class="lean_decl">SchurWeyl.toEndMatrix'</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The linear equivalence between the endomorphism algebra \(\text{End}(V^{\otimes k})\) and the algebra of \(d^k \times d^k\) complex matrices: </p>
+<div class="equation" id="a0000000018">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{End}(V^{\otimes k}) \simeq \text{Mat}_{d^k \times d^k}(\mathbb {C}) \end{equation}
+  </div>
+  <span class="equation_label">13</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:toEndMatrix'_diagAction">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.3</span>
+    <span class="lemma_thmtitle">Matrix Representation of Diagonal Action (Primed)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:toEndMatrix'_diagAction">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:toEndMatrix'">Definition 1.2.2</a></li>
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.toEndMatrix'_diagAction" class="lean_decl">SchurWeyl.toEndMatrix'_diagAction</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> For any operator \(g \in \text{End}(V)\), the matrix elements of its diagonal action \(g^{\otimes k}\) in the tensor basis are given by: </p>
+<div class="equation" id="a0000000019">
+<p>
+  <div class="equation_content">
+    \begin{equation}  (g^{\otimes k})_{I, J} = \prod _{m=1}^k g_{I(m), J(m)} \end{equation}
+  </div>
+  <span class="equation_label">14</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:permAction_tensorBasis'">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.4</span>
+    <span class="lemma_thmtitle">Permutation Action on Tensor Basis (Primed)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:permAction_tensorBasis'">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:tensorBasis'">Definition 1.2.1</a></li>
+          
+          <li><a href="sect0001.html#def:permAction">Definition 1.1.2</a></li>
+          
+          <li><a href="sect0001.html#lem:permAction_tprod">Lemma 1.1.6</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permAction_tensorBasis'" class="lean_decl">SchurWeyl.permAction_tensorBasis'</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> The permutation action of \(W_\sigma \) on a basis element \(e_I\) permutes the indices: </p>
+<div class="equation" id="a0000000020">
+<p>
+  <div class="equation_content">
+    \begin{equation}  W_\sigma (e_I) = e_{I \circ \sigma ^{-1}} \end{equation}
+  </div>
+  <span class="equation_label">15</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:tensorBasis">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.2.5</span>
+    <span class="definition_thmtitle">Tensor Basis</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:tensorBasis">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.tensorBasis" class="lean_decl">SchurWeyl.tensorBasis</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The standard basis of \(V^{\otimes k}\) constructed as the tensor product of the standard basis of \(V\): </p>
+<div class="equation" id="a0000000021">
+<p>
+  <div class="equation_content">
+    \begin{equation}  (e_I)_{I \in [d]^k} \end{equation}
+  </div>
+  <span class="equation_label">16</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:toEndMatrix">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.2.6</span>
+    <span class="definition_thmtitle">Endomorphism Matrix Representation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:toEndMatrix">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:tensorBasis">Definition 1.2.5</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.toEndMatrix" class="lean_decl">SchurWeyl.toEndMatrix</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The linear equivalence between the endomorphism algebra \(\text{End}(V^{\otimes k})\) and the algebra of \(d^k \times d^k\) complex matrices: </p>
+<div class="equation" id="a0000000022">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{End}(V^{\otimes k}) \simeq \text{Mat}_{d^k \times d^k}(\mathbb {C}) \end{equation}
+  </div>
+  <span class="equation_label">17</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:permAction_tensorBasis">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.7</span>
+    <span class="lemma_thmtitle">Permutation Action on Tensor Basis</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:permAction_tensorBasis">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:tensorBasis">Definition 1.2.5</a></li>
+          
+          <li><a href="sect0001.html#def:permAction">Definition 1.1.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permAction_tensorBasis" class="lean_decl">SchurWeyl.permAction_tensorBasis</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> The permutation action of \(W_\sigma \) on a basis element \(e_I\) permutes the indices: </p>
+<div class="equation" id="a0000000023">
+<p>
+  <div class="equation_content">
+    \begin{equation}  W_\sigma (e_I) = e_{I \circ \sigma ^{-1}} \end{equation}
+  </div>
+  <span class="equation_label">18</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:toEndMatrix_permAction">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.8</span>
+    <span class="lemma_thmtitle">Matrix of Permutation Action</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:toEndMatrix_permAction">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
+          <li><a href="sect0001.html#lem:permAction_tensorBasis">Lemma 1.2.7</a></li>
+          
+          <li><a href="sect0001.html#def:permAction">Definition 1.1.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.toEndMatrix_permAction" class="lean_decl">SchurWeyl.toEndMatrix_permAction</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> The matrix entries of the permutation action \(W_\sigma \) are: </p>
+<div class="equation" id="a0000000024">
+<p>
+  <div class="equation_content">
+    \begin{equation}  (W_\sigma )_{I, J} = \delta _{I, J \circ \sigma ^{-1}} \end{equation}
+  </div>
+  <span class="equation_label">19</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:toEndMatrix_diagAction">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.9</span>
+    <span class="lemma_thmtitle">Matrix Representation of Diagonal Action</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:toEndMatrix_diagAction">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0001.html#def:tensorBasis">Definition 1.2.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.toEndMatrix_diagAction" class="lean_decl">SchurWeyl.toEndMatrix_diagAction</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> For any operator \(g \in \text{End}(V)\), the matrix elements of its diagonal action \(g^{\otimes k}\) in the tensor basis are given by: </p>
+<div class="equation" id="a0000000025">
+<p>
+  <div class="equation_content">
+    \begin{equation}  (g^{\otimes k})_{I, J} = \prod _{m=1}^k g_{I(m), J(m)} \end{equation}
+  </div>
+  <span class="equation_label">20</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:diagAction_diagonal">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.10</span>
+    <span class="lemma_thmtitle">DiagAction of Diagonal Operator</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:diagAction_diagonal">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0001.html#lem:toEndMatrix_diagAction">Lemma 1.2.9</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.diagAction_diagonal" class="lean_decl">SchurWeyl.diagAction_diagonal</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> If \(g \in \text{End}(V)\) is a diagonal operator with entries \(f\), then \(g^{\otimes k}\) is a diagonal operator with entries \(\prod _{m=1}^k f(I(m))\). </p>
+
+  </div>
+</div>
 <div class="lemma_thmwrapper theorem-style-plain" id="lem:monomial_coeff_zero_of_eval_zero">
   <div class="lemma_thmheading">
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1.2.1</span>
+    <span class="lemma_thmlabel">1.2.11</span>
     <span class="lemma_thmtitle">Monomial Coefficient Independence</span>
     <div class="thm_header_extras">
 
@@ -869,7 +1637,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1.2.2</span>
+    <span class="definition_thmlabel">1.2.12</span>
     <span class="definition_thmtitle">Pair Count Coincidence</span>
     <div class="thm_header_extras">
 
@@ -913,7 +1681,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1.2.3</span>
+    <span class="lemma_thmlabel">1.2.13</span>
     <span class="lemma_thmtitle">Product Monomial Representation</span>
     <div class="thm_header_extras">
 
@@ -937,7 +1705,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:pairCount">Definition 1.2.2</a></li>
+          <li><a href="sect0001.html#def:pairCount">Definition 1.2.12</a></li>
           
         </ul>
     
@@ -969,12 +1737,12 @@
   </div>
   <div class="lemma_thmcontent">
   <p> The product of matrix elements can be written as a monomial evaluation of the pair count: </p>
-<div class="equation" id="a0000000017">
+<div class="equation" id="a0000000026">
 <p>
   <div class="equation_content">
     \begin{equation}  \prod _{m=1}^k g_{I(m), J(m)} = \prod _{(a,b)} g_{a,b}^{\text{pairCount}(I,J)(a,b)} \end{equation}
   </div>
-  <span class="equation_label">12</span>
+  <span class="equation_label">21</span>
 </p>
 </div>
 
@@ -985,7 +1753,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1.2.4</span>
+    <span class="lemma_thmlabel">1.2.14</span>
     <span class="lemma_thmtitle">Matrix Orbit Invariance</span>
     <div class="thm_header_extras">
 
@@ -1010,6 +1778,14 @@
         <ul class="uses">
           
           <li><a href="sect0001.html#def:permImage">Definition 1.1.4</a></li>
+          
+          <li><a href="sect0001.html#def:toEndMatrix'">Definition 1.2.2</a></li>
+          
+          <li><a href="sect0001.html#lem:permAction_tensorBasis'">Lemma 1.2.4</a></li>
+          
+          <li><a href="sect0001.html#def:permAction">Definition 1.1.2</a></li>
+          
+          <li><a href="sect0001.html#def:tensorBasis'">Definition 1.2.1</a></li>
           
         </ul>
     
@@ -1049,7 +1825,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1.2.5</span>
+    <span class="lemma_thmlabel">1.2.15</span>
     <span class="lemma_thmtitle">Pair Count Permutation Invariance</span>
     <div class="thm_header_extras">
 
@@ -1073,7 +1849,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:pairCount">Definition 1.2.2</a></li>
+          <li><a href="sect0001.html#def:pairCount">Definition 1.2.12</a></li>
           
         </ul>
     
@@ -1105,12 +1881,12 @@
   </div>
   <div class="lemma_thmcontent">
   <p> Permuting the indices by \(\sigma \) preserves the pair count: </p>
-<div class="equation" id="a0000000018">
+<div class="equation" id="a0000000027">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{pairCount}(I \circ \sigma , J \circ \sigma ) = \text{pairCount}(I, J) \end{equation}
   </div>
-  <span class="equation_label">13</span>
+  <span class="equation_label">22</span>
 </p>
 </div>
 
@@ -1121,7 +1897,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1.2.6</span>
+    <span class="lemma_thmlabel">1.2.16</span>
     <span class="lemma_thmtitle">Sum Grouped by Pair Count</span>
     <div class="thm_header_extras">
 
@@ -1145,9 +1921,9 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#lem:prod_eq_monomial_eval">Lemma 1.2.3</a></li>
+          <li><a href="sect0001.html#lem:prod_eq_monomial_eval">Lemma 1.2.13</a></li>
           
-          <li><a href="sect0001.html#def:pairCount">Definition 1.2.2</a></li>
+          <li><a href="sect0001.html#def:pairCount">Definition 1.2.12</a></li>
           
         </ul>
     
@@ -1187,7 +1963,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1.2.7</span>
+    <span class="lemma_thmlabel">1.2.17</span>
     <span class="lemma_thmtitle">Linear Functional Vanishing</span>
     <div class="thm_header_extras">
 
@@ -1211,7 +1987,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:pairCount">Definition 1.2.2</a></li>
+          <li><a href="sect0001.html#def:pairCount">Definition 1.2.12</a></li>
           
         </ul>
     
@@ -1246,12 +2022,56 @@
 
   </div>
 </div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:exists_functional_separation">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.18</span>
+    <span class="lemma_thmtitle">Functional Separation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:exists_functional_separation">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.exists_functional_separation" class="lean_decl">SchurWeyl.exists_functional_separation</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> If \(x\) is a vector in a finite-dimensional space \(V\) not belonging to a submodule \(S\), there exists a linear functional \(\varphi \in V^*\) vanishing on \(S\) but such that \(\varphi (x) \neq 0\). </p>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:centralizer_permImage_le_span_diagImage">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.2.8</span>
+    <span class="theorem_thmlabel">1.2.19</span>
     <span class="theorem_thmtitle">First Fundamental Theorem</span>
     <div class="thm_header_extras">
 
@@ -1275,19 +2095,25 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#lem:monomial_coeff_zero_of_eval_zero">Lemma 1.2.1</a></li>
+          <li><a href="sect0001.html#lem:monomial_coeff_zero_of_eval_zero">Lemma 1.2.11</a></li>
           
-          <li><a href="sect0001.html#lem:matrix_orbit_invariant">Lemma 1.2.4</a></li>
+          <li><a href="sect0001.html#lem:matrix_orbit_invariant">Lemma 1.2.14</a></li>
           
-          <li><a href="sect0001.html#lem:pairCount_perm">Lemma 1.2.5</a></li>
+          <li><a href="sect0001.html#lem:pairCount_perm">Lemma 1.2.15</a></li>
           
-          <li><a href="sect0001.html#lem:sum_group_by_pairCount">Lemma 1.2.6</a></li>
+          <li><a href="sect0001.html#lem:sum_group_by_pairCount">Lemma 1.2.16</a></li>
           
-          <li><a href="sect0001.html#lem:sum_vanishes_of_coeff_and_const">Lemma 1.2.7</a></li>
+          <li><a href="sect0001.html#lem:sum_vanishes_of_coeff_and_const">Lemma 1.2.17</a></li>
           
           <li><a href="sect0001.html#def:permImage">Definition 1.1.4</a></li>
           
           <li><a href="sect0001.html#def:diagImage">Definition 1.1.5</a></li>
+          
+          <li><a href="sect0001.html#lem:exists_functional_separation">Lemma 1.2.18</a></li>
+          
+          <li><a href="sect0001.html#def:toEndMatrix'">Definition 1.2.2</a></li>
+          
+          <li><a href="sect0001.html#lem:toEndMatrix'_diagAction">Lemma 1.2.3</a></li>
           
         </ul>
     
@@ -1319,25 +2145,93 @@
   </div>
   <div class="theorem_thmcontent">
   <p> The centralizer of the permutation action is contained in the span of the diagonal image: </p>
-<div class="equation" id="a0000000019">
+<div class="equation" id="a0000000028">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Comm}(\mathcal{P}_{d,k}) \subseteq \text{Span}(\mathcal{D}_{d,k}) \end{equation}
   </div>
-  <span class="equation_label">14</span>
+  <span class="equation_label">23</span>
 </p>
 </div>
 
   </div>
 </div>
-<h1 id="a0000000020">1.3 Double Commutant Theorem and Schur-Weyl Duality</h1>
+<h1 id="a0000000029">1.3 Double Commutant Theorem and Schur-Weyl Duality</h1>
 <p>Using representation theory, we can establish the Double Commutant Theorem for the permutation algebra. </p>
-<div class="definition_thmwrapper theorem-style-definition" id="def:permRep">
+<div class="definition_thmwrapper theorem-style-definition" id="def:permMonoidHom">
   <div class="definition_thmheading">
     <span class="definition_thmcaption">
     Definition
     </span>
     <span class="definition_thmlabel">1.3.1</span>
+    <span class="definition_thmtitle">Permutation Monoid Homomorphism</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:permMonoidHom">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#lem:permAction_tprod">Lemma 1.1.6</a></li>
+          
+          <li><a href="sect0001.html#def:permAction">Definition 1.1.2</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permMonoidHom" class="lean_decl">SchurWeyl.permMonoidHom</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The permutation action as a monoid homomorphism \(\rho _{\text{mon}}: S_k \to \text{End}(V^{\otimes k})\) mapping \(\sigma \mapsto W_\sigma \). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:permRep">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.3.2</span>
     <span class="definition_thmtitle">Permutation Representation</span>
     <div class="thm_header_extras">
 
@@ -1361,7 +2255,9 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:permAction">Definition 1.1.2</a></li>
+          <li><a href="sect0001.html#def:permMonoidHom">Definition 1.3.1</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
           
         </ul>
     
@@ -1392,7 +2288,7 @@
         </div>
   </div>
   <div class="definition_thmcontent">
-  <p> The permutation representation is the monoid homomorphism \(\rho : S_k \to \text{End}(V^{\otimes k})\) mapping \(\sigma \mapsto W_\sigma \). </p>
+  <p> The permutation representation is the representation \(\rho : S_k \to \text{End}(V^{\otimes k})\) obtained from the permutation monoid homomorphism. </p>
 
   </div>
 </div>
@@ -1401,7 +2297,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1.3.2</span>
+    <span class="definition_thmlabel">1.3.3</span>
     <span class="definition_thmtitle">Permutation Module</span>
     <div class="thm_header_extras">
 
@@ -1425,7 +2321,9 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:permRep">Definition 1.3.1</a></li>
+          <li><a href="sect0001.html#def:permRep">Definition 1.3.2</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
           
         </ul>
     
@@ -1465,7 +2363,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1.3.3</span>
+    <span class="definition_thmlabel">1.3.4</span>
     <span class="definition_thmtitle">Permutation Algebra Homomorphism</span>
     <div class="thm_header_extras">
 
@@ -1489,7 +2387,9 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:permRep">Definition 1.3.1</a></li>
+          <li><a href="sect0001.html#def:permRep">Definition 1.3.2</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
           
         </ul>
     
@@ -1524,12 +2424,300 @@
 
   </div>
 </div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:permAlgHom_of">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.3.5</span>
+    <span class="lemma_thmtitle">Evaluation of Permutation Algebra Homomorphism</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:permAlgHom_of">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:permAlgHom">Definition 1.3.4</a></li>
+          
+          <li><a href="sect0001.html#def:permAction">Definition 1.1.2</a></li>
+          
+          <li><a href="sect0001.html#def:permRep">Definition 1.3.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permAlgHom_of" class="lean_decl">SchurWeyl.permAlgHom_of</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> The permutation algebra homomorphism evaluated on a permutation \(\sigma \in S_k\) is the permutation operator \(W_\sigma \): </p>
+<div class="equation" id="a0000000030">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \tilde{\rho }(\sigma ) = W_\sigma \end{equation}
+  </div>
+  <span class="equation_label">24</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:centralizer_to_endModule">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.3.6</span>
+    <span class="definition_thmtitle">Centralizer to EndModule Mapping</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:centralizer_to_endModule">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:PermModule">Definition 1.3.3</a></li>
+          
+          <li><a href="sect0001.html#def:permRep">Definition 1.3.2</a></li>
+          
+          <li><a href="sect0001.html#def:permImage">Definition 1.1.4</a></li>
+          
+          <li><a href="sect0001.html#thm:permAlgHom_range_eq">Theorem 1.3.9</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.centralizer_to_endModule" class="lean_decl">SchurWeyl.centralizer_to_endModule</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The mapping that identifies any \(\mathbb {C}\)-linear endomorphism \(f\) in the centralizer of the span of permutation operators as a \(\mathbb {C}[S_k]\)-linear endomorphism of the permutation module. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:doubleCentralizer_to_endEndModule">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.3.7</span>
+    <span class="definition_thmtitle">Double Centralizer to EndEndModule Mapping</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:doubleCentralizer_to_endEndModule">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:PermModule">Definition 1.3.3</a></li>
+          
+          <li><a href="sect0001.html#def:permImage">Definition 1.1.4</a></li>
+          
+          <li><a href="sect0001.html#lem:endModule_mem_centralizer">Lemma 1.3.8</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.doubleCentralizer_to_endEndModule" class="lean_decl">SchurWeyl.doubleCentralizer_to_endEndModule</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The mapping that identifies any \(\mathbb {C}\)-linear endomorphism \(T\) in the double centralizer of the span of permutation operators as an endomorphism over the \(\mathbb {C}[S_k]\)-linear endomorphism ring of the permutation module. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:endModule_mem_centralizer">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.3.8</span>
+    <span class="lemma_thmtitle">EndModule is in Centralizer</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:endModule_mem_centralizer">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:PermModule">Definition 1.3.3</a></li>
+          
+          <li><a href="sect0001.html#def:permImage">Definition 1.1.4</a></li>
+          
+          <li><a href="sect0001.html#def:permRep">Definition 1.3.2</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.endModule_mem_centralizer" class="lean_decl">SchurWeyl.endModule_mem_centralizer</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Any \(\mathbb {C}[S_k]\)-linear endomorphism of the permutation module restricts to a \(\mathbb {C}\)-linear endomorphism that lies in the centralizer of the span of permutation operators. </p>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:permAlgHom_range_eq">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.3.4</span>
+    <span class="theorem_thmlabel">1.3.9</span>
     <span class="theorem_thmtitle">Range of Algebra Homomorphism</span>
     <div class="thm_header_extras">
 
@@ -1553,9 +2741,11 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:permAlgHom">Definition 1.3.3</a></li>
+          <li><a href="sect0001.html#def:permAlgHom">Definition 1.3.4</a></li>
           
           <li><a href="sect0001.html#def:permImage">Definition 1.1.4</a></li>
+          
+          <li><a href="sect0001.html#lem:permAlgHom_of">Lemma 1.3.5</a></li>
           
         </ul>
     
@@ -1587,12 +2777,88 @@
   </div>
   <div class="theorem_thmcontent">
   <p> The image of the group algebra homomorphism is the span of the permutation operators: </p>
-<div class="equation" id="a0000000021">
+<div class="equation" id="a0000000031">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Im}(\tilde{\rho }) = \text{Span}(\mathcal{P}_{d,k}) \end{equation}
   </div>
-  <span class="equation_label">15</span>
+  <span class="equation_label">25</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:mem_span_permImage_of_mem_range">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.3.10</span>
+    <span class="lemma_thmtitle">Membership in Span of Permutation Operators</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:mem_span_permImage_of_mem_range">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:permAlgHom">Definition 1.3.4</a></li>
+          
+          <li><a href="sect0001.html#def:permImage">Definition 1.1.4</a></li>
+          
+          <li><a href="sect0001.html#thm:permAlgHom_range_eq">Theorem 1.3.9</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.mem_span_permImage_of_mem_range" class="lean_decl">SchurWeyl.mem_span_permImage_of_mem_range</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Any operator \(f \in \text{End}(V^{\otimes k})\) that lies in the range of the permutation algebra homomorphism belongs to the span of the permutation operators: </p>
+<div class="equation" id="a0000000032">
+<p>
+  <div class="equation_content">
+    \begin{equation}  f \in \text{Im}(\tilde{\rho }) \implies f \in \text{Span}(\mathcal{P}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">26</span>
 </p>
 </div>
 
@@ -1603,7 +2869,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1.3.5</span>
+    <span class="lemma_thmlabel">1.3.11</span>
     <span class="lemma_thmtitle">Semisimplicity of Permutation Module</span>
     <div class="thm_header_extras">
 
@@ -1627,7 +2893,11 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:permRep">Definition 1.3.1</a></li>
+          <li><a href="sect0001.html#def:permRep">Definition 1.3.2</a></li>
+          
+          <li><a href="sect0001.html#def:PermModule">Definition 1.3.3</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
           
         </ul>
     
@@ -1662,12 +2932,78 @@
 
   </div>
 </div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:permModule_finite_over_endRing">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.3.12</span>
+    <span class="lemma_thmtitle">Finiteness of Permutation Module over Endomorphism Ring</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:permModule_finite_over_endRing">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:PermModule">Definition 1.3.3</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.permModule_finite_over_endRing" class="lean_decl">SchurWeyl.permModule_finite_over_endRing</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> The permutation module \(V^{\otimes k}\) is finitely generated as a module over its \(\mathbb {C}[S_k]\)-endomorphism ring. </p>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:permModule_toModuleEnd_surjective">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.3.6</span>
+    <span class="theorem_thmlabel">1.3.13</span>
     <span class="theorem_thmtitle">Jacobson Density for Permutation Representation</span>
     <div class="thm_header_extras">
 
@@ -1691,7 +3027,13 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#lem:permModule_isSemisimple">Lemma 1.3.5</a></li>
+          <li><a href="sect0001.html#lem:permModule_isSemisimple">Lemma 1.3.11</a></li>
+          
+          <li><a href="sect0001.html#lem:permModule_finite_over_endRing">Lemma 1.3.12</a></li>
+          
+          <li><a href="sect0001.html#def:permRep">Definition 1.3.2</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
           
         </ul>
     
@@ -1726,12 +3068,92 @@
 
   </div>
 </div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:double_centralizer_permImage'">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.3.14</span>
+    <span class="theorem_thmtitle">Double Commutant containment for Permutation Algebra</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#thm:double_centralizer_permImage'">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#thm:permModule_toModuleEnd_surjective">Theorem 1.3.13</a></li>
+          
+          <li><a href="sect0001.html#def:permImage">Definition 1.1.4</a></li>
+          
+          <li><a href="sect0001.html#def:doubleCentralizer_to_endEndModule">Definition 1.3.7</a></li>
+          
+          <li><a href="sect0001.html#lem:mem_span_permImage_of_mem_range">Lemma 1.3.10</a></li>
+          
+          <li><a href="sect0001.html#def:permAlgHom">Definition 1.3.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.double_centralizer_permImage'" class="lean_decl">SchurWeyl.double_centralizer_permImage'</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The double centralizer of the span of permutation operators is contained in the span itself: </p>
+<div class="equation" id="a0000000033">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Comm}(\text{Comm}(\text{Span}(\mathcal{P}_{d,k}))) \subseteq \text{Span}(\mathcal{P}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">27</span>
+</p>
+</div>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:double_centralizer_permImage">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.3.7</span>
+    <span class="theorem_thmlabel">1.3.15</span>
     <span class="theorem_thmtitle">Double Commutant for Permutation Algebra</span>
     <div class="thm_header_extras">
 
@@ -1755,11 +3177,9 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#thm:permModule_toModuleEnd_surjective">Theorem 1.3.6</a></li>
-          
-          <li><a href="sect0001.html#thm:permAlgHom_range_eq">Theorem 1.3.4</a></li>
-          
           <li><a href="sect0001.html#def:permImage">Definition 1.1.4</a></li>
+          
+          <li><a href="sect0001.html#thm:double_centralizer_permImage'">Theorem 1.3.14</a></li>
           
         </ul>
     
@@ -1791,24 +3211,94 @@
   </div>
   <div class="theorem_thmcontent">
   <p> The double centralizer of the span of permutation operators is the span itself: </p>
-<div class="equation" id="a0000000022">
+<div class="equation" id="a0000000034">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Comm}(\text{Comm}(\text{Span}(\mathcal{P}_{d,k}))) = \text{Span}(\mathcal{P}_{d,k}) \end{equation}
   </div>
-  <span class="equation_label">16</span>
+  <span class="equation_label">28</span>
 </p>
 </div>
 
   </div>
 </div>
 <p>We now assemble the main result. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:centralizer_diagImage_le_span_permImage_small">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.3.16</span>
+    <span class="theorem_thmtitle">Hard Direction of Schur-Weyl Duality for Small Dimensions</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#thm:centralizer_diagImage_le_span_permImage_small">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#thm:centralizer_permImage_le_span_diagImage">Theorem 1.2.19</a></li>
+          
+          <li><a href="sect0001.html#thm:double_centralizer_permImage">Theorem 1.3.15</a></li>
+          
+          <li><a href="sect0001.html#def:diagImage">Definition 1.1.5</a></li>
+          
+          <li><a href="sect0001.html#def:permImage">Definition 1.1.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.centralizer_diagImage_le_span_permImage_small" class="lean_decl">SchurWeyl.centralizer_diagImage_le_span_permImage_small</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The centralizer of the diagonal image is contained in the span of the permutation image. </p>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:centralizer_diagImage_le_span_permImage">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.3.8</span>
+    <span class="theorem_thmlabel">1.3.17</span>
     <span class="theorem_thmtitle">Hard Direction of Schur-Weyl Duality</span>
     <div class="thm_header_extras">
 
@@ -1832,9 +3322,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#thm:centralizer_permImage_le_span_diagImage">Theorem 1.2.8</a></li>
-          
-          <li><a href="sect0001.html#thm:double_centralizer_permImage">Theorem 1.3.7</a></li>
+          <li><a href="sect0001.html#thm:centralizer_diagImage_le_span_permImage_small">Theorem 1.3.16</a></li>
           
           <li><a href="sect0001.html#def:diagImage">Definition 1.1.5</a></li>
           
@@ -1870,12 +3358,12 @@
   </div>
   <div class="theorem_thmcontent">
   <p> The centralizer of the diagonal image is contained in the span of the permutation image: </p>
-<div class="equation" id="a0000000023">
+<div class="equation" id="a0000000035">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Comm}(\mathcal{D}_{d,k}) \subseteq \text{Span}(\mathcal{P}_{d,k}) \end{equation}
   </div>
-  <span class="equation_label">17</span>
+  <span class="equation_label">29</span>
 </p>
 </div>
 
@@ -1886,7 +3374,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.3.9</span>
+    <span class="theorem_thmlabel">1.3.18</span>
     <span class="theorem_thmtitle">Easy Direction of Schur-Weyl Duality</span>
     <div class="thm_header_extras">
 
@@ -1909,6 +3397,10 @@
         </header>
         
         <ul class="uses">
+          
+          <li><a href="sect0001.html#def:permImage">Definition 1.1.4</a></li>
+          
+          <li><a href="sect0001.html#def:diagImage">Definition 1.1.5</a></li>
           
           <li><a href="sect0001.html#thm:permImage_subset_centralizer_diagImage">Theorem 1.1.10</a></li>
           
@@ -1942,12 +3434,12 @@
   </div>
   <div class="theorem_thmcontent">
   <p> The span of the permutation image is contained in the centralizer of the diagonal image: </p>
-<div class="equation" id="a0000000024">
+<div class="equation" id="a0000000036">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Span}(\mathcal{P}_{d,k}) \subseteq \text{Comm}(\mathcal{D}_{d,k}) \end{equation}
   </div>
-  <span class="equation_label">18</span>
+  <span class="equation_label">30</span>
 </p>
 </div>
 
@@ -1958,7 +3450,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.3.10</span>
+    <span class="theorem_thmlabel">1.3.19</span>
     <span class="theorem_thmtitle">Schur-Weyl Duality</span>
     <div class="thm_header_extras">
 
@@ -1982,9 +3474,9 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#thm:centralizer_diagImage_le_span_permImage">Theorem 1.3.8</a></li>
+          <li><a href="sect0001.html#thm:centralizer_diagImage_le_span_permImage">Theorem 1.3.17</a></li>
           
-          <li><a href="sect0001.html#thm:span_permImage_le_centralizer_diagImage">Theorem 1.3.9</a></li>
+          <li><a href="sect0001.html#thm:span_permImage_le_centralizer_diagImage">Theorem 1.3.18</a></li>
           
           <li><a href="sect0001.html#def:diagImage">Definition 1.1.5</a></li>
           
@@ -2020,12 +3512,12 @@
   </div>
   <div class="theorem_thmcontent">
   <p> The centralizer of the diagonal image is exactly equal to the span of the permutation image: </p>
-<div class="equation" id="a0000000025">
+<div class="equation" id="a0000000037">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Comm}(\mathcal{D}_{d,k}) = \text{Span}(\mathcal{P}_{d,k}) \end{equation}
   </div>
-  <span class="equation_label">19</span>
+  <span class="equation_label">31</span>
 </p>
 </div>
 

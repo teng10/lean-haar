@@ -71,12 +71,214 @@
 <div class="main-text">
 <h1 id="a0000000004">1.2 First Fundamental Theorem of Invariant Theory</h1>
 <p>To prove the hard direction of Schur-Weyl duality, we first prove that the centralizer of the permutation image is contained in the span of the diagonal image. This is a form of the First Fundamental Theorem (FFT) of invariant theory. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:tensorBasis'">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.2.1</span>
+    <span class="definition_thmtitle">Tensor Basis (Primed)</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.tensorBasis’def:TensVThe standard basis of \(V^{\otimes k}\) constructed as the tensor product of the standard basis of \(V\): </p>
+<div class="equation" id="a0000000021">
+<p>
+  <div class="equation_content">
+    \begin{equation}  (e_I)_{I \in [d]^k} \end{equation}
+  </div>
+  <span class="equation_label">12</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:toEndMatrix'">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.2.2</span>
+    <span class="definition_thmtitle">Endomorphism Matrix Representation (Primed)</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.toEndMatrix’def:tensorBasis’, def:TensVThe linear equivalence between the endomorphism algebra \(\text{End}(V^{\otimes k})\) and the algebra of \(d^k \times d^k\) complex matrices: </p>
+<div class="equation" id="a0000000022">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{End}(V^{\otimes k}) \simeq \text{Mat}_{d^k \times d^k}(\mathbb {C}) \end{equation}
+  </div>
+  <span class="equation_label">13</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:toEndMatrix'_diagAction">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.3</span>
+    <span class="lemma_thmtitle">Matrix Representation of Diagonal Action (Primed)</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.toEndMatrix’_diagActiondef:toEndMatrix’, def:diagActionFor any operator \(g \in \text{End}(V)\), the matrix elements of its diagonal action \(g^{\otimes k}\) in the tensor basis are given by: </p>
+<div class="equation" id="a0000000023">
+<p>
+  <div class="equation_content">
+    \begin{equation}  (g^{\otimes k})_{I, J} = \prod _{m=1}^k g_{I(m), J(m)} \end{equation}
+  </div>
+  <span class="equation_label">14</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:permAction_tensorBasis'">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.4</span>
+    <span class="lemma_thmtitle">Permutation Action on Tensor Basis (Primed)</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.permAction_tensorBasis’def:tensorBasis’, def:permAction, lem:permAction_tprodThe permutation action of \(W_\sigma \) on a basis element \(e_I\) permutes the indices: </p>
+<div class="equation" id="a0000000024">
+<p>
+  <div class="equation_content">
+    \begin{equation}  W_\sigma (e_I) = e_{I \circ \sigma ^{-1}} \end{equation}
+  </div>
+  <span class="equation_label">15</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:tensorBasis">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.2.5</span>
+    <span class="definition_thmtitle">Tensor Basis</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.tensorBasisThe standard basis of \(V^{\otimes k}\) constructed as the tensor product of the standard basis of \(V\): </p>
+<div class="equation" id="a0000000025">
+<p>
+  <div class="equation_content">
+    \begin{equation}  (e_I)_{I \in [d]^k} \end{equation}
+  </div>
+  <span class="equation_label">16</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:toEndMatrix">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.2.6</span>
+    <span class="definition_thmtitle">Endomorphism Matrix Representation</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.toEndMatrixdef:tensorBasis, def:TensVThe linear equivalence between the endomorphism algebra \(\text{End}(V^{\otimes k})\) and the algebra of \(d^k \times d^k\) complex matrices: </p>
+<div class="equation" id="a0000000026">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{End}(V^{\otimes k}) \simeq \text{Mat}_{d^k \times d^k}(\mathbb {C}) \end{equation}
+  </div>
+  <span class="equation_label">17</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:permAction_tensorBasis">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.7</span>
+    <span class="lemma_thmtitle">Permutation Action on Tensor Basis</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.permAction_tensorBasisdef:tensorBasis, def:permActionThe permutation action of \(W_\sigma \) on a basis element \(e_I\) permutes the indices: </p>
+<div class="equation" id="a0000000027">
+<p>
+  <div class="equation_content">
+    \begin{equation}  W_\sigma (e_I) = e_{I \circ \sigma ^{-1}} \end{equation}
+  </div>
+  <span class="equation_label">18</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:toEndMatrix_permAction">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.8</span>
+    <span class="lemma_thmtitle">Matrix of Permutation Action</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.toEndMatrix_permActiondef:toEndMatrix, lem:permAction_tensorBasis, def:permActionThe matrix entries of the permutation action \(W_\sigma \) are: </p>
+<div class="equation" id="a0000000028">
+<p>
+  <div class="equation_content">
+    \begin{equation}  (W_\sigma )_{I, J} = \delta _{I, J \circ \sigma ^{-1}} \end{equation}
+  </div>
+  <span class="equation_label">19</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:toEndMatrix_diagAction">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.9</span>
+    <span class="lemma_thmtitle">Matrix Representation of Diagonal Action</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.toEndMatrix_diagActiondef:toEndMatrix, def:diagAction, def:tensorBasisFor any operator \(g \in \text{End}(V)\), the matrix elements of its diagonal action \(g^{\otimes k}\) in the tensor basis are given by: </p>
+<div class="equation" id="a0000000029">
+<p>
+  <div class="equation_content">
+    \begin{equation}  (g^{\otimes k})_{I, J} = \prod _{m=1}^k g_{I(m), J(m)} \end{equation}
+  </div>
+  <span class="equation_label">20</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:diagAction_diagonal">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.10</span>
+    <span class="lemma_thmtitle">DiagAction of Diagonal Operator</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.diagAction_diagonaldef:toEndMatrix, def:diagAction,lem:toEndMatrix_diagActionIf \(g \in \text{End}(V)\) is a diagonal operator with entries \(f\), then \(g^{\otimes k}\) is a diagonal operator with entries \(\prod _{m=1}^k f(I(m))\). </p>
+
+  </div>
+</div>
 <div class="lemma_thmwrapper theorem-style-plain" id="lem:monomial_coeff_zero_of_eval_zero">
   <div class="lemma_thmheading">
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1.2.1</span>
+    <span class="lemma_thmlabel">1.2.11</span>
     <span class="lemma_thmtitle">Monomial Coefficient Independence</span>
   </div>
   <div class="lemma_thmcontent">
@@ -89,7 +291,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1.2.2</span>
+    <span class="definition_thmlabel">1.2.12</span>
     <span class="definition_thmtitle">Pair Count Coincidence</span>
   </div>
   <div class="definition_thmcontent">
@@ -102,17 +304,17 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1.2.3</span>
+    <span class="lemma_thmlabel">1.2.13</span>
     <span class="lemma_thmtitle">Product Monomial Representation</span>
   </div>
   <div class="lemma_thmcontent">
   <p> SchurWeyl.prod_eq_monomial_evaldef:pairCountThe product of matrix elements can be written as a monomial evaluation of the pair count: </p>
-<div class="equation" id="a0000000021">
+<div class="equation" id="a0000000030">
 <p>
   <div class="equation_content">
     \begin{equation}  \prod _{m=1}^k g_{I(m), J(m)} = \prod _{(a,b)} g_{a,b}^{\text{pairCount}(I,J)(a,b)} \end{equation}
   </div>
-  <span class="equation_label">12</span>
+  <span class="equation_label">21</span>
 </p>
 </div>
 
@@ -123,11 +325,11 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1.2.4</span>
+    <span class="lemma_thmlabel">1.2.14</span>
     <span class="lemma_thmtitle">Matrix Orbit Invariance</span>
   </div>
   <div class="lemma_thmcontent">
-  <p> SchurWeyl.matrix_orbit_invariantdef:permImageIf an operator \(X \in \text{End}(V^{\otimes k})\) commutes with all permutation operators \(W_\sigma \), then its matrix entries in the computational basis satisfy \(X_{I \circ \sigma , J \circ \sigma } = X_{I, J}\) for all \(\sigma \in S_k\). </p>
+  <p> SchurWeyl.matrix_orbit_invariantdef:permImage, def:toEndMatrix’, lem:permAction_tensorBasis’, def:permAction, def:tensorBasis’If an operator \(X \in \text{End}(V^{\otimes k})\) commutes with all permutation operators \(W_\sigma \), then its matrix entries in the computational basis satisfy \(X_{I \circ \sigma , J \circ \sigma } = X_{I, J}\) for all \(\sigma \in S_k\). </p>
 
   </div>
 </div>
@@ -136,17 +338,17 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1.2.5</span>
+    <span class="lemma_thmlabel">1.2.15</span>
     <span class="lemma_thmtitle">Pair Count Permutation Invariance</span>
   </div>
   <div class="lemma_thmcontent">
   <p> SchurWeyl.pairCount_permdef:pairCountPermuting the indices by \(\sigma \) preserves the pair count: </p>
-<div class="equation" id="a0000000022">
+<div class="equation" id="a0000000031">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{pairCount}(I \circ \sigma , J \circ \sigma ) = \text{pairCount}(I, J) \end{equation}
   </div>
-  <span class="equation_label">13</span>
+  <span class="equation_label">22</span>
 </p>
 </div>
 
@@ -157,7 +359,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1.2.6</span>
+    <span class="lemma_thmlabel">1.2.16</span>
     <span class="lemma_thmtitle">Sum Grouped by Pair Count</span>
   </div>
   <div class="lemma_thmcontent">
@@ -170,11 +372,24 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1.2.7</span>
+    <span class="lemma_thmlabel">1.2.17</span>
     <span class="lemma_thmtitle">Linear Functional Vanishing</span>
   </div>
   <div class="lemma_thmcontent">
   <p> SchurWeyl.sum_vanishes_of_coeff_and_constdef:pairCountIf a matrix is constant on coincidence types, and the coincidence-type sums of coefficients vanish, then the total inner product sum vanishes. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:exists_functional_separation">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.2.18</span>
+    <span class="lemma_thmtitle">Functional Separation</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.exists_functional_separationIf \(x\) is a vector in a finite-dimensional space \(V\) not belonging to a submodule \(S\), there exists a linear functional \(\varphi \in V^*\) vanishing on \(S\) but such that \(\varphi (x) \neq 0\). </p>
 
   </div>
 </div>
@@ -183,17 +398,17 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.2.8</span>
+    <span class="theorem_thmlabel">1.2.19</span>
     <span class="theorem_thmtitle">First Fundamental Theorem</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.centralizer_permImage_le_span_diagImagelem:monomial_coeff_zero_of_eval_zero, lem:matrix_orbit_invariant, lem:pairCount_perm, lem:sum_group_by_pairCount, lem:sum_vanishes_of_coeff_and_const, def:permImage, def:diagImageThe centralizer of the permutation action is contained in the span of the diagonal image: </p>
-<div class="equation" id="a0000000023">
+  <p> SchurWeyl.centralizer_permImage_le_span_diagImagelem:monomial_coeff_zero_of_eval_zero, lem:matrix_orbit_invariant, lem:pairCount_perm, lem:sum_group_by_pairCount, lem:sum_vanishes_of_coeff_and_const, def:permImage, def:diagImage, lem:exists_functional_separation, def:toEndMatrix’, lem:toEndMatrix’_diagActionThe centralizer of the permutation action is contained in the span of the diagonal image: </p>
+<div class="equation" id="a0000000032">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Comm}(\mathcal{P}_{d,k}) \subseteq \text{Span}(\mathcal{D}_{d,k}) \end{equation}
   </div>
-  <span class="equation_label">14</span>
+  <span class="equation_label">23</span>
 </p>
 </div>
 

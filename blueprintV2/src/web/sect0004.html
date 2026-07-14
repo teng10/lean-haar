@@ -71,16 +71,29 @@
 <div class="main-text">
 <h1 id="a0000000005">1.3 Double Commutant Theorem and Schur-Weyl Duality</h1>
 <p>Using representation theory, we can establish the Double Commutant Theorem for the permutation algebra. </p>
-<div class="definition_thmwrapper theorem-style-definition" id="def:permRep">
+<div class="definition_thmwrapper theorem-style-definition" id="def:permMonoidHom">
   <div class="definition_thmheading">
     <span class="definition_thmcaption">
     Definition
     </span>
     <span class="definition_thmlabel">1.3.1</span>
+    <span class="definition_thmtitle">Permutation Monoid Homomorphism</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.permMonoidHomlem:permAction_tprod, def:permAction, def:TensVThe permutation action as a monoid homomorphism \(\rho _{\text{mon}}: S_k \to \text{End}(V^{\otimes k})\) mapping \(\sigma \mapsto W_\sigma \). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:permRep">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.3.2</span>
     <span class="definition_thmtitle">Permutation Representation</span>
   </div>
   <div class="definition_thmcontent">
-  <p> SchurWeyl.permRepdef:permActionThe permutation representation is the monoid homomorphism \(\rho : S_k \to \text{End}(V^{\otimes k})\) mapping \(\sigma \mapsto W_\sigma \). </p>
+  <p> SchurWeyl.permRepdef:permMonoidHom, def:TensVThe permutation representation is the representation \(\rho : S_k \to \text{End}(V^{\otimes k})\) obtained from the permutation monoid homomorphism. </p>
 
   </div>
 </div>
@@ -89,11 +102,11 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1.3.2</span>
+    <span class="definition_thmlabel">1.3.3</span>
     <span class="definition_thmtitle">Permutation Module</span>
   </div>
   <div class="definition_thmcontent">
-  <p> SchurWeyl.PermModuledef:permRepThe space \(V^{\otimes k}\) viewed as a \(\mathbb {C}[S_k]\)-module under the permutation representation. </p>
+  <p> SchurWeyl.PermModuledef:permRep, def:TensVThe space \(V^{\otimes k}\) viewed as a \(\mathbb {C}[S_k]\)-module under the permutation representation. </p>
 
   </div>
 </div>
@@ -102,11 +115,71 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1.3.3</span>
+    <span class="definition_thmlabel">1.3.4</span>
     <span class="definition_thmtitle">Permutation Algebra Homomorphism</span>
   </div>
   <div class="definition_thmcontent">
-  <p> SchurWeyl.permAlgHomdef:permRepThe algebra homomorphism \(\tilde{\rho }: \mathbb {C}[S_k] \to \text{End}(V^{\otimes k})\) induced by the representation. </p>
+  <p> SchurWeyl.permAlgHomdef:permRep, def:TensVThe algebra homomorphism \(\tilde{\rho }: \mathbb {C}[S_k] \to \text{End}(V^{\otimes k})\) induced by the representation. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:permAlgHom_of">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.3.5</span>
+    <span class="lemma_thmtitle">Evaluation of Permutation Algebra Homomorphism</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.permAlgHom_ofdef:permAlgHom, def:permAction, def:permRepThe permutation algebra homomorphism evaluated on a permutation \(\sigma \in S_k\) is the permutation operator \(W_\sigma \): </p>
+<div class="equation" id="a0000000033">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \tilde{\rho }(\sigma ) = W_\sigma \end{equation}
+  </div>
+  <span class="equation_label">24</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:centralizer_to_endModule">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.3.6</span>
+    <span class="definition_thmtitle">Centralizer to EndModule Mapping</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.centralizer_to_endModuledef:PermModule, def:permRep, def:permImage, thm:permAlgHom_range_eq, def:TensVThe mapping that identifies any \(\mathbb {C}\)-linear endomorphism \(f\) in the centralizer of the span of permutation operators as a \(\mathbb {C}[S_k]\)-linear endomorphism of the permutation module. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:doubleCentralizer_to_endEndModule">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.3.7</span>
+    <span class="definition_thmtitle">Double Centralizer to EndEndModule Mapping</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.doubleCentralizer_to_endEndModuledef:PermModule, def:permImage, lem:endModule_mem_centralizer, def:TensVThe mapping that identifies any \(\mathbb {C}\)-linear endomorphism \(T\) in the double centralizer of the span of permutation operators as an endomorphism over the \(\mathbb {C}[S_k]\)-linear endomorphism ring of the permutation module. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:endModule_mem_centralizer">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.3.8</span>
+    <span class="lemma_thmtitle">EndModule is in Centralizer</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.endModule_mem_centralizerdef:PermModule, def:permImage, def:permRep, def:TensVAny \(\mathbb {C}[S_k]\)-linear endomorphism of the permutation module restricts to a \(\mathbb {C}\)-linear endomorphism that lies in the centralizer of the span of permutation operators. </p>
 
   </div>
 </div>
@@ -115,17 +188,38 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.3.4</span>
+    <span class="theorem_thmlabel">1.3.9</span>
     <span class="theorem_thmtitle">Range of Algebra Homomorphism</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.permAlgHom_range_eqdef:permAlgHom, def:permImageThe image of the group algebra homomorphism is the span of the permutation operators: </p>
-<div class="equation" id="a0000000024">
+  <p> SchurWeyl.permAlgHom_range_eqdef:permAlgHom, def:permImage, lem:permAlgHom_ofThe image of the group algebra homomorphism is the span of the permutation operators: </p>
+<div class="equation" id="a0000000034">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Im}(\tilde{\rho }) = \text{Span}(\mathcal{P}_{d,k}) \end{equation}
   </div>
-  <span class="equation_label">15</span>
+  <span class="equation_label">25</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:mem_span_permImage_of_mem_range">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.3.10</span>
+    <span class="lemma_thmtitle">Membership in Span of Permutation Operators</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.mem_span_permImage_of_mem_rangedef:permAlgHom, def:permImage, thm:permAlgHom_range_eqAny operator \(f \in \text{End}(V^{\otimes k})\) that lies in the range of the permutation algebra homomorphism belongs to the span of the permutation operators: </p>
+<div class="equation" id="a0000000035">
+<p>
+  <div class="equation_content">
+    \begin{equation}  f \in \text{Im}(\tilde{\rho }) \implies f \in \text{Span}(\mathcal{P}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">26</span>
 </p>
 </div>
 
@@ -136,11 +230,24 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1.3.5</span>
+    <span class="lemma_thmlabel">1.3.11</span>
     <span class="lemma_thmtitle">Semisimplicity of Permutation Module</span>
   </div>
   <div class="lemma_thmcontent">
-  <p> SchurWeyl.permModule_isSemisimpledef:permRepThe permutation module \(V^{\otimes k}\) is a semisimple \(\mathbb {C}[S_k]\)-module. This is a consequence of Maschke’s theorem. </p>
+  <p> SchurWeyl.permModule_isSemisimpledef:permRep, def:PermModule, def:TensVThe permutation module \(V^{\otimes k}\) is a semisimple \(\mathbb {C}[S_k]\)-module. This is a consequence of Maschke’s theorem. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:permModule_finite_over_endRing">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.3.12</span>
+    <span class="lemma_thmtitle">Finiteness of Permutation Module over Endomorphism Ring</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> SchurWeyl.permModule_finite_over_endRingdef:PermModule, def:TensVThe permutation module \(V^{\otimes k}\) is finitely generated as a module over its \(\mathbb {C}[S_k]\)-endomorphism ring. </p>
 
   </div>
 </div>
@@ -149,11 +256,32 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.3.6</span>
+    <span class="theorem_thmlabel">1.3.13</span>
     <span class="theorem_thmtitle">Jacobson Density for Permutation Representation</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.permModule_toModuleEnd_surjectivelem:permModule_isSemisimpleThe natural map from the group algebra \(\mathbb {C}[S_k]\) to the double endomorphism ring of the permutation module is surjective. </p>
+  <p> SchurWeyl.permModule_toModuleEnd_surjectivelem:permModule_isSemisimple, lem:permModule_finite_over_endRing, def:permRep, def:TensVThe natural map from the group algebra \(\mathbb {C}[S_k]\) to the double endomorphism ring of the permutation module is surjective. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:double_centralizer_permImage'">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.3.14</span>
+    <span class="theorem_thmtitle">Double Commutant containment for Permutation Algebra</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.double_centralizer_permImage’thm:permModule_toModuleEnd_surjective, def:permImage, def:doubleCentralizer_to_endEndModule, lem:mem_span_permImage_of_mem_range, def:permAlgHomThe double centralizer of the span of permutation operators is contained in the span itself: </p>
+<div class="equation" id="a0000000036">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Comm}(\text{Comm}(\text{Span}(\mathcal{P}_{d,k}))) \subseteq \text{Span}(\mathcal{P}_{d,k}) \end{equation}
+  </div>
+  <span class="equation_label">27</span>
+</p>
+</div>
 
   </div>
 </div>
@@ -162,39 +290,52 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.3.7</span>
+    <span class="theorem_thmlabel">1.3.15</span>
     <span class="theorem_thmtitle">Double Commutant for Permutation Algebra</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.double_centralizer_permImagethm:permModule_toModuleEnd_surjective, thm:permAlgHom_range_eq, def:permImageThe double centralizer of the span of permutation operators is the span itself: </p>
-<div class="equation" id="a0000000025">
+  <p> SchurWeyl.double_centralizer_permImagedef:permImage, thm:double_centralizer_permImage’The double centralizer of the span of permutation operators is the span itself: </p>
+<div class="equation" id="a0000000037">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Comm}(\text{Comm}(\text{Span}(\mathcal{P}_{d,k}))) = \text{Span}(\mathcal{P}_{d,k}) \end{equation}
   </div>
-  <span class="equation_label">16</span>
+  <span class="equation_label">28</span>
 </p>
 </div>
 
   </div>
 </div>
 <p>We now assemble the main result. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:centralizer_diagImage_le_span_permImage_small">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.3.16</span>
+    <span class="theorem_thmtitle">Hard Direction of Schur-Weyl Duality for Small Dimensions</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.centralizer_diagImage_le_span_permImage_smallthm:centralizer_permImage_le_span_diagImage, thm:double_centralizer_permImage, def:diagImage, def:permImageThe centralizer of the diagonal image is contained in the span of the permutation image. </p>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:centralizer_diagImage_le_span_permImage">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.3.8</span>
+    <span class="theorem_thmlabel">1.3.17</span>
     <span class="theorem_thmtitle">Hard Direction of Schur-Weyl Duality</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.centralizer_diagImage_le_span_permImagethm:centralizer_permImage_le_span_diagImage, thm:double_centralizer_permImage, def:diagImage, def:permImageThe centralizer of the diagonal image is contained in the span of the permutation image: </p>
-<div class="equation" id="a0000000026">
+  <p> SchurWeyl.centralizer_diagImage_le_span_permImagethm:centralizer_diagImage_le_span_permImage_small, def:diagImage, def:permImageThe centralizer of the diagonal image is contained in the span of the permutation image: </p>
+<div class="equation" id="a0000000038">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Comm}(\mathcal{D}_{d,k}) \subseteq \text{Span}(\mathcal{P}_{d,k}) \end{equation}
   </div>
-  <span class="equation_label">17</span>
+  <span class="equation_label">29</span>
 </p>
 </div>
 
@@ -205,17 +346,17 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.3.9</span>
+    <span class="theorem_thmlabel">1.3.18</span>
     <span class="theorem_thmtitle">Easy Direction of Schur-Weyl Duality</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.span_permImage_le_centralizer_diagImagethm:permImage_subset_centralizer_diagImageThe span of the permutation image is contained in the centralizer of the diagonal image: </p>
-<div class="equation" id="a0000000027">
+  <p> SchurWeyl.span_permImage_le_centralizer_diagImagedef:permImage, def:diagImage, thm:permImage_subset_centralizer_diagImageThe span of the permutation image is contained in the centralizer of the diagonal image: </p>
+<div class="equation" id="a0000000039">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Span}(\mathcal{P}_{d,k}) \subseteq \text{Comm}(\mathcal{D}_{d,k}) \end{equation}
   </div>
-  <span class="equation_label">18</span>
+  <span class="equation_label">30</span>
 </p>
 </div>
 
@@ -226,17 +367,17 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.3.10</span>
+    <span class="theorem_thmlabel">1.3.19</span>
     <span class="theorem_thmtitle">Schur-Weyl Duality</span>
   </div>
   <div class="theorem_thmcontent">
   <p> SchurWeyl.schur_weylthm:centralizer_diagImage_le_span_permImage, thm:span_permImage_le_centralizer_diagImage, def:diagImage, def:permImageThe centralizer of the diagonal image is exactly equal to the span of the permutation image: </p>
-<div class="equation" id="a0000000028">
+<div class="equation" id="a0000000040">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Comm}(\mathcal{D}_{d,k}) = \text{Span}(\mathcal{P}_{d,k}) \end{equation}
   </div>
-  <span class="equation_label">19</span>
+  <span class="equation_label">31</span>
 </p>
 </div>
 

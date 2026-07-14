@@ -42,7 +42,7 @@
   <a href="sect0001.html#a0000000016"><span class="toc_ref">1.2</span> <span class="toc_entry">First Fundamental Theorem of Invariant Theory</span></a>
  </li>
 <li class="">
-  <a href="sect0001.html#a0000000020"><span class="toc_ref">1.3</span> <span class="toc_entry">Double Commutant Theorem and Schur-Weyl Duality</span></a>
+  <a href="sect0001.html#a0000000029"><span class="toc_ref">1.3</span> <span class="toc_entry">Double Commutant Theorem and Schur-Weyl Duality</span></a>
  </li>
 
   </ul>
@@ -52,13 +52,13 @@
   <span class="expand-toc">▼</span>
   <ul class="sub-toc-1 active">
      <li class="">
-  <a href="sect0002.html#a0000000026"><span class="toc_ref">2.1</span> <span class="toc_entry">Solvability of the Weingarten System</span></a>
+  <a href="sect0002.html#a0000000038"><span class="toc_ref">2.1</span> <span class="toc_entry">Solvability of the Weingarten System</span></a>
  </li>
 <li class="">
-  <a href="sect0002.html#a0000000027"><span class="toc_ref">2.2</span> <span class="toc_entry">Uniqueness and the Gram Matrix for \(k \le d\)</span></a>
+  <a href="sect0002.html#a0000000039"><span class="toc_ref">2.2</span> <span class="toc_entry">Uniqueness and the Gram Matrix for \(k \le d\)</span></a>
  </li>
 <li class="">
-  <a href="sect0002.html#a0000000028"><span class="toc_ref">2.3</span> <span class="toc_entry">The Haar Moment Operator</span></a>
+  <a href="sect0002.html#a0000000040"><span class="toc_ref">2.3</span> <span class="toc_entry">The Haar Moment Operator</span></a>
  </li>
 
   </ul>
@@ -73,7 +73,7 @@
 
 <div class="main-text">
 <h1 id="a0000000003">2 Weingarten Calculus</h1>
-<h1 id="a0000000026">2.1 Solvability of the Weingarten System</h1>
+<h1 id="a0000000038">2.1 Solvability of the Weingarten System</h1>
 <p>We study the moment computations of operators under the Haar measure, which reduces to solving a system of linear equations. We first analyze this system in an abstract Hilbert-space setting. </p>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:gram_system_solvable">
   <div class="theorem_thmheading">
@@ -116,7 +116,7 @@
   </div>
   <div class="theorem_thmcontent">
   <p> Let \(H\) be a finite-dimensional complex Hilbert space, \(v_1, \dots , v_n \in H\), and \(w \in H\). The linear system: </p>
-<div class="equation" id="a0000000029">
+<div class="equation" id="a0000000041">
 <p>
   <div class="equation_content">
     \begin{equation}  \langle v_j, w \rangle = \sum _{i=1}^n c_i \langle v_j, v_i \rangle \quad \text{for all } j \end{equation}
@@ -159,6 +159,8 @@
         <ul class="uses">
           
           <li><a href="sect0001.html#def:permAction">Definition 1.1.2</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
           
         </ul>
     
@@ -224,6 +226,8 @@
           
           <li><a href="sect0001.html#def:permAction">Definition 1.1.2</a></li>
           
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
         </ul>
     
       </div>
@@ -286,9 +290,13 @@
         
         <ul class="uses">
           
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
           <li><a href="sect0002.html#def:permOp">Definition 2.1.2</a></li>
           
           <li><a href="sect0002.html#def:permDual">Definition 2.1.3</a></li>
+          
+          <li><a href="sect0001.html#lem:toEndMatrix_permAction">Lemma 1.2.8</a></li>
           
         </ul>
     
@@ -339,6 +347,28 @@
 
     <a class="icon proof" href="sect0002.html#def:endVec">#</a>
     
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
     
     
     <button class="modal lean">L∃∀N</button>
@@ -400,7 +430,11 @@
           
           <li><a href="sect0002.html#def:permDual">Definition 2.1.3</a></li>
           
+          <li><a href="sect0001.html#def:tensorBasis">Definition 1.2.5</a></li>
+          
           <li><a href="sect0002.html#def:endVec">Definition 2.1.5</a></li>
+          
+          <li><a href="sect0001.html#lem:toEndMatrix_permAction">Lemma 1.2.8</a></li>
           
         </ul>
     
@@ -432,7 +466,7 @@
   </div>
   <div class="theorem_thmcontent">
   <p> The Euclidean inner product of the vectorizations of \(V_d(\sigma )\) and \(O\) equals the trace of their product: </p>
-<div class="equation" id="a0000000030">
+<div class="equation" id="a0000000042">
 <p>
   <div class="equation_content">
     \begin{equation}  \langle \text{endVec}(V_d(\sigma )), \text{endVec}(O) \rangle = \text{Tr}(V_d^\dagger (\sigma ) O) \end{equation}
@@ -476,6 +510,10 @@
           
           <li><a href="sect0002.html#thm:inner_endVec_perm_eq_trace">Theorem 2.1.6</a></li>
           
+          <li><a href="sect0002.html#def:permOp">Definition 2.1.2</a></li>
+          
+          <li><a href="sect0002.html#def:endVec">Definition 2.1.5</a></li>
+          
         </ul>
     
       </div>
@@ -506,7 +544,7 @@
   </div>
   <div class="theorem_thmcontent">
   <p> For any operator \(O \in \text{End}(V^{\otimes k})\), the Weingarten system of \(k!\) equations: </p>
-<div class="equation" id="a0000000031">
+<div class="equation" id="a0000000043">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Tr}(V_d^\dagger (\sigma ) O) = \sum _{\pi \in S_k} c_\pi \text{Tr}(V_d^\dagger (\sigma ) V_d(\pi )) \quad \text{for all } \sigma \in S_k \end{equation}
@@ -685,6 +723,12 @@
           
           <li><a href="sect0002.html#lem:trace_permDual_comp_sum">Lemma 2.1.8</a></li>
           
+          <li><a href="sect0002.html#def:permOp">Definition 2.1.2</a></li>
+          
+          <li><a href="sect0001.html#def:permImage">Definition 1.1.4</a></li>
+          
+          <li><a href="sect0002.html#def:permDual">Definition 2.1.3</a></li>
+          
         </ul>
     
       </div>
@@ -715,7 +759,7 @@
   </div>
   <div class="theorem_thmcontent">
   <p> There exists a linear combination \(M = \sum _{\pi } c_\pi V_d(\pi )\) lying in \(\text{Span}(\mathcal{P}_{d,k})\) whose traces match \(O\): </p>
-<div class="equation" id="a0000000032">
+<div class="equation" id="a0000000044">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Tr}(V_d^\dagger (\sigma ) M) = \text{Tr}(V_d^\dagger (\sigma ) O) \quad \text{for all } \sigma \in S_k \end{equation}
@@ -761,6 +805,8 @@
           
           <li><a href="sect0002.html#def:permOp">Definition 2.1.2</a></li>
           
+          <li><a href="sect0002.html#def:permDual">Definition 2.1.3</a></li>
+          
         </ul>
     
       </div>
@@ -794,7 +840,7 @@
 
   </div>
 </div>
-<h1 id="a0000000027">2.2 Uniqueness and the Gram Matrix for \(k \le d\)</h1>
+<h1 id="a0000000039">2.2 Uniqueness and the Gram Matrix for \(k \le d\)</h1>
 <p>When the number of tensor factors \(k\) is at most the dimension \(d\), the permutation operators are linearly independent, which implies that the solution to the Weingarten system is unique. </p>
 <div class="definition_thmwrapper theorem-style-definition" id="def:gramMatrix">
   <div class="definition_thmheading">
@@ -884,12 +930,140 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:isGramSolution_iff_mulVec">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:gramMatrix_apply">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
     <span class="theorem_thmlabel">2.2.3</span>
+    <span class="theorem_thmtitle">Abstract Gram Matrix Application</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:gramMatrix_apply">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:gramMatrix">Definition 2.2.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.gramMatrix_apply" class="lean_decl">SchurWeyl.gramMatrix_apply</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The entries of the Gram matrix satisfy \(\text{gramMatrix}(v)_{j, i} = \langle v_j, v_i \rangle \). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:gramVec_apply">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.4</span>
+    <span class="theorem_thmtitle">Abstract Gram Target Application</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:gramVec_apply">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:gramVec">Definition 2.2.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.gramVec_apply" class="lean_decl">SchurWeyl.gramVec_apply</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The entries of the target vector satisfy \(\text{gramVec}(v, w)_j = \langle v_j, w \rangle \). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:isGramSolution_iff_mulVec">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.5</span>
     <span class="theorem_thmtitle">Matrix Formulation of Gram System</span>
     <div class="thm_header_extras">
 
@@ -916,6 +1090,10 @@
           <li><a href="sect0002.html#def:gramMatrix">Definition 2.2.1</a></li>
           
           <li><a href="sect0002.html#def:gramVec">Definition 2.2.2</a></li>
+          
+          <li><a href="sect0002.html#thm:gramMatrix_apply">Theorem 2.2.3</a></li>
+          
+          <li><a href="sect0002.html#thm:gramVec_apply">Theorem 2.2.4</a></li>
           
         </ul>
     
@@ -955,7 +1133,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.4</span>
+    <span class="theorem_thmlabel">2.2.6</span>
     <span class="theorem_thmtitle">Invertibility of Independent Gram Matrix</span>
     <div class="thm_header_extras">
 
@@ -1014,12 +1192,78 @@
 
   </div>
 </div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:gramMatrix_isUnit_det">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.7</span>
+    <span class="theorem_thmtitle">Gram Matrix Determinant is a Unit</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:gramMatrix_isUnit_det">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:gramMatrix">Definition 2.2.1</a></li>
+          
+          <li><a href="sect0002.html#thm:gramMatrix_det_ne_zero">Theorem 2.2.6</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.gramMatrix_isUnit_det" class="lean_decl">SchurWeyl.gramMatrix_isUnit_det</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> If the family of vectors is linearly independent, the determinant of its Gram matrix is a unit in \(\mathbb {C}\). </p>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:gram_solution_eq_inv">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.5</span>
+    <span class="theorem_thmlabel">2.2.8</span>
     <span class="theorem_thmtitle">Unique Gram Solution</span>
     <div class="thm_header_extras">
 
@@ -1043,9 +1287,13 @@
         
         <ul class="uses">
           
-          <li><a href="sect0002.html#thm:isGramSolution_iff_mulVec">Theorem 2.2.3</a></li>
+          <li><a href="sect0002.html#def:gramMatrix">Definition 2.2.1</a></li>
           
-          <li><a href="sect0002.html#thm:gramMatrix_det_ne_zero">Theorem 2.2.4</a></li>
+          <li><a href="sect0002.html#def:gramVec">Definition 2.2.2</a></li>
+          
+          <li><a href="sect0002.html#thm:isGramSolution_iff_mulVec">Theorem 2.2.5</a></li>
+          
+          <li><a href="sect0002.html#thm:gramMatrix_isUnit_det">Theorem 2.2.7</a></li>
           
         </ul>
     
@@ -1080,13 +1328,573 @@
 
   </div>
 </div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:gramSolutionSet">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.9</span>
+    <span class="definition_thmtitle">Abstract Gram Solution Set</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#def:gramSolutionSet">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.gramSolutionSet" class="lean_decl">SchurWeyl.gramSolutionSet</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The set of all solution vectors \(c\) to the Gram system. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:gram_solutionSet_eq_singleton">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.10</span>
+    <span class="theorem_thmtitle">Gram Solution Set is Singleton</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:gram_solutionSet_eq_singleton">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:gramSolutionSet">Definition 2.2.9</a></li>
+          
+          <li><a href="sect0002.html#def:gramMatrix">Definition 2.2.1</a></li>
+          
+          <li><a href="sect0002.html#def:gramVec">Definition 2.2.2</a></li>
+          
+          <li><a href="sect0002.html#thm:gramMatrix_isUnit_det">Theorem 2.2.7</a></li>
+          
+          <li><a href="sect0002.html#thm:gram_solution_eq_inv">Theorem 2.2.8</a></li>
+          
+          <li><a href="sect0002.html#thm:isGramSolution_iff_mulVec">Theorem 2.2.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.gram_solutionSet_eq_singleton" class="lean_decl">SchurWeyl.gram_solutionSet_eq_singleton</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> For a linearly independent family of vectors, the solution set of the Gram system is the singleton containing \(G^{-1} u\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:gram_system_unique">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.11</span>
+    <span class="theorem_thmtitle">Uniqueness of Gram System Solution</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:gram_system_unique">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#thm:gram_system_solvable">Theorem 2.1.1</a></li>
+          
+          <li><a href="sect0002.html#thm:gram_solution_eq_inv">Theorem 2.2.8</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.gram_system_unique" class="lean_decl">SchurWeyl.gram_system_unique</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> For a linearly independent family of vectors, there exists a unique solution to the Gram system. </p>
+
+  </div>
+</div>
 <p>We apply this to permutation operators. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:matrixEntriesEquiv">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.12</span>
+    <span class="definition_thmtitle">Matrix Entries Equivalence</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#def:matrixEntriesEquiv">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.matrixEntriesEquiv" class="lean_decl">SchurWeyl.matrixEntriesEquiv</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The linear equivalence between matrices and the function space of their entries. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:endVecEquiv">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.13</span>
+    <span class="definition_thmtitle">Endomorphism Vectorization Equivalence</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#def:endVecEquiv">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
+          <li><a href="sect0002.html#def:matrixEntriesEquiv">Definition 2.2.12</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.endVecEquiv" class="lean_decl">SchurWeyl.endVecEquiv</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The linear equivalence between endomorphisms and the Euclidean space of their matrix entries. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:endVecₗ">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.14</span>
+    <span class="definition_thmtitle">Linear Endomorphism Vectorization</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#def:endVecₗ">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:endVecEquiv">Definition 2.2.13</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.endVecₗ" class="lean_decl">SchurWeyl.endVecₗ</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The linear map representing the vectorization of endomorphisms. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:endVecₗ_apply">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.15</span>
+    <span class="theorem_thmtitle">Linear Vectorization Application</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:endVecₗ_apply">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:endVecₗ">Definition 2.2.14</a></li>
+          
+          <li><a href="sect0002.html#def:endVec">Definition 2.1.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.endVecₗ_apply" class="lean_decl">SchurWeyl.endVecₗ_apply</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The linear endomorphism vectorization matches the standard vectorization: \(\text{endVec}_\ell (O) = \text{endVec}(O)\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:endVecₗ_injective">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.16</span>
+    <span class="theorem_thmtitle">Linear Vectorization is Injective</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:endVecₗ_injective">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:endVecₗ">Definition 2.2.14</a></li>
+          
+          <li><a href="sect0002.html#def:endVecEquiv">Definition 2.2.13</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.endVecₗ_injective" class="lean_decl">SchurWeyl.endVecₗ_injective</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The linear endomorphism vectorization is injective. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:endVecₗ_ker">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.17</span>
+    <span class="theorem_thmtitle">Linear Vectorization Kernel</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:endVecₗ_ker">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:endVecₗ">Definition 2.2.14</a></li>
+          
+          <li><a href="sect0002.html#thm:endVecₗ_injective">Theorem 2.2.16</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.endVecₗ_ker" class="lean_decl">SchurWeyl.endVecₗ_ker</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The kernel of the linear endomorphism vectorization is the trivial submodule. </p>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:linearIndependent_endVec_permOp">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.6</span>
+    <span class="theorem_thmlabel">2.2.18</span>
     <span class="theorem_thmtitle">Linear Independence of Vectorized Permutations</span>
     <div class="thm_header_extras">
 
@@ -1113,6 +1921,8 @@
           <li><a href="sect0002.html#def:endVec">Definition 2.1.5</a></li>
           
           <li><a href="sect0002.html#def:permOp">Definition 2.1.2</a></li>
+          
+          <li><a href="sect0001.html#lem:toEndMatrix_permAction">Lemma 1.2.8</a></li>
           
         </ul>
     
@@ -1152,7 +1962,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.7</span>
+    <span class="theorem_thmlabel">2.2.19</span>
     <span class="theorem_thmtitle">Linear Independence of Permutation Operators</span>
     <div class="thm_header_extras">
 
@@ -1176,7 +1986,13 @@
         
         <ul class="uses">
           
-          <li><a href="sect0002.html#thm:linearIndependent_endVec_permOp">Theorem 2.2.6</a></li>
+          <li><a href="sect0002.html#def:permOp">Definition 2.1.2</a></li>
+          
+          <li><a href="sect0002.html#thm:linearIndependent_endVec_permOp">Theorem 2.2.18</a></li>
+          
+          <li><a href="sect0002.html#def:endVecₗ">Definition 2.2.14</a></li>
+          
+          <li><a href="sect0002.html#thm:endVecₗ_apply">Theorem 2.2.15</a></li>
           
         </ul>
     
@@ -1216,7 +2032,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">2.2.8</span>
+    <span class="definition_thmlabel">2.2.20</span>
     <span class="definition_thmtitle">Weingarten Gram Matrix</span>
     <div class="thm_header_extras">
 
@@ -1243,6 +2059,8 @@
           <li><a href="sect0002.html#def:permDual">Definition 2.1.3</a></li>
           
           <li><a href="sect0002.html#def:permOp">Definition 2.1.2</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
           
         </ul>
     
@@ -1282,7 +2100,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">2.2.9</span>
+    <span class="definition_thmlabel">2.2.21</span>
     <span class="definition_thmtitle">Weingarten Target Vector</span>
     <div class="thm_header_extras">
 
@@ -1307,6 +2125,8 @@
         <ul class="uses">
           
           <li><a href="sect0002.html#def:permDual">Definition 2.1.3</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
           
         </ul>
     
@@ -1346,7 +2166,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.10</span>
+    <span class="theorem_thmlabel">2.2.22</span>
     <span class="theorem_thmtitle">Weingarten Gram as Vectorized Gram</span>
     <div class="thm_header_extras">
 
@@ -1370,7 +2190,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0002.html#def:weingartenGram">Definition 2.2.8</a></li>
+          <li><a href="sect0002.html#def:weingartenGram">Definition 2.2.20</a></li>
           
           <li><a href="sect0002.html#def:gramMatrix">Definition 2.2.1</a></li>
           
@@ -1379,6 +2199,8 @@
           <li><a href="sect0002.html#def:endVec">Definition 2.1.5</a></li>
           
           <li><a href="sect0002.html#def:permOp">Definition 2.1.2</a></li>
+          
+          <li><a href="sect0002.html#thm:gramMatrix_apply">Theorem 2.2.3</a></li>
           
         </ul>
     
@@ -1418,7 +2240,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.11</span>
+    <span class="theorem_thmlabel">2.2.23</span>
     <span class="theorem_thmtitle">Weingarten Target as Vectorized Target</span>
     <div class="thm_header_extras">
 
@@ -1442,7 +2264,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0002.html#def:weingartenVec">Definition 2.2.9</a></li>
+          <li><a href="sect0002.html#def:weingartenVec">Definition 2.2.21</a></li>
           
           <li><a href="sect0002.html#def:gramVec">Definition 2.2.2</a></li>
           
@@ -1451,6 +2273,8 @@
           <li><a href="sect0002.html#def:endVec">Definition 2.1.5</a></li>
           
           <li><a href="sect0002.html#def:permOp">Definition 2.1.2</a></li>
+          
+          <li><a href="sect0002.html#thm:gramVec_apply">Theorem 2.2.4</a></li>
           
         </ul>
     
@@ -1490,7 +2314,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.12</span>
+    <span class="theorem_thmlabel">2.2.24</span>
     <span class="theorem_thmtitle">Cycle Count Formula for Gram Entries</span>
     <div class="thm_header_extras">
 
@@ -1513,6 +2337,12 @@
         </header>
         
         <ul class="uses">
+          
+          <li><a href="sect0002.html#def:weingartenGram">Definition 2.2.20</a></li>
+          
+          <li><a href="sect0002.html#def:endVec">Definition 2.1.5</a></li>
+          
+          <li><a href="sect0001.html#lem:toEndMatrix_permAction">Lemma 1.2.8</a></li>
           
           <li><a href="sect0002.html#thm:inner_endVec_perm_eq_trace">Theorem 2.1.6</a></li>
           
@@ -1551,12 +2381,188 @@
 
   </div>
 </div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:weingartenGramNat">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.25</span>
+    <span class="definition_thmtitle">Natural Weingarten Gram Matrix</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#def:weingartenGramNat">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingartenGramNat" class="lean_decl">SchurWeyl.weingartenGramNat</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The natural-number valued Weingarten Gram matrix whose entries are the coincidence counts. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:weingartenGram_eq_natCast">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.26</span>
+    <span class="theorem_thmtitle">Weingarten Gram is NatCast</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:weingartenGram_eq_natCast">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:weingartenGram">Definition 2.2.20</a></li>
+          
+          <li><a href="sect0002.html#def:weingartenGramNat">Definition 2.2.25</a></li>
+          
+          <li><a href="sect0002.html#thm:weingartenGram_eq_card">Theorem 2.2.24</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingartenGram_eq_natCast" class="lean_decl">SchurWeyl.weingartenGram_eq_natCast</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The complex Weingarten Gram matrix entries are cast from the natural-number valued Weingarten Gram matrix. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:weingartenGramNat_diag">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.27</span>
+    <span class="theorem_thmtitle">Natural Weingarten Gram Diagonal</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:weingartenGramNat_diag">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:weingartenGramNat">Definition 2.2.25</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingartenGramNat_diag" class="lean_decl">SchurWeyl.weingartenGramNat_diag</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The diagonal entries of the natural Weingarten Gram matrix equal \(d^k\). </p>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:weingartenGram_det_ne_zero">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.13</span>
+    <span class="theorem_thmlabel">2.2.28</span>
     <span class="theorem_thmtitle">Invertibility of Weingarten Gram Matrix</span>
     <div class="thm_header_extras">
 
@@ -1580,9 +2586,13 @@
         
         <ul class="uses">
           
-          <li><a href="sect0002.html#thm:weingartenGram_eq_gramMatrix">Theorem 2.2.10</a></li>
+          <li><a href="sect0002.html#def:weingartenGram">Definition 2.2.20</a></li>
           
-          <li><a href="sect0002.html#thm:linearIndependent_endVec_permOp">Theorem 2.2.6</a></li>
+          <li><a href="sect0002.html#thm:weingartenGram_eq_gramMatrix">Theorem 2.2.22</a></li>
+          
+          <li><a href="sect0002.html#thm:linearIndependent_endVec_permOp">Theorem 2.2.18</a></li>
+          
+          <li><a href="sect0002.html#thm:gramMatrix_det_ne_zero">Theorem 2.2.6</a></li>
           
         </ul>
     
@@ -1617,12 +2627,156 @@
 
   </div>
 </div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:weingartenSolutionSet">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.29</span>
+    <span class="definition_thmtitle">Weingarten Solution Set</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#def:weingartenSolutionSet">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:weingartenGram">Definition 2.2.20</a></li>
+          
+          <li><a href="sect0002.html#def:weingartenVec">Definition 2.2.21</a></li>
+          
+          <li><a href="sect0001.html#def:TensV">Definition 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingartenSolutionSet" class="lean_decl">SchurWeyl.weingartenSolutionSet</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The set of solution vectors \(c\) to the Weingarten system. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:weingarten_solutionSet_eq_singleton">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.30</span>
+    <span class="theorem_thmtitle">Weingarten Solution Set is Singleton</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:weingarten_solutionSet_eq_singleton">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:weingartenSolutionSet">Definition 2.2.29</a></li>
+          
+          <li><a href="sect0002.html#def:weingartenGram">Definition 2.2.20</a></li>
+          
+          <li><a href="sect0002.html#def:weingartenVec">Definition 2.2.21</a></li>
+          
+          <li><a href="sect0002.html#thm:gram_solutionSet_eq_singleton">Theorem 2.2.10</a></li>
+          
+          <li><a href="sect0002.html#thm:linearIndependent_endVec_permOp">Theorem 2.2.18</a></li>
+          
+          <li><a href="sect0002.html#thm:weingartenGram_eq_gramMatrix">Theorem 2.2.22</a></li>
+          
+          <li><a href="sect0002.html#thm:weingartenVec_eq_gramVec">Theorem 2.2.23</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.weingarten_solutionSet_eq_singleton" class="lean_decl">SchurWeyl.weingarten_solutionSet_eq_singleton</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> For \(k \le d\), the solution set of the Weingarten system is a singleton containing \(G^{-1} u\). </p>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:weingarten_solution_unique">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.14</span>
+    <span class="theorem_thmlabel">2.2.31</span>
     <span class="theorem_thmtitle">Unique Weingarten Solution</span>
     <div class="thm_header_extras">
 
@@ -1646,11 +2800,17 @@
         
         <ul class="uses">
           
-          <li><a href="sect0002.html#thm:linearIndependent_endVec_permOp">Theorem 2.2.6</a></li>
+          <li><a href="sect0002.html#def:weingartenVec">Definition 2.2.21</a></li>
           
-          <li><a href="sect0002.html#thm:weingartenGram_eq_gramMatrix">Theorem 2.2.10</a></li>
+          <li><a href="sect0002.html#def:weingartenGram">Definition 2.2.20</a></li>
           
-          <li><a href="sect0002.html#thm:weingartenVec_eq_gramVec">Theorem 2.2.11</a></li>
+          <li><a href="sect0002.html#thm:linearIndependent_endVec_permOp">Theorem 2.2.18</a></li>
+          
+          <li><a href="sect0002.html#thm:weingartenGram_eq_gramMatrix">Theorem 2.2.22</a></li>
+          
+          <li><a href="sect0002.html#thm:weingartenVec_eq_gramVec">Theorem 2.2.23</a></li>
+          
+          <li><a href="sect0002.html#thm:gram_system_unique">Theorem 2.2.11</a></li>
           
         </ul>
     
@@ -1690,7 +2850,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.15</span>
+    <span class="theorem_thmlabel">2.2.32</span>
     <span class="theorem_thmtitle">Inverse Solution Form</span>
     <div class="thm_header_extras">
 
@@ -1714,7 +2874,11 @@
         
         <ul class="uses">
           
-          <li><a href="sect0002.html#thm:weingarten_solution_unique">Theorem 2.2.14</a></li>
+          <li><a href="sect0002.html#def:weingartenVec">Definition 2.2.21</a></li>
+          
+          <li><a href="sect0002.html#def:weingartenGram">Definition 2.2.20</a></li>
+          
+          <li><a href="sect0002.html#thm:weingarten_solutionSet_eq_singleton">Theorem 2.2.30</a></li>
           
         </ul>
     
@@ -1749,14 +2913,406 @@
 
   </div>
 </div>
-<h1 id="a0000000028">2.3 The Haar Moment Operator</h1>
+<h1 id="a0000000040">2.3 The Haar Moment Operator</h1>
 <p>We define the normalized Haar measure on the unitary group and use it to define the moment operator. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:unitary_entry_norm_le_one">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.1</span>
+    <span class="theorem_thmtitle">Unitary Entry Norm Bound</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:unitary_entry_norm_le_one">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.unitary_entry_norm_le_one" class="lean_decl">SchurWeyl.unitary_entry_norm_le_one</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Each entry of a unitary matrix \(M \in U(d)\) has norm at most \(1\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:isCompact_unitaryGroup">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.2</span>
+    <span class="theorem_thmtitle">Compactness of the Unitary Group</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:isCompact_unitaryGroup">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#thm:unitary_entry_norm_le_one">Theorem 2.3.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.isCompact_unitaryGroup" class="lean_decl">SchurWeyl.isCompact_unitaryGroup</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The unitary group \(U(d)\) is a compact subset of the space of \(d \times d\) complex matrices. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:instCompactSpaceUnitaryGroup">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.3</span>
+    <span class="theorem_thmtitle">Compact Space Instance of Unitary Group</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:instCompactSpaceUnitaryGroup">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#thm:isCompact_unitaryGroup">Theorem 2.3.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.instCompactSpaceUnitaryGroup" class="lean_decl">SchurWeyl.instCompactSpaceUnitaryGroup</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The unitary group \(U(d)\) is a compact topological space. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:instSecondCountableMatrix">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.4</span>
+    <span class="theorem_thmtitle">Second Countability of Matrix Space</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:instSecondCountableMatrix">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.instSecondCountableMatrix" class="lean_decl">SchurWeyl.instSecondCountableMatrix</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The space of \(d \times d\) complex matrices has second countable topology. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:instMeasurableSpaceUnitaryGroup">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.5</span>
+    <span class="theorem_thmtitle">Measurable Space Instance of Unitary Group</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:instMeasurableSpaceUnitaryGroup">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.instMeasurableSpaceUnitaryGroup" class="lean_decl">SchurWeyl.instMeasurableSpaceUnitaryGroup</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The unitary group \(U(d)\) carries the Borel \(\sigma \)-algebra. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:instBorelSpaceUnitaryGroup">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.6</span>
+    <span class="theorem_thmtitle">Borel Space Instance of Unitary Group</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:instBorelSpaceUnitaryGroup">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.instBorelSpaceUnitaryGroup" class="lean_decl">SchurWeyl.instBorelSpaceUnitaryGroup</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The unitary group \(U(d)\) is a Borel space. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:haar_univ_ne_zero">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.7</span>
+    <span class="theorem_thmtitle">Haar Measure of Universe is Positive</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:haar_univ_ne_zero">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.haar_univ_ne_zero" class="lean_decl">SchurWeyl.haar_univ_ne_zero</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The left Haar measure of the entire unitary group is positive. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:haar_univ_ne_top">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.8</span>
+    <span class="theorem_thmtitle">Haar Measure of Universe is Finite</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:haar_univ_ne_top">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.haar_univ_ne_top" class="lean_decl">SchurWeyl.haar_univ_ne_top</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The left Haar measure of the compact unitary group is finite. </p>
+
+  </div>
+</div>
 <div class="definition_thmwrapper theorem-style-definition" id="def:haarProb">
   <div class="definition_thmheading">
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">2.3.1</span>
+    <span class="definition_thmlabel">2.3.9</span>
     <span class="definition_thmtitle">Haar Probability Measure</span>
     <div class="thm_header_extras">
 
@@ -1795,13 +3351,13 @@
 
   </div>
 </div>
-<div class="definition_thmwrapper theorem-style-definition" id="def:actOn">
-  <div class="definition_thmheading">
-    <span class="definition_thmcaption">
-    Definition
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:instIsProbabilityMeasureHaarProb">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
     </span>
-    <span class="definition_thmlabel">2.3.2</span>
-    <span class="definition_thmtitle">Conjugation Action</span>
+    <span class="theorem_thmlabel">2.3.10</span>
+    <span class="theorem_thmtitle">Haar Probability is Probability Measure</span>
     <div class="thm_header_extras">
 
     
@@ -1809,7 +3365,307 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="sect0002.html#def:actOn">#</a>
+    <a class="icon proof" href="sect0002.html#thm:instIsProbabilityMeasureHaarProb">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:haarProb">Definition 2.3.9</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.instIsProbabilityMeasureHaarProb" class="lean_decl">SchurWeyl.instIsProbabilityMeasureHaarProb</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The Haar probability measure \(\mu _H\) is indeed a probability measure (has total mass 1). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:instIsMulLeftInvariantHaarProb">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.11</span>
+    <span class="theorem_thmtitle">Haar Probability is Left Invariant</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:instIsMulLeftInvariantHaarProb">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:haarProb">Definition 2.3.9</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.instIsMulLeftInvariantHaarProb" class="lean_decl">SchurWeyl.instIsMulLeftInvariantHaarProb</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The Haar probability measure \(\mu _H\) is left-invariant under multiplication. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:endOf">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.3.12</span>
+    <span class="definition_thmtitle">Endomorphism of Matrix</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#def:endOf">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.endOf" class="lean_decl">SchurWeyl.endOf</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The representation of a matrix \(U \in \text{Mat}_{d \times d}(\mathbb {C})\) as a linear endomorphism of \(\mathbb {C}^d\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:endOf_mul">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.13</span>
+    <span class="theorem_thmtitle">Multiplicativity of endOf</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:endOf_mul">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:endOf">Definition 2.3.12</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.endOf_mul" class="lean_decl">SchurWeyl.endOf_mul</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The map ‘endOf‘ satisfies \(\text{endOf}(A B) = \text{endOf}(A) \circ \text{endOf}(B)\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:endOf_one">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.14</span>
+    <span class="theorem_thmtitle">Identity Matrix endOf</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:endOf_one">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:endOf">Definition 2.3.12</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.endOf_one" class="lean_decl">SchurWeyl.endOf_one</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The map ‘endOf‘ maps the identity matrix to the identity endomorphism. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:diagAction_comp">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.15</span>
+    <span class="theorem_thmtitle">Diagonal Action Composition</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:diagAction_comp">#</a>
     
     
     <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
@@ -1844,6 +3700,136 @@
         
         <ul class="uses">
           
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.diagAction_comp" class="lean_decl">SchurWeyl.diagAction_comp</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The diagonal action is multiplicative: \(g^{\otimes k} \circ h^{\otimes k} = (g \circ h)^{\otimes k}\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:diagAction_id">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.16</span>
+    <span class="theorem_thmtitle">Diagonal Action Identity</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:diagAction_id">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.diagAction_id" class="lean_decl">SchurWeyl.diagAction_id</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The diagonal action of the identity endomorphism is the identity on the tensor space. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:actOn">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.3.17</span>
+    <span class="definition_thmtitle">Conjugation Action</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#def:actOn">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0002.html#def:endOf">Definition 2.3.12</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
           <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.actOn" class="lean_decl">SchurWeyl.actOn</a></li>
           
         </ul>
@@ -1856,7 +3842,7 @@
   </div>
   <div class="definition_thmcontent">
   <p> For \(O \in \text{End}(V^{\otimes k})\) and \(U \in U(d)\), the conjugation action is: </p>
-<div class="equation" id="a0000000033">
+<div class="equation" id="a0000000045">
 <p>
   <div class="equation_content">
     \begin{equation}  U^{\otimes k} O (U^\dagger )^{\otimes k} \end{equation}
@@ -1867,12 +3853,370 @@
 
   </div>
 </div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:diagAction_endOf_unitary_left">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.18</span>
+    <span class="theorem_thmtitle">Unitary Diagonal Action Left Inverse</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:diagAction_endOf_unitary_left">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:endOf">Definition 2.3.12</a></li>
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0002.html#thm:diagAction_comp">Theorem 2.3.15</a></li>
+          
+          <li><a href="sect0002.html#thm:endOf_mul">Theorem 2.3.13</a></li>
+          
+          <li><a href="sect0002.html#thm:endOf_one">Theorem 2.3.14</a></li>
+          
+          <li><a href="sect0002.html#thm:diagAction_id">Theorem 2.3.16</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.diagAction_endOf_unitary_left" class="lean_decl">SchurWeyl.diagAction_endOf_unitary_left</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> For any unitary matrix \(U\), \((U^\dagger )^{\otimes k} \circ U^{\otimes k} = \text{id}\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:diagAction_endOf_unitary_right">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.19</span>
+    <span class="theorem_thmtitle">Unitary Diagonal Action Right Inverse</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:diagAction_endOf_unitary_right">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:endOf">Definition 2.3.12</a></li>
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0002.html#thm:diagAction_comp">Theorem 2.3.15</a></li>
+          
+          <li><a href="sect0002.html#thm:endOf_mul">Theorem 2.3.13</a></li>
+          
+          <li><a href="sect0002.html#thm:endOf_one">Theorem 2.3.14</a></li>
+          
+          <li><a href="sect0002.html#thm:diagAction_id">Theorem 2.3.16</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.diagAction_endOf_unitary_right" class="lean_decl">SchurWeyl.diagAction_endOf_unitary_right</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> For any unitary matrix \(U\), \(U^{\otimes k} \circ (U^\dagger )^{\otimes k} = \text{id}\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:continuous_actOn_entry">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.20</span>
+    <span class="theorem_thmtitle">Continuity of Conjugation Action Entries</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:continuous_actOn_entry">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:actOn">Definition 2.3.17</a></li>
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0001.html#lem:toEndMatrix_diagAction">Lemma 1.2.9</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.continuous_actOn_entry" class="lean_decl">SchurWeyl.continuous_actOn_entry</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> For any operator \(O \in \text{End}(V^{\otimes k})\), the matrix entries of the conjugation action \(\text{actOn}(O, U)\) are continuous functions of \(U \in U(d)\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:integrable_actOn_entry">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.21</span>
+    <span class="theorem_thmtitle">Integrability of Conjugation Action Entries</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:integrable_actOn_entry">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#thm:continuous_actOn_entry">Theorem 2.3.20</a></li>
+          
+          <li><a href="sect0002.html#thm:instCompactSpaceUnitaryGroup">Theorem 2.3.3</a></li>
+          
+          <li><a href="sect0002.html#def:haarProb">Definition 2.3.9</a></li>
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
+          <li><a href="sect0002.html#def:actOn">Definition 2.3.17</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.integrable_actOn_entry" class="lean_decl">SchurWeyl.integrable_actOn_entry</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Each matrix entry of the conjugation action is integrable with respect to the Haar probability measure. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:momentMatrix">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.3.22</span>
+    <span class="definition_thmtitle">Haar Moment Matrix</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#def:momentMatrix">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:actOn">Definition 2.3.17</a></li>
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
+          <li><a href="sect0002.html#def:haarProb">Definition 2.3.9</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.momentMatrix" class="lean_decl">SchurWeyl.momentMatrix</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The matrix formed by integrating the entries of the conjugation action over the unitary group. </p>
+
+  </div>
+</div>
 <div class="definition_thmwrapper theorem-style-definition" id="def:momentOp">
   <div class="definition_thmheading">
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">2.3.3</span>
+    <span class="definition_thmlabel">2.3.23</span>
     <span class="definition_thmtitle">Haar Moment Operator</span>
     <div class="thm_header_extras">
 
@@ -1896,7 +4240,9 @@
         
         <ul class="uses">
           
-          <li><a href="sect0002.html#def:actOn">Definition 2.3.2</a></li>
+          <li><a href="sect0002.html#def:momentMatrix">Definition 2.3.22</a></li>
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
           
         </ul>
     
@@ -1927,7 +4273,149 @@
         </div>
   </div>
   <div class="definition_thmcontent">
-  <p> The Haar moment operator \(\mathbb {E}_{U \sim \mu _H}[U^{\otimes k} O (U^\dagger )^{\otimes k}]\) is the entrywise average of the conjugation action. </p>
+  <p> The Haar moment operator \(\mathbb {E}_{U \sim \mu _H}[U^{\otimes k} O (U^\dagger )^{\otimes k}]\), defined as the operator whose matrix in the computational basis is the Haar average of the conjugation action. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:toEndMatrix_momentOp">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.24</span>
+    <span class="theorem_thmtitle">Matrix of Haar Moment Operator</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:toEndMatrix_momentOp">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:momentOp">Definition 2.3.23</a></li>
+          
+          <li><a href="sect0002.html#def:momentMatrix">Definition 2.3.22</a></li>
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.toEndMatrix_momentOp" class="lean_decl">SchurWeyl.toEndMatrix_momentOp</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The matrix representation of the Haar moment operator matches the Haar moment matrix. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:trace_permDual_actOn">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.25</span>
+    <span class="theorem_thmtitle">Pointwise Trace Invariance under Conjugation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:trace_permDual_actOn">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:permDual">Definition 2.1.3</a></li>
+          
+          <li><a href="sect0002.html#def:actOn">Definition 2.3.17</a></li>
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0002.html#def:endOf">Definition 2.3.12</a></li>
+          
+          <li><a href="sect0002.html#thm:diagAction_endOf_unitary_left">Theorem 2.3.18</a></li>
+          
+          <li><a href="sect0001.html#thm:permAction_diagAction_comm">Theorem 1.1.9</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.trace_permDual_actOn" class="lean_decl">SchurWeyl.trace_permDual_actOn</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The trace against \(V_d^\dagger (\sigma )\) is invariant under unitary conjugation of the operator. </p>
 
   </div>
 </div>
@@ -1936,7 +4424,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.3.4</span>
+    <span class="theorem_thmlabel">2.3.26</span>
     <span class="theorem_thmtitle">Trace Invariance of Moment Operator</span>
     <div class="thm_header_extras">
 
@@ -1960,9 +4448,21 @@
         
         <ul class="uses">
           
-          <li><a href="sect0002.html#def:momentOp">Definition 2.3.3</a></li>
+          <li><a href="sect0002.html#def:momentOp">Definition 2.3.23</a></li>
           
           <li><a href="sect0002.html#def:permDual">Definition 2.1.3</a></li>
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
+          <li><a href="sect0002.html#def:actOn">Definition 2.3.17</a></li>
+          
+          <li><a href="sect0002.html#thm:trace_permDual_actOn">Theorem 2.3.25</a></li>
+          
+          <li><a href="sect0002.html#thm:toEndMatrix_momentOp">Theorem 2.3.24</a></li>
+          
+          <li><a href="sect0002.html#thm:integrable_actOn_entry">Theorem 2.3.21</a></li>
+          
+          <li><a href="sect0002.html#def:haarProb">Definition 2.3.9</a></li>
           
         </ul>
     
@@ -1994,7 +4494,7 @@
   </div>
   <div class="theorem_thmcontent">
   <p> The moment operator preserves the traces: </p>
-<div class="equation" id="a0000000034">
+<div class="equation" id="a0000000046">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Tr}(V_d^\dagger (\sigma ) \mathbb {E}[U^{\otimes k} O (U^\dagger )^{\otimes k}]) = \text{Tr}(V_d^\dagger (\sigma ) O) \end{equation}
@@ -2005,12 +4505,170 @@
 
   </div>
 </div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:conj_actOn">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.27</span>
+    <span class="theorem_thmtitle">Translation of Conjugation Action</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:conj_actOn">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0002.html#def:endOf">Definition 2.3.12</a></li>
+          
+          <li><a href="sect0002.html#def:actOn">Definition 2.3.17</a></li>
+          
+          <li><a href="sect0002.html#thm:diagAction_comp">Theorem 2.3.15</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.conj_actOn" class="lean_decl">SchurWeyl.conj_actOn</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Conjugating the action by a unitary matrix \(W\) corresponds to left translating the variable in the conjugation action: \(W^{\otimes k} (\text{actOn}(O, U)) (W^\dagger )^{\otimes k} = \text{actOn}(O, W U)\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:momentOp_conj_unitary">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.28</span>
+    <span class="theorem_thmtitle">Unitary Invariance of Haar Moment Operator</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:momentOp_conj_unitary">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:actOn">Definition 2.3.17</a></li>
+          
+          <li><a href="sect0002.html#def:endOf">Definition 2.3.12</a></li>
+          
+          <li><a href="sect0002.html#thm:diagAction_comp">Theorem 2.3.15</a></li>
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0002.html#thm:endOf_mul">Theorem 2.3.13</a></li>
+          
+          <li><a href="sect0002.html#def:momentOp">Definition 2.3.23</a></li>
+          
+          <li><a href="sect0002.html#def:momentMatrix">Definition 2.3.22</a></li>
+          
+          <li><a href="sect0002.html#thm:toEndMatrix_momentOp">Theorem 2.3.24</a></li>
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
+          <li><a href="sect0001.html#def:tensorBasis">Definition 1.2.5</a></li>
+          
+          <li><a href="sect0002.html#def:haarProb">Definition 2.3.9</a></li>
+          
+          <li><a href="sect0002.html#thm:integrable_actOn_entry">Theorem 2.3.21</a></li>
+          
+          <li><a href="sect0002.html#thm:conj_actOn">Theorem 2.3.27</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.momentOp_conj_unitary" class="lean_decl">SchurWeyl.momentOp_conj_unitary</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The Haar moment operator is invariant under conjugation by any unitary matrix. </p>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:momentOp_comm_unitary">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.3.5</span>
+    <span class="theorem_thmlabel">2.3.29</span>
     <span class="theorem_thmtitle">Unitary Commutativity of Moment Operator</span>
     <div class="thm_header_extras">
 
@@ -2034,7 +4692,15 @@
         
         <ul class="uses">
           
-          <li><a href="sect0002.html#def:momentOp">Definition 2.3.3</a></li>
+          <li><a href="sect0002.html#def:momentOp">Definition 2.3.23</a></li>
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0002.html#def:endOf">Definition 2.3.12</a></li>
+          
+          <li><a href="sect0002.html#thm:momentOp_conj_unitary">Theorem 2.3.28</a></li>
+          
+          <li><a href="sect0002.html#thm:diagAction_endOf_unitary_left">Theorem 2.3.18</a></li>
           
         </ul>
     
@@ -2070,12 +4736,252 @@
   </div>
 </div>
 <p>We extend this to all matrices using density. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:exists_orthonormalBasis_cols">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.30</span>
+    <span class="theorem_thmtitle">Orthonormal Basis from Matrix Columns</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:exists_orthonormalBasis_cols">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.exists_orthonormalBasis_cols" class="lean_decl">SchurWeyl.exists_orthonormalBasis_cols</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> An orthonormal family can be constructed from the columns of a matrix \(N\) when normalized. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:svd_spectral">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.31</span>
+    <span class="theorem_thmtitle">Spectral Decomposition of Hermetian Matrix</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:svd_spectral">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.svd_spectral" class="lean_decl">SchurWeyl.svd_spectral</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Any positive semidefinite Hermetian matrix \(M^\dagger M\) can be diagonalized by a unitary matrix. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:conjTranspose_mul_self_of_spectral">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.32</span>
+    <span class="theorem_thmtitle">Conjugate Transpose Multiplicative Spectral Relation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:conjTranspose_mul_self_of_spectral">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#thm:svd_spectral">Theorem 2.3.31</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.conjTranspose_mul_self_of_spectral" class="lean_decl">SchurWeyl.conjTranspose_mul_self_of_spectral</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> If \(M^\dagger M = Q D Q^\dagger \), then \((M Q)^\dagger (M Q) = D\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:exists_unitary_of_orthonormalBasis">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.33</span>
+    <span class="theorem_thmtitle">Unitary Matrix from Orthonormal Basis</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:exists_unitary_of_orthonormalBasis">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.exists_unitary_of_orthonormalBasis" class="lean_decl">SchurWeyl.exists_unitary_of_orthonormalBasis</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> An orthonormal basis can be assembled into a unitary matrix. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:cols_mul_diag_sqrt">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.34</span>
+    <span class="theorem_thmtitle">Column Normalization Relation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:cols_mul_diag_sqrt">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.cols_mul_diag_sqrt" class="lean_decl">SchurWeyl.cols_mul_diag_sqrt</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The unitary matrix times the diagonal square root matrix recovers the normalized columns. </p>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:svd_exists">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.3.6</span>
+    <span class="theorem_thmlabel">2.3.35</span>
     <span class="theorem_thmtitle">SVD Existence</span>
     <div class="thm_header_extras">
 
@@ -2086,6 +4992,34 @@
 
     <a class="icon proof" href="sect0002.html#thm:svd_exists">#</a>
     
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#thm:svd_spectral">Theorem 2.3.31</a></li>
+          
+          <li><a href="sect0002.html#thm:conjTranspose_mul_self_of_spectral">Theorem 2.3.32</a></li>
+          
+          <li><a href="sect0002.html#thm:exists_orthonormalBasis_cols">Theorem 2.3.30</a></li>
+          
+          <li><a href="sect0002.html#thm:exists_unitary_of_orthonormalBasis">Theorem 2.3.33</a></li>
+          
+          <li><a href="sect0002.html#thm:cols_mul_diag_sqrt">Theorem 2.3.34</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
     
     
     <button class="modal lean">L∃∀N</button>
@@ -2114,12 +5048,384 @@
 
   </div>
 </div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:toEndMatrix_diagAction_diagonal">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.36</span>
+    <span class="theorem_thmtitle">Matrix of Diagonal Diagonal Action</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:toEndMatrix_diagAction_diagonal">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0002.html#def:endOf">Definition 2.3.12</a></li>
+          
+          <li><a href="sect0001.html#lem:diagAction_diagonal">Lemma 1.2.10</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.toEndMatrix_diagAction_diagonal" class="lean_decl">SchurWeyl.toEndMatrix_diagAction_diagonal</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The matrix representation of the diagonal action of a diagonal matrix is diagonal in the tensor basis. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:diagonal_mem_unitaryGroup">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.37</span>
+    <span class="theorem_thmtitle">Diagonal Matrix Unitary Criterion</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:diagonal_mem_unitaryGroup">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.diagonal_mem_unitaryGroup" class="lean_decl">SchurWeyl.diagonal_mem_unitaryGroup</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> A diagonal matrix with entries on the unit circle is unitary. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:prod_eq_of_torus">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.38</span>
+    <span class="theorem_thmtitle">Identity extension from Torus</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:prod_eq_of_torus">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.prod_eq_of_torus" class="lean_decl">SchurWeyl.prod_eq_of_torus</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> An identity of index-monomials holding on the unit torus holds on all inputs. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:toEndMatrix_comp">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.39</span>
+    <span class="theorem_thmtitle">Matrix of Composition</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:toEndMatrix_comp">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
+          <li><a href="sect0001.html#def:tensorBasis">Definition 1.2.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.toEndMatrix_comp" class="lean_decl">SchurWeyl.toEndMatrix_comp</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> The matrix representation map is multiplicative: \(\text{toEndMatrix}(f \circ g) = \text{toEndMatrix}(f) \text{toEndMatrix}(g)\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:comm_diagAction_diagonal_entry">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.40</span>
+    <span class="theorem_thmtitle">Entrywise Commutation with Diagonal Action</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:comm_diagAction_diagonal_entry">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0002.html#def:endOf">Definition 2.3.12</a></li>
+          
+          <li><a href="sect0002.html#thm:toEndMatrix_comp">Theorem 2.3.39</a></li>
+          
+          <li><a href="sect0002.html#thm:toEndMatrix_diagAction_diagonal">Theorem 2.3.36</a></li>
+          
+          <li><a href="sect0002.html#thm:diagonal_mem_unitaryGroup">Theorem 2.3.37</a></li>
+          
+          <li><a href="sect0002.html#thm:prod_eq_of_torus">Theorem 2.3.38</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.comm_diagAction_diagonal_entry" class="lean_decl">SchurWeyl.comm_diagAction_diagonal_entry</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> An operator commuting with all unitary diagonal actions commutes entrywise with all diagonal actions. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:comm_diagAction_diagonal">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.41</span>
+    <span class="theorem_thmtitle">Commutation with all Diagonal Actions</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:comm_diagAction_diagonal">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0002.html#def:endOf">Definition 2.3.12</a></li>
+          
+          <li><a href="sect0001.html#def:toEndMatrix">Definition 1.2.6</a></li>
+          
+          <li><a href="sect0002.html#thm:comm_diagAction_diagonal_entry">Theorem 2.3.40</a></li>
+          
+          <li><a href="sect0002.html#thm:toEndMatrix_comp">Theorem 2.3.39</a></li>
+          
+          <li><a href="sect0002.html#thm:toEndMatrix_diagAction_diagonal">Theorem 2.3.36</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://teng10.github.io/lean-haar/docs/find/#doc/SchurWeyl.comm_diagAction_diagonal" class="lean_decl">SchurWeyl.comm_diagAction_diagonal</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> An operator commuting with all unitary diagonal actions commutes with the diagonal action of any diagonal matrix. </p>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:mem_centralizer_of_comm_unitary">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.3.7</span>
+    <span class="theorem_thmlabel">2.3.42</span>
     <span class="theorem_thmtitle">Unitary Commutant implies Centralizer</span>
     <div class="thm_header_extras">
 
@@ -2143,7 +5449,17 @@
         
         <ul class="uses">
           
-          <li><a href="sect0002.html#thm:svd_exists">Theorem 2.3.6</a></li>
+          <li><a href="sect0001.html#def:diagAction">Definition 1.1.3</a></li>
+          
+          <li><a href="sect0002.html#thm:svd_exists">Theorem 2.3.35</a></li>
+          
+          <li><a href="sect0002.html#thm:comm_diagAction_diagonal">Theorem 2.3.41</a></li>
+          
+          <li><a href="sect0002.html#def:endOf">Definition 2.3.12</a></li>
+          
+          <li><a href="sect0002.html#thm:endOf_mul">Theorem 2.3.13</a></li>
+          
+          <li><a href="sect0002.html#thm:diagAction_comp">Theorem 2.3.15</a></li>
           
         </ul>
     
@@ -2183,7 +5499,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.3.8</span>
+    <span class="theorem_thmlabel">2.3.43</span>
     <span class="theorem_thmtitle">Moment Operator lies in Permutation Span</span>
     <div class="thm_header_extras">
 
@@ -2207,13 +5523,13 @@
         
         <ul class="uses">
           
-          <li><a href="sect0002.html#def:momentOp">Definition 2.3.3</a></li>
+          <li><a href="sect0002.html#def:momentOp">Definition 2.3.23</a></li>
           
-          <li><a href="sect0002.html#thm:momentOp_comm_unitary">Theorem 2.3.5</a></li>
+          <li><a href="sect0002.html#thm:momentOp_comm_unitary">Theorem 2.3.29</a></li>
           
-          <li><a href="sect0002.html#thm:mem_centralizer_of_comm_unitary">Theorem 2.3.7</a></li>
+          <li><a href="sect0002.html#thm:mem_centralizer_of_comm_unitary">Theorem 2.3.42</a></li>
           
-          <li><a href="sect0001.html#thm:schur_weyl">Theorem 1.3.10</a></li>
+          <li><a href="sect0001.html#thm:schur_weyl">Theorem 1.3.19</a></li>
           
         </ul>
     
@@ -2245,7 +5561,7 @@
   </div>
   <div class="theorem_thmcontent">
   <p> The Haar moment operator lies in the span of the permutation operators: </p>
-<div class="equation" id="a0000000035">
+<div class="equation" id="a0000000047">
 <p>
   <div class="equation_content">
     \begin{equation}  \mathbb {E}_{U}[U^{\otimes k} O (U^\dagger )^{\otimes k}] \in \text{Span}(\mathcal{P}_{d,k}) \end{equation}
@@ -2261,7 +5577,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.3.9</span>
+    <span class="theorem_thmlabel">2.3.44</span>
     <span class="theorem_thmtitle">Weingarten Moments for Haar Integral</span>
     <div class="thm_header_extras">
 
@@ -2285,11 +5601,15 @@
         
         <ul class="uses">
           
-          <li><a href="sect0002.html#def:momentOp">Definition 2.3.3</a></li>
+          <li><a href="sect0002.html#def:momentOp">Definition 2.3.23</a></li>
           
-          <li><a href="sect0002.html#thm:momentOp_mem_span">Theorem 2.3.8</a></li>
+          <li><a href="sect0002.html#def:permOp">Definition 2.1.2</a></li>
           
-          <li><a href="sect0002.html#thm:momentOp_trace">Theorem 2.3.4</a></li>
+          <li><a href="sect0002.html#def:permDual">Definition 2.1.3</a></li>
+          
+          <li><a href="sect0002.html#thm:momentOp_mem_span">Theorem 2.3.43</a></li>
+          
+          <li><a href="sect0002.html#thm:momentOp_trace">Theorem 2.3.26</a></li>
           
           <li><a href="sect0002.html#thm:weingarten_moment_decomposition_of_props">Theorem 2.1.11</a></li>
           

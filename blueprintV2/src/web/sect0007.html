@@ -97,16 +97,42 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:isGramSolution_iff_mulVec">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:gramMatrix_apply">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
     <span class="theorem_thmlabel">2.2.3</span>
+    <span class="theorem_thmtitle">Abstract Gram Matrix Application</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.gramMatrix_applydef:gramMatrixThe entries of the Gram matrix satisfy \(\text{gramMatrix}(v)_{j, i} = \langle v_j, v_i \rangle \). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:gramVec_apply">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.4</span>
+    <span class="theorem_thmtitle">Abstract Gram Target Application</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.gramVec_applydef:gramVecThe entries of the target vector satisfy \(\text{gramVec}(v, w)_j = \langle v_j, w \rangle \). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:isGramSolution_iff_mulVec">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.5</span>
     <span class="theorem_thmtitle">Matrix Formulation of Gram System</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.isGramSolution_iff_mulVecdef:gramMatrix, def:gramVecA vector \(c\) solves the Gram system if and only if \(G c = u\). </p>
+  <p> SchurWeyl.isGramSolution_iff_mulVecdef:gramMatrix, def:gramVec, thm:gramMatrix_apply, thm:gramVec_applyA vector \(c\) solves the Gram system if and only if \(G c = u\). </p>
 
   </div>
 </div>
@@ -115,11 +141,24 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.4</span>
+    <span class="theorem_thmlabel">2.2.6</span>
     <span class="theorem_thmtitle">Invertibility of Independent Gram Matrix</span>
   </div>
   <div class="theorem_thmcontent">
   <p> SchurWeyl.gramMatrix_det_ne_zerodef:gramMatrixIf the vectors \(v_1, \dots , v_n\) are linearly independent, then their Gram matrix is invertible. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:gramMatrix_isUnit_det">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.7</span>
+    <span class="theorem_thmtitle">Gram Matrix Determinant is a Unit</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.gramMatrix_isUnit_detdef:gramMatrix, thm:gramMatrix_det_ne_zeroIf the family of vectors is linearly independent, the determinant of its Gram matrix is a unit in \(\mathbb {C}\). </p>
 
   </div>
 </div>
@@ -128,25 +167,142 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.5</span>
+    <span class="theorem_thmlabel">2.2.8</span>
     <span class="theorem_thmtitle">Unique Gram Solution</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.gram_solution_eq_invthm:isGramSolution_iff_mulVec, thm:gramMatrix_det_ne_zeroIf the vectors are linearly independent, the Gram system has a unique solution given by \(c = G^{-1} u\). </p>
+  <p> SchurWeyl.gram_solution_eq_invdef:gramMatrix, def:gramVec, thm:isGramSolution_iff_mulVec, thm:gramMatrix_isUnit_detIf the vectors are linearly independent, the Gram system has a unique solution given by \(c = G^{-1} u\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:gramSolutionSet">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.9</span>
+    <span class="definition_thmtitle">Abstract Gram Solution Set</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.gramSolutionSetThe set of all solution vectors \(c\) to the Gram system. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:gram_solutionSet_eq_singleton">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.10</span>
+    <span class="theorem_thmtitle">Gram Solution Set is Singleton</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.gram_solutionSet_eq_singletondef:gramSolutionSet, def:gramMatrix, def:gramVec, thm:gramMatrix_isUnit_det, thm:gram_solution_eq_inv, thm:isGramSolution_iff_mulVecFor a linearly independent family of vectors, the solution set of the Gram system is the singleton containing \(G^{-1} u\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:gram_system_unique">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.11</span>
+    <span class="theorem_thmtitle">Uniqueness of Gram System Solution</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.gram_system_uniquethm:gram_system_solvable, thm:gram_solution_eq_invFor a linearly independent family of vectors, there exists a unique solution to the Gram system. </p>
 
   </div>
 </div>
 <p>We apply this to permutation operators. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:matrixEntriesEquiv">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.12</span>
+    <span class="definition_thmtitle">Matrix Entries Equivalence</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.matrixEntriesEquivThe linear equivalence between matrices and the function space of their entries. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:endVecEquiv">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.13</span>
+    <span class="definition_thmtitle">Endomorphism Vectorization Equivalence</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.endVecEquivdef:toEndMatrix, def:matrixEntriesEquiv, def:TensVThe linear equivalence between endomorphisms and the Euclidean space of their matrix entries. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:endVecₗ">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.14</span>
+    <span class="definition_thmtitle">Linear Endomorphism Vectorization</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.endVecₗdef:endVecEquiv, def:TensVThe linear map representing the vectorization of endomorphisms. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:endVecₗ_apply">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.15</span>
+    <span class="theorem_thmtitle">Linear Vectorization Application</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.endVecₗ_applydef:endVecₗ, def:endVecThe linear endomorphism vectorization matches the standard vectorization: \(\text{endVec}_\ell (O) = \text{endVec}(O)\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:endVecₗ_injective">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.16</span>
+    <span class="theorem_thmtitle">Linear Vectorization is Injective</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.endVecₗ_injectivedef:endVecₗ, def:endVecEquivThe linear endomorphism vectorization is injective. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:endVecₗ_ker">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.17</span>
+    <span class="theorem_thmtitle">Linear Vectorization Kernel</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.endVecₗ_kerdef:endVecₗ, thm:endVecₗ_injectiveThe kernel of the linear endomorphism vectorization is the trivial submodule. </p>
+
+  </div>
+</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:linearIndependent_endVec_permOp">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.6</span>
+    <span class="theorem_thmlabel">2.2.18</span>
     <span class="theorem_thmtitle">Linear Independence of Vectorized Permutations</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.linearIndependent_endVec_permOpdef:endVec, def:permOpFor \(k \le d\), the vectorized permutation operators \(\text{endVec}(V_d(\sigma ))\) are linearly independent. </p>
+  <p> SchurWeyl.linearIndependent_endVec_permOpdef:endVec, def:permOp, lem:toEndMatrix_permActionFor \(k \le d\), the vectorized permutation operators \(\text{endVec}(V_d(\sigma ))\) are linearly independent. </p>
 
   </div>
 </div>
@@ -155,11 +311,11 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.7</span>
+    <span class="theorem_thmlabel">2.2.19</span>
     <span class="theorem_thmtitle">Linear Independence of Permutation Operators</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.linearIndependent_permOpthm:linearIndependent_endVec_permOpFor \(k \le d\), the permutation operators \(V_d(\sigma )\) are linearly independent in \(\text{End}(V^{\otimes k})\). </p>
+  <p> SchurWeyl.linearIndependent_permOpdef:permOp, thm:linearIndependent_endVec_permOp, def:endVecₗ, thm:endVecₗ_applyFor \(k \le d\), the permutation operators \(V_d(\sigma )\) are linearly independent in \(\text{End}(V^{\otimes k})\). </p>
 
   </div>
 </div>
@@ -168,11 +324,11 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">2.2.8</span>
+    <span class="definition_thmlabel">2.2.20</span>
     <span class="definition_thmtitle">Weingarten Gram Matrix</span>
   </div>
   <div class="definition_thmcontent">
-  <p> SchurWeyl.weingartenGramdef:permDual, def:permOpThe Weingarten Gram matrix is defined by \(G_{\sigma , \pi } = \text{Tr}(V_d^\dagger (\sigma ) V_d(\pi ))\). </p>
+  <p> SchurWeyl.weingartenGramdef:permDual, def:permOp, def:TensVThe Weingarten Gram matrix is defined by \(G_{\sigma , \pi } = \text{Tr}(V_d^\dagger (\sigma ) V_d(\pi ))\). </p>
 
   </div>
 </div>
@@ -181,11 +337,11 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">2.2.9</span>
+    <span class="definition_thmlabel">2.2.21</span>
     <span class="definition_thmtitle">Weingarten Target Vector</span>
   </div>
   <div class="definition_thmcontent">
-  <p> SchurWeyl.weingartenVecdef:permDualThe Weingarten target vector is \(u_\sigma = \text{Tr}(V_d^\dagger (\sigma ) O)\). </p>
+  <p> SchurWeyl.weingartenVecdef:permDual, def:TensVThe Weingarten target vector is \(u_\sigma = \text{Tr}(V_d^\dagger (\sigma ) O)\). </p>
 
   </div>
 </div>
@@ -194,11 +350,11 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.10</span>
+    <span class="theorem_thmlabel">2.2.22</span>
     <span class="theorem_thmtitle">Weingarten Gram as Vectorized Gram</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.weingartenGram_eq_gramMatrixdef:weingartenGram, def:gramMatrix, thm:inner_endVec_perm_eq_trace, def:endVec, def:permOpThe Weingarten Gram matrix is the Gram matrix of vectorized permutation operators. </p>
+  <p> SchurWeyl.weingartenGram_eq_gramMatrixdef:weingartenGram, def:gramMatrix, thm:inner_endVec_perm_eq_trace, def:endVec, def:permOp, thm:gramMatrix_applyThe Weingarten Gram matrix is the Gram matrix of vectorized permutation operators. </p>
 
   </div>
 </div>
@@ -207,11 +363,11 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.11</span>
+    <span class="theorem_thmlabel">2.2.23</span>
     <span class="theorem_thmtitle">Weingarten Target as Vectorized Target</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.weingartenVec_eq_gramVecdef:weingartenVec, def:gramVec, thm:inner_endVec_perm_eq_trace, def:endVec, def:permOpThe Weingarten target vector is the Gram vector of vectorized permutation operators. </p>
+  <p> SchurWeyl.weingartenVec_eq_gramVecdef:weingartenVec, def:gramVec, thm:inner_endVec_perm_eq_trace, def:endVec, def:permOp, thm:gramVec_applyThe Weingarten target vector is the Gram vector of vectorized permutation operators. </p>
 
   </div>
 </div>
@@ -220,11 +376,50 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.12</span>
+    <span class="theorem_thmlabel">2.2.24</span>
     <span class="theorem_thmtitle">Cycle Count Formula for Gram Entries</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.weingartenGram_eq_cardthm:inner_endVec_perm_eq_trace, def:permOpThe entry \(\text{Tr}(V_d^\dagger (\sigma ) V_d(\pi ))\) equals the number of index functions invariant under \(\sigma ^{-1}\pi \), which evaluates to \(d^{\#  \text{cycles}(\sigma ^{-1}\pi )}\). </p>
+  <p> SchurWeyl.weingartenGram_eq_carddef:weingartenGram, def:endVec, lem:toEndMatrix_permAction, thm:inner_endVec_perm_eq_trace, def:permOpThe entry \(\text{Tr}(V_d^\dagger (\sigma ) V_d(\pi ))\) equals the number of index functions invariant under \(\sigma ^{-1}\pi \), which evaluates to \(d^{\#  \text{cycles}(\sigma ^{-1}\pi )}\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:weingartenGramNat">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.25</span>
+    <span class="definition_thmtitle">Natural Weingarten Gram Matrix</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.weingartenGramNatThe natural-number valued Weingarten Gram matrix whose entries are the coincidence counts. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:weingartenGram_eq_natCast">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.26</span>
+    <span class="theorem_thmtitle">Weingarten Gram is NatCast</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.weingartenGram_eq_natCastdef:weingartenGram, def:weingartenGramNat, thm:weingartenGram_eq_cardThe complex Weingarten Gram matrix entries are cast from the natural-number valued Weingarten Gram matrix. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:weingartenGramNat_diag">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.27</span>
+    <span class="theorem_thmtitle">Natural Weingarten Gram Diagonal</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.weingartenGramNat_diagdef:weingartenGramNatThe diagonal entries of the natural Weingarten Gram matrix equal \(d^k\). </p>
 
   </div>
 </div>
@@ -233,11 +428,37 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.13</span>
+    <span class="theorem_thmlabel">2.2.28</span>
     <span class="theorem_thmtitle">Invertibility of Weingarten Gram Matrix</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.weingartenGram_det_ne_zerothm:weingartenGram_eq_gramMatrix, thm:linearIndependent_endVec_permOpFor \(k \le d\), the Weingarten Gram matrix is invertible. </p>
+  <p> SchurWeyl.weingartenGram_det_ne_zerodef:weingartenGram, thm:weingartenGram_eq_gramMatrix, thm:linearIndependent_endVec_permOp, thm:gramMatrix_det_ne_zeroFor \(k \le d\), the Weingarten Gram matrix is invertible. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:weingartenSolutionSet">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2.29</span>
+    <span class="definition_thmtitle">Weingarten Solution Set</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.weingartenSolutionSetdef:weingartenGram, def:weingartenVec, def:TensVThe set of solution vectors \(c\) to the Weingarten system. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:weingarten_solutionSet_eq_singleton">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.2.30</span>
+    <span class="theorem_thmtitle">Weingarten Solution Set is Singleton</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.weingarten_solutionSet_eq_singletondef:weingartenSolutionSet, def:weingartenGram, def:weingartenVec, thm:gram_solutionSet_eq_singleton, thm:linearIndependent_endVec_permOp, thm:weingartenGram_eq_gramMatrix, thm:weingartenVec_eq_gramVecFor \(k \le d\), the solution set of the Weingarten system is a singleton containing \(G^{-1} u\). </p>
 
   </div>
 </div>
@@ -246,11 +467,11 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.14</span>
+    <span class="theorem_thmlabel">2.2.31</span>
     <span class="theorem_thmtitle">Unique Weingarten Solution</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.weingarten_solution_uniquethm:linearIndependent_endVec_permOp, thm:weingartenGram_eq_gramMatrix, thm:weingartenVec_eq_gramVecFor \(k \le d\), the Weingarten system has a unique solution. </p>
+  <p> SchurWeyl.weingarten_solution_uniquedef:weingartenVec, def:weingartenGram, thm:linearIndependent_endVec_permOp, thm:weingartenGram_eq_gramMatrix, thm:weingartenVec_eq_gramVec, thm:gram_system_uniqueFor \(k \le d\), the Weingarten system has a unique solution. </p>
 
   </div>
 </div>
@@ -259,11 +480,11 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">2.2.15</span>
+    <span class="theorem_thmlabel">2.2.32</span>
     <span class="theorem_thmtitle">Inverse Solution Form</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.weingarten_solution_eq_invthm:weingarten_solution_uniqueFor \(k \le d\), the unique coefficient vector is given by \(c = G^{-1} u\). </p>
+  <p> SchurWeyl.weingarten_solution_eq_invdef:weingartenVec, def:weingartenGram, thm:weingarten_solutionSet_eq_singletonFor \(k \le d\), the unique coefficient vector is given by \(c = G^{-1} u\). </p>
 
   </div>
 </div>

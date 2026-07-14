@@ -81,7 +81,7 @@
   </div>
   <div class="theorem_thmcontent">
   <p> SchurWeyl.gram_system_solvableLet \(H\) be a finite-dimensional complex Hilbert space, \(v_1, \dots , v_n \in H\), and \(w \in H\). The linear system: </p>
-<div class="equation" id="a0000000029">
+<div class="equation" id="a0000000041">
 <p>
   <div class="equation_content">
     \begin{equation}  \langle v_j, w \rangle = \sum _{i=1}^n c_i \langle v_j, v_i \rangle \quad \text{for all } j \end{equation}
@@ -103,7 +103,7 @@
     <span class="definition_thmtitle">Permutation Operators</span>
   </div>
   <div class="definition_thmcontent">
-  <p> SchurWeyl.permOpdef:permActionThe permutation operator \(V_d(\sigma ) \in \text{End}(V^{\otimes k})\) is the linear map corresponding to \(\sigma \in S_k\). </p>
+  <p> SchurWeyl.permOpdef:permAction, def:TensVThe permutation operator \(V_d(\sigma ) \in \text{End}(V^{\otimes k})\) is the linear map corresponding to \(\sigma \in S_k\). </p>
 
   </div>
 </div>
@@ -116,7 +116,7 @@
     <span class="definition_thmtitle">Adjoint Permutation Operators</span>
   </div>
   <div class="definition_thmcontent">
-  <p> SchurWeyl.permDualdef:permActionThe dual permutation operator \(V_d^\dagger (\sigma )\) is defined as the permutation operator of \(\sigma ^{-1}\). </p>
+  <p> SchurWeyl.permDualdef:permAction, def:TensVThe dual permutation operator \(V_d^\dagger (\sigma )\) is defined as the permutation operator of \(\sigma ^{-1}\). </p>
 
   </div>
 </div>
@@ -129,7 +129,7 @@
     <span class="theorem_thmtitle">Hermitian Adjoint Agreement</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.permDual_eq_conjTransposedef:permOp, def:permDualIn the computational basis of \(V^{\otimes k}\), the matrix representation of \(V_d^\dagger (\sigma )\) is the conjugate transpose of the matrix representation of \(V_d(\sigma )\). </p>
+  <p> SchurWeyl.permDual_eq_conjTransposedef:toEndMatrix, def:permOp, def:permDual, lem:toEndMatrix_permActionIn the computational basis of \(V^{\otimes k}\), the matrix representation of \(V_d^\dagger (\sigma )\) is the conjugate transpose of the matrix representation of \(V_d(\sigma )\). </p>
 
   </div>
 </div>
@@ -142,7 +142,7 @@
     <span class="definition_thmtitle">Matrix Vectorization</span>
   </div>
   <div class="definition_thmcontent">
-  <p> SchurWeyl.endVecThe vectorization \(\text{endVec}(O)\) of an operator \(O \in \text{End}(V^{\otimes k})\) is the vector of its matrix entries in the computational basis, viewed as an element of the Euclidean space. </p>
+  <p> SchurWeyl.endVecdef:toEndMatrix, def:TensVThe vectorization \(\text{endVec}(O)\) of an operator \(O \in \text{End}(V^{\otimes k})\) is the vector of its matrix entries in the computational basis, viewed as an element of the Euclidean space. </p>
 
   </div>
 </div>
@@ -155,8 +155,8 @@
     <span class="theorem_thmtitle">The Trace Bridge</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.inner_endVec_perm_eq_tracedef:permOp, def:permDual, def:endVecThe Euclidean inner product of the vectorizations of \(V_d(\sigma )\) and \(O\) equals the trace of their product: </p>
-<div class="equation" id="a0000000030">
+  <p> SchurWeyl.inner_endVec_perm_eq_tracedef:permOp, def:permDual, def:tensorBasis, def:endVec, lem:toEndMatrix_permActionThe Euclidean inner product of the vectorizations of \(V_d(\sigma )\) and \(O\) equals the trace of their product: </p>
+<div class="equation" id="a0000000042">
 <p>
   <div class="equation_content">
     \begin{equation}  \langle \text{endVec}(V_d(\sigma )), \text{endVec}(O) \rangle = \text{Tr}(V_d^\dagger (\sigma ) O) \end{equation}
@@ -176,8 +176,8 @@
     <span class="theorem_thmtitle">Solvability of Weingarten Linear System</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.weingarten_linear_system_solvablethm:gram_system_solvable, thm:inner_endVec_perm_eq_traceFor any operator \(O \in \text{End}(V^{\otimes k})\), the Weingarten system of \(k!\) equations: </p>
-<div class="equation" id="a0000000031">
+  <p> SchurWeyl.weingarten_linear_system_solvablethm:gram_system_solvable, thm:inner_endVec_perm_eq_trace, def:permOp, def:endVecFor any operator \(O \in \text{End}(V^{\otimes k})\), the Weingarten system of \(k!\) equations: </p>
+<div class="equation" id="a0000000043">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Tr}(V_d^\dagger (\sigma ) O) = \sum _{\pi \in S_k} c_\pi \text{Tr}(V_d^\dagger (\sigma ) V_d(\pi )) \quad \text{for all } \sigma \in S_k \end{equation}
@@ -224,8 +224,8 @@
     <span class="theorem_thmtitle">Existence of Moment Representation Operator</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.weingarten_moment_operator_specthm:weingarten_linear_system_solvable, lem:sum_smul_permOp_mem_span, lem:trace_permDual_comp_sumThere exists a linear combination \(M = \sum _{\pi } c_\pi V_d(\pi )\) lying in \(\text{Span}(\mathcal{P}_{d,k})\) whose traces match \(O\): </p>
-<div class="equation" id="a0000000032">
+  <p> SchurWeyl.weingarten_moment_operator_specthm:weingarten_linear_system_solvable, lem:sum_smul_permOp_mem_span, lem:trace_permDual_comp_sum, def:permOp, def:permImage, def:permDualThere exists a linear combination \(M = \sum _{\pi } c_\pi V_d(\pi )\) lying in \(\text{Span}(\mathcal{P}_{d,k})\) whose traces match \(O\): </p>
+<div class="equation" id="a0000000044">
 <p>
   <div class="equation_content">
     \begin{equation}  \text{Tr}(V_d^\dagger (\sigma ) M) = \text{Tr}(V_d^\dagger (\sigma ) O) \quad \text{for all } \sigma \in S_k \end{equation}
@@ -245,7 +245,7 @@
     <span class="theorem_thmtitle">Moment Operator Decomposition from Trace and Span Properties</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> SchurWeyl.weingarten_moment_decomposition_of_propslem:trace_permDual_comp_sum, def:permImage, def:permOpIf any operator \(M\) lies in \(\text{Span}(\mathcal{P}_{d,k})\) and has \(\text{Tr}(V_d^\dagger (\sigma ) M) = \text{Tr}(V_d^\dagger (\sigma ) O)\) for all \(\sigma \), then its coefficients solve the Weingarten system. </p>
+  <p> SchurWeyl.weingarten_moment_decomposition_of_propslem:trace_permDual_comp_sum, def:permImage, def:permOp, def:permDualIf any operator \(M\) lies in \(\text{Span}(\mathcal{P}_{d,k})\) and has \(\text{Tr}(V_d^\dagger (\sigma ) M) = \text{Tr}(V_d^\dagger (\sigma ) O)\) for all \(\sigma \), then its coefficients solve the Weingarten system. </p>
 
   </div>
 </div>

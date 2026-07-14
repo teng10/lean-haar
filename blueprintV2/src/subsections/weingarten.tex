@@ -88,8 +88,18 @@ When the number of tensor factors $k$ is at most the dimension $d$, the permutat
   The Gram target vector is $u_j = \langle v_j, w \rangle$.
 \end{definition}
 
+\begin{theorem}[Abstract Gram Matrix Application]\label{thm:gramMatrix_apply}
+  \lean{SchurWeyl.gramMatrix_apply}\uses{def:gramMatrix}\leanok
+  The entries of the Gram matrix satisfy $\text{gramMatrix}(v)_{j, i} = \langle v_j, v_i \rangle$.
+\end{theorem}
+
+\begin{theorem}[Abstract Gram Target Application]\label{thm:gramVec_apply}
+  \lean{SchurWeyl.gramVec_apply}\uses{def:gramVec}\leanok
+  The entries of the target vector satisfy $\text{gramVec}(v, w)_j = \langle v_j, w \rangle$.
+\end{theorem}
+
 \begin{theorem}[Matrix Formulation of Gram System]\label{thm:isGramSolution_iff_mulVec}
-  \lean{SchurWeyl.isGramSolution_iff_mulVec}\uses{def:gramMatrix, def:gramVec}\leanok
+  \lean{SchurWeyl.isGramSolution_iff_mulVec}\uses{def:gramMatrix, def:gramVec, thm:gramMatrix_apply, thm:gramVec_apply}\leanok
   A vector $c$ solves the Gram system if and only if $G c = u$.
 \end{theorem}
 
@@ -98,20 +108,70 @@ When the number of tensor factors $k$ is at most the dimension $d$, the permutat
   If the vectors $v_1, \dots, v_n$ are linearly independent, then their Gram matrix is invertible.
 \end{theorem}
 
+\begin{theorem}[Gram Matrix Determinant is a Unit]\label{thm:gramMatrix_isUnit_det}
+  \lean{SchurWeyl.gramMatrix_isUnit_det}\uses{def:gramMatrix, thm:gramMatrix_det_ne_zero}\leanok
+  If the family of vectors is linearly independent, the determinant of its Gram matrix is a unit in $\mathbb{C}$.
+\end{theorem}
+
 \begin{theorem}[Unique Gram Solution]\label{thm:gram_solution_eq_inv}
-  \lean{SchurWeyl.gram_solution_eq_inv}\uses{thm:isGramSolution_iff_mulVec, thm:gramMatrix_det_ne_zero}\leanok
+  \lean{SchurWeyl.gram_solution_eq_inv}\uses{def:gramMatrix, def:gramVec, thm:isGramSolution_iff_mulVec, thm:gramMatrix_isUnit_det}\leanok
   If the vectors are linearly independent, the Gram system has a unique solution given by $c = G^{-1} u$.
+\end{theorem}
+
+\begin{definition}[Abstract Gram Solution Set]\label{def:gramSolutionSet}
+  \lean{SchurWeyl.gramSolutionSet}\leanok
+  The set of all solution vectors $c$ to the Gram system.
+\end{definition}
+
+\begin{theorem}[Gram Solution Set is Singleton]\label{thm:gram_solutionSet_eq_singleton}
+  \lean{SchurWeyl.gram_solutionSet_eq_singleton}\uses{def:gramSolutionSet, def:gramMatrix, def:gramVec, thm:gramMatrix_isUnit_det, thm:gram_solution_eq_inv, thm:isGramSolution_iff_mulVec}\leanok
+  For a linearly independent family of vectors, the solution set of the Gram system is the singleton containing $G^{-1} u$.
+\end{theorem}
+
+\begin{theorem}[Uniqueness of Gram System Solution]\label{thm:gram_system_unique}
+  \lean{SchurWeyl.gram_system_unique}\uses{thm:gram_system_solvable, thm:gram_solution_eq_inv}\leanok
+  For a linearly independent family of vectors, there exists a unique solution to the Gram system.
 \end{theorem}
 
 We apply this to permutation operators.
 
+\begin{definition}[Matrix Entries Equivalence]\label{def:matrixEntriesEquiv}
+  \lean{SchurWeyl.matrixEntriesEquiv}\leanok
+  The linear equivalence between matrices and the function space of their entries.
+\end{definition}
+
+\begin{definition}[Endomorphism Vectorization Equivalence]\label{def:endVecEquiv}
+  \lean{SchurWeyl.endVecEquiv}\uses{def:toEndMatrix, def:matrixEntriesEquiv}\leanok
+  The linear equivalence between endomorphisms and the Euclidean space of their matrix entries.
+\end{definition}
+
+\begin{definition}[Linear Endomorphism Vectorization]\label{def:endVecₗ}
+  \lean{SchurWeyl.endVecₗ}\uses{def:endVecEquiv}\leanok
+  The linear map representing the vectorization of endomorphisms.
+\end{definition}
+
+\begin{theorem}[Linear Vectorization Application]\label{thm:endVecₗ_apply}
+  \lean{SchurWeyl.endVecₗ_apply}\uses{def:endVecₗ, def:endVec}\leanok
+  The linear endomorphism vectorization matches the standard vectorization: $\text{endVec}_\ell(O) = \text{endVec}(O)$.
+\end{theorem}
+
+\begin{theorem}[Linear Vectorization is Injective]\label{thm:endVecₗ_injective}
+  \lean{SchurWeyl.endVecₗ_injective}\uses{def:endVecₗ, def:endVecEquiv}\leanok
+  The linear endomorphism vectorization is injective.
+\end{theorem}
+
+\begin{theorem}[Linear Vectorization Kernel]\label{thm:endVecₗ_ker}
+  \lean{SchurWeyl.endVecₗ_ker}\uses{def:endVecₗ, thm:endVecₗ_injective}\leanok
+  The kernel of the linear endomorphism vectorization is the trivial submodule.
+\end{theorem}
+
 \begin{theorem}[Linear Independence of Vectorized Permutations]\label{thm:linearIndependent_endVec_permOp}
-  \lean{SchurWeyl.linearIndependent_endVec_permOp}\uses{def:endVec, def:permOp}\leanok
+  \lean{SchurWeyl.linearIndependent_endVec_permOp}\uses{def:endVec, def:permOp, lem:toEndMatrix_permAction}\leanok
   For $k \le d$, the vectorized permutation operators $\text{endVec}(V_d(\sigma))$ are linearly independent.
 \end{theorem}
 
 \begin{theorem}[Linear Independence of Permutation Operators]\label{thm:linearIndependent_permOp}
-  \lean{SchurWeyl.linearIndependent_permOp}\uses{thm:linearIndependent_endVec_permOp}\leanok
+  \lean{SchurWeyl.linearIndependent_permOp}\uses{def:permOp, thm:linearIndependent_endVec_permOp, def:endVecₗ, thm:endVecₗ_apply}\leanok
   For $k \le d$, the permutation operators $V_d(\sigma)$ are linearly independent in $\text{End}(V^{\otimes k})$.
 \end{theorem}
 
@@ -126,32 +186,57 @@ We apply this to permutation operators.
 \end{definition}
 
 \begin{theorem}[Weingarten Gram as Vectorized Gram]\label{thm:weingartenGram_eq_gramMatrix}
-  \lean{SchurWeyl.weingartenGram_eq_gramMatrix}\uses{def:weingartenGram, def:gramMatrix, thm:inner_endVec_perm_eq_trace, def:endVec, def:permOp}\leanok
+  \lean{SchurWeyl.weingartenGram_eq_gramMatrix}\uses{def:weingartenGram, def:gramMatrix, thm:inner_endVec_perm_eq_trace, def:endVec, def:permOp, thm:gramMatrix_apply}\leanok
   The Weingarten Gram matrix is the Gram matrix of vectorized permutation operators.
 \end{theorem}
 
 \begin{theorem}[Weingarten Target as Vectorized Target]\label{thm:weingartenVec_eq_gramVec}
-  \lean{SchurWeyl.weingartenVec_eq_gramVec}\uses{def:weingartenVec, def:gramVec, thm:inner_endVec_perm_eq_trace, def:endVec, def:permOp}\leanok
+  \lean{SchurWeyl.weingartenVec_eq_gramVec}\uses{def:weingartenVec, def:gramVec, thm:inner_endVec_perm_eq_trace, def:endVec, def:permOp, thm:gramVec_apply}\leanok
   The Weingarten target vector is the Gram vector of vectorized permutation operators.
 \end{theorem}
 
 \begin{theorem}[Cycle Count Formula for Gram Entries]\label{thm:weingartenGram_eq_card}
-  \lean{SchurWeyl.weingartenGram_eq_card}\uses{thm:inner_endVec_perm_eq_trace, def:permOp}\leanok
+  \lean{SchurWeyl.weingartenGram_eq_card}\uses{def:weingartenGram, def:endVec, lem:toEndMatrix_permAction, thm:inner_endVec_perm_eq_trace, def:permOp}\leanok
   The entry $\text{Tr}(V_d^\dagger(\sigma) V_d(\pi))$ equals the number of index functions invariant under $\sigma^{-1}\pi$, which evaluates to $d^{\# \text{cycles}(\sigma^{-1}\pi)}$.
 \end{theorem}
 
+\begin{definition}[Natural Weingarten Gram Matrix]\label{def:weingartenGramNat}
+  \lean{SchurWeyl.weingartenGramNat}\leanok
+  The natural-number valued Weingarten Gram matrix whose entries are the coincidence counts.
+\end{definition}
+
+\begin{theorem}[Weingarten Gram is NatCast]\label{thm:weingartenGram_eq_natCast}
+  \lean{SchurWeyl.weingartenGram_eq_natCast}\uses{def:weingartenGram, def:weingartenGramNat, thm:weingartenGram_eq_card}\leanok
+  The complex Weingarten Gram matrix entries are cast from the natural-number valued Weingarten Gram matrix.
+\end{theorem}
+
+\begin{theorem}[Natural Weingarten Gram Diagonal]\label{thm:weingartenGramNat_diag}
+  \lean{SchurWeyl.weingartenGramNat_diag}\uses{def:weingartenGramNat}\leanok
+  The diagonal entries of the natural Weingarten Gram matrix equal $d^k$.
+\end{theorem}
+
 \begin{theorem}[Invertibility of Weingarten Gram Matrix]\label{thm:weingartenGram_det_ne_zero}
-  \lean{SchurWeyl.weingartenGram_det_ne_zero}\uses{thm:weingartenGram_eq_gramMatrix, thm:linearIndependent_endVec_permOp}\leanok
+  \lean{SchurWeyl.weingartenGram_det_ne_zero}\uses{def:weingartenGram, thm:weingartenGram_eq_gramMatrix, thm:linearIndependent_endVec_permOp, thm:gramMatrix_det_ne_zero}\leanok
   For $k \le d$, the Weingarten Gram matrix is invertible.
 \end{theorem}
 
+\begin{definition}[Weingarten Solution Set]\label{def:weingartenSolutionSet}
+  \lean{SchurWeyl.weingartenSolutionSet}\uses{def:weingartenGram, def:weingartenVec}\leanok
+  The set of solution vectors $c$ to the Weingarten system.
+\end{definition}
+
+\begin{theorem}[Weingarten Solution Set is Singleton]\label{thm:weingarten_solutionSet_eq_singleton}
+  \lean{SchurWeyl.weingarten_solutionSet_eq_singleton}\uses{def:weingartenSolutionSet, def:weingartenGram, def:weingartenVec, thm:gram_solutionSet_eq_singleton, thm:linearIndependent_endVec_permOp, thm:weingartenGram_eq_gramMatrix, thm:weingartenVec_eq_gramVec}\leanok
+  For $k \le d$, the solution set of the Weingarten system is a singleton containing $G^{-1} u$.
+\end{theorem}
+
 \begin{theorem}[Unique Weingarten Solution]\label{thm:weingarten_solution_unique}
-  \lean{SchurWeyl.weingarten_solution_unique}\uses{thm:linearIndependent_endVec_permOp, thm:weingartenGram_eq_gramMatrix, thm:weingartenVec_eq_gramVec}\leanok
+  \lean{SchurWeyl.weingarten_solution_unique}\uses{def:weingartenVec, def:weingartenGram, thm:linearIndependent_endVec_permOp, thm:weingartenGram_eq_gramMatrix, thm:weingartenVec_eq_gramVec, thm:gram_system_unique}\leanok
   For $k \le d$, the Weingarten system has a unique solution.
 \end{theorem}
 
 \begin{theorem}[Inverse Solution Form]\label{thm:weingarten_solution_eq_inv}
-  \lean{SchurWeyl.weingarten_solution_eq_inv}\uses{thm:weingarten_solution_unique}\leanok
+  \lean{SchurWeyl.weingarten_solution_eq_inv}\uses{def:weingartenVec, def:weingartenGram, thm:weingarten_solutionSet_eq_singleton}\leanok
   For $k \le d$, the unique coefficient vector is given by $c = G^{-1} u$.
 \end{theorem}
 

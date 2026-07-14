@@ -337,7 +337,7 @@ We now assemble the main result.
 \end{theorem}
 
 \begin{theorem}[Easy Direction of Schur-Weyl Duality]\label{thm:span_permImage_le_centralizer_diagImage}
-  \lean{SchurWeyl.span_permImage_le_centralizer_diagImage}\uses{thm:permImage_subset_centralizer_diagImage}\leanok
+  \lean{SchurWeyl.span_permImage_le_centralizer_diagImage}\uses{def:permImage, def:diagImage, thm:permImage_subset_centralizer_diagImage}\leanok
   The span of the permutation image is contained in the centralizer of the diagonal image:
   \begin{equation}
     \text{Span}(\mathcal{P}_{d,k}) \subseteq \text{Comm}(\mathcal{D}_{d,k})

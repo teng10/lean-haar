@@ -59,7 +59,7 @@ Let $V = \mathbb{C}^d$ denote the $d$-dimensional complex Euclidean space (model
 \end{lemma}
 
 \begin{lemma}[Action Commutativity on Simple Tensors]\label{lem:permAction_diagAction_tprod}
-  \lean{SchurWeyl.permAction_diagAction_tprod}\uses{lem:permAction_tprod, lem:diagAction_tprod}\leanok
+  \lean{SchurWeyl.permAction_diagAction_tprod}\uses{lem:permAction_tprod, lem:diagAction_tprod, def:diagAction, def:permAction}\leanok
   For any permutation $\sigma \in S_k$, operator $g \in \text{End}(V)$, and vector family $v$:
   \begin{equation}
     W_\sigma(g^{\otimes k}(v_1 \otimes \dots \otimes v_k)) = g^{\otimes k}(W_\sigma(v_1 \otimes \dots \otimes v_k))
@@ -67,7 +67,7 @@ Let $V = \mathbb{C}^d$ denote the $d$-dimensional complex Euclidean space (model
 \end{lemma}
 
 \begin{theorem}[Permutation-Diagonal Commutativity]\label{thm:permAction_diagAction_comm}
-  \lean{SchurWeyl.permAction_diagAction_comm}\uses{lem:permAction_diagAction_tprod}\leanok
+  \lean{SchurWeyl.permAction_diagAction_comm}\uses{lem:permAction_diagAction_tprod, def:diagAction, def:permAction}\leanok
   For any $\sigma \in S_k$ and $g \in \text{End}(V)$, the permutation action and diagonal action commute as endomorphisms:
   \begin{equation}
     W_\sigma \circ g^{\otimes k} = g^{\otimes k} \circ W_\sigma
@@ -95,6 +95,38 @@ Let $V = \mathbb{C}^d$ denote the $d$-dimensional complex Euclidean space (model
 
 To prove the hard direction of Schur-Weyl duality, we first prove that the centralizer of the permutation image is contained in the span of the diagonal image. This is a form of the First Fundamental Theorem (FFT) of invariant theory.
 
+\begin{definition}[Tensor Basis]\label{def:tensorBasis}
+  \lean{SchurWeyl.tensorBasis'}\leanok
+  The standard basis of $V^{\otimes k}$ constructed as the tensor product of the standard basis of $V$:
+  \begin{equation}
+    (e_I)_{I \in [d]^k}
+  \end{equation}
+\end{definition}
+
+\begin{definition}[Endomorphism Matrix Representation]\label{def:toEndMatrix}
+  \lean{SchurWeyl.toEndMatrix'}\uses{def:tensorBasis, def:diagAction}\leanok
+  The linear equivalence between the endomorphism algebra $\text{End}(V^{\otimes k})$ and the algebra of $d^k \times d^k$ complex matrices:
+  \begin{equation}
+    \text{End}(V^{\otimes k}) \simeq \text{Mat}_{d^k \times d^k}(\mathbb{C})
+  \end{equation}
+\end{definition}
+
+\begin{lemma}[Matrix Representation of Diagonal Action]\label{lem:toEndMatrix'_diagAction}
+  \lean{SchurWeyl.toEndMatrix'_diagAction}\uses{def:toEndMatrix, def:diagAction}\leanok
+  For any operator $g \in \text{End}(V)$, the matrix elements of its diagonal action $g^{\otimes k}$ in the tensor basis are given by:
+  \begin{equation}
+    (g^{\otimes k})_{I, J} = \prod_{m=1}^k g_{I(m), J(m)}
+  \end{equation}
+\end{lemma}
+
+\begin{lemma}[Permutation Action on Tensor Basis]\label{lem:permAction_tensorBasis'}
+  \lean{SchurWeyl.permAction_tensorBasis'}\uses{def:tensorBasis, def:permAction, lem:permAction_tprod}\leanok
+  The permutation action of $W_\sigma$ on a basis element $e_I$ permutes the indices:
+  \begin{equation}
+    W_\sigma(e_I) = e_{I \circ \sigma^{-1}}
+  \end{equation}
+\end{lemma}
+
 \begin{lemma}[Monomial Coefficient Independence]\label{lem:monomial_coeff_zero_of_eval_zero}
   \lean{monomial_coeff_zero_of_eval_zero}\leanok
   If a linear combination of distinct monomials in $d^2$ variables over $\mathbb{C}$ evaluates to zero at all points, then all coefficients are zero.
@@ -114,7 +146,7 @@ To prove the hard direction of Schur-Weyl duality, we first prove that the centr
 \end{lemma}
 
 \begin{lemma}[Matrix Orbit Invariance]\label{lem:matrix_orbit_invariant}
-  \lean{SchurWeyl.matrix_orbit_invariant}\uses{def:permImage}\leanok
+  \lean{SchurWeyl.matrix_orbit_invariant}\uses{def:permImage, def:toEndMatrix, lem:permAction_tensorBasis', def:permAction, def:toEndMatrix, lem:permAction_tensorBasis', def:tensorBasis}\leanok
   If an operator $X \in \text{End}(V^{\otimes k})$ commutes with all permutation operators $W_\sigma$, then its matrix entries in the computational basis satisfy $X_{I \circ \sigma, J \circ \sigma} = X_{I, J}$ for all $\sigma \in S_k$.
 \end{lemma}
 
@@ -136,8 +168,13 @@ To prove the hard direction of Schur-Weyl duality, we first prove that the centr
   If a matrix is constant on coincidence types, and the coincidence-type sums of coefficients vanish, then the total inner product sum vanishes.
 \end{lemma}
 
+\begin{lemma}[Functional Separation]\label{lem:exists_functional_separation}
+  \lean{SchurWeyl.exists_functional_separation}\leanok
+  If $x$ is a vector in a finite-dimensional space $V$ not belonging to a submodule $S$, there exists a linear functional $\varphi \in V^*$ vanishing on $S$ but such that $\varphi(x) \neq 0$.
+\end{lemma}
+
 \begin{theorem}[First Fundamental Theorem]\label{thm:centralizer_permImage_le_span_diagImage}
-  \lean{SchurWeyl.centralizer_permImage_le_span_diagImage}\uses{lem:monomial_coeff_zero_of_eval_zero, lem:matrix_orbit_invariant, lem:pairCount_perm, lem:sum_group_by_pairCount, lem:sum_vanishes_of_coeff_and_const, def:permImage, def:diagImage}\leanok
+  \lean{SchurWeyl.centralizer_permImage_le_span_diagImage}\uses{lem:monomial_coeff_zero_of_eval_zero, lem:matrix_orbit_invariant, lem:pairCount_perm, lem:sum_group_by_pairCount, lem:sum_vanishes_of_coeff_and_const, def:permImage, def:diagImage, lem:exists_functional_separation, def:toEndMatrix, lem:toEndMatrix'_diagAction}\leanok
   The centralizer of the permutation action is contained in the span of the diagonal image:
   \begin{equation}
     \text{Comm}(\mathcal{P}_{d,k}) \subseteq \text{Span}(\mathcal{D}_{d,k})
@@ -149,9 +186,14 @@ To prove the hard direction of Schur-Weyl duality, we first prove that the centr
 
 Using representation theory, we can establish the Double Commutant Theorem for the permutation algebra.
 
+\begin{definition}[Permutation Monoid Homomorphism]\label{def:permMonoidHom}
+  \lean{SchurWeyl.permMonoidHom}\uses{lem:permAction_tprod, def:permAction}\leanok
+  The permutation action as a monoid homomorphism $\rho_{\text{mon}}: S_k \to \text{End}(V^{\otimes k})$ mapping $\sigma \mapsto W_\sigma$.
+\end{definition}
+
 \begin{definition}[Permutation Representation]\label{def:permRep}
-  \lean{SchurWeyl.permRep}\uses{def:permAction}\leanok
-  The permutation representation is the monoid homomorphism $\rho: S_k \to \text{End}(V^{\otimes k})$ mapping $\sigma \mapsto W_\sigma$.
+  \lean{SchurWeyl.permRep}\uses{def:permMonoidHom}\leanok
+  The permutation representation is the representation $\rho: S_k \to \text{End}(V^{\otimes k})$ obtained from the permutation monoid homomorphism.
 \end{definition}
 
 \begin{definition}[Permutation Module]\label{def:PermModule}
@@ -164,26 +206,70 @@ Using representation theory, we can establish the Double Commutant Theorem for t
   The algebra homomorphism $\tilde{\rho}: \mathbb{C}[S_k] \to \text{End}(V^{\otimes k})$ induced by the representation.
 \end{definition}
 
+\begin{lemma}[Evaluation of Permutation Algebra Homomorphism]\label{lem:permAlgHom_of}
+  \lean{SchurWeyl.permAlgHom_of}\uses{def:permAlgHom, def:permAction, def:permRep}\leanok
+  The permutation algebra homomorphism evaluated on a permutation $\sigma \in S_k$ is the permutation operator $W_\sigma$:
+  \begin{equation}
+    \tilde{\rho}(\sigma) = W_\sigma
+  \end{equation}
+\end{lemma}
+
+\begin{definition}[Centralizer to EndModule Mapping]\label{def:centralizer_to_endModule}
+  \lean{SchurWeyl.centralizer_to_endModule}\uses{def:PermModule, def:permRep, def:permImage, thm:permAlgHom_range_eq}\leanok
+  The mapping that identifies any $\mathbb{C}$-linear endomorphism $f$ in the centralizer of the span of permutation operators as a $\mathbb{C}[S_k]$-linear endomorphism of the permutation module.
+\end{definition}
+
+\begin{definition}[Double Centralizer to EndEndModule Mapping]\label{def:doubleCentralizer_to_endEndModule}
+  \lean{SchurWeyl.doubleCentralizer_to_endEndModule}\uses{def:PermModule, def:permImage, lem:endModule_mem_centralizer}\leanok
+  The mapping that identifies any $\mathbb{C}$-linear endomorphism $T$ in the double centralizer of the span of permutation operators as an endomorphism over the $\mathbb{C}[S_k]$-linear endomorphism ring of the permutation module.
+\end{definition}
+
+\begin{lemma}[EndModule is in Centralizer]\label{lem:endModule_mem_centralizer}
+  \lean{SchurWeyl.endModule_mem_centralizer}\uses{def:PermModule, def:permImage, def:permRep}\leanok
+  Any $\mathbb{C}[S_k]$-linear endomorphism of the permutation module restricts to a $\mathbb{C}$-linear endomorphism that lies in the centralizer of the span of permutation operators.
+\end{lemma}
+
 \begin{theorem}[Range of Algebra Homomorphism]\label{thm:permAlgHom_range_eq}
-  \lean{SchurWeyl.permAlgHom_range_eq}\uses{def:permAlgHom, def:permImage}\leanok
+  \lean{SchurWeyl.permAlgHom_range_eq}\uses{def:permAlgHom, def:permImage, lem:permAlgHom_of}\leanok
   The image of the group algebra homomorphism is the span of the permutation operators:
   \begin{equation}
     \text{Im}(\tilde{\rho}) = \text{Span}(\mathcal{P}_{d,k})
   \end{equation}
 \end{theorem}
 
+\begin{lemma}[Membership in Span of Permutation Operators]\label{lem:mem_span_permImage_of_mem_range}
+  \lean{SchurWeyl.mem_span_permImage_of_mem_range}\uses{def:permAlgHom, def:permImage, thm:permAlgHom_range_eq}\leanok
+  Any operator $f \in \text{End}(V^{\otimes k})$ that lies in the range of the permutation algebra homomorphism belongs to the span of the permutation operators:
+  \begin{equation}
+    f \in \text{Im}(\tilde{\rho}) \implies f \in \text{Span}(\mathcal{P}_{d,k})
+  \end{equation}
+\end{lemma}
+
 \begin{lemma}[Semisimplicity of Permutation Module]\label{lem:permModule_isSemisimple}
-  \lean{SchurWeyl.permModule_isSemisimple}\uses{def:permRep}\leanok
+  \lean{SchurWeyl.permModule_isSemisimple}\uses{def:permRep, def:PermModule}\leanok
   The permutation module $V^{\otimes k}$ is a semisimple $\mathbb{C}[S_k]$-module. This is a consequence of Maschke's theorem.
 \end{lemma}
 
+\begin{lemma}[Finiteness of Permutation Module over Endomorphism Ring]\label{lem:permModule_finite_over_endRing}
+  \lean{SchurWeyl.permModule_finite_over_endRing}\uses{def:PermModule}\leanok
+  The permutation module $V^{\otimes k}$ is finitely generated as a module over its $\mathbb{C}[S_k]$-endomorphism ring.
+\end{lemma}
+
 \begin{theorem}[Jacobson Density for Permutation Representation]\label{thm:permModule_toModuleEnd_surjective}
-  \lean{SchurWeyl.permModule_toModuleEnd_surjective}\uses{lem:permModule_isSemisimple}\leanok
+  \lean{SchurWeyl.permModule_toModuleEnd_surjective}\uses{lem:permModule_isSemisimple, lem:permModule_finite_over_endRing, def:permRep}\leanok
   The natural map from the group algebra $\mathbb{C}[S_k]$ to the double endomorphism ring of the permutation module is surjective.
 \end{theorem}
 
+\begin{theorem}[Double Commutant containment for Permutation Algebra]\label{thm:double_centralizer_permImage'}
+  \lean{SchurWeyl.double_centralizer_permImage'}\uses{thm:permModule_toModuleEnd_surjective, def:permImage, def:doubleCentralizer_to_endEndModule, lem:mem_span_permImage_of_mem_range}\leanok
+  The double centralizer of the span of permutation operators is contained in the span itself:
+  \begin{equation}
+    \text{Comm}(\text{Comm}(\text{Span}(\mathcal{P}_{d,k}))) \subseteq \text{Span}(\mathcal{P}_{d,k})
+  \end{equation}
+\end{theorem}
+
 \begin{theorem}[Double Commutant for Permutation Algebra]\label{thm:double_centralizer_permImage}
-  \lean{SchurWeyl.double_centralizer_permImage}\uses{thm:permModule_toModuleEnd_surjective, thm:permAlgHom_range_eq, def:permImage}\leanok
+  \lean{SchurWeyl.double_centralizer_permImage}\uses{def:permImage, thm:double_centralizer_permImage'}\leanok
   The double centralizer of the span of permutation operators is the span itself:
   \begin{equation}
     \text{Comm}(\text{Comm}(\text{Span}(\mathcal{P}_{d,k}))) = \text{Span}(\mathcal{P}_{d,k})
@@ -192,8 +278,13 @@ Using representation theory, we can establish the Double Commutant Theorem for t
 
 We now assemble the main result.
 
+\begin{theorem}[Hard Direction of Schur-Weyl Duality for Small Dimensions]\label{thm:centralizer_diagImage_le_span_permImage_small}
+  \lean{SchurWeyl.centralizer_diagImage_le_span_permImage_small}\uses{thm:centralizer_permImage_le_span_diagImage, thm:double_centralizer_permImage, def:diagImage, def:permImage}\leanok
+  The centralizer of the diagonal image is contained in the span of the permutation image.
+\end{theorem}
+
 \begin{theorem}[Hard Direction of Schur-Weyl Duality]\label{thm:centralizer_diagImage_le_span_permImage}
-  \lean{SchurWeyl.centralizer_diagImage_le_span_permImage}\uses{thm:centralizer_permImage_le_span_diagImage, thm:double_centralizer_permImage, def:diagImage, def:permImage}\leanok
+  \lean{SchurWeyl.centralizer_diagImage_le_span_permImage}\uses{thm:centralizer_diagImage_le_span_permImage_small}\leanok
   The centralizer of the diagonal image is contained in the span of the permutation image:
   \begin{equation}
     \text{Comm}(\mathcal{D}_{d,k}) \subseteq \text{Span}(\mathcal{P}_{d,k})

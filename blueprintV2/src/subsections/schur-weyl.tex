@@ -219,7 +219,7 @@ To prove the hard direction of Schur-Weyl duality, we first prove that the centr
 \end{lemma}
 
 \begin{theorem}[First Fundamental Theorem]\label{thm:centralizer_permImage_le_span_diagImage}
-  \lean{SchurWeyl.centralizer_permImage_le_span_diagImage}\uses{lem:monomial_coeff_zero_of_eval_zero, lem:matrix_orbit_invariant, lem:pairCount_perm, lem:sum_group_by_pairCount, lem:sum_vanishes_of_coeff_and_const, def:permImage, def:diagImage, lem:exists_functional_separation, def:toEndMatrix, lem:toEndMatrix'_diagAction}\leanok
+  \lean{SchurWeyl.centralizer_permImage_le_span_diagImage}\uses{lem:monomial_coeff_zero_of_eval_zero, lem:matrix_orbit_invariant, lem:pairCount_perm, lem:sum_group_by_pairCount, lem:sum_vanishes_of_coeff_and_const, def:permImage, def:diagImage, lem:exists_functional_separation, def:toEndMatrix', lem:toEndMatrix'_diagAction}\leanok
   The centralizer of the permutation action is contained in the span of the diagonal image:
   \begin{equation}
     \text{Comm}(\mathcal{P}_{d,k}) \subseteq \text{Span}(\mathcal{D}_{d,k})
@@ -306,7 +306,7 @@ Using representation theory, we can establish the Double Commutant Theorem for t
 \end{theorem}
 
 \begin{theorem}[Double Commutant containment for Permutation Algebra]\label{thm:double_centralizer_permImage'}
-  \lean{SchurWeyl.double_centralizer_permImage'}\uses{thm:permModule_toModuleEnd_surjective, def:permImage, def:doubleCentralizer_to_endEndModule, lem:mem_span_permImage_of_mem_range}\leanok
+  \lean{SchurWeyl.double_centralizer_permImage'}\uses{thm:permModule_toModuleEnd_surjective, def:permImage, def:doubleCentralizer_to_endEndModule, lem:mem_span_permImage_of_mem_range, def:permAlgHom}\leanok
   The double centralizer of the span of permutation operators is contained in the span itself:
   \begin{equation}
     \text{Comm}(\text{Comm}(\text{Span}(\mathcal{P}_{d,k}))) \subseteq \text{Span}(\mathcal{P}_{d,k})

@@ -87,7 +87,7 @@ theorem haar_integral_trace_actOn_comp {d k : ℕ} (A B : Operator d k) :
 For an `n`-qubit system, normalized Haar sampling, tracelessness of `O`, and the displayed
 `momentOp` contraction imply zero expected cost and the stated variance. The hypotheses
 exhibit the tensor-square endomorphisms and their Haar moment contraction explicitly. -/
-theorem observation56 (n : ℕ) (ρ O : Operator (2 ^ n) 1)
+theorem expectation_and_variance_cost_function (n : ℕ) (ρ O : Operator (2 ^ n) 1)
     (state₂ observable₂ : Operator (2 ^ n) 2)
     (hO : operatorTrace O = 0)
     (hcost_sq : ∀ U : Matrix.unitaryGroup (Fin (2 ^ n)) ℂ,

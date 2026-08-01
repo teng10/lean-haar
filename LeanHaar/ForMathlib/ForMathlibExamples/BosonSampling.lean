@@ -145,7 +145,7 @@ theorem twirlOperator_preserves_trace (A : V →L[ℂ] V) :
     _ = (LinearMap.trace ℂ V) (forget A) := by simp
 
 /-- **Irreducible `G`-twirling theorem.**  On an irreducible carrier, Haar twirling is the
-completely depolarizing channel `A ↦ Tr(A) / dim(V) • id`. -/
+completely depolarizing channel `A ↦ Tr(A) / dim(V) • id`. This is essentially computing the group average over irreps. -/
 theorem irreducibleSector_twirl_eq_depolarizing [U.algebraicRepresentation.IsIrreducible] (A : V →L[ℂ] V) :
     (U.twirlOperator A).toLinearMap =
       (LinearMap.trace ℂ V A.toLinearMap / (Module.finrank ℂ V : ℂ)) • LinearMap.id := by

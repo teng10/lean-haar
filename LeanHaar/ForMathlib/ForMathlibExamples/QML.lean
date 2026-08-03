@@ -82,12 +82,24 @@ theorem haar_integral_trace_actOn_comp {d k : ℕ} (A B : Operator d k) :
     exact MeasureTheory.integrable_finsetSum _ fun j _ =>
       (integrable_actOn_entry A i j).mul_const _
 
-/-- **Observation 56 (expectation and variance of the cost function).**
+/-- **Observation 56 (expectation of the cost function).**
+
+For an `n`-qubit system, normalized Haar sampling and tracelessness of `O` imply zero expected cost. -/
+theorem expectation_cost_function (n : ℕ) (ρ O : Operator (2 ^ n) 1)
+    (hO : operatorTrace O = 0) :
+    (∫ U, operatorTrace (actOn ρ U ∘ₗ O) ∂(haarProb (2 ^ n))) = 0 := by
+  rw [haar_integral_trace_actOn_comp, k1_moment]
+  simp only [LinearMap.smul_comp, LinearMap.id_comp]
+  change operatorTrace (((operatorTrace ρ / ((2 ^ n : ℕ) : ℂ)) • O)) = 0
+  unfold operatorTrace at hO ⊢
+  rw [map_smul, hO, smul_zero]
+
+/-- **Observation 56 (variance of the cost function).**
 
 For an `n`-qubit system, normalized Haar sampling, tracelessness of `O`, and the displayed
-`momentOp` contraction imply zero expected cost and the stated variance. The hypotheses
-exhibit the tensor-square endomorphisms and their Haar moment contraction explicitly. -/
-theorem expectation_and_variance_cost_function (n : ℕ) (ρ O : Operator (2 ^ n) 1)
+`momentOp` contraction imply the stated variance. The hypotheses exhibit the tensor-square
+endomorphisms and their Haar moment contraction explicitly. -/
+theorem variance_cost_function (n : ℕ) (ρ O : Operator (2 ^ n) 1)
     (state₂ observable₂ : Operator (2 ^ n) 2)
     (hO : operatorTrace O = 0)
     (hcost_sq : ∀ U : Matrix.unitaryGroup (Fin (2 ^ n)) ℂ,
@@ -96,22 +108,15 @@ theorem expectation_and_variance_cost_function (n : ℕ) (ρ O : Operator (2 ^ n
     (hmoment : operatorTrace (momentOp state₂ ∘ₗ observable₂) =
       ((operatorTrace (ρ ∘ₗ ρ) - ((2 ^ n : ℕ) : ℂ)⁻¹) /
         (((2 ^ n : ℕ) : ℂ) ^ 2 - 1)) * operatorTrace (O ∘ₗ O)) :
-    (∫ U, operatorTrace (actOn ρ U ∘ₗ O) ∂(haarProb (2 ^ n))) = 0 ∧
-      ((∫ U, operatorTrace (actOn ρ U ∘ₗ O) ^ 2 ∂(haarProb (2 ^ n))) -
-        (∫ U, operatorTrace (actOn ρ U ∘ₗ O) ∂(haarProb (2 ^ n))) ^ 2) =
-        ((operatorTrace (ρ ∘ₗ ρ) - ((2 : ℂ) ^ n)⁻¹) /
-          (((2 : ℂ) ^ n) ^ 2 - 1)) * operatorTrace (O ∘ₗ O) := by
+    ((∫ U, operatorTrace (actOn ρ U ∘ₗ O) ^ 2 ∂(haarProb (2 ^ n))) -
+      (∫ U, operatorTrace (actOn ρ U ∘ₗ O) ∂(haarProb (2 ^ n))) ^ 2) =
+      ((operatorTrace (ρ ∘ₗ ρ) - ((2 : ℂ) ^ n)⁻¹) /
+        (((2 : ℂ) ^ n) ^ 2 - 1)) * operatorTrace (O ∘ₗ O) := by
   let expectation : (HaarUnitary (2 ^ n) → ℂ) → ℂ :=
     fun X => ∫ U, X U ∂(haarProb (2 ^ n))
   let X : HaarUnitary (2 ^ n) → ℂ :=
     fun U => operatorTrace (actOn ρ U ∘ₗ O)
-  have hmean : expectation X = 0 := by
-    change (∫ U, operatorTrace (actOn ρ U ∘ₗ O) ∂(haarProb (2 ^ n))) = 0
-    rw [haar_integral_trace_actOn_comp, k1_moment]
-    simp only [LinearMap.smul_comp, LinearMap.id_comp]
-    change operatorTrace (((operatorTrace ρ / ((2 ^ n : ℕ) : ℂ)) • O)) = 0
-    unfold operatorTrace at hO ⊢
-    rw [map_smul, hO, smul_zero]
+  have hmean : expectation X = 0 := expectation_cost_function n ρ O hO
   have hsecond : expectation (fun U => X U ^ 2) =
       ((operatorTrace (ρ ∘ₗ ρ) - ((2 : ℂ) ^ n)⁻¹) /
         (((2 : ℂ) ^ n) ^ 2 - 1)) * operatorTrace (O ∘ₗ O) := by
@@ -129,7 +134,7 @@ theorem expectation_and_variance_cost_function (n : ℕ) (ρ O : Operator (2 ^ n
       (((operatorTrace (ρ ∘ₗ ρ) - ((2 : ℂ) ^ n)⁻¹) /
         (((2 : ℂ) ^ n) ^ 2 - 1)) * operatorTrace (O ∘ₗ O)) :=
     ⟨hmean, hsecond⟩
-  simpa [expectation, X, variance] using hs.mean_and_variance
+  simpa [expectation, X, variance] using hs.mean_and_variance.2
 
 /-- Cyclicity gives the algebraic core of the swap-trick computation for arbitrary
 finite free endomorphism spaces, not only concrete matrices. -/
@@ -155,11 +160,30 @@ theorem trace_commutator_sq {V : Type*} [AddCommGroup V] [Module ℂ V]
   rw [h1, h2, h3]
   ring
 
-/-- ** Barren plateaus.**
+/-- ** Barren plateaus (expectation).**
 
 For two independent samples from `haarProb`, the explicit `momentOp` contractions imply
-that the endomorphism-level gradient has zero mean and the stated variance. -/
-theorem barren_plateaus {d : ℕ} (ρ O H : Operator d 1)
+that the endomorphism-level gradient has zero mean. -/
+theorem expectation_barren_plateau {d : ℕ} (ρ O H : Operator d 1)
+    (firstInput firstTest : Operator d 1)
+    (hfirst_as_moment :
+      (∫ UA, ∫ UB,
+        Complex.I * operatorTrace
+          (actOn ρ UB ∘ₗ commutator H (actOn O UA⁻¹))
+        ∂(haarProb d) ∂(haarProb d)) =
+        operatorTrace (momentOp firstInput ∘ₗ firstTest))
+    (hfirst_contraction : operatorTrace (momentOp firstInput ∘ₗ firstTest) = 0) :
+    (∫ UA, ∫ UB,
+      Complex.I * operatorTrace
+        (actOn ρ UB ∘ₗ commutator H (actOn O UA⁻¹))
+      ∂(haarProb d) ∂(haarProb d)) = 0 :=
+  hfirst_as_moment.trans hfirst_contraction
+
+/-- ** Barren plateaus (variance).**
+
+For two independent samples from `haarProb`, the explicit `momentOp` contractions imply
+that the endomorphism-level gradient has the stated variance. -/
+theorem variance_barren_plateau {d : ℕ} (ρ O H : Operator d 1)
     (firstInput firstTest : Operator d 1)
     (secondInput secondTest : Operator d 2)
     (hfirst_as_moment :
@@ -181,10 +205,6 @@ theorem barren_plateaus {d : ℕ} (ρ O H : Operator d 1)
           ((operatorTrace (ρ ∘ₗ ρ) - (d : ℂ)⁻¹) / ((d : ℂ) ^ 2 - 1)) *
           (operatorTrace (O ∘ₗ O) / ((d : ℂ) ^ 2 - 1)) *
           operatorTrace (H ∘ₗ H)) :
-    (∫ UA, ∫ UB,
-      Complex.I * operatorTrace
-        (actOn ρ UB ∘ₗ commutator H (actOn O UA⁻¹))
-      ∂(haarProb d) ∂(haarProb d)) = 0 ∧
     ((∫ UA, ∫ UB,
       (Complex.I * operatorTrace
         (actOn ρ UB ∘ₗ commutator H (actOn O UA⁻¹))) ^ 2
@@ -203,7 +223,7 @@ theorem barren_plateaus {d : ℕ} (ρ O H : Operator d 1)
     Complex.I * operatorTrace
       (actOn ρ U.2 ∘ₗ commutator H (actOn O U.1⁻¹))
   have hfirst : expectation X = 0 :=
-    hfirst_as_moment.trans hfirst_contraction
+    expectation_barren_plateau ρ O H firstInput firstTest hfirst_as_moment hfirst_contraction
   have hsecond : expectation (fun U => X U ^ 2) =
       2 * (d : ℂ) *
         ((operatorTrace (ρ ∘ₗ ρ) - (d : ℂ)⁻¹) / ((d : ℂ) ^ 2 - 1)) *
@@ -215,6 +235,6 @@ theorem barren_plateaus {d : ℕ} (ρ O H : Operator d 1)
         ((operatorTrace (ρ ∘ₗ ρ) - (d : ℂ)⁻¹) / ((d : ℂ) ^ 2 - 1)) *
         (operatorTrace (O ∘ₗ O) / ((d : ℂ) ^ 2 - 1)) *
         operatorTrace (H ∘ₗ H)) := ⟨hfirst, hsecond⟩
-  simpa [expectation, X, variance] using hs.mean_and_variance
+  simpa [expectation, X, variance] using hs.mean_and_variance.2
 
 end QML

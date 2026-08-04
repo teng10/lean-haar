@@ -97,6 +97,13 @@ conjugate transpose of `V_d(σ)` in the computational basis. -/
 def permDual (d : ℕ) {k : ℕ} (σ : Equiv.Perm (Fin k)) : Module.End ℂ (TensV d k) :=
   (permAction d σ⁻¹).toLinearMap
 
+/-- Notation for the Hilbert–Schmidt pairing `⟪V_d(σ), O⟫ = Tr(V_d^†(σ) O)`, which is the
+quantity every statement below is phrased in. It is `local`, so it only abbreviates the
+statements in this file: the underlying term is literally
+`LinearMap.trace ℂ (TensV d k) (permDual d σ ∘ₗ O)`, unchanged for downstream users.
+`inner_endVec_perm_eq_trace` justifies reading it as an inner product. -/
+local notation "⟪" σ ", " O "⟫_HS" => LinearMap.trace ℂ _ (permDual _ σ ∘ₗ O)
+
 /-- `V_d^†(σ)` is the conjugate transpose of `V_d(σ)` in the computational basis, i.e. it
 is the genuine Hermitian adjoint of the permutation operator. -/
 theorem permDual_eq_conjTranspose (σ : Equiv.Perm (Fin k)) :
@@ -126,8 +133,7 @@ def endVec (O : Module.End ℂ (TensV d k)) :
 /-- The trace bridge: the Euclidean inner product of the vectorizations of `V_d(σ)` and `O`
 equals the Hilbert–Schmidt inner product `Tr(V_d^†(σ) O)`. -/
 theorem inner_endVec_perm_eq_trace (σ : Equiv.Perm (Fin k)) (O : Module.End ℂ (TensV d k)) :
-    ⟪endVec (permOp d σ), endVec O⟫_ℂ =
-      LinearMap.trace ℂ (TensV d k) ((permDual d σ) ∘ₗ O) := by
+    ⟪endVec (permOp d σ), endVec O⟫_ℂ = ⟪σ, O⟫_HS := by
   rw [PiLp.inner_apply]
   simp only [RCLike.inner_apply, endVec]
   rw [LinearMap.trace_eq_matrix_trace ℂ (tensorBasis d k)]
@@ -162,10 +168,7 @@ theorem inner_endVec_perm_eq_trace (σ : Equiv.Perm (Fin k)) (O : Module.End ℂ
 ```
 always has at least one solution `c`. -/
 theorem weingarten_linear_system_solvable (O : Module.End ℂ (TensV d k)) :
-    ∃ c : Equiv.Perm (Fin k) → ℂ, ∀ σ : Equiv.Perm (Fin k),
-      LinearMap.trace ℂ (TensV d k) (permDual d σ ∘ₗ O) =
-        ∑ π : Equiv.Perm (Fin k),
-          c π * LinearMap.trace ℂ (TensV d k) (permDual d σ ∘ₗ permOp d π) := by
+    ∃ c : Equiv.Perm (Fin k) → ℂ, ∀ σ, ⟪σ, O⟫_HS = ∑ π, c π * ⟪σ, permOp d π⟫_HS := by
   obtain ⟨c, hc⟩ := gram_system_solvable
     (fun σ : Equiv.Perm (Fin k) => endVec (permOp d σ)) (endVec O)
   refine ⟨c, fun σ => ?_⟩
@@ -177,9 +180,7 @@ theorem weingarten_linear_system_solvable (O : Module.End ℂ (TensV d k)) :
 /-- Trace against `V_d^†(σ)` of a linear combination of permutation operators expands
 linearly over the combination. -/
 theorem trace_permDual_comp_sum (σ : Equiv.Perm (Fin k)) (c : Equiv.Perm (Fin k) → ℂ) :
-    LinearMap.trace ℂ (TensV d k)
-        (permDual d σ ∘ₗ (∑ π : Equiv.Perm (Fin k), c π • permOp d π)) =
-      ∑ π : Equiv.Perm (Fin k), c π * LinearMap.trace ℂ (TensV d k) (permDual d σ ∘ₗ permOp d π) := by
+    ⟪σ, (∑ π, c π • permOp d π)⟫_HS = ∑ π, c π * ⟪σ, permOp d π⟫_HS := by
   set T : Module.End ℂ (TensV d k) →ₗ[ℂ] ℂ :=
     (LinearMap.trace ℂ (TensV d k)).comp
       (LinearMap.llcomp ℂ (TensV d k) (TensV d k) (TensV d k) (permDual d σ))
@@ -190,7 +191,7 @@ theorem trace_permDual_comp_sum (σ : Equiv.Perm (Fin k)) (c : Equiv.Perm (Fin k
 /-- `M = ∑_π c_π V_d(π)` is a linear combination of permutation operators, so it lies in
 the span of the permutation operators. -/
 theorem sum_smul_permOp_mem_span (c : Equiv.Perm (Fin k) → ℂ) :
-    (∑ π : Equiv.Perm (Fin k), c π • permOp d π) ∈ Submodule.span ℂ (permImage d k) := by
+    (∑ π, c π • permOp d π) ∈ Submodule.span ℂ (permImage d k) := by
   refine Submodule.sum_mem _ (fun π _ => Submodule.smul_mem _ _ ?_)
   exact Submodule.subset_span ⟨π, rfl⟩
 
@@ -204,11 +205,8 @@ linear system, and `M` is exactly the operator characterized by the trace condit
 the full Haar statement, `M` is the moment operator `𝔼_{U∼μ_H}[U^{⊗k} O U^{†⊗k}]`.) -/
 theorem weingarten_moment_operator_spec (O : Module.End ℂ (TensV d k)) :
     ∃ c : Equiv.Perm (Fin k) → ℂ,
-      (∑ π : Equiv.Perm (Fin k), c π • permOp d π) ∈ Submodule.span ℂ (permImage d k) ∧
-      ∀ σ : Equiv.Perm (Fin k),
-        LinearMap.trace ℂ (TensV d k)
-            (permDual d σ ∘ₗ (∑ π : Equiv.Perm (Fin k), c π • permOp d π)) =
-          LinearMap.trace ℂ (TensV d k) (permDual d σ ∘ₗ O) := by
+      (∑ π, c π • permOp d π) ∈ Submodule.span ℂ (permImage d k) ∧
+      ∀ σ, ⟪σ, (∑ π, c π • permOp d π)⟫_HS = ⟪σ, O⟫_HS := by
   obtain ⟨c, hc⟩ := weingarten_linear_system_solvable O
   refine ⟨c, sum_smul_permOp_mem_span c, fun σ => ?_⟩
   rw [trace_permDual_comp_sum, ← hc σ]
@@ -243,15 +241,10 @@ coefficients `c_π` solve the Weingarten linear system
 Taking `M = 𝔼_{U∼μ_H}[U^{⊗k} O U^{†⊗k}]` gives precisely Theorem 10. -/
 theorem weingarten_moment_decomposition_of_props (O M : Module.End ℂ (TensV d k))
     (hMspan : M ∈ Submodule.span ℂ (permImage d k))
-    (hMtrace : ∀ σ : Equiv.Perm (Fin k),
-      LinearMap.trace ℂ (TensV d k) (permDual d σ ∘ₗ M) =
-        LinearMap.trace ℂ (TensV d k) (permDual d σ ∘ₗ O)) :
+    (hMtrace : ∀ σ, ⟪σ, M⟫_HS = ⟪σ, O⟫_HS) :
     ∃ c : Equiv.Perm (Fin k) → ℂ,
-      M = ∑ π : Equiv.Perm (Fin k), c π • permOp d π ∧
-      ∀ σ : Equiv.Perm (Fin k),
-        LinearMap.trace ℂ (TensV d k) (permDual d σ ∘ₗ O) =
-          ∑ π : Equiv.Perm (Fin k),
-            c π * LinearMap.trace ℂ (TensV d k) (permDual d σ ∘ₗ permOp d π) := by
+      M = ∑ π, c π • permOp d π ∧
+      ∀ σ, ⟪σ, O⟫_HS = ∑ π, c π * ⟪σ, permOp d π⟫_HS := by
   have hperm : permImage d k = Set.range (fun π : Equiv.Perm (Fin k) => permOp d π) := rfl
   rw [hperm] at hMspan
   obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun ℂ).1 hMspan

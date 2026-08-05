@@ -12,10 +12,9 @@
 <meta name="generator" content="plasTeX" />
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Formalization of Weingarten Calculus: Explicit Calculation of single qubit first moment</title>
-<link rel="next" href="sect0009.html" title="Commutant of the First Order Unitary Group" />
-<link rel="prev" href="sect0007.html" title="Pauli twirling" />
-<link rel="up" href="sect0005.html" title="Examples" />
+<title>Formalization of Weingarten Calculus: The Haar Moment Operator</title>
+<link rel="prev" href="sect0007.html" title="Uniqueness and the Gram Matrix for k ≤d" />
+<link rel="up" href="sect0005.html" title="Weingarten Calculus" />
 <link rel="stylesheet" href="styles/theme-white.css" />
 <link rel="stylesheet" href="styles/amsthm.css" />
 </head>
@@ -29,37 +28,34 @@
 <div class="wrapper">
 <nav class="toc">
 <ul class="sub-toc-0">
-<li class=" active">
-  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Schur Weyl Duality</span></a>
-  <span class="expand-toc">▼</span>
-  <ul class="sub-toc-1 active">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Schur-Weyl Duality</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
      <li class="">
-  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Operator Space</span></a>
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Definitions and Commutants</span></a>
  </li>
 <li class="">
-  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Symmetric subspaces</span></a>
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">First Fundamental Theorem of Invariant Theory</span></a>
  </li>
 <li class="">
-  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Permutation Invariance and Properties of Unitarily Invariant Measures</span></a>
- </li>
-<li class=" active">
-  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Examples</span></a>
-  <span class="expand-toc">▼</span>
-  <ul class="sub-toc-2 active">
-     <li class="">
-  <a href="sect0006.html"><span class="toc_ref">1.4.1</span> <span class="toc_entry">Group Averaging and Pauli Twirling</span></a>
- </li>
-<li class="">
-  <a href="sect0007.html"><span class="toc_ref">1.4.2</span> <span class="toc_entry">Pauli twirling</span></a>
- </li>
-<li class=" active current">
-  <a href="sect0008.html"><span class="toc_ref">1.4.3</span> <span class="toc_entry">Explicit Calculation of single qubit first moment</span></a>
- </li>
-<li class="">
-  <a href="sect0009.html"><span class="toc_ref">1.4.4</span> <span class="toc_entry">Commutant of the First Order Unitary Group</span></a>
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Double Commutant Theorem and Schur-Weyl Duality</span></a>
  </li>
 
   </ul>
+ </li>
+<li class=" active">
+  <a href="sect0005.html"><span class="toc_ref">2</span> <span class="toc_entry">Weingarten Calculus</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Solvability of the Weingarten System</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Uniqueness and the Gram Matrix for \(k \le d\)</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0008.html"><span class="toc_ref">2.3</span> <span class="toc_entry">The Haar Moment Operator</span></a>
  </li>
 
   </ul>
@@ -72,264 +68,602 @@
 
 
 <div class="main-text">
-<h2 id="a0000000009">1.4.3 Explicit Calculation of single qubit first moment</h2>
-<p> We consider systems of \(n\) qubits, represented by vectors of dimension \(d = 2^n\). Consider the calculation of the first moment of a system with \(n = 1\). Due to the small size of the system, we can explicitly define the Haar measure and parameterize the unitary in our calculations, which we do in the example below. </p>
-<div class="remark_thmwrapper theorem-style-remark" id="rm:2x2UnitaryExplicitConstruction">
-  <div class="remark_thmheading">
-    <span class="remark_thmcaption">
-    Remark
-    </span>
-    <span class="remark_thmlabel">1.4.7</span>
-    <span class="remark_thmtitle">Explicit construction of \(2 \times 2\) unitaries</span>
-  </div>
-  <div class="remark_thmcontent">
-  <p> Every unitary \(U\) in the unitary group of size \(2 \times 2\), denoted \(U(2)\), can be parameterized in terms of \(\phi , \theta , \omega \in \mathbb {R}\), where </p>
-<div class="equation" id="a0000000053">
-<p>
-  <div class="equation_content">
-    \begin{equation}  U = \begin{bmatrix}  e^{-i (\phi + \omega ) / 2} \cos {\frac{\theta }{2}} 
-
-&  -e^{i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}}
-
-\\ e^{-i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}} 
-
-&  e^{i (\phi + \omega ) / 2} \cos {\frac{\theta }{2}} 
-
-\end{bmatrix}. \end{equation}
-  </div>
-  <span class="equation_label">62</span>
-</p>
-</div>
-<p> The conjugate transpose \(U^{\dagger }\) is given by </p>
-<div class="equation" id="a0000000054">
-<p>
-  <div class="equation_content">
-    \begin{equation}  U^{\dagger } = \begin{bmatrix}  e^{i( \phi + \omega ) / 2} \cos {\frac{\theta }{2}} 
-
-&  e^{i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}}
-
-\\ - e^{-i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}} 
-
-&  e^{-i(\phi + \omega )/ 2} \cos {\frac{\theta }{2}} 
-
-\end{bmatrix}. \end{equation}
-  </div>
-  <span class="equation_label">63</span>
-</p>
-</div>
-
-  </div>
-</div>
-<p>Let \(\mu _{H}\) denote the generalized Haar measure on any \(n\)-qubit system. On a single qubit, we can write the moment calculation in terms of the expectation value, which in turn can be written as an integral under \(\mu _{H}\). The first moment of the operator of an \(n\)-qubit system \(O\), where \(O \in \mathcal{L}(\mathbb {C}^{d})\), is </p>
-<div class="equation" id="a0000000055">
-<p>
-  <div class="equation_content">
-    \begin{equation}  \mathbb {E}_{U \sim \mu _{H}} [U O U^{\dagger }] = \int _{U \sim \mu _{H}} U O U^{\dagger } d\mu _{H}. \end{equation}
-  </div>
-  <span class="equation_label">64</span>
-</p>
-</div>
-<p> We now define a Haar measure specific to the case \(n = 1\). </p>
-<div class="definition_thmwrapper theorem-style-definition" id="def:SingleQubitHaarMeasure">
-  <div class="definition_thmheading">
-    <span class="definition_thmcaption">
-    Definition
-    </span>
-    <span class="definition_thmlabel">1.4.8</span>
-    <span class="definition_thmtitle">Parameterized single-qubit Haar measure</span>
-  </div>
-  <div class="definition_thmcontent">
-  <p> Let \(\mu _{2}\) denote the Haar measure on a single qubit, represented with vectors in \(\mathbb {C}^{2}\). Define the single-qubit Haar measure in terms of the parameters given in Remark&#160;<a href="sect0008.html#rm:2x2UnitaryExplicitConstruction">1.4.7</a>, where </p>
-<div class="equation" id="a0000000056">
-<p>
-  <div class="equation_content">
-    \begin{equation}  d\mu _{2} = \sin {\theta } d\theta \cdot d\omega \cdot d\phi \end{equation}
-  </div>
-  <span class="equation_label">65</span>
-</p>
-</div>
-<p> is the unnormalized Haar measure. The normalized computation of moments using the Haar measure is given by </p>
-<div class="equation" id="eq:NormalizedHaarMeas">
-<p>
-  <div class="equation_content">
-    \begin{equation} \label{eq:NormalizedHaarMeas} \mathbb {E}_{U \sim \mu _{2}} [U O U^{\dagger }] = \frac{1}{8\pi ^2} \int _{\phi = 0}^{2\pi } \int _{\omega = 0}^{2\pi } \int _{\theta = 0}^{\pi } U O U^{\dagger } \sin {\theta } d\theta d\omega d\phi , \end{equation}
-  </div>
-  <span class="equation_label">66</span>
-</p>
-</div>
-<p> where the factor of \(\frac{1}{8\pi ^2}\) can be found by computing the integral and setting \(UOU^{\dagger } =1\). </p>
-
-  </div>
-</div>
-<div class="remark_thmwrapper theorem-style-remark" id="a0000000057">
-  <div class="remark_thmheading">
-    <span class="remark_thmcaption">
-    Remark
-    </span>
-    <span class="remark_thmlabel">1.4.9</span>
-    <span class="remark_thmtitle">Reordering parameters</span>
-  </div>
-  <div class="remark_thmcontent">
-  <p> We may reorder the parameters \(\phi , \omega \), and \(\theta \) in the integral by Fubini’s theorem. An alternative way to state the normalized computation of moments using the Haar measure is </p>
-<div class="equation" id="a0000000058">
-<p>
-  <div class="equation_content">
-    \begin{equation}  \mathbb {E}_{U \sim \mu _{2}} [U O U^{\dagger }] = \frac{1}{8\pi ^2} \int _{\theta = 0}^{\pi } \int _{\phi = 0}^{2\pi } \int _{\omega = 0}^{2\pi } U O U^{\dagger } \sin {\theta } d\omega d\phi d\theta . \end{equation}
-  </div>
-  <span class="equation_label">67</span>
-</p>
-</div>
-<p> We can keep the boundaries of the parameters the same, as they are independent of the order of integration. </p>
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="a0000000059">
+<h1 id="a0000000009">2.3 The Haar Moment Operator</h1>
+<p>We define the normalized Haar measure on the unitary group and use it to define the moment operator. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:unitary_entry_norm_le_one">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1.4.10</span>
-    <span class="theorem_thmtitle">Example: First moment of Pauli-Z operator</span>
+    <span class="theorem_thmlabel">2.3.1</span>
+    <span class="theorem_thmtitle">Unitary Entry Norm Bound</span>
   </div>
   <div class="theorem_thmcontent">
-  <p> Consider \(O = \sigma _{z}\), the Pauli-Z operator. We show that </p>
-<div class="equation" id="a0000000060">
-<p>
-  <div class="equation_content">
-    \begin{equation}  \mathbb {E}_{U \sim \mu _{2}} [U\sigma _{z}U^{\dagger }] = \frac{\text{Tr}(\sigma _{z})}{2} I. \end{equation}
-  </div>
-  <span class="equation_label">68</span>
-</p>
-</div>
+  <p> SchurWeyl.unitary_entry_norm_le_oneEach entry of a unitary matrix \(M \in U(d)\) has norm at most \(1\). </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000061">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:isCompact_unitaryGroup">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
     </span>
-    <span class="expand-proof">▼</span>
+    <span class="theorem_thmlabel">2.3.2</span>
+    <span class="theorem_thmtitle">Compactness of the Unitary Group</span>
   </div>
-  <div class="proof_content">
-  <p>The Pauli-Z operator is given by </p>
-<div class="equation" id="a0000000062">
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.isCompact_unitaryGroupthm:unitary_entry_norm_le_oneThe unitary group \(U(d)\) is a compact subset of the space of \(d \times d\) complex matrices. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:instCompactSpaceUnitaryGroup">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.3</span>
+    <span class="theorem_thmtitle">Compact Space Instance of Unitary Group</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.instCompactSpaceUnitaryGroupthm:isCompact_unitaryGroupThe unitary group \(U(d)\) is a compact topological space. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:instSecondCountableMatrix">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.4</span>
+    <span class="theorem_thmtitle">Second Countability of Matrix Space</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.instSecondCountableMatrixThe space of \(d \times d\) complex matrices has second countable topology. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:instMeasurableSpaceUnitaryGroup">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.5</span>
+    <span class="theorem_thmtitle">Measurable Space Instance of Unitary Group</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.instMeasurableSpaceUnitaryGroupThe unitary group \(U(d)\) carries the Borel \(\sigma \)-algebra. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:instBorelSpaceUnitaryGroup">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.6</span>
+    <span class="theorem_thmtitle">Borel Space Instance of Unitary Group</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.instBorelSpaceUnitaryGroupThe unitary group \(U(d)\) is a Borel space. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:haar_univ_ne_zero">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.7</span>
+    <span class="theorem_thmtitle">Haar Measure of Universe is Positive</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.haar_univ_ne_zeroThe left Haar measure of the entire unitary group is positive. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:haar_univ_ne_top">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.8</span>
+    <span class="theorem_thmtitle">Haar Measure of Universe is Finite</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.haar_univ_ne_topThe left Haar measure of the compact unitary group is finite. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:haarProb">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.3.9</span>
+    <span class="definition_thmtitle">Haar Probability Measure</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.haarProbThe Haar probability measure \(\mu _H\) is the left Haar measure on the compact unitary group \(U(d)\) normalized to total mass 1. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:instIsProbabilityMeasureHaarProb">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.10</span>
+    <span class="theorem_thmtitle">Haar Probability is Probability Measure</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.instIsProbabilityMeasureHaarProbdef:haarProbThe Haar probability measure \(\mu _H\) is indeed a probability measure (has total mass 1). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:instIsMulLeftInvariantHaarProb">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.11</span>
+    <span class="theorem_thmtitle">Haar Probability is Left Invariant</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.instIsMulLeftInvariantHaarProbdef:haarProbThe Haar probability measure \(\mu _H\) is left-invariant under multiplication. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:endOf">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.3.12</span>
+    <span class="definition_thmtitle">Endomorphism of Matrix</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.endOfThe representation of a matrix \(U \in \text{Mat}_{d \times d}(\mathbb {C})\) as a linear endomorphism of \(\mathbb {C}^d\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:endOf_mul">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.13</span>
+    <span class="theorem_thmtitle">Multiplicativity of endOf</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.endOf_muldef:endOfThe map ‘endOf‘ satisfies \(\text{endOf}(A B) = \text{endOf}(A) \circ \text{endOf}(B)\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:endOf_one">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.14</span>
+    <span class="theorem_thmtitle">Identity Matrix endOf</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.endOf_onedef:endOfThe map ‘endOf‘ maps the identity matrix to the identity endomorphism. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:diagAction_comp">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.15</span>
+    <span class="theorem_thmtitle">Diagonal Action Composition</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.diagAction_compdef:diagActionThe diagonal action is multiplicative: \(g^{\otimes k} \circ h^{\otimes k} = (g \circ h)^{\otimes k}\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:diagAction_id">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.16</span>
+    <span class="theorem_thmtitle">Diagonal Action Identity</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.diagAction_iddef:diagActionThe diagonal action of the identity endomorphism is the identity on the tensor space. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:actOn">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.3.17</span>
+    <span class="definition_thmtitle">Conjugation Action</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.actOndef:diagAction, def:endOfFor \(O \in \text{End}(V^{\otimes k})\) and \(U \in U(d)\), the conjugation action is: </p>
+<div class="equation" id="a0000000045">
 <p>
   <div class="equation_content">
-    \begin{equation}  \sigma _{z} = \begin{bmatrix}  1 
-
-&  0 
-
-\\ 0 
-
-&  -1 
-
-\end{bmatrix}. \end{equation}
+    \begin{equation}  U^{\otimes k} O (U^\dagger )^{\otimes k} \end{equation}
   </div>
-  <span class="equation_label">69</span>
+  <span class="equation_label">5</span>
 </p>
 </div>
-<p> Hence </p>
-<div class="equation" id="a0000000063">
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:diagAction_endOf_unitary_left">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.18</span>
+    <span class="theorem_thmtitle">Unitary Diagonal Action Left Inverse</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.diagAction_endOf_unitary_leftdef:endOf, def:diagAction, thm:diagAction_comp, thm:endOf_mul, thm:endOf_one, thm:diagAction_idFor any unitary matrix \(U\), \((U^\dagger )^{\otimes k} \circ U^{\otimes k} = \text{id}\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:diagAction_endOf_unitary_right">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.19</span>
+    <span class="theorem_thmtitle">Unitary Diagonal Action Right Inverse</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.diagAction_endOf_unitary_rightdef:endOf, def:diagAction, thm:diagAction_comp, thm:endOf_mul, thm:endOf_one, thm:diagAction_idFor any unitary matrix \(U\), \(U^{\otimes k} \circ (U^\dagger )^{\otimes k} = \text{id}\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:continuous_actOn_entry">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.20</span>
+    <span class="theorem_thmtitle">Continuity of Conjugation Action Entries</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.continuous_actOn_entrydef:actOn, def:toEndMatrix, def:diagAction, lem:toEndMatrix_diagActionFor any operator \(O \in \text{End}(V^{\otimes k})\), the matrix entries of the conjugation action \(\text{actOn}(O, U)\) are continuous functions of \(U \in U(d)\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:integrable_actOn_entry">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.21</span>
+    <span class="theorem_thmtitle">Integrability of Conjugation Action Entries</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.integrable_actOn_entrythm:continuous_actOn_entry, thm:instCompactSpaceUnitaryGroup, def:haarProb, def:toEndMatrix, def:actOnEach matrix entry of the conjugation action is integrable with respect to the Haar probability measure. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:momentMatrix">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.3.22</span>
+    <span class="definition_thmtitle">Haar Moment Matrix</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.momentMatrixdef:actOn, def:toEndMatrix, def:haarProbThe matrix formed by integrating the entries of the conjugation action over the unitary group. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:momentOp">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.3.23</span>
+    <span class="definition_thmtitle">Haar Moment Operator</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> SchurWeyl.momentOpdef:momentMatrix, def:toEndMatrixThe Haar moment operator \(\mathbb {E}_{U \sim \mu _H}[U^{\otimes k} O (U^\dagger )^{\otimes k}]\), defined as the operator whose matrix in the computational basis is the Haar average of the conjugation action. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:toEndMatrix_momentOp">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.24</span>
+    <span class="theorem_thmtitle">Matrix of Haar Moment Operator</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.toEndMatrix_momentOpdef:momentOp, def:momentMatrix, def:toEndMatrixThe matrix representation of the Haar moment operator matches the Haar moment matrix. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:trace_permDual_actOn">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.25</span>
+    <span class="theorem_thmtitle">Pointwise Trace Invariance under Conjugation</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.trace_permDual_actOndef:permDual, def:actOn, def:diagAction, def:endOf,thm:diagAction_endOf_unitary_left, thm:permAction_diagAction_commThe trace against \(V_d^\dagger (\sigma )\) is invariant under unitary conjugation of the operator. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:momentOp_trace">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.26</span>
+    <span class="theorem_thmtitle">Trace Invariance of Moment Operator</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.momentOp_tracedef:momentOp, def:permDual, def:toEndMatrix, def:actOn, thm:trace_permDual_actOn, thm:toEndMatrix_momentOp, thm:integrable_actOn_entry, def:haarProbThe moment operator preserves the traces: </p>
+<div class="equation" id="a0000000046">
 <p>
   <div class="equation_content">
-    \begin{equation}  \frac{\text{Tr}(\sigma _{z})}{2}I = \frac{0}{2} I = \mathbf{0}, \end{equation}
+    \begin{equation}  \text{Tr}(V_d^\dagger (\sigma ) \mathbb {E}[U^{\otimes k} O (U^\dagger )^{\otimes k}]) = \text{Tr}(V_d^\dagger (\sigma ) O) \end{equation}
   </div>
-  <span class="equation_label">70</span>
+  <span class="equation_label">6</span>
 </p>
 </div>
-<p> where \(\mathbf{0}\) is the zero matrix. Given Def.&#160;<a href="sect0008.html#def:SingleQubitHaarMeasure">1.4.8</a>, we seek to show that </p>
-<div class="equation" id="a0000000064">
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:conj_actOn">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.27</span>
+    <span class="theorem_thmtitle">Translation of Conjugation Action</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.conj_actOndef:diagAction, def:endOf, def:actOn, thm:diagAction_compConjugating the action by a unitary matrix \(W\) corresponds to left translating the variable in the conjugation action: \(W^{\otimes k} (\text{actOn}(O, U)) (W^\dagger )^{\otimes k} = \text{actOn}(O, W U)\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:momentOp_conj_unitary">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.28</span>
+    <span class="theorem_thmtitle">Unitary Invariance of Haar Moment Operator</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.momentOp_conj_unitarydef:actOn, def:endOf, thm:diagAction_comp, def:diagAction, thm:endOf_mul, def:momentOp, def:momentMatrix, thm:toEndMatrix_momentOp, def:toEndMatrix, def:tensorBasis, def:haarProb, thm:integrable_actOn_entry, thm:conj_actOnThe Haar moment operator is invariant under conjugation by any unitary matrix. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:momentOp_comm_unitary">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.29</span>
+    <span class="theorem_thmtitle">Unitary Commutativity of Moment Operator</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.momentOp_comm_unitarydef:momentOp, def:diagAction, def:endOf, thm:momentOp_conj_unitary, thm:diagAction_endOf_unitary_leftThe moment operator commutes with \(W^{\otimes k}\) for any unitary matrix \(W \in U(d)\). </p>
+
+  </div>
+</div>
+<p>We extend this to all matrices using density. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:exists_orthonormalBasis_cols">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.30</span>
+    <span class="theorem_thmtitle">Orthonormal Basis from Matrix Columns</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.exists_orthonormalBasis_colsAn orthonormal family can be constructed from the columns of a matrix \(N\) when normalized. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:svd_spectral">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.31</span>
+    <span class="theorem_thmtitle">Spectral Decomposition of Hermetian Matrix</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.svd_spectralAny positive semidefinite Hermetian matrix \(M^\dagger M\) can be diagonalized by a unitary matrix. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:conjTranspose_mul_self_of_spectral">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.32</span>
+    <span class="theorem_thmtitle">Conjugate Transpose Multiplicative Spectral Relation</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.conjTranspose_mul_self_of_spectralthm:svd_spectralIf \(M^\dagger M = Q D Q^\dagger \), then \((M Q)^\dagger (M Q) = D\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:exists_unitary_of_orthonormalBasis">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.33</span>
+    <span class="theorem_thmtitle">Unitary Matrix from Orthonormal Basis</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.exists_unitary_of_orthonormalBasisAn orthonormal basis can be assembled into a unitary matrix. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:cols_mul_diag_sqrt">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.34</span>
+    <span class="theorem_thmtitle">Column Normalization Relation</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.cols_mul_diag_sqrtThe unitary matrix times the diagonal square root matrix recovers the normalized columns. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:svd_exists">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.35</span>
+    <span class="theorem_thmtitle">SVD Existence</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.svd_existsthm:svd_spectral, thm:conjTranspose_mul_self_of_spectral, thm:exists_orthonormalBasis_cols, thm:exists_unitary_of_orthonormalBasis, thm:cols_mul_diag_sqrtAny complex matrix can be written as \(M = U_1 D U_2\) with \(U_1, U_2 \in U(d)\) and diagonal \(D\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:toEndMatrix_diagAction_diagonal">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.36</span>
+    <span class="theorem_thmtitle">Matrix of Diagonal Diagonal Action</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.toEndMatrix_diagAction_diagonaldef:toEndMatrix, def:diagAction, def:endOf, lem:diagAction_diagonalThe matrix representation of the diagonal action of a diagonal matrix is diagonal in the tensor basis. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:diagonal_mem_unitaryGroup">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.37</span>
+    <span class="theorem_thmtitle">Diagonal Matrix Unitary Criterion</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.diagonal_mem_unitaryGroupA diagonal matrix with entries on the unit circle is unitary. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:prod_eq_of_torus">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.38</span>
+    <span class="theorem_thmtitle">Identity extension from Torus</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.prod_eq_of_torusAn identity of index-monomials holding on the unit torus holds on all inputs. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:toEndMatrix_comp">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.39</span>
+    <span class="theorem_thmtitle">Matrix of Composition</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.toEndMatrix_compdef:toEndMatrix, def:tensorBasisThe matrix representation map is multiplicative: \(\text{toEndMatrix}(f \circ g) = \text{toEndMatrix}(f) \text{toEndMatrix}(g)\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:comm_diagAction_diagonal_entry">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.40</span>
+    <span class="theorem_thmtitle">Entrywise Commutation with Diagonal Action</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.comm_diagAction_diagonal_entrydef:diagAction, def:endOf, thm:toEndMatrix_comp, thm:toEndMatrix_diagAction_diagonal, thm:diagonal_mem_unitaryGroup, thm:prod_eq_of_torusAn operator commuting with all unitary diagonal actions commutes entrywise with all diagonal actions. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:comm_diagAction_diagonal">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.41</span>
+    <span class="theorem_thmtitle">Commutation with all Diagonal Actions</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.comm_diagAction_diagonaldef:diagAction, def:endOf, def:toEndMatrix, thm:comm_diagAction_diagonal_entry, thm:toEndMatrix_comp, thm:toEndMatrix_diagAction_diagonalAn operator commuting with all unitary diagonal actions commutes with the diagonal action of any diagonal matrix. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:mem_centralizer_of_comm_unitary">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.42</span>
+    <span class="theorem_thmtitle">Unitary Commutant implies Centralizer</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.mem_centralizer_of_comm_unitarydef:diagAction, thm:svd_exists, thm:comm_diagAction_diagonal, def:endOf, thm:endOf_mul, thm:diagAction_compAn operator that commutes with all unitary diagonal actions commutes with all diagonal actions. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:momentOp_mem_span">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.43</span>
+    <span class="theorem_thmtitle">Moment Operator lies in Permutation Span</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.momentOp_mem_spandef:momentOp, thm:momentOp_comm_unitary, thm:mem_centralizer_of_comm_unitary, thm:schur_weylThe Haar moment operator lies in the span of the permutation operators: </p>
+<div class="equation" id="a0000000047">
 <p>
   <div class="equation_content">
-    \begin{equation}  \mathbb {E}_{U \sim \mu _{2}} [U\sigma _{z}U^{\dagger }] = \frac{1}{8\pi ^2}\int _{\phi = 0}^{2\pi } \int _{\omega = 0}^{2\pi } \int _{\theta = 0}^{\pi } UOU^{\dagger } \sin \theta d\theta d\omega d\phi \end{equation}
+    \begin{equation}  \mathbb {E}_{U}[U^{\otimes k} O (U^\dagger )^{\otimes k}] \in \text{Span}(\mathcal{P}_{d,k}) \end{equation}
   </div>
-  <span class="equation_label">71</span>
+  <span class="equation_label">7</span>
 </p>
 </div>
-<p> is equivalent. We explicitly compute the inner matrix multiplication: </p>
-<div class="equation" id="a0000000065">
-<p>
-  <div class="equation_content">
-    \begin{equation}  \begin{split}  U\sigma _{z} U^{\dagger } = \begin{bmatrix}  e^{-i (\phi + \omega ) / 2} \cos {\frac{\theta }{2}} 
 
-&  -e^{i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}}
-
-\\ e^{-i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}} 
-
-&  e^{i (\phi + \omega ) / 2} \cos {\frac{\theta }{2}} 
-
-\end{bmatrix}\begin{bmatrix}  1 
-
-&  0 
-
-\\ 0 
-
-&  -1 
-
-\end{bmatrix}\begin{bmatrix}  e^{i( \phi + \omega ) / 2} \cos {\frac{\theta }{2}} 
-
-&  e^{i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}}
-
-\\ - e^{-i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}} 
-
-&  e^{-i(\phi + \omega )/ 2} \cos {\frac{\theta }{2}} 
-
-\end{bmatrix}\\ = \begin{bmatrix}  \cos ^{2}{\frac{\theta }{2}} - \sin ^{2}{\frac{\theta }{2}} 
-
-&  e^{-i \omega } \cos {\frac{\theta }{2}} \sin {\frac{\theta }{2}} + e^{-i\omega } \sin {\frac{\theta }{2}} \cos {\frac{\theta }{2}}
-
-\\ e^{i \omega } \sin {\frac{\theta }{2}} \cos {\frac{\theta }{2}} + e^{i \omega } \cos {\frac{\theta }{2}} \sin {\frac{\theta }{2}} 
-
-&  \sin ^{2}{\frac{\theta }{2}} - \cos ^{2}{\frac{\theta }{2}} 
-
-\end{bmatrix}\end{split} \end{equation}
   </div>
-  <span class="equation_label">72</span>
-</p>
 </div>
-<p> Evaluating the integral for either \(\phi \) or \(\omega \) in the interval \([0, 2\pi )\) gives </p>
-<div class="equation" id="a0000000066">
-<p>
-  <div class="equation_content">
-    \begin{equation}  \int _{\phi = 0}^{2\pi } e^{ic_{\phi } \phi } d\phi = 0 \qquad \text{and} \qquad \int _{\omega = 0}^{2\pi } e^{ic_{\omega } \omega } d\omega = 0. \end{equation}
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:weingarten_moment_haar">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">2.3.44</span>
+    <span class="theorem_thmtitle">Weingarten Moments for Haar Integral</span>
   </div>
-  <span class="equation_label">75</span>
-</p>
-</div>
-<p> Consequently, in the expanded form of \(UOU^{\dagger }\), any elements with a remaining dependence (i.e., a nonzero \(c_{\phi }\) or \(c_{\omega }\)) on either \(\phi \) or \(\omega \) will integrate to zero. Consequently, we find </p>
-<div class="equation" id="a0000000067">
-<p>
-  <div class="equation_content">
-    \begin{equation}  \begin{split}  \frac{1}{8\pi ^2} \int _{\theta = 0}^{\pi } \int _{\phi = 0}^{2\pi } \int _{\omega = 0}^{2\pi } \begin{bmatrix}  \cos ^{2}{\frac{\theta }{2}} - \sin ^{2}{\frac{\theta }{2}} 
-
-&  e^{-i \omega } \cos {\frac{\theta }{2}} \sin {\frac{\theta }{2}} + e^{-i\omega } \sin {\frac{\theta }{2}} \cos {\frac{\theta }{2}}
-
-\\ e^{i \omega } \sin {\frac{\theta }{2}} \cos {\frac{\theta }{2}} + e^{i \omega } \cos {\frac{\theta }{2}} \sin {\frac{\theta }{2}} 
-
-&  \sin ^{2}{\frac{\theta }{2}} - \cos ^{2}{\frac{\theta }{2}} 
-
-\end{bmatrix} \sin \theta d\omega d\phi d\theta \\ = \frac{1}{8\pi ^2} \int _{\theta = 0}^{\pi } 4 \pi ^{2} \begin{bmatrix}  \cos ^{2}{\frac{\theta }{2}} - \sin ^{2}{\frac{\theta }{2}} 
-
-&  0 
-
-\\ 0 
-
-&  \sin ^{2}{\frac{\theta }{2}} - \cos ^{2}{\frac{\theta }{2}} 
-
-\end{bmatrix} \sin {\theta } d\theta \\ = \begin{bmatrix}  0 
-
-&  0 
-
-\\ 0 
-
-&  0 
-
-\end{bmatrix} = \mathbf{0}. \end{split} \end{equation}
-  </div>
-  <span class="equation_label">76</span>
-</p>
-</div>
+  <div class="theorem_thmcontent">
+  <p> SchurWeyl.weingarten_moment_haardef:momentOp, def:permOp, def:permDual, thm:momentOp_mem_span, thm:momentOp_trace, thm:weingarten_moment_decomposition_of_propsThe Haar moment operator is a linear combination of the permutation operators whose coefficients solve the Weingarten system. </p>
 
   </div>
 </div>
@@ -340,11 +674,9 @@
 </div> <!-- wrapper -->
 
 <nav class="prev_up_next">
-  <a href="sect0007.html" title="Pauli twirling"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+  <a href="sect0007.html" title="Uniqueness and the Gram Matrix for \(k \le d\)"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
 </a>
-  <a href="sect0005.html" title="Examples"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
-</a>
-  <a href="sect0009.html" title="Commutant of the First Order Unitary Group"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+  <a href="sect0005.html" title="Weingarten Calculus"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
 </a>
 </nav>
 

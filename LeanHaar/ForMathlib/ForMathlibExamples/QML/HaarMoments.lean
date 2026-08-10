@@ -1,4 +1,4 @@
-import LeanHaar.ForMathlib.ForMathlibExamples.QML.HaarInvariance
+import LeanHaar.ForMathlib.ForMathlibExamples.SupportingDocs.HaarInvariance
 import LeanHaar.ForMathlib.ForMathlibExamples.QML.MomentBridge
 
 /-!

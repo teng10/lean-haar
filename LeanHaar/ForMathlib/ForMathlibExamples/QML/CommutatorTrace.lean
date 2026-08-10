@@ -1,4 +1,4 @@
-import LeanHaar.ForMathlib.Examples.QML.HaarMoments
+import LeanHaar.ForMathlib.ForMathlibExamples.QML.HaarMoments
 
 /-!
 # Traces of squared commutators and their Haar averages

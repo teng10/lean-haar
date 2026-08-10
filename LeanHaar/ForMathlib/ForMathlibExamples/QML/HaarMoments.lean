@@ -1,5 +1,5 @@
-import LeanHaar.ForMathlib.Examples.QML.HaarInvariance
-import LeanHaar.ForMathlib.Examples.QML.MomentBridge
+import LeanHaar.ForMathlib.ForMathlibExamples.QML.HaarInvariance
+import LeanHaar.ForMathlib.ForMathlibExamples.QML.MomentBridge
 
 /-!
 # The first two Haar moments of a conjugated matrix

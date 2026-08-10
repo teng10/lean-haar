@@ -1,4 +1,4 @@
-import LeanHaar.ForMathlib.Examples.QML.HaarMoments
+import LeanHaar.ForMathlib.ForMathlibExamples.QML.HaarMoments
 
 /-!
 # The cost function of a variational quantum algorithm and its Haar moments

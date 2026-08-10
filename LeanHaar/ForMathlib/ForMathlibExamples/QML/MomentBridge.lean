@@ -1,4 +1,4 @@
-import LeanHaar.ForMathlib.Examples.QML.TensorPower
+import LeanHaar.ForMathlib.ForMathlibExamples.QML.TensorPower
 
 /-!
 # From Haar trace integrals to the moment operator

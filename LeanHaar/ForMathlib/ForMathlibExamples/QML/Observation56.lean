@@ -1,4 +1,4 @@
-import LeanHaar.ForMathlib.Examples.QML.CostFunction
+import LeanHaar.ForMathlib.ForMathlibExamples.QML.CostFunction
 
 /-!
 # Observation 56: expectation and variance of the cost function

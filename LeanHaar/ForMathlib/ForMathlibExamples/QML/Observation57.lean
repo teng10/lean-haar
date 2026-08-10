@@ -1,5 +1,5 @@
-import LeanHaar.ForMathlib.Examples.QML.CommutatorTrace
-import LeanHaar.ForMathlib.Examples.QML.CostFunction
+import LeanHaar.ForMathlib.ForMathlibExamples.QML.CommutatorTrace
+import LeanHaar.ForMathlib.ForMathlibExamples.QML.CostFunction
 
 /-!
 # Observation 57: barren plateaus

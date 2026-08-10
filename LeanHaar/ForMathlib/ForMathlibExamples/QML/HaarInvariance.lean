@@ -41,7 +41,7 @@ instance instIsMulRightInvariantHaarProb (d : ℕ) : (haarProb d).IsMulRightInva
     rw [Measure.map_apply (by fun_prop) MeasurableSet.univ]
     simp
   rw [hmap] at huniv
-  have hc : c = 1 := by simpa [ENNReal.smul_def] using huniv
+  have hc : c = 1 := by simpa using huniv
   rw [hmap, hc, one_smul]
 
 /-- Consequently `haarProb d` is invariant under inversion. -/
@@ -53,7 +53,7 @@ instance instIsInvInvariantHaarProb (d : ℕ) : (haarProb d).IsInvInvariant := b
     rw [Measure.inv, Measure.map_apply measurable_inv MeasurableSet.univ]
     simp
   rw [hinv] at huniv
-  have hc : c = 1 := by simpa [ENNReal.smul_def] using huniv
+  have hc : c = 1 := by simpa using huniv
   exact ⟨by rw [hinv, hc, one_smul]⟩
 
 end QML

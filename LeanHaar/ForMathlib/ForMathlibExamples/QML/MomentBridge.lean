@@ -36,8 +36,8 @@ private theorem trace_comp_eq_sum (Y X : Module.End ℂ (TensV d k)) :
 theorem integrable_trace_comp_actOn (Y P : Module.End ℂ (TensV d k)) :
     Integrable (fun U => LinearMap.trace ℂ (TensV d k) (Y ∘ₗ actOn P U)) (haarProb d) := by
   simp_rw [trace_comp_eq_sum]
-  exact integrable_finset_sum _ fun I _ =>
-    integrable_finset_sum _ fun J _ => (integrable_actOn_entry P J I).const_mul _
+  exact integrable_finsetSum _ fun I _ =>
+    integrable_finsetSum _ fun J _ => (integrable_actOn_entry P J I).const_mul _
 
 /-- **Bridge to the moment operator**: averaging a trace against the conjugation action is the
 same as contracting with the Haar moment operator. -/
@@ -45,10 +45,10 @@ theorem haar_integral_trace_comp_actOn (Y P : Module.End ℂ (TensV d k)) :
     (∫ U, LinearMap.trace ℂ (TensV d k) (Y ∘ₗ actOn P U) ∂(haarProb d))
       = LinearMap.trace ℂ (TensV d k) (Y ∘ₗ momentOp P) := by
   simp_rw [trace_comp_eq_sum]
-  rw [integral_finset_sum _ fun I _ => integrable_finset_sum _ fun J _ =>
+  rw [integral_finsetSum _ fun I _ => integrable_finsetSum _ fun J _ =>
     (integrable_actOn_entry P J I).const_mul _]
   refine Finset.sum_congr rfl fun I _ => ?_
-  rw [integral_finset_sum _ fun J _ => (integrable_actOn_entry P J I).const_mul _]
+  rw [integral_finsetSum _ fun J _ => (integrable_actOn_entry P J I).const_mul _]
   refine Finset.sum_congr rfl fun J _ => ?_
   rw [integral_const_mul, toEndMatrix_momentOp]
   rfl

@@ -134,8 +134,6 @@ theorem k2_moment (d : ℕ) [NeZero d] [Fact (2 ≤ d)] (O : Module.End ℂ (Ten
     have hd2_z : (2 : ℤ) ≤ (d : ℤ) := by exact_mod_cast hd2
     nlinarith
 
-  -- I couldn't quite figure out how to set up manual setting up of the linear system of equations.
-  -- To be fully transparent, I relied heavily on LLMs to walk me through the process here.
   -- Solve for c_id and c_swap explicitly from the 2x2 system
   have hc_id : c_id = (LinearMap.trace ℂ (TensV d 2) O - (d : ℂ)⁻¹ * LinearMap.trace ℂ (TensV d 2) (𝔽 d ∘ₗ O)) / ((d : ℂ)^2 - 1) := by
     have hd : (d : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (NeZero.ne d)

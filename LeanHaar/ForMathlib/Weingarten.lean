@@ -89,13 +89,13 @@ theorem gram_system_solvable {H : Type*} [NormedAddCommGroup H] [InnerProductSpa
 
 /-- The permutation operator `V_d(σ)` as a linear endomorphism of `V^{⊗k}`. -/
 def permOp (d : ℕ) {k : ℕ} (σ : Equiv.Perm (Fin k)) : Module.End ℂ (TensV d k) :=
-  (permAction d σ).toLinearMap
+  (permAction d k σ).toLinearMap
 
 /-- The Hermitian adjoint `V_d^†(σ)` of the permutation operator, defined as the inverse
 permutation operator `V_d(σ⁻¹)`. The lemma `permDual_eq_conjTranspose` confirms this is the
 conjugate transpose of `V_d(σ)` in the computational basis. -/
 def permDual (d : ℕ) {k : ℕ} (σ : Equiv.Perm (Fin k)) : Module.End ℂ (TensV d k) :=
-  (permAction d σ⁻¹).toLinearMap
+  (permAction d k σ⁻¹).toLinearMap
 
 /-- Notation for the Hilbert–Schmidt pairing `⟪V_d(σ), O⟫ = Tr(V_d^†(σ) O)`, which is the
 quantity every statement below is phrased in. It is `local`, so it only abbreviates the

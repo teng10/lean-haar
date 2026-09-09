@@ -35,15 +35,15 @@ instance tensV_module_finite : Module.Finite ℂ (TensV d k) :=
 
 /-- The permutation action as a monoid homomorphism `S_k →* End(V^{⊗k})`. -/
 def permMonoidHom : Equiv.Perm (Fin k) →* Module.End ℂ (TensV d k) where
-  toFun σ := (permAction d σ).toLinearMap
+  toFun σ := (permAction d k σ).toLinearMap
   map_one' := by
-    refine LinearMap.ext fun x => ?_; show permAction d 1 x = x
+    refine LinearMap.ext fun x => ?_; show permAction d k 1 x = x
     induction x using PiTensorProduct.induction_on with
     | smul_tprod r v => simp [permAction_tprod, Equiv.Perm.one_def]
     | add x y ihx ihy => simp [map_add, ihx, ihy]
   map_mul' σ τ := by
     refine LinearMap.ext fun x => ?_
-    show permAction d (σ * τ) x = permAction d σ (permAction d τ x)
+    show permAction d k (σ * τ) x = permAction d k σ (permAction d k τ x)
     induction x using PiTensorProduct.induction_on with
     | smul_tprod r v => simp only [permAction_tprod, map_smul]; congr 1
     | add x y ihx ihy => simp [map_add, ihx, ihy]
@@ -67,7 +67,7 @@ def permAlgHom : MonoidAlgebra ℂ (Equiv.Perm (Fin k)) →ₐ[ℂ] Module.End �
 
 @[simp]
 theorem permAlgHom_of (σ : Equiv.Perm (Fin k)) :
-    permAlgHom d k (MonoidAlgebra.of ℂ _ σ) = (permAction d σ).toLinearMap := by
+    permAlgHom d k (MonoidAlgebra.of ℂ _ σ) = (permAction d k σ).toLinearMap := by
   unfold permAlgHom permRep permMonoidHom
   simp [Representation.asAlgebraHom]
 

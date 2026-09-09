@@ -226,7 +226,7 @@ theorem trace_permDual_actOn (σ : Equiv.Perm (Fin k)) (O : Module.End ℂ (Tens
   convert LinearMap.trace_mul_comm ℂ ( permDual d σ ∘ₗ O ∘ₗ diagAction d k ( endOf ( star U ) ) ) ( diagAction d k ( endOf U ) ) using 1;
   · convert LinearMap.trace_mul_comm ℂ ( permDual d σ ∘ₗ diagAction d k ( endOf U ) ) ( O ∘ₗ diagAction d k ( endOf ( star U ) ) ) using 1;
     convert LinearMap.trace_mul_comm ℂ ( permDual d σ ) ( O ∘ₗ diagAction d k ( endOf ( star U ) ) * diagAction d k ( endOf U ) ) using 1;
-    simp +decide [ mul_assoc, SchurWeyl.permDual, SchurWeyl.permAction_diagAction_comm ];
+    simp +decide [ mul_assoc, SchurWeyl.permDual, SchurWeyl.permAction_diagAction_comm, -map_inv ];
     rfl;
   · convert LinearMap.trace_mul_comm ℂ ( permDual d σ ∘ₗ O ) ( diagAction d k ( endOf ( star U ) ) ∘ₗ diagAction d k ( endOf U ) ) using 1;
     · rw [ SchurWeyl.diagAction_endOf_unitary_left U ] ; aesop ( simp_config := { singlePass := true } ) ;

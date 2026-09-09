@@ -59,9 +59,9 @@ lemma trace_k2_id : LinearMap.trace ℂ (TensV d 2) (LinearMap.id : Module.End �
 /-- Calculate trace values for SWAP. -/
 lemma trace_k2_swap : LinearMap.trace ℂ (TensV d 2) (𝔽 d) = d := by
   rw [LinearMap.trace_eq_matrix_trace ℂ (tensorBasis d 2)]
-  have hF : LinearMap.toMatrix (tensorBasis d 2) (tensorBasis d 2) (𝔽 d) = toEndMatrix d 2 ((permAction d (Equiv.swap 0 1)).toLinearMap) := rfl
+  have hF : LinearMap.toMatrix (tensorBasis d 2) (tensorBasis d 2) (𝔽 d) = toEndMatrix d 2 ((permAction d 2 (Equiv.swap 0 1)).toLinearMap) := rfl
   rw [hF]
-  have htrace : Matrix.trace (toEndMatrix d 2 ((permAction d (Equiv.swap 0 1)).toLinearMap)) = ∑ I : Fin 2 → Fin d, toEndMatrix d 2 ((permAction d (Equiv.swap 0 1)).toLinearMap) I I := rfl
+  have htrace : Matrix.trace (toEndMatrix d 2 ((permAction d 2 (Equiv.swap 0 1)).toLinearMap)) = ∑ I : Fin 2 → Fin d, toEndMatrix d 2 ((permAction d 2 (Equiv.swap 0 1)).toLinearMap) I I := rfl
   rw [htrace]
   simp_rw [toEndMatrix_permAction]
   have hsum : (∑ I : Fin 2 → Fin d, if I = I ∘ (Equiv.swap (0 : Fin 2) (1 : Fin 2)).symm then (1 : ℂ) else 0) = d := by

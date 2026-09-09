@@ -42,15 +42,15 @@ def toEndMatrix (d k : ℕ) :
 
 /-- `W_σ(e_I) = e_{I ∘ σ⁻¹}`. -/
 theorem permAction_tensorBasis (σ : Equiv.Perm (Fin k)) (I : Fin k → Fin d) :
-    (permAction d σ) (tensorBasis d k I) = tensorBasis d k (I ∘ σ.symm) := by
+    (permAction d k σ) (tensorBasis d k I) = tensorBasis d k (I ∘ σ.symm) := by
   unfold permAction; simp +decide [tensorBasis]
 
 /-- Matrix of `W_σ`. -/
 theorem toEndMatrix_permAction (σ : Equiv.Perm (Fin k)) (I J : Fin k → Fin d) :
-    toEndMatrix d k ((permAction d σ).toLinearMap) I J =
+    toEndMatrix d k ((permAction d k σ).toLinearMap) I J =
     if I = J ∘ σ.symm then 1 else 0 := by
   convert LinearMap.toMatrix_apply (tensorBasis d k) (tensorBasis d k)
-    ((permAction d σ).toLinearMap) I J using 1
+    ((permAction d k σ).toLinearMap) I J using 1
   erw [permAction_tensorBasis]
   aesop
 

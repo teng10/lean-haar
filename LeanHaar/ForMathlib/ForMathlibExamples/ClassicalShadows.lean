@@ -283,7 +283,7 @@ def unitarySnapshotMoment (d k : ℕ) : Module.End ℂ (TensV d k) :=
     diagAction d 2 (basisProjector d b))) = 1
   rw [toEndMatrix_comp]
   simp only [Matrix.trace, Matrix.diag_apply, Matrix.mul_apply]
-  simp_rw [show 𝔽 d = (permAction d (Equiv.swap (0 : Fin 2) 1)).toLinearMap from rfl,
+  simp_rw [show 𝔽 d = (permAction d 2 (Equiv.swap (0 : Fin 2) 1)).toLinearMap from rfl,
     toEndMatrix_permAction, toEndMatrix_diagAction]
   unfold basisProjector
   rw [show (LinearMap.toMatrix (Pi.basisFun ℂ (Fin d)) (Pi.basisFun ℂ (Fin d))) =

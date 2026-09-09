@@ -31,8 +31,8 @@ variable {d k : ℕ}
 /-- The permutation action commutes with the diagonal action on elementary tensors. -/
 theorem permAction_diagAction_tprod (σ : Equiv.Perm (Fin k))
     (g : Module.End ℂ (Fin d → ℂ)) (v : Fin k → (Fin d → ℂ)) :
-    (permAction d σ) (diagAction d k g (PiTensorProduct.tprod ℂ v)) =
-    diagAction d k g ((permAction d σ) (PiTensorProduct.tprod ℂ v)) := by
+    (permAction d k σ) (diagAction d k g (PiTensorProduct.tprod ℂ v)) =
+    diagAction d k g ((permAction d k σ) (PiTensorProduct.tprod ℂ v)) := by
   simp [permAction_tprod, diagAction_tprod]
 
 /-
@@ -41,8 +41,8 @@ The permutation action commutes with the diagonal action:
 -/
 theorem permAction_diagAction_comm (σ : Equiv.Perm (Fin k))
     (g : Module.End ℂ (Fin d → ℂ)) :
-    (permAction d σ).toLinearMap ∘ₗ diagAction d k g =
-    diagAction d k g ∘ₗ (permAction d σ).toLinearMap := by
+    (permAction d k σ).toLinearMap ∘ₗ diagAction d k g =
+    diagAction d k g ∘ₗ (permAction d k σ).toLinearMap := by
   ext x;
   convert permAction_diagAction_tprod σ g ( fun i => Pi.single ( x i ) 1 ) using 1
 

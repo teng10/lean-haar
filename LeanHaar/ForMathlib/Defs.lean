@@ -26,6 +26,7 @@ using the double commutant approach.
 noncomputable section
 
 open scoped TensorProduct
+-- open PiTensorProduct
 
 variable {d : ℕ} {k : ℕ}
 
@@ -35,12 +36,21 @@ namespace SchurWeyl
 abbrev TensV (d k : ℕ) : Type :=
   PiTensorProduct ℂ (fun (_ : Fin k) => (Fin d → ℂ))
 
+
 /-- The permutation operator `W_σ` on the tensor power `V^{⊗k}`.
 Given `σ : Equiv.Perm (Fin k)`, this acts by permuting the tensor factors:
 `W_σ (v₁ ⊗ ⋯ ⊗ vₖ) = v_{σ⁻¹(1)} ⊗ ⋯ ⊗ v_{σ⁻¹(k)}`. -/
-def permAction (d : ℕ) {k : ℕ} (σ : Equiv.Perm (Fin k)) :
-    TensV d k ≃ₗ[ℂ] TensV d k :=
-  PiTensorProduct.reindex ℂ (fun (_ : Fin k) => (Fin d → ℂ)) σ
+noncomputable def permAction (d k : ℕ) :
+    Equiv.Perm (Fin k) →* (TensV d k ≃ₗ[ℂ] TensV d k) where
+    toFun σ := PiTensorProduct.reindex ℂ _ σ
+    map_one' := PiTensorProduct.reindex_refl
+    map_mul' σ τ := (PiTensorProduct.reindex_trans τ σ).symm
+
+
+-- /-- **The `GLₔ`-action** on `(ℂᵈ)^{⊗n}` diagonally, via `PiTensorProduct.map`/`mapMonoidHom`. -/
+-- noncomputable def glAction (d k : ℕ) :
+--     GL (Fin d) ℂ →*
+--       (TensV d k ≃ₗ[ℂ] TensV d k) :=
 
 /-- The diagonal action `g^{⊗k}` on the tensor power `V^{⊗k}`.
 Given `g : End(V)`, this acts as `g` on each tensor factor:
@@ -51,7 +61,7 @@ def diagAction (d k : ℕ) (g : Module.End ℂ (Fin d → ℂ)) :
 
 /-- The set of permutation operators in `End(V^{⊗k})`. -/
 def permImage (d k : ℕ) : Set (Module.End ℂ (TensV d k)) :=
-  Set.range (fun σ : Equiv.Perm (Fin k) => (permAction d σ).toLinearMap)
+  Set.range (fun σ : Equiv.Perm (Fin k) => (permAction d k σ).toLinearMap)
 
 /-- The set of diagonal operators `{g^{⊗k} | g ∈ End(V)}` in `End(V^{⊗k})`. -/
 def diagImage (d k : ℕ) : Set (Module.End ℂ (TensV d k)) :=
@@ -59,7 +69,7 @@ def diagImage (d k : ℕ) : Set (Module.End ℂ (TensV d k)) :=
 
 /-- Behavior of `permAction` on elementary tensors. -/
 theorem permAction_tprod (σ : Equiv.Perm (Fin k)) (v : Fin k → (Fin d → ℂ)) :
-    permAction d σ (PiTensorProduct.tprod ℂ v) =
+    permAction d k σ (PiTensorProduct.tprod ℂ v) =
     PiTensorProduct.tprod ℂ (fun i => v (σ.symm i)) :=
   PiTensorProduct.reindex_tprod σ v
 

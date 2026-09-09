@@ -52,7 +52,7 @@ theorem toEndMatrix'_diagAction (g : Module.End ℂ (Fin d → ℂ)) (I J : Fin 
 `W_σ(e_I) = e_{I ∘ σ⁻¹}`.
 -/
 theorem permAction_tensorBasis' (σ : Equiv.Perm (Fin k)) (I : Fin k → Fin d) :
-    (permAction d σ) (tensorBasis' d k I) = tensorBasis' d k (I ∘ σ.symm) := by
+    (permAction d k σ) (tensorBasis' d k I) = tensorBasis' d k (I ∘ σ.symm) := by
   simp +decide [ tensorBasis' ];
   convert permAction_tprod σ _ using 1
 
@@ -87,14 +87,14 @@ theorem matrix_orbit_invariant (X : Module.End ℂ (TensV d k))
     (hX : X ∈ (permImage d k).centralizer)
     (I J : Fin k → Fin d) (σ : Equiv.Perm (Fin k)) :
     toEndMatrix' d k X (I ∘ σ) (J ∘ σ) = toEndMatrix' d k X I J := by
-  have h_comm : X ∘ₗ (permAction d σ⁻¹).toLinearMap = (permAction d σ⁻¹).toLinearMap ∘ₗ X := by
+  have h_comm : X ∘ₗ (permAction d k σ⁻¹).toLinearMap = (permAction d k σ⁻¹).toLinearMap ∘ₗ X := by
     convert hX _ ( Set.mem_range_self σ⁻¹ ) using 1;
     · exact hX _ ( Set.mem_range_self _ ) ▸ rfl;
     · exact hX _ ( Set.mem_range_self _ );
   apply_fun fun f => f ( tensorBasis' d k J ) at h_comm;
-  convert congr_arg ( fun x => ( tensorBasis' d k |> Module.Basis.repr ) x ( I ∘ σ ) ) h_comm using 1 <;> norm_num [ toEndMatrix', permAction_tensorBasis' ];
+  convert congr_arg ( fun x => ( tensorBasis' d k |> Module.Basis.repr ) x ( I ∘ σ ) ) h_comm using 1 <;> norm_num [ toEndMatrix', permAction_tensorBasis', -map_inv ];
   · unfold LinearMap.toMatrix; aesop;
-  · rw [ show ( permAction d σ⁻¹ ) ( X ( tensorBasis' d k J ) ) = ∑ m, ( tensorBasis' d k |> Module.Basis.repr ) ( X ( tensorBasis' d k J ) ) m • ( tensorBasis' d k ) ( m ∘ σ ) from ?_ ];
+  · rw [ show ( permAction d k σ⁻¹ ) ( X ( tensorBasis' d k J ) ) = ∑ m, ( tensorBasis' d k |> Module.Basis.repr ) ( X ( tensorBasis' d k J ) ) m • ( tensorBasis' d k ) ( m ∘ σ ) from ?_ ];
     · simp +decide [ LinearMap.toMatrix_apply, Finsupp.single_apply ];
       rw [ Finset.sum_eq_single I ] <;> simp +contextual [ funext_iff ];
       exact fun b x hx₁ hx₂ => False.elim <| hx₁ <| by simpa using hx₂ ( σ.symm x ) ;

@@ -10,7 +10,10 @@ import LeanHaar.ForMathlib.ForMathlibExamples.MagicMonotone.BrickworkLayers
 The two-layer ensemble of Section III C of `magic_monotones.pdf` applies independent Haar
 gates on the qubit pairs `(1,2)`, `(3,4)` and then on `(2,3)`, `(4,1)`. Its moment operator is
 therefore the composition of the two layer moment operators (Eq. (19) of the source),
-`MagicMonotone.twoLayerMoment = layerA ∘ layerB`.
+`MagicMonotone.twoLayerMoment = layerA ∘ layerB`, each gate contributing one copy of the
+single-gate Haar moment operator of Eq. (17) (`MagicMonotone.vecMomentOp`, which
+`MagicMonotone.vecMomentOp_endVec` identifies with the repository's Haar average
+`SchurWeyl.momentOp`).
 
 Composing the two layers contracts the bra of layer `A` against the ket of layer `B`
 (Eq. (22)):
@@ -25,7 +28,9 @@ Summing the inner labels `π₁, π₂, γ₁, γ₂` first turns this into **Eq
   M = ∑_{σ₁,σ₂} ∑_{τ₁,τ₂} K_{(σ₁,σ₂),(τ₁,τ₂)}
         |V^{(12)}(σ₁)⟩⟩|V^{(34)}(σ₂)⟩⟩⟨⟨V^{(23)}(τ₁)|⟨⟨V^{(41)}(τ₂)| ,
 ```
-with the two-layer kernel `K` of Eq. (25).
+with the two-layer kernel `K` of Eq. (25). The interlayer overlaps inside `K` are entries of
+the repository's Weingarten Gram matrix, so Eq. (23) turns `K` into an explicit sum of
+Weingarten values times powers of two (`MagicMonotone.twoLayerKernel_eq_two_pow_sum`).
 
 ## Main definitions
 
@@ -37,6 +42,8 @@ with the two-layer kernel `K` of Eq. (25).
 * `MagicMonotone.twoLayerMoment_eq_contraction`: Eq. (22), the contraction of the two layers.
 * `MagicMonotone.twoLayerMoment_eq_kernel_sum`: **Eq. (24)**, the same operator written as a
   sum over the outer labels only, weighted by the kernel of Eq. (25).
+* `MagicMonotone.twoLayerKernel_eq_two_pow_sum`: the kernel of Eq. (25) with its interlayer
+  overlaps evaluated by Eq. (23), leaving only Weingarten values and powers of two.
 
 ## Proof outline
 
@@ -50,13 +57,17 @@ the two layers written as double sums over *pairs* of permutations
 
 In both cases the only remaining step is to split each sum over a pair of permutations into
 two sums over permutations (`Fintype.sum_prod_type`) and to identify the inner product of two
-vectorized permutation operators with their Hilbert–Schmidt overlap (`inner_vecOp_vecOp`).
+vectorized permutation operators (`SchurWeyl.endVec`) with their Hilbert–Schmidt overlap
+(`MagicMonotone.hsOverlap`, i.e. `MagicMonotone.inner_endVec_endVec`).
 -/
 
 noncomputable section
 
+-- The register index type `Fin 4 → Fin 16` makes elaboration of the layer sums deep.
+set_option maxRecDepth 8000
+
 open scoped InnerProductSpace Matrix
-open InnerProductSpace ContinuousLinearMap
+open InnerProductSpace ContinuousLinearMap SchurWeyl SchurWeyl.K4
 
 namespace MagicMonotone
 
@@ -102,6 +113,20 @@ theorem twoLayerMoment_eq_kernel_sum :
     sumRankOne_comp_sumRankOne_kernel ketA ketA wgPair ketB ketB wgPair]
   simp only [Fintype.sum_prod_type, twoLayerKernel, wgPair, ketA, ketB,
     inner_layerAKet_layerBKet]
+
+/-- **The two-layer kernel, made explicit.** Evaluating the interlayer overlaps of Eq. (25) by
+Eq. (23) (`MagicMonotone.hsOverlap_layer_eq_two_pow`, which reads them off the repository's
+Weingarten Gram matrix at local dimension `2`), the kernel involves nothing but the `k = 4`
+Weingarten values `SchurWeyl.K4.wgVal` and powers of two:
+`K = ∑_{π₁,π₂,γ₁,γ₂} Wg(σ₁⁻¹π₁,4) Wg(σ₂⁻¹π₂,4) Wg(γ₁⁻¹τ₁,4) Wg(γ₂⁻¹τ₂,4)
+      · 2^{#(π₁⁻¹γ₁)+#(π₁⁻¹γ₂)+#(π₂⁻¹γ₁)+#(π₂⁻¹γ₂)}`. -/
+theorem twoLayerKernel_eq_two_pow_sum (σ₁ σ₂ τ₁ τ₂ : Equiv.Perm Copies) :
+    twoLayerKernel σ₁ σ₂ τ₁ τ₂ =
+      ∑ π₁, ∑ π₂, ∑ γ₁, ∑ γ₂,
+        (wg (σ₁⁻¹ * π₁) * wg (σ₂⁻¹ * π₂)) * (wg (γ₁⁻¹ * τ₁) * wg (γ₂⁻¹ * τ₂)) *
+          2 ^ (numCyc (π₁⁻¹ * γ₁) + numCyc (π₁⁻¹ * γ₂) +
+            numCyc (π₂⁻¹ * γ₁) + numCyc (π₂⁻¹ * γ₂)) := by
+  simp only [twoLayerKernel, hsOverlap_layer_eq_two_pow]
 
 end MagicMonotone
 

@@ -8,7 +8,7 @@ import Mathlib.LinearAlgebra.PiTensorProduct.Basis
 import Mathlib.RepresentationTheory.Maschke
 import Mathlib.Tactic
 
-import LeanHaar.ForMathlib.Defs
+import LeanHaar.ForMathlib.TensorPower
 
 /-!
 # Double Commutant Theorem for the Permutation Algebra

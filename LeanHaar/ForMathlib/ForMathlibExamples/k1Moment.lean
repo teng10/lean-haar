@@ -1,5 +1,5 @@
 import LeanHaar.ForMathlib.Haar
-import LeanHaar.ForMathlib.Defs
+import LeanHaar.ForMathlib.TensorPower
 
 import Mathlib.LinearAlgebra.Dimension.Constructions
 

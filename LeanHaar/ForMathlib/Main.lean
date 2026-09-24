@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib.Tactic
 
-import LeanHaar.ForMathlib.Defs
+import LeanHaar.ForMathlib.TensorPower
 import LeanHaar.ForMathlib.Commutation
 import LeanHaar.ForMathlib.DirectProof
 

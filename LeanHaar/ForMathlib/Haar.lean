@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Aesop
 import Mathlib.Analysis.Matrix.PosDef
+import Mathlib.LinearAlgebra.UnitaryGroup
 import Mathlib.MeasureTheory.Group.Integral
 import Mathlib.RingTheory.PicardGroup
 import Mathlib.Tactic
@@ -11,7 +12,7 @@ import Mathlib.Topology.Algebra.Star.Unitary
 import Mathlib.Topology.UniformSpace.Matrix
 import Mathlib.Topology.UniformSpace.Uniformizable
 
-import LeanHaar.ForMathlib.Defs
+import LeanHaar.ForMathlib.TensorPower
 import LeanHaar.ForMathlib.Commutation
 import LeanHaar.ForMathlib.DirectProof
 import LeanHaar.ForMathlib.Main
@@ -135,16 +136,6 @@ theorem endOf_mul (A B : Matrix (Fin d) (Fin d) ℂ) :
 theorem endOf_one : endOf (1 : Matrix (Fin d) (Fin d) ℂ) = LinearMap.id := by
   simp [endOf]
 
-/-- The diagonal action is multiplicative: `g^{⊗k} ∘ h^{⊗k} = (g ∘ h)^{⊗k}`. -/
-theorem diagAction_comp (g h : Module.End ℂ (Fin d → ℂ)) :
-    diagAction d k g ∘ₗ diagAction d k h = diagAction d k (g ∘ₗ h) := by
-  unfold diagAction
-  rw [← PiTensorProduct.map_comp]
-
-/-- The diagonal action of the identity is the identity. -/
-theorem diagAction_id : diagAction d k (LinearMap.id) = LinearMap.id := by
-  unfold diagAction; simp [PiTensorProduct.map_id]
-
 /-- The conjugation action `O ↦ U^{⊗k} O U^{†⊗k}` on operators, where `U†` is the
 conjugate transpose `star U`. -/
 def actOn (O : Module.End ℂ (TensV d k)) (U : Matrix.unitaryGroup (Fin d) ℂ) :
@@ -156,19 +147,15 @@ def actOn (O : Module.End ℂ (TensV d k)) (U : Matrix.unitaryGroup (Fin d) ℂ)
 theorem diagAction_endOf_unitary_left (U : Matrix.unitaryGroup (Fin d) ℂ) :
     diagAction d k (endOf (star (U : Matrix (Fin d) (Fin d) ℂ))) ∘ₗ
       diagAction d k (endOf (U : Matrix (Fin d) (Fin d) ℂ)) = LinearMap.id := by
-  rw [diagAction_comp, ← endOf_mul]
-  have : star (U : Matrix (Fin d) (Fin d) ℂ) * (U : Matrix (Fin d) (Fin d) ℂ) = 1 :=
-    (Matrix.mem_unitaryGroup_iff'.1 U.2)
-  rw [this, endOf_one, diagAction_id]
+  rw [diagAction_comp, ← endOf_mul, Matrix.mem_unitaryGroup_iff'.mp U.property, endOf_one]
+  exact map_one (diagAction d k)
 
 /-- For a unitary `U`, `U^{⊗k} ∘ (U†)^{⊗k} = id`. -/
 theorem diagAction_endOf_unitary_right (U : Matrix.unitaryGroup (Fin d) ℂ) :
     diagAction d k (endOf (U : Matrix (Fin d) (Fin d) ℂ)) ∘ₗ
       diagAction d k (endOf (star (U : Matrix (Fin d) (Fin d) ℂ))) = LinearMap.id := by
-  rw [diagAction_comp, ← endOf_mul]
-  have : (U : Matrix (Fin d) (Fin d) ℂ) * star (U : Matrix (Fin d) (Fin d) ℂ) = 1 :=
-    (Matrix.mem_unitaryGroup_iff.1 U.2)
-  rw [this, endOf_one, diagAction_id]
+  rw [diagAction_comp, ← endOf_mul, Matrix.mem_unitaryGroup_iff.mp U.property, endOf_one]
+  exact map_one (diagAction d k)
 
 /-
 The matrix entry of the conjugation action is a continuous function of `U`.

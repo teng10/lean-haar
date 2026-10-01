@@ -107,7 +107,7 @@ theorem actOn_tensorOp (f : Fin k → Matrix (Fin d) (Fin d) ℂ)
 theorem toEndMatrix_swap (I J : Fin 2 → Fin d) :
     toEndMatrix d 2 (𝔽 d) I J = if I = J ∘ (Equiv.swap 0 1) then 1 else 0 := by
   have h : toEndMatrix d 2 (𝔽 d) I J
-      = toEndMatrix d 2 ((permAction d (Equiv.swap (0 : Fin 2) 1)).toLinearMap) I J := rfl
+      = toEndMatrix d 2 ((permAction d 2 (Equiv.swap (0 : Fin 2) 1)).toLinearMap) I J := rfl
   rw [h, toEndMatrix_permAction]
   simp
 

@@ -36,6 +36,10 @@ def tensorBasis (d k : ℕ) :
     Module.Basis ((i : Fin k) → Fin d) ℂ (TensV d k) :=
   Basis.piTensorProduct (fun (_ : Fin k) => Pi.basisFun ℂ (Fin d))
 
+/-- The tensor power is finite-dimensional, witnessed by its standard tensor basis. -/
+instance tensV_module_finite (d k : ℕ) : Module.Finite ℂ (TensV d k) :=
+  Module.Finite.of_basis (tensorBasis d k)
+
 /-- Matrix coordinates in `tensorBasis`. Entry `(I, J)` is the coefficient of the
 basis vector at `I` in the image of the basis vector at `J`. The inverse converts
 a matrix back to an endomorphism with these coordinates. -/

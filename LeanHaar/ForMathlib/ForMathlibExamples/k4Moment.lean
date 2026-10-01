@@ -83,10 +83,8 @@ noncomputable def wgVal (d : ℂ) (σ : Equiv.Perm (Fin 4)) : ℂ :=
 /-- `V_d^†(σ) V_d(π) = V_d(σ⁻¹π)`: the permutation operators form a representation. -/
 lemma permDual_comp_permOp (d : ℕ) (σ π : Equiv.Perm (Fin 4)) :
     permDual d σ ∘ₗ permOp d π = permOp d (σ⁻¹ * π) := by
-  have h1 : permDual d σ = permMonoidHom d 4 σ⁻¹ := rfl
-  have h2 : permOp d π = permMonoidHom d 4 π := rfl
-  have h3 : permOp d (σ⁻¹ * π) = permMonoidHom d 4 (σ⁻¹ * π) := rfl
-  rw [h1, h2, h3, map_mul]; rfl
+  exact (congrArg (fun e : TensV d 4 ≃ₗ[ℂ] TensV d 4 => e.toLinearMap)
+    (map_mul (permAction d 4) σ⁻¹ π)).symm
 
 /-- `weingartenGramNat d 4 1 τ` counts the `τ`-invariant index functions. -/
 lemma wgnat_one_eq (d : ℕ) (τ : Equiv.Perm (Fin 4)) :

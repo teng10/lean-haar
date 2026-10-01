@@ -87,15 +87,11 @@ theorem gram_system_solvable {H : Type*} [NormedAddCommGroup H] [InnerProductSpa
 
 /-! ### Permutation operators and their Hermitian adjoints -/
 
-/-- The permutation operator `V_d(σ)` as a linear endomorphism of `V^{⊗k}`. -/
-def permOp (d : ℕ) {k : ℕ} (σ : Equiv.Perm (Fin k)) : Module.End ℂ (TensV d k) :=
-  (permAction d k σ).toLinearMap
-
 /-- The Hermitian adjoint `V_d^†(σ)` of the permutation operator, defined as the inverse
 permutation operator `V_d(σ⁻¹)`. The lemma `permDual_eq_conjTranspose` confirms this is the
 conjugate transpose of `V_d(σ)` in the computational basis. -/
 def permDual (d : ℕ) {k : ℕ} (σ : Equiv.Perm (Fin k)) : Module.End ℂ (TensV d k) :=
-  (permAction d k σ⁻¹).toLinearMap
+  permOp d σ⁻¹
 
 /-- Notation for the Hilbert–Schmidt pairing `⟪V_d(σ), O⟫ = Tr(V_d^†(σ) O)`, which is the
 quantity every statement below is phrased in. It is `local`, so it only abbreviates the
@@ -109,8 +105,7 @@ is the genuine Hermitian adjoint of the permutation operator. -/
 theorem permDual_eq_conjTranspose (σ : Equiv.Perm (Fin k)) :
     toEndMatrix d k (permDual d σ) = (toEndMatrix d k (permOp d σ))ᴴ := by
   ext I J
-  rw [permOp, permDual, Matrix.conjTranspose_apply, toEndMatrix_permAction,
-    toEndMatrix_permAction]
+  simp only [permDual, permOp, Matrix.conjTranspose_apply, toEndMatrix_permAction]
   have e1 : ((σ⁻¹ : Equiv.Perm (Fin k)).symm) = σ := by simp [Equiv.Perm.inv_def]
   rw [e1]
   have hiff : (J = I ∘ σ.symm) ↔ (I = J ∘ σ) := by
@@ -145,7 +140,7 @@ theorem inner_endVec_perm_eq_trace (σ : Equiv.Perm (Fin k)) (O : Module.End ℂ
   have key : ∀ I J : Fin k → Fin d,
       (starRingEnd ℂ) (toEndMatrix d k (permOp d σ) I J) = toEndMatrix d k (permDual d σ) J I := by
     intro I J
-    rw [permOp, permDual, toEndMatrix_permAction, toEndMatrix_permAction]
+    simp only [permDual, permOp, toEndMatrix_permAction]
     have e1 : ((σ⁻¹ : Equiv.Perm (Fin k)).symm) = σ := by simp [Equiv.Perm.inv_def]
     rw [e1]
     have hiff : (I = J ∘ σ.symm) ↔ (J = I ∘ σ) := by

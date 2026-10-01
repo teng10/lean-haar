@@ -1,6 +1,5 @@
 import LeanHaar.ForMathlib.Haar
 import LeanHaar.ForMathlib.TensorPower
-import LeanHaar.ForMathlib.DCT
 
 import Mathlib.LinearAlgebra.Alternating.Basic
 import Mathlib.Data.Finset.Basic
@@ -15,7 +14,7 @@ open SchurWeyl
 variable {d : ℕ}
 
 /-- The swap operator `𝔽 d` on the tensor space `TensV d 2` representing the transposition `(0 1)`. -/
-noncomputable def 𝔽 (d : ℕ) : Module.End ℂ (TensV d 2) := permRep d 2 (Equiv.swap (0 : Fin 2) (1 : Fin 2))
+noncomputable def 𝔽 (d : ℕ) : Module.End ℂ (TensV d 2) := permOp d (Equiv.swap (0 : Fin 2) (1 : Fin 2))
 
 /-- S_2 is composed of elements {id, SWAP}-/
 lemma sum_perm_k2_eq_set_id_swap : (Finset.univ : Finset (Equiv.Perm (Fin 2))) = {Equiv.refl (Fin 2), Equiv.swap (0 : Fin 2) (1 : Fin 2)} := by
@@ -23,8 +22,8 @@ lemma sum_perm_k2_eq_set_id_swap : (Finset.univ : Finset (Equiv.Perm (Fin 2))) =
 
 /-- The reflective permutation operator is the identity linear map. -/
 lemma permOp_k2_id : permOp d (Equiv.refl (Fin 2)) = LinearMap.id := by
-  change permMonoidHom d 2 1 = LinearMap.id
-  exact (permMonoidHom d 2).map_one
+  exact congrArg (fun e : TensV d 2 ≃ₗ[ℂ] TensV d 2 => e.toLinearMap)
+    (map_one (permAction d 2))
 
 /-- The SWAP permutation operator is the SWAP linear map (as defined above).-/
 lemma permOp_k2_swap : permOp d (Equiv.swap 0 1) = 𝔽 d := by
@@ -42,9 +41,9 @@ lemma permDual_k2_swap : permDual d (Equiv.swap 0 1) = 𝔽 d := by
 
 /-- SWAP composed with SWAP is the identity.-/
 lemma swap_swap : 𝔽 d ∘ₗ 𝔽 d = LinearMap.id := by
-  change (permMonoidHom d 2 (Equiv.swap 0 1)) * (permMonoidHom d 2 (Equiv.swap 0 1)) = LinearMap.id
-  rw [← (permMonoidHom d 2).map_mul, Equiv.swap_mul_self, (permMonoidHom d 2).map_one]
-  rfl
+  have h := congrArg (fun e : TensV d 2 ≃ₗ[ℂ] TensV d 2 => e.toLinearMap)
+    (map_mul (permAction d 2) (Equiv.swap (0 : Fin 2) 1) (Equiv.swap (0 : Fin 2) 1))
+  simpa only [Equiv.swap_mul_self, map_one] using h.symm
 
 /-- Calculate trace values for id. -/
 lemma trace_k2_id : LinearMap.trace ℂ (TensV d 2) (LinearMap.id : Module.End ℂ (TensV d 2)) = (d : ℂ)^2 := by

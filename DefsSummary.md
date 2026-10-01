@@ -24,6 +24,17 @@ proof formerly in `SmallDim.lean` now lives in
 and recommendations below record the pre-cleanup audit; completed work is tracked
 in [TOOD.md](TOOD.md).
 
+**Follow-up, 2026-10-01:** `permOp` is retained beside `permAction` in
+[`TensorPower.lean`](LeanHaar/ForMathlib/TensorPower.lean); moment formulas continue
+to use this underlying endomorphism, and `permDual` applies it to inverse
+permutations. The representation, associated group-algebra module/action, and
+range/span helpers are private to [`DCT.lean`](LeanHaar/ForMathlib/DCT.lean), where
+Maschke and density need them. There is no separate representation module.
+`permMonoidHom` and the unused DCT conversion are removed; density/semisimplicity
+proofs are private theorems. The reusable finite-dimensionality instance now
+accompanies the tensor basis. The historical inventory below retains the old
+names and recommendations to record what was reviewed.
+
 ## Review criteria
 
 “Mathlib standard” here means reusing existing constructions, choosing appropriate

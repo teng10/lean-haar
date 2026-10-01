@@ -27,12 +27,13 @@ lemma trace_id_k1 : LinearMap.trace ℂ (TensV d 1) LinearMap.id = d := by
 
 /-- The permutation operator attached to the identity permutation is the identity map. -/
 lemma permOp_one (k : ℕ) : permOp d (1 : Equiv.Perm (Fin k)) = LinearMap.id := by
-  -- `1 = Equiv.refl`, and reindexing along `Equiv.refl` is the identity
-  simp [permOp, permAction, Equiv.Perm.one_def, PiTensorProduct.reindex_refl]
+  exact congrArg (fun e : TensV d k ≃ₗ[ℂ] TensV d k => e.toLinearMap)
+    (map_one (permAction d k))
 
 /-- The dual permutation operator attached to the identity permutation is the identity map. -/
 lemma permDual_one (k : ℕ) : permDual d (1 : Equiv.Perm (Fin k)) = LinearMap.id := by
-  rw [permDual, ← permOp, inv_one, permOp_one]
+  rw [permDual, inv_one]
+  exact permOp_one d k
 
 /-- The moment of a single operator O for tensor power k = 1 is Tr(O) / d • Id.-/
 theorem k1_moment [NeZero d] (O : Module.End ℂ (TensV d 1)) :

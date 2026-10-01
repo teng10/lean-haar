@@ -41,6 +41,10 @@ noncomputable def permAction (d k : ℕ) :
     map_one' := PiTensorProduct.reindex_refl
     map_mul' σ τ := (PiTensorProduct.reindex_trans τ σ).symm
 
+/-- The underlying endomorphism of the tensor-factor permutation action. -/
+def permOp (d : ℕ) {k : ℕ} (σ : Equiv.Perm (Fin k)) : Module.End ℂ (TensV d k) :=
+  (permAction d k σ).toLinearMap
+
 variable {d k : ℕ}
 
 /-- Behavior of `permAction` on elementary tensors. -/

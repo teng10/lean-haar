@@ -1,6 +1,36 @@
 **Dependency audit of `LeanHaar/ForMathlib/ForMathlibExamples`**
 
-**Current follow-up, 2026-10-01:** The original audit below is historical. Its
+**Classical-shadow follow-up, 2026-10-01:** The application now has three files:
+`SnapshotEnsemble`, `UnitarySnapshots`, and `Observation59`. Independent adversarial
+reviews addressed both file boundaries and declaration order. This current status
+supersedes the earlier placement advice.
+
+- `SnapshotEnsemble` owns the finite protocol, estimators, second/third tensor
+  moments, and the two distinct Observation 58 identities. The numbered
+  `Observation58` module is removed; its endpoints are unchanged.
+- `UnitarySnapshots` puts its five definitions before three elementary laws and
+  imports no evaluated moment formula. Observation59 owns `unitarySnapshotMoment_two`,
+  explicitly specializing `k2_moment`; its two redundant tensor-trace aliases are gone.
+- `measurementChannel_apply` is removed; its consumer unfolds the definition.
+  The scalar `secondMoment_observableEstimator` helper is private, with documentation
+  explaining its three snapshot factors. These helper API reductions are intentional.
+- Generic `TraceContractions` and `DepolarizingChannel` remain in `SupportingDocs`
+  under `LinearMap`. `traceMulLeft` composes existing Mathlib maps. Both support files
+  and the application use `LinearMap.trace` directly, with no custom trace notation.
+- The pair-coordinate helpers, `MomentContraction`, the dimension aliases, and the
+  three one-use wrappers (`observableEstimatorVariance`, `IsTraceSelfAdjoint`, scalar
+  `thirdMoment`) are removed. The actual Haar contraction stays private in Observation59.
+- Finite tensor-of-endomorphisms moments do not duplicate the Haar operator `momentOp`.
+  The pinned Physlib has no named depolarizing channel; its existing CPTP/POVM/state
+  interfaces are future reuse points under suitable physical assumptions.
+- The Haar integral/equivalence identification remains proved for `d ≥ 2`; the explicit
+  equivalence is defined for all `d`. No finite/continuous-model bridge is assumed.
+- All 32 supported core/application modules build without warnings. Seven retained
+  endpoint types and eleven moved-definition equalities pass Lean checks; the seven
+  endpoint axiom reports match the original baseline. Core, other applications,
+  prototypes, and stashes remain unchanged.
+
+**Earlier application follow-up, 2026-10-01:** The original audit below is historical. Its
 `DirectProof`/`SmallDim` references and public permutation-representation advice
 were superseded by the completed core cleanup. The reported missing-argument build
 failure is fixed. The subsequent application cleanup keeps the core unchanged:

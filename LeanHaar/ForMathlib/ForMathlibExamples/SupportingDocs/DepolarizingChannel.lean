@@ -4,33 +4,38 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib.LinearAlgebra.Trace
 import Mathlib.Tactic
-import LeanHaar.ForMathlib.ForMathlibExamples.SupportingDocs.TraceNotation
 
 /-!
-# The isotropic (depolarizing) channel and its inverse
+# The algebraic isotropic map and its inverse
 
 This file studies the isotropic channel `X ↦ (Tr(X) I + X)/(δ + 1)` on the endomorphisms of a
 module over an arbitrary field, and inverts it explicitly. It is the algebraic content of
 Observation 59 of `classical_shadows.tex`; the identification of `δ` with the dimension `d`
 and of the channel with the measurement channel of the Haar-random classical-shadow protocol
-is carried out in `LeanHaar.ForMathlib.Examples.ClassicalShadows.SimplifiedMeasChannel`.
+is carried out in `LeanHaar.ForMathlib.ForMathlibExamples.ClassicalShadows.Observation59`.
+
+These are linear maps and a linear equivalence, not bundled completely positive,
+trace-preserving quantum channels. The coefficient is fixed by `δ`; the definition
+does not expose an independent noise parameter. The inverse is algebraic and need not be
+positive. A physical quantum-channel interpretation should use the existing Physlib
+`CPTPMap` infrastructure rather than introducing another channel bundle here.
 
 ## Main definitions
 
-* `ClassicalShadows.depolarizingChannel`: the isotropic channel `X ↦ (Tr(X) I + X)/(δ + 1)`.
-* `ClassicalShadows.depolarizingChannelInv`: the candidate inverse `X ↦ (δ + 1) X - Tr(X) I`.
-* `ClassicalShadows.depolarizingChannelEquiv`: the channel as a linear equivalence.
+* `LinearMap.depolarizingChannel`: the isotropic channel `X ↦ (Tr(X) I + X)/(δ + 1)`.
+* `LinearMap.depolarizingChannelInv`: the candidate inverse `X ↦ (δ + 1) X - Tr(X) I`.
+* `LinearMap.depolarizingChannelEquiv`: the channel as a linear equivalence.
 
 ## Main results
 
-* `ClassicalShadows.depolarizingChannelInv_comp`,
-  `ClassicalShadows.depolarizingChannel_comp_inv`: the two inversion identities, whose only
+* `LinearMap.depolarizingChannelInv_comp`,
+  `LinearMap.depolarizingChannel_comp_inv`: the two inversion identities, whose only
   dimension-dependent input is `Tr(I) = δ`.
 -/
 
 noncomputable section
 
-namespace ClassicalShadows
+namespace LinearMap
 
 variable {𝕜 V : Type*} [Field 𝕜] [AddCommGroup V] [Module 𝕜 V]
 
@@ -42,7 +47,7 @@ def depolarizingChannel : Module.End 𝕜 V →ₗ[𝕜] Module.End 𝕜 V :=
 
 @[simp]
 theorem depolarizingChannel_apply (X : Module.End 𝕜 V) :
-    depolarizingChannel (V := V) δ X = (δ + 1)⁻¹ • (Tr[X] • LinearMap.id + X) := by
+    depolarizingChannel (V := V) δ X = (δ + 1)⁻¹ • (LinearMap.trace 𝕜 V X • LinearMap.id + X) := by
   simp only [depolarizingChannel, LinearMap.add_apply, LinearMap.smul_apply,
     LinearMap.smulRight_apply, LinearMap.id_apply, smul_add]
 
@@ -52,9 +57,9 @@ def depolarizingChannelInv : Module.End 𝕜 V →ₗ[𝕜] Module.End 𝕜 V :=
 
 @[simp]
 theorem depolarizingChannelInv_apply (X : Module.End 𝕜 V) :
-    depolarizingChannelInv (V := V) δ X = (δ + 1) • X - Tr[X] • LinearMap.id := rfl
+    depolarizingChannelInv (V := V) δ X = (δ + 1) • X - LinearMap.trace 𝕜 V X • LinearMap.id := rfl
 
-variable (hδ : Tr[(LinearMap.id : Module.End 𝕜 V)] = δ) (hδ1 : δ + 1 ≠ 0)
+variable (hδ : LinearMap.trace 𝕜 V (LinearMap.id : Module.End 𝕜 V) = δ) (hδ1 : δ + 1 ≠ 0)
 
 include hδ hδ1
 
@@ -84,4 +89,4 @@ def depolarizingChannelEquiv : Module.End 𝕜 V ≃ₗ[𝕜] Module.End 𝕜 V 
   LinearEquiv.ofLinear (depolarizingChannel (V := V) δ) (depolarizingChannelInv (V := V) δ)
     (depolarizingChannel_comp_inv δ hδ hδ1) (depolarizingChannelInv_comp δ hδ hδ1)
 
-end ClassicalShadows
+end LinearMap

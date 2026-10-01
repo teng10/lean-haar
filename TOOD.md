@@ -115,8 +115,7 @@ bridge are independent of computed moments. Shared `HaarMoments` imports
 import QML, ClassicalShadows, or MagicMonotone.
 
 - [x] Keep the `SupportingDocs` directory name and extend it with the shared
-  application modules, preserving one copy of each Haar instance and the
-  existing trace notation scope.
+  application modules, preserving one copy of each Haar instance.
 - [x] Extract swap operators and elementary trace facts below `k2Moment`; make
   `k1Moment`, `k2Moment`, and `k4Moment` reuse the shared tensor identities.
 - [x] Remove the imports of `k1Moment` and `k2Moment` from tensor trace support.
@@ -150,11 +149,64 @@ import QML, ClassicalShadows, or MagicMonotone.
 | `HaarInvariance` | Haar invariance, regularity, and integrability used by applications. |
 | `HaarMomentBridge` | Trace integrals expressed through the core moment operator. |
 | `HaarMoments` | Evaluated first and second Haar moments of arbitrary matrices and the squared-commutator trace average, using `k1Moment` and `k2Moment`. |
-| `TraceNotation` | Existing scoped trace notation. |
+| `TraceContractions` | Trace-pairing contractions on formal tensors of endomorphisms, over an arbitrary field. |
+| `DepolarizingChannel` | The isotropic linear map and its explicit inverse/equivalence under the trace-dimension hypotheses. |
 
 Further changes to core definitions, the generic Gram implementation, and
 vectorization bundling are deferred. Application-specific coefficients, circuits,
 ensembles, and their mathematical interpretation remain in their application modules.
+
+## Classical-shadow application cleanup
+
+- [x] Move `TraceContractions` and `DepolarizingChannel` to `SupportingDocs`,
+  under `LinearMap`, preserving their generality and useful bundled structures.
+- [x] Build `traceMulLeft` by composing existing Mathlib linear maps.
+- [x] Put the finite tensor moments and both Observation 58 identities together in
+  `SnapshotEnsemble`; remove the separate `Observation58` module. The two results
+  stay distinct because their objects and hypotheses differ.
+- [x] Group all five physical definitions before elementary laws in `UnitarySnapshots`.
+  Move `unitarySnapshotMoment_two` to Observation59 and document its direct use of
+  `k2_moment`; the model module no longer imports that computation.
+- [x] Remove `trace_diagAction_basisProjector` and
+  `trace_swap_comp_diagAction_basisProjector`; their consumer uses shared trace facts.
+- [x] Remove `measurementChannel_apply`; the only consumer unfolds the definition.
+  Keep the scalar `secondMoment_observableEstimator` calculation private, explaining
+  its three snapshot factors and algebraic-square interpretation in its docstring.
+- [x] Remove `observableEstimatorVariance`, `IsTraceSelfAdjoint`, and scalar
+  `thirdMoment`; expand their original expressions in the retained public theorems.
+- [x] Delete the two pair-coordinate helpers and `MomentContraction`; keep the actual
+  second-moment contraction private in Observation59. Replace the two dimension
+  aliases with direct Mathlib proofs.
+- [x] Remove `TraceNotation` and all replacement local `Tr[...]` notation in this
+  application and its two extracted support modules; use `LinearMap.trace` directly.
+- [x] Audit retained definitions against pinned Mathlib/Physlib. Finite formal
+  tensor moments are not duplicates of the Haar conjugation operator `momentOp`.
+  Physlib has CPTP/POVM/state infrastructure but no named depolarizing channel at
+  revision `d150395878c339df15a7a8d264ec73f352ec88ae`.
+- [x] Obtain independent adversarial reviews of the finite and Haar model layouts,
+  and re-review the implemented changes for ownership, documentation, and semantics.
+- [x] Build all 32 remaining core/application modules without warnings; verify
+  seven retained endpoint types, eleven moved-definition equalities, and the seven
+  endpoint axiom reports against the original baseline. Core, other applications,
+  prototypes, and stashes are unchanged.
+
+The application has three files and thirteen definitions/structures. Shared
+support contains ten modules. The repository inventory remains 121 definitions/
+abbreviations/structures and 24 explicit instances. The helper API was deliberately
+reduced: the scalar expansion is private, the evaluation lemma and two tensor-trace
+aliases are gone, and the moment corollary now requires an Observation59 import.
+
+Separate mathematical follow-ups:
+
+- [ ] Relate the finite tensor-of-endomorphisms model to the continuous Haar model;
+  Observation59 currently uses its own entrywise argument.
+- [ ] Connect the algebraic measurement map to Physlib's existing `CPTPMap`/POVM
+  interfaces under appropriate physical hypotheses. Use the existing identity,
+  replacement, and mixture constructions; do not duplicate channel infrastructure.
+- [ ] Establish probability normalization/positivity and the statistical variance
+  interpretation under suitable state and observable assumptions.
+- [ ] If needed, extend identification of `haarMeasurementChannelEquiv` with the
+  integral channel to `d = 0, 1`; the current evaluation proof assumes `d ≥ 2`.
 
 ## Remaining follow-ups
 

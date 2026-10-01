@@ -2,12 +2,14 @@
 
 Updated: 2026-10-01. Original review: 2026-09-25.
 
-The current `LeanHaar` source tree contains **124 active definitions, abbreviations,
+The current `LeanHaar` source tree contains **121 active definitions, abbreviations,
 and structures**, plus **24 explicit instances**. This inventory includes private
 constructions, local instances, and the older prototype files. It excludes
 commented-out declarations and ordinary theorems. The original review counted
 134 definitions; the core cleanup removed six, and replacing the four QML
 expectation/square-moment wrappers with explicit integrals removed another four.
+The classical-shadow cleanup removed the estimator-variance wrapper, the one-use
+trace-symmetry predicate, and the scalar third-moment wrapper.
 
 ## Current scope
 
@@ -46,10 +48,11 @@ removed. DCT semisimplicity and density proofs are now private theorems.
 | [SupportingDocs/HaarInvariance](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarInvariance.lean) | The existing four auxiliary Haar instances, compact-group invariance facts, and integration support. Each instance has one declaration. No new measure is defined. |
 | [SupportingDocs/HaarMomentBridge](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarMomentBridge.lean) | Generic trace integrability and the trace/integral bridge formerly in `QML/MomentBridge`, now under `SchurWeyl`. No new moment operator is defined. |
 | [SupportingDocs/HaarMoments](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarMoments.lean) | First and second Haar moments of arbitrary matrices, including `cId`, `cSwap`, contracted formulas, and the averaged squared-commutator trace. The algebraic commutator identity is private to its proof support; all public results use `SchurWeyl`. |
-| [SupportingDocs/TraceNotation](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/TraceNotation.lean) | The existing scoped trace notation; no new trace definition. |
+| [SupportingDocs/TraceContractions](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/TraceContractions.lean) | Four bundled trace-contraction maps on formal tensors of endomorphisms, with evaluation lemmas, under `LinearMap`. `traceMulLeft` composes existing Mathlib maps. |
+| [SupportingDocs/DepolarizingChannel](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/DepolarizingChannel.lean) | The isotropic linear map, its candidate inverse, and the equivalence with proved inverse laws, under `LinearMap`. Both new support modules require only Mathlib. |
 
 The existing `SupportingDocs` directory retains its name and now contains all
-nine shared modules. The former `MagicMonotone/RankOneCalculus`,
+ten shared modules. The former `MagicMonotone/RankOneCalculus`,
 `QML/MomentBridge`, and `QML/HaarMoments` paths are replaced by their supporting
 modules. The former `QML/CommutatorTrace` is merged into shared `HaarMoments`;
 `Swap` remains the elementary tensor-factor swap API. QML imports the shared evaluated Haar formulas; shadows imports its
@@ -61,8 +64,11 @@ preserved, including the order of the two iterated Haar integrals.
 
 Validation of the initial extraction: all 36 then-existing modules built without
 warnings, with an acyclic import graph and 12 unchanged endpoint axiom reports.
-The QML consolidation leaves 35 modules; its build and six old-statement
-compatibility checks are recorded in [TOOD.md](TOOD.md). The older prototype files are included in the
+The QML consolidation built 35 modules and passed six old-statement compatibility
+checks. The classical-shadow cleanup now builds all 32 remaining modules without
+warnings. Seven retained endpoint statements and axiom reports match the original
+baseline, and eleven moved definitions pass identity checks. The deliberate helper
+API reductions are recorded below. Older prototype files are included in the
 inventory, but this build result does not certify them. See [TOOD.md](TOOD.md)
 for completed work and [ForMathlibExamples-dependencies.md](ForMathlibExamples-dependencies.md)
 for the dependency audit; its original reference tables remain historical.
@@ -206,7 +212,38 @@ Source: [HaarMoments.lean](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs
 | `cId` | Identity coefficient in the second moment of `M ⊗ M`. | **Keep in shared Haar-moment support**, under `SchurWeyl`. The formula is unchanged; a more descriptive name remains optional. |
 | `cSwap` | Corresponding swap coefficient. | **Same assessment.** Both depend on the input matrix and are not universal Weingarten values; the second-moment theorems retain their dimension assumptions. |
 
-The other six shared modules contain supporting theorems, instances, or notation;
+### SupportingDocs/TraceContractions.lean — 4 definitions
+
+Source: [TraceContractions.lean](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/TraceContractions.lean).
+
+| Definition | Meaning | Assessment |
+| --- | --- | --- |
+| `traceMulLeft` | Linear functional `X ↦ Tr(A X)`. | **Done:** compose `LinearMap.trace` and `LinearMap.mulLeft`; the implementation is definitionally equal to the original. Shared under `LinearMap`. |
+| `partialTraceFirst` | Contracts the first factor against `ρ`. | **Keep with precise naming/documentation.** This acts on a tensor product of endomorphism spaces; the usual partial-trace interpretation needs a bridge. |
+| `doubleTraceContract` | Product of two trace pairings extended linearly to tensors. | **Keep in shared support.** The existing tensor-map construction and its evaluation lemma are unchanged. |
+| `tripleTraceContract` | Three-factor version. | **Keep in shared support.** Preserve the right-associated tensor and the existing evaluation lemma; no arbitrary-order abstraction is introduced. |
+
+### SupportingDocs/DepolarizingChannel.lean — 3 definitions
+
+Source: [DepolarizingChannel.lean](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/DepolarizingChannel.lean).
+
+| Definition | Meaning | Assessment |
+| --- | --- | --- |
+| `depolarizingChannel` | Linear map `(Tr(X) I + X)/(δ+1)`. | **Keep the bundled algebraic map in shared support, under `LinearMap`.** It is a particular isotropic formula, not the full parameterized family of physical depolarizing channels. |
+| `depolarizingChannelInv` | Candidate inverse `(δ+1)X − Tr(X)I`. | **Keep.** Inverse status appropriately depends on subsequent hypotheses. |
+| `depolarizingChannelEquiv` | Linear equivalence under those hypotheses. | **Keep.** Stronger bundled structure earns a separate definition here. |
+
+The pinned Physlib revision `d150395878c339df15a7a8d264ec73f352ec88ae`
+([manifest](lake-manifest.json)) has no named depolarizing-channel construction.
+It does provide `CPTPMap`, identity and replacement channels, convex mixtures, and
+`MState.uniform`. Over `ℂ^d`, for `d > 0`, the formula corresponds to mixing the
+identity with replacement by `I/d`, using identity weight `1/(d+1)`. That connection
+is not proved here. A future physical-channel layer should reuse those bundles;
+our arbitrary-field linear equivalence is not a bundled CPTP map, and its inverse
+need not be positive. The definition fixes the noise coefficient via `δ` rather
+than exposing an independent noise parameter.
+
+The other five shared modules contain supporting theorems or instances;
 they do not introduce more definitions or alternate core constructions.
 
 ## Low-order moments and QML
@@ -248,8 +285,32 @@ square-integrability proofs. No replacement expectation or variance API is added
 
 ## Classical shadows
 
-The deliberately algebraic layer should be preserved. Physical validity should
-be supplied by hypotheses or a separate layer, rather than silently assumed.
+The application consists of three modules: `SnapshotEnsemble`, `UnitarySnapshots`,
+and `Observation59`. The two finite-ensemble identities of Observation 58 belong
+with their definitions in `SnapshotEnsemble`; there is no separate `Observation58`
+module. `UnitarySnapshots` defines the physical model and its elementary laws;
+Observation59 owns its evaluated Haar results. Generic trace contractions and
+isotropic-map inversion live in `SupportingDocs`.
+
+The follow-up adversarial review corrected the initial cleanup, which moved files
+without finishing declaration ownership. The pair-index helpers
+`toEndMatrix_id_pair` and `toEndMatrix_swap_pair` are deleted: existing matrix and
+finite-function lemmas prove the contractions directly. The one remaining
+application-specific contraction lemma is private in Observation59. There is no
+`MomentContraction` file. The two trivial dimension aliases use Mathlib directly,
+and `SupportingDocs/TraceNotation` is removed. The application and the two extracted
+support modules now use `LinearMap.trace` directly, with no replacement local notation.
+
+Three one-use wrappers are removed: `observableEstimatorVariance`,
+`IsTraceSelfAdjoint`, and scalar `thirdMoment`. The original expressions now occur
+in the relevant statements. `secondMoment_observableEstimator` is now a private
+scalar calculation; its documentation explains the one Born-weight trace factor
+and the two estimator trace factors. `measurementChannel_apply`, a redundant
+`rfl` evaluation rule in this minimal API, is removed; the contraction proof
+unfolds `measurementChannel` directly. The seven retained public endpoint
+statements preserve their hypotheses, formulas, conjugation order, and dimension
+restrictions. These are intentional reductions of the helper API, not a claim
+that every former public name remains available.
 
 ### SnapshotEnsemble.lean — 8 definitions/structures
 
@@ -257,68 +318,56 @@ Source: [SnapshotEnsemble.lean](LeanHaar/ForMathlib/ForMathlibExamples/Classical
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
-| `SnapshotEnsemble` | Weighted family of operator snapshots. | **Keep.** `Fintype` is needed for sums rather than fields; some operations need weaker scalars than `Field`. |
-| `outcomeWeight` | `wₓ Tr(ρ Sₓ)`. | **Keep as an algebraic weight.** Physical assumptions must establish positivity and normalization before it is a probability. |
-| `measurementChannel` | Weighted trace-frame map. | **Keep.** `LinearMap` bundling is appropriate. Arbitrary weights/operators do not automatically define a physical quantum channel. |
-| `invChannel` | Inverse measurement map under bijectivity. | **Keep.** Named access to a linear equivalence supports the estimator API. |
-| `stateEstimator` | Inverse channel applied to a snapshot. | **Keep.** Individual shadow estimators need not be positive; requiring density states here would be a mistake. |
-| `observableEstimator` | Trace pairing of an observable with the state estimator. | **Keep.** A physical real-valuedness result would complement the algebraic definition. |
-| `IsTraceSelfAdjoint` | Symmetry for the bilinear trace pairing. | **Candidate for shared application trace support if reused.** It is independent of ensembles and differs from sesquilinear Hilbert–Schmidt self-adjointness; it has not moved in this pass. |
-| `thirdMoment` | Scalar triple-trace contraction of the ensemble. | **Keep if useful.** Distinguish the name from `thirdTensorMoment` and derive this contraction from the canonical tensor object. |
+| `SnapshotEnsemble` | Weighted family of operator snapshots. | **Keep.** This is the arbitrary-field algebraic model. Physlib `MEnsemble` instead requires normalized probability weights and physical states, so it is not a replacement under these hypotheses. |
+| `outcomeWeight` | `wₓ Tr(ρ Sₓ)`. | **Keep as an algebraic weight.** Positivity and normalization need additional hypotheses before it is a probability. |
+| `measurementChannel` | Weighted trace-frame map. | **Keep.** `LinearMap` bundling expresses linearity. Physlib's POVM measurement maps require positive complete effects and have different output types or instrument formulas. |
+| `invChannel` | Inverse measurement map under bijectivity. | **Keep.** Directly uses `LinearEquiv.ofBijective`; its name supports the estimator API. |
+| `stateEstimator` | Inverse channel applied to a snapshot. | **Keep.** This is the classical shadow; it need not be positive, so a density-state codomain would be wrong. |
+| `observableEstimator` | Trace pairing of an observable with the state estimator. | **Keep.** Expresses the estimated observable. Real-valuedness is separate mathematical work. |
+| `secondTensorMoment` | Weighted sum of `Sₓ ⊗ Sₓ`. | **Keep with its contraction theorem in this module.** It is the finite sum `∑ₓ wₓ Sₓ ⊗ Sₓ`, not the Haar conjugation operator `momentOp`. |
+| `thirdTensorMoment` | Weighted sum of right-associated threefold snapshot tensors. | **Keep beside the second moment and estimator theorem.** Its right association and arbitrary-field formulation are unchanged. |
 
 Probability normalization here uses completeness such as `∑ₓ wₓ Sₓ = I`, together
-with appropriate positivity and a density state. Merely requiring `∑ₓ wₓ = 1`
-would not fix the issue.
+with positivity and a density state. Merely requiring `∑ₓ wₓ = 1` is insufficient.
+The trace-symmetry assumption is written explicitly; there is no replacement
+self-adjointness API built solely for this application. The two endpoint theorems
+remain separate because they describe different objects and require different
+hypotheses; combining them into a conjunction would obscure that distinction.
+The finite moments live in tensors of endomorphisms, whereas `momentOp` averages
+an endomorphism of a complex tensor state space over Haar measure. `diagAction`
+and `tensorPow` form tensor-power operators but do not average them.
 
-### TraceContractions.lean — 4 definitions
-
-Source: [TraceContractions.lean](LeanHaar/ForMathlib/ForMathlibExamples/ClassicalShadows/TraceContractions.lean).
-
-| Definition | Meaning | Assessment |
-| --- | --- | --- |
-| `traceMulLeft` | Linear functional `X ↦ Tr(A X)`. | **Useful, but compose existing maps**: trace and `LinearMap.mulLeft`. Extract to shared application trace support when another consumer needs it. |
-| `partialTraceFirst` | Contracts the first factor against `ρ`. | **Keep with precise naming/documentation.** This acts on a tensor product of endomorphism spaces; the usual partial-trace interpretation needs a bridge. |
-| `doubleTraceContract` | Product of two trace pairings extended linearly to tensors. | **Keep.** The existing tensor-map construction is appropriate; a later shared application extraction is optional. |
-| `tripleTraceContract` | Three-factor version. | **Keep.** Apply the same shared-layer criterion as for `doubleTraceContract`; arbitrary-order abstraction is optional. |
-
-### Observation58.lean — 3 definitions
-
-Source: [Observation58.lean](LeanHaar/ForMathlib/ForMathlibExamples/ClassicalShadows/Observation58.lean).
-
-| Definition | Meaning | Assessment |
-| --- | --- | --- |
-| `secondTensorMoment` | Weighted sum of `Sₓ ⊗ Sₓ`. | **Keep.** A mathematical module such as snapshot moments is a better permanent home than an observation number. |
-| `thirdTensorMoment` | Weighted sum of threefold snapshot tensors. | **Keep**, with the same placement recommendation. |
-| `observableEstimatorVariance` | Weighted estimator-square expression minus squared target expectation. | **Keep the algebraic formula; clarify its statistical interpretation.** Arbitrary fields and weights do not establish probability-theoretic variance. |
-
-### UnitarySnapshots.lean — 3 definitions
+### UnitarySnapshots.lean — 5 definitions
 
 Source: [UnitarySnapshots.lean](LeanHaar/ForMathlib/ForMathlibExamples/ClassicalShadows/UnitarySnapshots.lean).
 
-| Definition | Meaning | Assessment |
-| --- | --- | --- |
-| `basisProjector` | Rank-one projector onto a standard basis vector. | **Keep.** A sensible domain name over the standard matrix construction. |
-| `unitarySnapshot` | Conjugated basis projector. | **Keep.** A meaningful application object. |
-| `unitarySnapshotMoment` | Sum of Haar-averaged tensor powers of basis projectors. | **Keep, documenting normalization.** This is a sum over outcomes, not an average, and contains no state-dependent Born weight. |
-
-### DepolarizingChannel.lean — 3 definitions
-
-Source: [DepolarizingChannel.lean](LeanHaar/ForMathlib/ForMathlibExamples/ClassicalShadows/DepolarizingChannel.lean).
+All five definitions appear together before the two elementary projector laws
+and the tensor-power orbit identity. This module imports no computed moment
+formula. The former single-consumer tensor-trace aliases are removed; their
+consumer uses the shared tensor-trace theorems directly.
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
-| `depolarizingChannel` | Linear map `(Tr(X) I + X)/(δ+1)`. | **Keep the bundled algebraic map.** It is a particular isotropic formula, not the full parameterized family of physical depolarizing channels. |
-| `depolarizingChannelInv` | Candidate inverse `(δ+1)X − Tr(X)I`. | **Keep.** Inverse status appropriately depends on subsequent hypotheses. |
-| `depolarizingChannelEquiv` | Linear equivalence under those hypotheses. | **Keep.** Stronger bundled structure earns a separate definition here. |
+| `basisProjector` | Rank-one projector onto a computational basis vector. | **Keep here.** It anchors the measurement protocol and directly uses `Matrix.single` and `Matrix.toLin'`. Physlib's `MState.pure (Ket.basis b)` represents the same physical object in a different codomain. |
+| `unitarySnapshot` | Conjugated computational-basis projector `U† P_b U`. | **Keep here.** Physlib provides unitary conjugation on matrices/states, but using it here requires an explicit matrix-to-endomorphism bridge. Preserve the `star U` orientation. |
+| `unitarySnapshotMoment` | Sum of Haar-averaged tensor powers of basis projectors. | **Keep.** It is unnormalized over basis outcomes and has no state-dependent Born weight. |
+| `haarMeasurementChannel` | Actual Born-weighted, entrywise Haar integral. | **Moved from Observation59.** This defines the physical model; Observation59 evaluates it. Bundling its linearity directly remains separate work. |
+| `haarMeasurementChannelEquiv` | Explicit invertible isotropic map. | **Moved from Observation59.** Useful access to the inverse, constructed through shared algebra. Defined for every `d`; equality with the integral channel is currently proved for `d ≥ 2`. |
 
-### Observation59.lean — 2 definitions
+### Observation59.lean — no definitions
 
-Source: [Observation59.lean](LeanHaar/ForMathlib/ForMathlibExamples/ClassicalShadows/Observation59.lean).
+[Observation59](LeanHaar/ForMathlib/ForMathlibExamples/ClassicalShadows/Observation59.lean)
+now owns `unitarySnapshotMoment_two`: it applies the existing `k2_moment` to each
+projector tensor square, then sums the `d` equal contributions. It does not
+reprove the general second-moment result. Consumers of this corollary import
+Observation59 rather than the model module. The entrywise contraction, evaluation
+of the integral channel for `d ≥ 2`, and inverse identification follow there.
 
-| Definition | Meaning | Assessment |
-| --- | --- | --- |
-| `haarMeasurementChannel` | Actual Born-weighted Haar integral. | **Keep.** Eventually bundle linearity and give it a mathematical module home. |
-| `haarMeasurementChannelEquiv` | Explicit invertible isotropic map. | **Keep, documenting identification coverage.** Equality with the integral is established under `d ≥ 2`; the definition has a broader domain. |
+The finite model uses tensors of endomorphisms; the Haar model uses endomorphisms
+of `TensV`. No identification between these spaces or formal instantiation of
+the finite-ensemble theorems by the continuous Haar model is proved. Such bridges,
+positivity, normalization, and statistical variance interpretation are additional mathematics,
+not consequences of reorganizing files.
 
 ## Magic monotone and brickwork applications
 
@@ -472,7 +521,7 @@ Source: [TwirlingPhyslibV2.lean](LeanHaar/Examples/TwirlingPhyslibV2.lean).
 ## Instance audit — 24 instances
 
 Instances determine whether the definitions compose cleanly and are included
-separately from the 124-definition count. This count includes the two local DCT
+separately from the 121-definition count. This count includes the two local DCT
 instances; shared application support retains each instance once.
 
 | Location / instances | Assessment |
@@ -514,10 +563,11 @@ These are review candidates, not changes already implemented:
    defined circuit layer sums from a proved independent-gate Haar average. Actual
    derivative, probability, or layer-identification theorems are additional
    mathematical work; moving definitions alone does not establish them.
-5. **Further shared trace support:** consider extracting `IsTraceSelfAdjoint` and
-   the tensor trace contractions if another application needs them. Preserve
-   their existing generality and distinguish tensors of endomorphisms from
-   endomorphisms of a tensor power.
+5. **Classical-shadow interpretation bridges:** relate the formal tensor
+   contractions to endomorphisms of the tensor-product state space, and connect
+   the Haar model to Physlib's existing physical-state, POVM, and CPTP interfaces.
+   Preserve the algebraic inverse, which need not be positive. The named
+   trace-symmetry wrapper was removed; do not recreate it without another consumer.
 
 ## Deferred core and prototype work
 

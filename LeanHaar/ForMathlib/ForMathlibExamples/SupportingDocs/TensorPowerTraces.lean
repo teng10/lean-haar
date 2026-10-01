@@ -2,14 +2,15 @@
 Copyright (c) 2026. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import LeanHaar.ForMathlib.ForMathlibExamples.k1Moment
-import LeanHaar.ForMathlib.ForMathlibExamples.k2Moment
+import LeanHaar.ForMathlib.Haar
+import LeanHaar.ForMathlib.ForMathlibExamples.SupportingDocs.TensorPowerBasics
+import LeanHaar.ForMathlib.ForMathlibExamples.SupportingDocs.Swap
 
 /-!
 # Tensor products of matrices, tensor powers of operators, and their traces
 
-Both examples built on the Haar moment operator — the quantum machine learning example and the
-classical-shadow protocol — need the same elementary linear algebra on the tensor power
+The quantum machine learning and classical-shadow applications share elementary
+linear algebra on the tensor power
 `(ℂ^d)^{⊗k}`: the operator `f 0 ⊗ ⋯ ⊗ f (k-1)`, its matrix entries, how such operators
 multiply, how the conjugation action `SchurWeyl.actOn` acts on them, and the two trace formulas
 
@@ -17,7 +18,8 @@ multiply, how the conjugation action `SchurWeyl.actOn` acts on them, and the two
 * the swap identity `Tr(𝔽 (A ⊗ B)) = Tr(A B)`, hence `Tr(𝔽 g^{⊗2}) = Tr(g ∘ g)`.
 
 They are proved here once, for matrices, and transferred to endomorphisms through the matrix
-`matrixOf g` of `g` in the computational basis.
+`matrixOf g` of `g` in the computational basis. The swap operator comes from
+`Shared.Swap`; this file imports no particular Haar moment formula.
 
 ## Main definitions
 
@@ -102,14 +104,6 @@ theorem actOn_tensorOp (f : Fin k → Matrix (Fin d) (Fin d) ℂ)
     ← LinearMap.comp_assoc, tensorOp_comp, tensorOp_comp]
 
 /-! ### The swap operator -/
-
-/-- Matrix entries of the swap operator `𝔽 d` on `TensV d 2`. -/
-theorem toEndMatrix_swap (I J : Fin 2 → Fin d) :
-    toEndMatrix d 2 (𝔽 d) I J = if I = J ∘ (Equiv.swap 0 1) then 1 else 0 := by
-  have h : toEndMatrix d 2 (𝔽 d) I J
-      = toEndMatrix d 2 ((permAction d 2 (Equiv.swap (0 : Fin 2) 1)).toLinearMap) I J := rfl
-  rw [h, toEndMatrix_permAction]
-  simp
 
 /-- **Swap trick**: `Tr(𝔽 (A ⊗ B)) = Tr(A B)`. -/
 theorem trace_swap_comp_tensorOp (f : Fin 2 → Matrix (Fin d) (Fin d) ℂ) :

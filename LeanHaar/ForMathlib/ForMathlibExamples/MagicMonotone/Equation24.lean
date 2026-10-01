@@ -3,6 +3,7 @@ Copyright (c) 2026. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import LeanHaar.ForMathlib.ForMathlibExamples.MagicMonotone.BrickworkLayers
+import LeanHaar.ForMathlib.ForMathlibExamples.SupportingDocs.RankOneCalculus
 
 /-!
 # Equation (24) of `magic_monotones.pdf`: the two-layer moment operator in kernel form
@@ -47,18 +48,19 @@ Weingarten values times powers of two (`MagicMonotone.twoLayerKernel_eq_two_pow_
 
 ## Proof outline
 
-Both statements are instances of the ket-bra calculus of `RankOneCalculus.lean`, applied to
-the two layers written as double sums over *pairs* of permutations
+Both statements use the shared ket-bra calculus of `SupportingDocs/RankOneCalculus.lean`, applied
+to the two layers written as double sums over *pairs* of permutations
 (`layerA_eq_pairSum`, `layerB_eq_pairSum`):
 
-* `sumRankOne_comp_sumRankOne` performs the contraction `⟨⟨·| · |·⟩⟩` and gives Eq. (22);
-* `sumRankOne_comp_sumRankOne_kernel` performs the same contraction but sums the inner
-  labels first, which is exactly Eqs. (24)–(25).
+* `InnerProductSpace.sumRankOne_comp_sumRankOne` performs the contraction `⟨⟨·| · |·⟩⟩`
+  and gives Eq. (22);
+* `InnerProductSpace.sumRankOne_comp_sumRankOne_kernel` performs the same contraction but
+  sums the inner labels first, which is exactly Eqs. (24)–(25).
 
 In both cases the only remaining step is to split each sum over a pair of permutations into
 two sums over permutations (`Fintype.sum_prod_type`) and to identify the inner product of two
 vectorized permutation operators (`SchurWeyl.endVec`) with their Hilbert–Schmidt overlap
-(`MagicMonotone.hsOverlap`, i.e. `MagicMonotone.inner_endVec_endVec`).
+(`MagicMonotone.hsOverlap`, i.e. `SchurWeyl.inner_endVec_endVec`).
 -/
 
 noncomputable section

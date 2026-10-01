@@ -103,6 +103,41 @@ The unused `diagActionUnits_toLinearMap`, `diagActionUnits_symm_toLinearMap`,
 `unitaryAction_apply_tprod`, and `unitaryAction_symm_apply_tprod` lemmas were also
 removed. Introduce wrapper-specific conveniences only when a consumer needs them.
 
+## Shared application infrastructure
+
+The core `ForMathlib` files stay unchanged. Reusable application support lives in
+`ForMathlibExamples/SupportingDocs`; it imports the existing core API or Mathlib and never
+imports a completed moment example or an application module.
+
+- [x] Keep the `SupportingDocs` directory name and extend it with the shared
+  application modules, preserving one copy of each Haar instance and the
+  existing trace notation scope.
+- [x] Extract swap operators and elementary trace facts below `k2Moment`; make
+  `k1Moment`, `k2Moment`, and `k4Moment` reuse the shared tensor identities.
+- [x] Remove the imports of `k1Moment` and `k2Moment` from tensor trace support.
+  Add explicit moment imports to the applications that use those results.
+- [x] Share the arbitrary-operator Hilbert–Schmidt identity and matrix compatibility
+  results in `SupportingDocs/Vectorization`, using the existing core vectorization.
+- [x] Extract the generic rank-one composition results into `SupportingDocs/RankOneCalculus`.
+- [x] Move the generic QML trace/integral bridge to `SupportingDocs/HaarMomentBridge`.
+- [x] Build all 36 core and example modules without warnings and compare 12
+  application endpoint axiom reports against the pre-extraction baseline.
+
+| Shared module | Mathematical purpose |
+| --- | --- |
+| `TensorPowerBasics` | Identity, composition, inverse-permutation, and dimension/trace identities. |
+| `Swap` | The two-factor swap operator and its elementary identities and traces. |
+| `TensorPowerTraces` | Matrix tensor products, conjugation compatibility, and tensor trace contractions. |
+| `Vectorization` | The Hilbert–Schmidt trace identity and matrix compatibility for existing core operators. |
+| `RankOneCalculus` | Composition of finite rank-one sums and its kernel form. |
+| `HaarInvariance` | Haar invariance, regularity, and integrability used by applications. |
+| `HaarMomentBridge` | Trace integrals expressed through the core moment operator. |
+| `TraceNotation` | Existing scoped trace notation. |
+
+Further changes to core definitions, the generic Gram implementation, and
+vectorization bundling are deferred. Application-specific coefficients, circuits,
+ensembles, and their mathematical interpretation remain in their application modules.
+
 ## Remaining follow-ups
 
 - [ ] Reconsider `diagActionUnits`, `glAction`, and `unitaryAction` only when a

@@ -2,17 +2,17 @@
 Copyright (c) 2026. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import LeanHaar.ForMathlib.Haar
-import LeanHaar.ForMathlib.TensorPower
+import LeanHaar.ForMathlib.Weingarten
+import LeanHaar.ForMathlib.TensorPower.Matrix
 
 /-!
 # Elementary identities on the tensor power `(ℂ^d)^{⊗k}`
 
 The permutation operators `SchurWeyl.permOp` are the underlying linear maps of
-`SchurWeyl.permAction`, and `SchurWeyl.permDual` uses inverse permutations. The moment computations for
-`k = 1, 2, 4` each need the same consequences of that fact, together with the trace of the
-identity operator; they are
-therefore proved here once, for every `k`.
+`SchurWeyl.permAction`, and `SchurWeyl.permDual` uses inverse permutations. The
+moment computations for `k = 1, 2, 4` share these identities and the trace of the
+identity operator. They are proved here for every `k`, independently of Haar
+integration and any particular moment formula.
 
 ## Main results
 

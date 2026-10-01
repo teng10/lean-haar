@@ -9,15 +9,15 @@ proves that bridge, together with the integrability statement it needs.
 
 ## Main declarations
 
-* `QML.integrable_trace_comp_actOn`: `U ↦ Tr[Y · actOn P U]` is Haar integrable.
-* `QML.haar_integral_trace_comp_actOn`: `∫ Tr[Y · actOn P U] = Tr[Y · momentOp P]`.
+* `SchurWeyl.integrable_trace_comp_actOn`: `U ↦ Tr[Y · actOn P U]` is Haar integrable.
+* `SchurWeyl.haar_integral_trace_comp_actOn`: `∫ Tr[Y · actOn P U] = Tr[Y · momentOp P]`.
 -/
 
 noncomputable section
 
 open Matrix MeasureTheory SchurWeyl
 
-namespace QML
+namespace SchurWeyl
 
 variable {d k : ℕ}
 
@@ -42,6 +42,6 @@ theorem haar_integral_trace_comp_actOn (Y P : Module.End ℂ (TensV d k)) :
   rw [integral_const_mul, toEndMatrix_momentOp]
   rfl
 
-end QML
+end SchurWeyl
 
 end

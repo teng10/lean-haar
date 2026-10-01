@@ -1,11 +1,13 @@
+import LeanHaar.ForMathlib.ForMathlibExamples.k1Moment
+import LeanHaar.ForMathlib.ForMathlibExamples.k2Moment
 import LeanHaar.ForMathlib.ForMathlibExamples.SupportingDocs.HaarInvariance
-import LeanHaar.ForMathlib.ForMathlibExamples.QML.MomentBridge
+import LeanHaar.ForMathlib.ForMathlibExamples.SupportingDocs.HaarMomentBridge
 
 /-!
 # The first two Haar moments of a conjugated matrix
 
 Combining the bridge to the moment operator with the repository's moment computations
-`SchurWeyl.k1_moment` and `SchurWeyl.k2_moment`, this file evaluates
+`k1_moment` and `k2_moment`, this file evaluates
 
 * the first moment `∫ Tr[U ρ U† O] = Tr ρ · Tr O / d`, and
 * the second moment `𝔼_U[(U M U†)^{⊗2}] = cId · 𝟙 + cSwap · 𝔽` together with its contracted

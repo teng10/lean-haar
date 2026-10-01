@@ -2,7 +2,9 @@
 Copyright (c) 2026. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import LeanHaar.ForMathlib.ForMathlibExamples.MagicMonotone.RankOneCalculus
+import Mathlib.Analysis.InnerProductSpace.LinearMap
+
+import LeanHaar.ForMathlib.ForMathlibExamples.SupportingDocs.Vectorization
 import LeanHaar.ForMathlib.ForMathlibExamples.k4Moment
 
 /-!

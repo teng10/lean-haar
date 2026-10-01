@@ -2,7 +2,10 @@
 Copyright (c) 2026. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import LeanHaar.ForMathlib.ForMathlibExamples.MagicMonotone.SingleGateMoment
+import Mathlib.Analysis.InnerProductSpace.LinearMap
+
+import LeanHaar.ForMathlib.ForMathlibExamples.SupportingDocs.Vectorization
+import LeanHaar.ForMathlib.ForMathlibExamples.k4Moment
 
 /-!
 # Two brickwork layers on four qubits: the vectorized layer moment operators
@@ -67,7 +70,7 @@ introduced. Concretely:
   system, which the weights `MagicMonotone.wg` invert.
 * `MagicMonotone.layerA_eq_pairSum`, `MagicMonotone.layerB_eq_pairSum`: the layer moment
   operators written as double sums over *pairs* of permutations, the form in which the
-  ket-bra calculus of `RankOneCalculus.lean` applies.
+  ket-bra calculus of `SupportingDocs/RankOneCalculus.lean` applies.
 -/
 
 noncomputable section
@@ -248,7 +251,7 @@ lemma gateOn_one (S : Finset Qubits) : gateOn S 1 = 1 := by
 the inner product of the two vectorizations `SchurWeyl.endVec`. -/
 def hsOverlap (X Y : RegOp) : ℂ := inner ℂ (endVec X) (endVec Y)
 
-/-- The overlap in trace form, by `MagicMonotone.inner_endVec_endVec`. -/
+/-- The overlap in trace form, by `SchurWeyl.inner_endVec_endVec`. -/
 lemma hsOverlap_eq_trace (X Y : RegOp) :
     hsOverlap X Y = ((toEndMatrix 16 4 X)ᴴ * toEndMatrix 16 4 Y).trace :=
   inner_endVec_endVec X Y

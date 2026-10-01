@@ -1,6 +1,7 @@
 import LeanHaar.ForMathlib.Haar
 import LeanHaar.ForMathlib.Weingarten
 import LeanHaar.ForMathlib.WeingartenInverse
+import LeanHaar.ForMathlib.ForMathlibExamples.SupportingDocs.TensorPowerBasics
 
 import Mathlib.GroupTheory.Perm.Cycle.Concrete
 
@@ -80,12 +81,6 @@ noncomputable def wgVal (d : ℂ) (σ : Equiv.Perm (Fin 4)) : ℂ :=
   wgNum (ctIdx σ) d / (d ^ 2 * Pden d)
 
 /-! ### Basic operator lemmas -/
-/-- `V_d^†(σ) V_d(π) = V_d(σ⁻¹π)`: the permutation operators form a representation. -/
-lemma permDual_comp_permOp (d : ℕ) (σ π : Equiv.Perm (Fin 4)) :
-    permDual d σ ∘ₗ permOp d π = permOp d (σ⁻¹ * π) := by
-  exact (congrArg (fun e : TensV d 4 ≃ₗ[ℂ] TensV d 4 => e.toLinearMap)
-    (map_mul (permAction d 4) σ⁻¹ π)).symm
-
 /-- `weingartenGramNat d 4 1 τ` counts the `τ`-invariant index functions. -/
 lemma wgnat_one_eq (d : ℕ) (τ : Equiv.Perm (Fin 4)) :
     weingartenGramNat d 4 1 τ = Fintype.card {J : Fin 4 → Fin d // J = J ∘ τ.symm} := by

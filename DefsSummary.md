@@ -1,39 +1,65 @@
-# Definition audit
+# Definition summary and cleanup status
 
-Recorded: 2026-09-25, from the repository-wide review discussed on 2026-09-24.
+Updated: 2026-10-01. Original review: 2026-09-25.
 
-This document records the original review; the follow-up note identifies completed
-work. Its scope is the
-`LeanHaar` source tree, including the older examples: **134 active definitions,
-abbreviations, and structures**, plus **24 explicit instances**. Commented-out
-definitions are excluded. Recommendations below are proposals; they do not imply
-that replacement code has been implemented or that every proposed migration has
-been build-tested.
+The current `LeanHaar` source tree contains **128 active definitions, abbreviations,
+and structures**, plus **24 explicit instances**. This inventory includes private
+constructions, local instances, and the older prototype files. It excludes
+commented-out declarations and ordinary theorems. The original review counted
+134 definitions; removing duplicate constructions and converting proof-valued
+DCT definitions to theorems reduced that count by six.
 
-The core definitions mostly make sense. The main obstacles to a reusable library
-are duplicate constructions, generic machinery hidden in application files, and
-names that suggest stronger mathematical meaning than the definitions establish.
+## Current scope
 
+**Keep the core as it is and build shared infrastructure for applications.** The
+core means the `ForMathlib` modules outside `ForMathlibExamples`. The latest
+application extraction did not change any core Lean file.
 
-**Follow-up, 2026-09-25:** The first structural cleanup is implemented. The tensor
-basis and matrix API formerly in `DirectProof.lean` now live in
-[`TensorPower/Matrix.lean`](LeanHaar/ForMathlib/TensorPower/Matrix.lean). The polynomial
-proof formerly in `SmallDim.lean` now lives in
-[`PermutationCentralizer.lean`](LeanHaar/ForMathlib/PermutationCentralizer.lean), and
-[`Main.lean`](LeanHaar/ForMathlib/Main.lean) assembles Schur–Weyl duality. The inventory
-and recommendations below record the pre-cleanup audit; completed work is tracked
-in [TOOD.md](TOOD.md).
+- Keep the public `permAction`, `permOp`, and `diagAction` API. `permRep`,
+  `PermModule`, and `permAlgHom` are private DCT implementation details. The
+  separate public representation module remains deferred in its Git stash.
+- Reuse the existing core matrix, vectorization, Gram, and Haar constructions.
+  Their possible redesigns below are explicitly deferred.
+- Put reusable application support in `ForMathlibExamples/SupportingDocs`. These modules
+  import Mathlib, the core, or other shared modules; none imports a completed
+  moment example or an application module.
+- Keep application coefficients, circuit vocabulary, and ensemble definitions
+  in their applications unless a concrete reuse case warrants extraction.
 
-**Follow-up, 2026-10-01:** `permOp` is retained beside `permAction` in
-[`TensorPower.lean`](LeanHaar/ForMathlib/TensorPower.lean); moment formulas continue
-to use this underlying endomorphism, and `permDual` applies it to inverse
-permutations. The representation, associated group-algebra module/action, and
-range/span helpers are private to [`DCT.lean`](LeanHaar/ForMathlib/DCT.lean), where
-Maschke and density need them. There is no separate representation module.
-`permMonoidHom` and the unused DCT conversion are removed; density/semisimplicity
-proofs are private theorems. The reusable finite-dimensionality instance now
-accompanies the tensor basis. The historical inventory below retains the old
-names and recommendations to record what was reviewed.
+Completed before this shared-layer extraction: the duplicate tensor bases and
+matrix conversions were consolidated in `TensorPower/Matrix`; the polynomial
+proof moved to `PermutationCentralizer`; `permOp` moved beside `permAction`; and
+DCT adapters became private. `permMonoidHom`, `centralizer_to_endModule`, the
+primed coordinate duplicates, and the old `DirectProof`/`SmallDim` modules are
+removed. DCT semisimplicity and density proofs are now private theorems.
+
+## Shared application layer — completed
+
+| Module | Current contents and role |
+| --- | --- |
+| [SupportingDocs/TensorPowerBasics](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/TensorPowerBasics.lean) | General permutation identity/composition/dual lemmas and `trace_id_tensV`, reused by the moment examples. No new definitions. |
+| [SupportingDocs/Swap](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/Swap.lean) | The existing `𝔽` definition, swap identities, matrix entries, and traces, extracted from the second-moment example and tensor traces. |
+| [SupportingDocs/TensorPowerTraces](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/TensorPowerTraces.lean) | The existing `tensorOp`, `tensorPow`, `conjBy`, and `matrixOf` definitions and their trace/conjugation API. It no longer imports `k1Moment` or `k2Moment`. |
+| [SupportingDocs/Vectorization](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/Vectorization.lean) | `SchurWeyl.inner_endVec_endVec`, `toEndMatrix_one`, and `toEndMatrix_mul`, extracted from MagicMonotone. It uses the existing core vectorization; no replacement vectorization is defined. |
+| [SupportingDocs/RankOneCalculus](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/RankOneCalculus.lean) | Generic rank-one sum composition and kernel theorems under `InnerProductSpace`. Summation bookkeeping is private; composition-of-sums helpers use Mathlib. No new definitions. |
+| [SupportingDocs/HaarInvariance](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarInvariance.lean) | The existing four auxiliary Haar instances, compact-group invariance facts, and integration support. Each instance has one declaration. No new measure is defined. |
+| [SupportingDocs/HaarMomentBridge](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarMomentBridge.lean) | Generic trace integrability and the trace/integral bridge formerly in `QML/MomentBridge`, now under `SchurWeyl`. No new moment operator is defined. |
+| [SupportingDocs/TraceNotation](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/TraceNotation.lean) | The existing scoped trace notation; no new trace definition. |
+
+The existing `SupportingDocs` directory retains its name and now contains all
+eight shared modules. The former `MagicMonotone/RankOneCalculus` and
+`QML/MomentBridge` paths are replaced by their supporting modules. QML and shadows
+import their required moment computations explicitly. The duplicate elementary
+proofs in `k1Moment` and `k4Moment` now use the general shared API; the second
+moment uses shared swap facts. Application endpoint statements and scalar
+formulas are preserved.
+
+Validation of the extraction: **all 36 modules under `ForMathlib` build without
+warnings**, the import graph is acyclic, and **12 application endpoint axiom
+reports match the baseline**. The older prototype files are included in the
+inventory, but this build result does not certify them. See [TOOD.md](TOOD.md)
+for completed work and [ForMathlibExamples-dependencies.md](ForMathlibExamples-dependencies.md)
+for the dependency audit; its original reference tables remain historical.
 
 ## Review criteria
 
@@ -46,63 +72,70 @@ separate files. **Keep** means that a definition earns its place, not necessaril
 that it is ready for upstream submission. Existing-API comparisons were made
 against this repository's pinned Mathlib source.
 
-## Core algebra
+## Core algebra — retained unchanged
 
-### TensorPower.lean — 5 definitions
+The tables below describe the current definitions. Suggestions to replace or
+rebundle a core construction are deferred; the application shared layer uses
+the existing API.
+
+### TensorPower.lean — 6 definitions
 
 Source: [TensorPower.lean](LeanHaar/ForMathlib/TensorPower.lean).
 
-| Definition | Meaning | Assessment |
+| Definition | Meaning | Current assessment |
 | --- | --- | --- |
-| `TensV` | Tensor power of `ℂᵈ`. | **Keep as project shorthand.** Mathlib already has `TensorPower`; an upstream construction should usually work over a general module. That generalization need not happen immediately. |
-| `permAction` | Permutes tensor factors, bundled as a monoid homomorphism into linear equivalences. | **Keep.** The bundling expresses genuine mathematical structure. A generic tensor-product version is a plausible reusable contribution. |
-| `permImage` | Set of permutation operators. | **Keep if it improves span/centralizer statements.** Eventually derive it from one canonical permutation representation. |
-| `diagAction` | Sends an endomorphism `g` to its tensor power. | **Keep.** A monoid homomorphism is the correct structure: the operation is generally not additive in `g`. |
-| `diagImage` | Set of tensor powers of endomorphisms. | **Keep.** Replacing this set with a subalgebra would change its meaning. |
+| `TensV` | Tensor power of `ℂᵈ`. | **Keep.** Generalizing beyond this concrete tensor space is later work. |
+| `permAction` | Tensor-factor permutations as a monoid homomorphism into linear equivalences. | **Keep as the underlying action.** Its bundled laws supply the operator identities. |
+| `permOp` | Underlying linear endomorphism of `permAction`. | **Keep as the public operator interface.** It is derived directly from `permAction`; a public representation wrapper is unnecessary for current applications. |
+| `permImage` | Set of permutation operators. | **Keep.** Used in span and centralizer statements. |
+| `diagAction` | Sends an endomorphism to its tensor power, as a monoid homomorphism. | **Keep.** This construction is generally not additive in the input endomorphism. |
+| `diagImage` | Set of tensor powers of endomorphisms. | **Keep.** It ranges over all endomorphisms, as required by the polynomial proof. |
 
-There is no compelling reason to restore the commented-out `unitaryAction`.
-Restricting `diagAction` to unitary matrices deserves another public definition
-only when downstream work needs additional bundled structure. `diagActionUnits`,
-`glAction`, `unitaryAction`, and their commented conversion lemmas remain outside
-the active inventory.
+`diagActionUnits`, `glAction`, `unitaryAction`, and their conversion lemmas remain
+commented out. Restore a wrapper only if a concrete consumer needs its additional
+structure; the current application extraction introduces none.
 
-### DCT.lean — 8 definitions
+### DCT.lean — 4 private definitions
 
 Source: [DCT.lean](LeanHaar/ForMathlib/DCT.lean).
 
-| Definition | Meaning | Assessment |
+| Definition | Meaning | Current assessment |
 | --- | --- | --- |
-| `permMonoidHom` | Permutation action viewed as endomorphisms. | **Merge into the canonical representation construction.** Mathlib supplies `LinearEquiv.automorphismGroup.toLinearMapMonoidHom`; the action laws need not be reproved by tensor induction. |
-| `permRep` | Permutation representation. | **Keep.** This unlocks the representation and group-algebra APIs. Define it directly from `permAction` using the standard conversion. |
-| `PermModule` | Module associated with `permRep`. | **Keep.** This follows Mathlib's `Representation.asModule` design. |
-| `permAlgHom` | Induced group-algebra action. | **Reasonable shorthand.** Keep if repeatedly used; otherwise use `permRep.asAlgebraHom` directly. |
-| `centralizer_to_endModule` | Converts a commuting endomorphism into a group-algebra-linear endomorphism. | **Private or remove for now.** No named consumer was found. A future general centralizer equivalence would be more valuable than an isolated specialized conversion. |
-| `doubleCentralizer_to_endEndModule` | Converts a double-centralizer element into an endomorphism over the endomorphism ring. | **Private proof helper.** Currently serves DCT. If public, use a data-style lowerCamelCase name. |
-| `permModule_isSemisimple` | Proof that the representation module is semisimple. | **Use a theorem or appropriately scoped instance**, rather than a reducible noncomputable `def`. Preserve the carefully chosen module instances during migration. |
-| `permModule_toModuleEnd_surjective` | Surjectivity proof used in DCT. | **Use a theorem with an explicit statement.** It is a proposition proof, not a new mathematical construction. |
+| `permRep` | Permutation representation derived from `permAction` through Mathlib's standard conversion. | **Keep private.** Required by the Maschke/density proof. |
+| `PermModule` | Group-algebra module associated with `permRep`. | **Keep private.** Uses `Representation.asModule`. |
+| `permAlgHom` | Induced group-algebra action. | **Keep private**, with its range/span helpers. |
+| `doubleCentralizerToEndEndModule` | Converts a double-centralizer element into an endomorphism over the endomorphism ring. | **Keep private.** Serves the DCT proof. |
 
-### DirectProof.lean and SmallDim.lean — 5 definitions
+`permModule_isSemisimple` and `permModule_toModuleEnd_surjective` are private
+theorems, not definitions. `permMonoidHom` and `centralizer_to_endModule` were
+removed. Both DCT-specific instances are local; the reusable finite-dimensionality
+instance lives beside the tensor basis.
 
-Sources: [DirectProof.lean](LeanHaar/ForMathlib/TensorPower/Matrix.lean),
-[SmallDim.lean](LeanHaar/ForMathlib/PermutationCentralizer.lean).
+### TensorPower/Matrix.lean — 2 definitions
 
-| Definition | Meaning | Assessment |
+Source: [TensorPower/Matrix.lean](LeanHaar/ForMathlib/TensorPower/Matrix.lean).
+
+| Definition | Meaning | Current assessment |
 | --- | --- | --- |
-| `tensorBasis` | Standard tensor-product basis. | **Keep one shared definition.** It belongs below the proofs that consume it. |
-| `tensorBasis'` | Same tensor-product basis. | **Merge with `tensorBasis`.** The prime distinguishes implementations without distinguishing mathematics. |
-| `toEndMatrix` | Matrix coordinates for tensor-space endomorphisms. | **Keep one canonical conversion.** Consider `LinearMap.toMatrixAlgEquiv`, which also bundles multiplication and identity compatibility. |
-| `toEndMatrix'` | Same conversion using `tensorBasis'`. | **Merge with `toEndMatrix`.** |
-| `pairCount` | Joint multiplicities of index pairs, represented as finitely supported exponents. | **Useful proof construction.** Keep private unless another module needs this exact combinatorial object. |
+| `tensorBasis` | Standard tensor-product basis. | **Keep the single canonical basis.** The primed duplicate is removed. |
+| `toEndMatrix` | Linear equivalence giving matrix coordinates in that basis. | **Keep the current equivalence and conventions.** An algebra-equivalence redesign is deferred; application compatibility facts live in shared support. |
 
-### Weingarten.lean — 3 definitions
+### PermutationCentralizer.lean — 1 private definition
+
+Source: [PermutationCentralizer.lean](LeanHaar/ForMathlib/PermutationCentralizer.lean).
+
+| Definition | Meaning | Current assessment |
+| --- | --- | --- |
+| `pairCount` | Joint multiplicities of index pairs as finitely supported exponents. | **Keep private**, with the polynomial/orbit bookkeeping. The proof works for all dimensions. |
+
+### Weingarten.lean — 2 definitions
 
 Source: [Weingarten.lean](LeanHaar/ForMathlib/Weingarten.lean).
 
-| Definition | Meaning | Assessment |
+| Definition | Meaning | Current assessment |
 | --- | --- | --- |
-| `permOp` | Underlying endomorphism of a permutation action. | **Consolidate with `permRep`/`permMonoidHom`.** Convenient notation is fine; independently maintained definitions are unhelpful. |
-| `permDual` | Operator associated with the inverse permutation. | **Reasonable shorthand.** Document that “dual” refers to the inverse/adjoint relationship, not the general dual-space operation. Derive it from the canonical permutation operator. |
-| `endVec` | Vectorizes an endomorphism using matrix entries. | **Keep the operation; consolidate its implementation** with `endVecEquiv`. |
+| `permDual` | `permOp` evaluated at the inverse permutation. | **Keep.** Its matrix is the conjugate transpose of the permutation operator. |
+| `endVec` | Vectorizes an endomorphism using its matrix entries. | **Keep the core implementation unchanged.** Shared vectorization theorems reuse it; consolidation with `endVecEquiv` is deferred. |
 
 ### WeingartenInverse.lean — 10 definitions
 
@@ -110,22 +143,22 @@ Source: [WeingartenInverse.lean](LeanHaar/ForMathlib/WeingartenInverse.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
-| `gramMatrix` | Matrix of inner products of a vector family. | **Replace with `Matrix.gram`.** Mathlib also provides relevant invertibility results. |
-| `gramVec` | Inner products of a vector against a family. | **Keep if useful.** Expose linearity in the vector if used. General inner-product-space infrastructure should leave the Weingarten-specific file. |
+| `gramMatrix` | Matrix of inner products of a vector family. | **Keep for now; replacement deferred.** `Matrix.gram` and its invertibility results are candidates for a later core pass. |
+| `gramVec` | Inner products of a vector against a family. | **Keep unchanged.** Further bundling or extraction of this generic core infrastructure is deferred. |
 | `gramSolutionSet` | Solutions of the Gram linear system. | **Reasonable when public theorems discuss the whole solution set.** Otherwise an equation or fiber of a linear map may suffice. |
-| `matrixEntriesEquiv` | Uncurries a matrix into a function on pairs. | **Replace the handwritten construction** with the appropriate direction of `LinearEquiv.curry`. |
-| `endVecEquiv` | Bundled linear equivalence implementing vectorization. | **Keep as the canonical vectorization construction.** Move it below both Weingarten files. |
-| `endVecₗ` | Linear-map projection of `endVecEquiv`. | **Use the projection or a transparent convenience abbreviation.** It has consumers, but introduces no additional mathematical object. |
-| `weingartenGram` | Trace-pairing Gram matrix of permutation operators. | **Keep.** Connect it to `Matrix.gram` and inherit general theory. |
-| `weingartenVec` | Trace pairings of an operator with permutation operators. | **Keep.** A bundled linear map would help if linearity is used repeatedly. |
+| `matrixEntriesEquiv` | Uncurries a matrix into a function on pairs. | **Keep for now; replacement deferred.** The appropriate direction of `LinearEquiv.curry` could replace the handwritten construction in a later core pass. |
+| `endVecEquiv` | Bundled linear equivalence implementing vectorization. | **Keep the existing bundled vectorization.** Relocation and consolidation with `endVec` are deferred. |
+| `endVecₗ` | Linear-map projection of `endVecEquiv`. | **Keep the existing projection.** It has consumers; removing or changing this convenience definition is deferred. |
+| `weingartenGram` | Trace-pairing Gram matrix of permutation operators. | **Keep unchanged.** A connection to `Matrix.gram` is a later core task. |
+| `weingartenVec` | Trace pairings of an operator with permutation operators. | **Keep unchanged.** Additional bundling is deferred until a consumer needs it. |
 | `weingartenGramNat` | Natural-number counting version of the Gram matrix. | **Keep.** It has distinct computational value. |
-| `weingartenSolutionSet` | Solutions of the specialized Weingarten system. | **Keep if supporting public singular/nonunique theory.** Derive it through common linear-system infrastructure. |
+| `weingartenSolutionSet` | Solutions of the specialized Weingarten system. | **Keep.** It specifies the current Weingarten system, including singular cases; restructuring the general solution API is deferred. |
 
 The current `endVec` uses a different coordinate ordering from Mathlib's
 `Matrix.vec`. A direct substitution would change conventions; transpose/reindexing
 must be accounted for.
 
-## Haar and shared supporting constructions
+## Haar and shared application definitions
 
 ### Haar.lean — 5 definitions
 
@@ -134,10 +167,10 @@ Source: [Haar.lean](LeanHaar/ForMathlib/Haar.lean).
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
 | `haarProb` | Haar measure normalized to mass one. | **Keep.** In the pinned Mathlib, `Measure.haar` has an arbitrary normalization, so this definition has a real purpose. |
-| `endOf` | A matrix regarded as an endomorphism. | **Replace or retain only as compatibility shorthand.** It is exactly `Matrix.toLin'`, whose standard API supplies the multiplication and identity properties. |
+| `endOf` | A matrix regarded as an endomorphism. | **Keep unchanged in core.** It is exactly `Matrix.toLin'`; replacement is deferred. |
 | `actOn` | Conjugates an operator by the tensor power of a unitary. | **Keep.** This is a meaningful operation. A more descriptive name and linearity in the operator would improve the public API; restoring `unitaryAction` is not required. |
-| `momentMatrix` | Entrywise integral defining the Haar-averaged matrix. | **Implementation detail unless independently used.** Consider making it private and exposing coordinate lemmas for `momentOp`. |
-| `momentOp` | Haar twirling/moment operator. | **Keep as a principal public definition.** Eventually bundle linearity; the coordinate-based implementation is defensible. |
+| `momentMatrix` | Entrywise integral defining the Haar-averaged matrix. | **Keep unchanged for now.** Making it private behind a public integral formula is a deferred core proposal. |
+| `momentOp` | Haar twirling/moment operator. | **Keep as the principal public moment operator.** Linearity bundling and changes to the coordinate implementation are deferred. |
 
 ### SupportingDocs/TensorPowerTraces.lean — 4 definitions
 
@@ -145,20 +178,27 @@ Source: [TensorPowerTraces.lean](LeanHaar/ForMathlib/ForMathlibExamples/Supporti
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
-| `tensorOp` | Tensor product of a family of matrix operators. | **Keep and move to tensor/matrix infrastructure.** It is not example-specific. |
-| `tensorPow` | Constant-family specialization of `tensorOp`. | **Consolidate with `diagAction (Matrix.toLin' M)`.** Keep a matrix-facing name only if it improves usability. |
-| `conjBy` | Matrix conjugation `U M U†`. | **Reuse an existing construction where appropriate.** Mathlib has `Unitary.conjStarAlgAut`; Physlib also has matrix conjugation. Move out of trace-specific infrastructure. |
-| `matrixOf` | Matrix of an endomorphism of a function space. | **Replace with `LinearMap.toMatrix'`.** |
+| `tensorOp` | Tensor product of a family of matrix operators. | **Keep in shared application support.** Varying tensor factors are useful; the definition and its implementation remain unchanged. |
+| `tensorPow` | Constant-family specialization of `tensorOp`. | **Keep as the existing matrix-facing specialization.** `diagAction_eq_tensorPow` already supplies the bridge; no core change or new wrapper is needed. Further simplification is optional. |
+| `conjBy` | Matrix conjugation `U M U†`. | **Keep the shared conjugation interface for now.** An existing bundled conjugation API is a possible later application-level simplification, not part of this extraction. |
+| `matrixOf` | Matrix of an endomorphism of a function space. | **Candidate for a later shared-layer simplification** using `LinearMap.toMatrix'`. Its definition remains unchanged in this pass. |
+
+### SupportingDocs/Swap.lean — 1 definition
+
+Source: [SupportingDocs/Swap.lean](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/Swap.lean).
+
+| Definition | Meaning | Current assessment |
+| --- | --- | --- |
+| `𝔽` | Swap operator on the two-factor tensor power. | **Keep the shared operator.** It was extracted from `k2Moment` without changing its name or definition. A searchable namespaced name such as `swapOp`, with scoped notation, remains optional later work. |
+
+The other six shared modules contain supporting theorems, instances, or notation;
+they do not introduce more definitions or alternate core constructions.
 
 ## Low-order moments and QML
 
-### k2Moment.lean — 1 definition
-
-Source: [k2Moment.lean](LeanHaar/ForMathlib/ForMathlibExamples/k2Moment.lean).
-
-| Definition | Meaning | Assessment |
-| --- | --- | --- |
-| `𝔽` | Swap operator. | **Keep the object; give it a searchable namespaced name such as `swapOp`.** The symbol can remain scoped notation. |
+`k1Moment.lean` and `k2Moment.lean` now contain no active definitions. They prove
+their moment formulas using the shared tensor/swap API. `k4Moment` retains its
+six application-specific coefficient constructions below.
 
 ### k4Moment.lean — 6 definitions
 
@@ -215,7 +255,7 @@ Source: [SnapshotEnsemble.lean](LeanHaar/ForMathlib/ForMathlibExamples/Classical
 | `invChannel` | Inverse measurement map under bijectivity. | **Keep.** Named access to a linear equivalence supports the estimator API. |
 | `stateEstimator` | Inverse channel applied to a snapshot. | **Keep.** Individual shadow estimators need not be positive; requiring density states here would be a mistake. |
 | `observableEstimator` | Trace pairing of an observable with the state estimator. | **Keep.** A physical real-valuedness result would complement the algebraic definition. |
-| `IsTraceSelfAdjoint` | Symmetry for the bilinear trace pairing. | **Move to generic trace-form infrastructure.** It is independent of ensembles and differs from self-adjointness for the sesquilinear Hilbert–Schmidt inner product. |
+| `IsTraceSelfAdjoint` | Symmetry for the bilinear trace pairing. | **Candidate for shared application trace support if reused.** It is independent of ensembles and differs from sesquilinear Hilbert–Schmidt self-adjointness; it has not moved in this pass. |
 | `thirdMoment` | Scalar triple-trace contraction of the ensemble. | **Keep if useful.** Distinguish the name from `thirdTensorMoment` and derive this contraction from the canonical tensor object. |
 
 Probability normalization here uses completeness such as `∑ₓ wₓ Sₓ = I`, together
@@ -228,10 +268,10 @@ Source: [TraceContractions.lean](LeanHaar/ForMathlib/ForMathlibExamples/Classica
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
-| `traceMulLeft` | Linear functional `X ↦ Tr(A X)`. | **Useful, but compose existing maps**: trace and `LinearMap.mulLeft`. Move to general trace infrastructure. |
+| `traceMulLeft` | Linear functional `X ↦ Tr(A X)`. | **Useful, but compose existing maps**: trace and `LinearMap.mulLeft`. Extract to shared application trace support when another consumer needs it. |
 | `partialTraceFirst` | Contracts the first factor against `ρ`. | **Keep with precise naming/documentation.** This acts on a tensor product of endomorphism spaces; the usual partial-trace interpretation needs a bridge. |
-| `doubleTraceContract` | Product of two trace pairings extended linearly to tensors. | **Keep and move to the general layer.** The existing tensor-map construction is appropriate. |
-| `tripleTraceContract` | Three-factor version. | **Keep and move likewise.** Arbitrary-order abstraction is optional. |
+| `doubleTraceContract` | Product of two trace pairings extended linearly to tensors. | **Keep.** The existing tensor-map construction is appropriate; a later shared application extraction is optional. |
+| `tripleTraceContract` | Three-factor version. | **Keep.** Apply the same shared-layer criterion as for `doubleTraceContract`; arbitrary-order abstraction is optional. |
 
 ### Observation58.lean — 3 definitions
 
@@ -309,7 +349,7 @@ Source: [BrickworkLayers.lean](LeanHaar/ForMathlib/ForMathlibExamples/MagicMonot
 | `V34` | Specialization to qubits 3–4. | **Same assessment.** |
 | `V23` | Specialization to qubits 2–3. | **Same assessment.** |
 | `V41` | Specialization across the periodic boundary. | **Same assessment**, documenting the boundary convention. |
-| `hsOverlap` | Inner product of vectorized endomorphisms. | **Keep the concept; move the generic construction beside vectorization.** |
+| `hsOverlap` | Inner product of vectorized endomorphisms. | **Keep as application vocabulary.** Its general trace identity now comes from `SupportingDocs/Vectorization`; the wrapper itself need not move into the core. |
 | `relabel` | Private inverse index calculation. | **Appropriately private.** Prefer the inverse of the same equivalence underlying `shift`. |
 | `layerAKet` | Vectorized permutation operator for layer A. | **Keep one canonical family**, preferably indexed by `PermPair`. |
 | `layerBKet` | Corresponding family for layer B. | **Same assessment.** |
@@ -424,20 +464,21 @@ Source: [TwirlingPhyslibV2.lean](LeanHaar/Examples/TwirlingPhyslibV2.lean).
 ## Instance audit — 24 instances
 
 Instances determine whether the definitions compose cleanly and are included
-separately from the 134-definition count.
+separately from the 128-definition count. This count includes the two local DCT
+instances; shared application support retains each instance once.
 
 | Location / instances | Assessment |
 | --- | --- |
-| DCT: `tensV_module_finite` | **Keep; move beside the tensor basis.** Basic finite-dimensional facts should not require a double-centralizer proof import. |
-| DCT: `neZero_card_perm` | Valid characteristic-zero/Maschke support. **Consider local scope** if only used there. |
-| DCT: `permModule_finite_over_endRing` | Technical density-theorem support. **Prefer local scope** without external consumers. |
-| Haar: `instCompactSpaceUnitaryGroup` | **Keep.** Genuine structural fact; general finite index types would improve reuse. |
+| TensorPower/Matrix: `tensV_module_finite` | **Done: keep beside the tensor basis.** Globally available without importing DCT. |
+| DCT: `neZero_card_perm` | **Done: local instance.** Characteristic-zero/Maschke support. |
+| DCT: `permModule_finite_over_endRing` | **Done: local instance.** Technical density-theorem support. |
+| Haar: `instCompactSpaceUnitaryGroup` | **Keep.** Genuine structural fact; generalization to other finite index types is deferred. |
 | Haar: `instSecondCountableMatrix` | **Keep the current bridge.** Direct inference with existing Haar imports failed without it. |
 | Haar: `instMeasurableSpaceUnitaryGroup`, `instBorelSpaceUnitaryGroup` | **Keep until a tested canonical replacement exists.** Inference failed without these. General subtype APIs alone do not justify deleting them. |
 | Haar: `instIsProbabilityMeasureHaarProb`, `instIsMulLeftInvariantHaarProb` | **Keep.** Appropriate properties of the named measure. |
-| HaarInvariance: `instIsHaarMeasureHaarProb` | **Keep and move into the common Haar layer.** |
-| HaarInvariance: `instInnerRegularHaarProb` | **Candidate for removal.** Pinned Mathlib supplies inner regularity for Haar measures on compact groups once relevant instances are present. |
-| HaarInvariance: `instIsMulRightInvariantHaarProb`, `instIsInvInvariantHaarProb` | **Keep the properties in the common Haar layer**, outside example supporting documents. |
+| SupportingDocs/HaarInvariance: `instIsHaarMeasureHaarProb` | **Done: keep in shared application support.** The core Haar file is unchanged. |
+| SupportingDocs/HaarInvariance: `instInnerRegularHaarProb` | **Retained unchanged.** A later redundancy check may use Mathlib inference; no instance was removed during extraction. |
+| SupportingDocs/HaarInvariance: `instIsMulRightInvariantHaarProb`, `instIsInvInvariantHaarProb` | **Done: keep in shared application support**, each declared once. |
 | HilbertSpace: `AddCommGroup`, `Module`, `NormedAddCommGroup`, `InnerProductSpace`, `FiniteDimensional`, `CompleteSpace`, `Nontrivial` | All seven are appropriate **if the wrapper remains**. All become unnecessary when using `EuclideanSpace` directly. |
 | Original Schur example: local group-algebra `Module`, local `IsScalarTower` | **Check standard `Representation.asModule` instances.** Avoid duplicates unless required by a specific instance-resolution problem. |
 | Original Schur example: `unitary_irreducible` | **Keep.** A mathematical result appropriately exposed as a proposition instance. |
@@ -446,13 +487,38 @@ separately from the 134-definition count.
 Sources for supporting instances: [HaarInvariance.lean](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarInvariance.lean)
 and the corresponding modules linked above.
 
-## Recommended first consolidation
+## Remaining work within the application scope
 
-Start with one tensor basis, one matrix-coordinate equivalence, one canonical
-permutation representation, and one bundled vectorization construction. Replace
-exact Mathlib duplicates alongside those changes. This simplifies the library
-without requiring broad generalization or restoring deliberately removed wrappers.
+These are review candidates, not changes already implemented:
 
-The first focused design discussion is `DirectProof.lean` and `SmallDim.lean`;
-the recommendations in this document are a record of the preceding whole-repo
-audit, not approval to implement all of them at once.
+1. **Shared conveniences:** assess whether `matrixOf`, `conjBy`, or `tensorPow`
+   would become clearer by using existing constructions more directly. Preserve
+   useful application names and conversion equations; do not change core `endOf`,
+   `diagAction`, or the vectorization implementation for this work.
+2. **Fourth-moment API:** review the cycle-type tags and private certificate
+   helpers, retain explicit `wgVal` formulas and dimension assumptions, and connect
+   `coeff` to `weingarten_solution_eq_inv` with an application theorem if useful.
+3. **Circuit interfaces:** choose one argument convention for each pair of
+   `layerAKet`/`ketA` and `layerBKet`/`ketB`. Keep readable gate labels and weights.
+   General register embeddings should wait for another circuit consumer.
+4. **Mathematical interpretation:** clarify QML `gradient` and the square-moment
+   variance formulas, preserve the algebraic ensemble layer, and distinguish the
+   defined circuit layer sums from a proved independent-gate Haar average. Actual
+   derivative, probability, or layer-identification theorems are additional
+   mathematical work; moving definitions alone does not establish them.
+5. **Further shared trace support:** consider extracting `IsTraceSelfAdjoint` and
+   the tensor trace contractions if another application needs them. Preserve
+   their existing generality and distinguish tensors of endomorphisms from
+   endomorphisms of a tensor power.
+
+## Deferred core and prototype work
+
+The earlier suggestions to replace `gramMatrix`, `matrixEntriesEquiv`, or `endOf`,
+rebundle `toEndMatrix`/`endVec`/`momentOp`, hide `momentMatrix`, generalize the base
+field/module, or restore GL/unitary representation wrappers are deferred under
+the current decision to keep the core unchanged. There is no pending task to
+restore the stashed public permutation representation module.
+
+The older Hilbert-space wrapper and Pauli/twirling prototypes need a separate
+maintenance decision. Their review entries above remain a backlog, not a reason
+to expand the current application-infrastructure scope.

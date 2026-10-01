@@ -6,7 +6,8 @@ import Mathlib.Tactic
 
 import LeanHaar.ForMathlib.TensorPower
 import LeanHaar.ForMathlib.Commutation
-import LeanHaar.ForMathlib.DirectProof
+import LeanHaar.ForMathlib.DCT
+import LeanHaar.ForMathlib.PermutationCentralizer
 
 /-!
 # Schur-Weyl Duality
@@ -14,9 +15,10 @@ import LeanHaar.ForMathlib.DirectProof
 This file proves the Schur-Weyl duality theorem: the centralizer of the diagonal
 action of `End(V)` on `V^{⊗k}` equals the linear span of the permutation operators.
 
-The hard direction is proved uniformly in `d` and `k` via the Double Commutant
-Theorem (see `DirectProof.lean` and `SmallDim.lean`); there is no separate case
-analysis on whether `k ≤ d`.
+The proof is uniform in `d` and `k`. `PermutationCentralizer` proves the polynomial
+span description of the permutation centralizer, and `DCT` proves the permutation
+algebra double-centralizer theorem. This file combines them for the hard inclusion
+and uses commutation for the reverse inclusion.
 
 ## Main results
 
@@ -50,6 +52,29 @@ theorem span_permImage_le_centralizer_diagImage :
   have hx' := Submodule.span_le.mpr hc hx
   simp only [Subalgebra.mem_toSubmodule, Subalgebra.mem_centralizer_iff] at hx'
   exact hx'
+
+/-! ### Hard direction -/
+
+/-- The hard direction of Schur–Weyl duality, for every `d` and `k`.
+The polynomial description of the permutation centralizer places an operator
+commuting with `diagImage` in the double centralizer of the permutation span;
+the double-centralizer theorem then places it in the permutation span itself. -/
+theorem centralizer_diagImage_le_span_permImage :
+    (diagImage d k).centralizer ⊆
+    (↑(Submodule.span ℂ (permImage d k)) : Set (Module.End ℂ (TensV d k))) := by
+  intro X hX
+  have hX_in_A'' : X ∈ ((↑(Submodule.span ℂ (permImage d k)) : Set _).centralizer).centralizer := by
+    intro Y hY
+    have hY' : Y ∈ (permImage d k).centralizer := by
+      intro z hz; exact hY z (Submodule.subset_span hz)
+    have hY_diag := centralizer_permImage_le_span_diagImage hY'
+    revert hY_diag
+    apply Submodule.span_induction
+    · intro y hy; obtain ⟨g, rfl⟩ := hy; exact hX _ ⟨g, rfl⟩
+    · simp
+    · intro a b _ _ ha hb; simp [mul_add, add_mul, ha, hb]
+    · intro c a _ ha; simp [ha]
+  exact double_centralizer_permImage hX_in_A''
 
 /-! ### Main theorem -/
 

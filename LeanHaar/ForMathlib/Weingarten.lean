@@ -7,7 +7,7 @@ import Mathlib.Tactic
 
 import LeanHaar.ForMathlib.TensorPower
 import LeanHaar.ForMathlib.Commutation
-import LeanHaar.ForMathlib.DirectProof
+import LeanHaar.ForMathlib.TensorPower.Matrix
 
 /-!
 # Weingarten calculus: computing moments

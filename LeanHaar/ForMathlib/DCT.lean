@@ -185,7 +185,7 @@ noncomputable def permModule_toModuleEnd_surjective :=
     (permModule_finite_over_endRing d k)
 
 /-- **Double Commutant Theorem** for the permutation algebra. -/
-theorem double_centralizer_permImage' :
+theorem double_centralizer_permImage {d k : ℕ} :
     ((↑(Submodule.span ℂ (permImage d k)) : Set (Module.End ℂ (TensV d k))).centralizer).centralizer ⊆
     (↑(Submodule.span ℂ (permImage d k)) : Set (Module.End ℂ (TensV d k))) := by
   intro T hT

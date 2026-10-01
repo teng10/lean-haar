@@ -14,7 +14,7 @@ import Mathlib.Topology.UniformSpace.Uniformizable
 
 import LeanHaar.ForMathlib.TensorPower
 import LeanHaar.ForMathlib.Commutation
-import LeanHaar.ForMathlib.DirectProof
+import LeanHaar.ForMathlib.TensorPower.Matrix
 import LeanHaar.ForMathlib.Main
 import LeanHaar.ForMathlib.Weingarten
 

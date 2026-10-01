@@ -2,12 +2,12 @@
 
 Updated: 2026-10-01. Original review: 2026-09-25.
 
-The current `LeanHaar` source tree contains **128 active definitions, abbreviations,
+The current `LeanHaar` source tree contains **124 active definitions, abbreviations,
 and structures**, plus **24 explicit instances**. This inventory includes private
 constructions, local instances, and the older prototype files. It excludes
 commented-out declarations and ordinary theorems. The original review counted
-134 definitions; removing duplicate constructions and converting proof-valued
-DCT definitions to theorems reduced that count by six.
+134 definitions; the core cleanup removed six, and replacing the four QML
+expectation/square-moment wrappers with explicit integrals removed another four.
 
 ## Current scope
 
@@ -20,9 +20,10 @@ application extraction did not change any core Lean file.
   separate public representation module remains deferred in its Git stash.
 - Reuse the existing core matrix, vectorization, Gram, and Haar constructions.
   Their possible redesigns below are explicitly deferred.
-- Put reusable application support in `ForMathlibExamples/SupportingDocs`. These modules
-  import Mathlib, the core, or other shared modules; none imports a completed
-  moment example or an application module.
+- Put reusable application support in `ForMathlibExamples/SupportingDocs`.
+  Elementary support and the generic Haar bridge remain independent of computed
+  moment formulas. Shared `HaarMoments` imports `k1Moment` and `k2Moment` to evaluate
+  matrix averages. No supporting module imports QML, ClassicalShadows, or MagicMonotone.
 - Keep application coefficients, circuit vocabulary, and ensemble definitions
   in their applications unless a concrete reuse case warrants extraction.
 
@@ -44,19 +45,24 @@ removed. DCT semisimplicity and density proofs are now private theorems.
 | [SupportingDocs/RankOneCalculus](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/RankOneCalculus.lean) | Generic rank-one sum composition and kernel theorems under `InnerProductSpace`. Summation bookkeeping is private; composition-of-sums helpers use Mathlib. No new definitions. |
 | [SupportingDocs/HaarInvariance](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarInvariance.lean) | The existing four auxiliary Haar instances, compact-group invariance facts, and integration support. Each instance has one declaration. No new measure is defined. |
 | [SupportingDocs/HaarMomentBridge](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarMomentBridge.lean) | Generic trace integrability and the trace/integral bridge formerly in `QML/MomentBridge`, now under `SchurWeyl`. No new moment operator is defined. |
+| [SupportingDocs/HaarMoments](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarMoments.lean) | First and second Haar moments of arbitrary matrices, including `cId`, `cSwap`, contracted formulas, and the averaged squared-commutator trace. The algebraic commutator identity is private to its proof support; all public results use `SchurWeyl`. |
 | [SupportingDocs/TraceNotation](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/TraceNotation.lean) | The existing scoped trace notation; no new trace definition. |
 
 The existing `SupportingDocs` directory retains its name and now contains all
-eight shared modules. The former `MagicMonotone/RankOneCalculus` and
-`QML/MomentBridge` paths are replaced by their supporting modules. QML and shadows
-import their required moment computations explicitly. The duplicate elementary
+nine shared modules. The former `MagicMonotone/RankOneCalculus`,
+`QML/MomentBridge`, and `QML/HaarMoments` paths are replaced by their supporting
+modules. The former `QML/CommutatorTrace` is merged into shared `HaarMoments`;
+`Swap` remains the elementary tensor-factor swap API. QML imports the shared evaluated Haar formulas; shadows imports its
+required moment computation explicitly. The duplicate elementary
 proofs in `k1Moment` and `k4Moment` now use the general shared API; the second
-moment uses shared swap facts. Application endpoint statements and scalar
-formulas are preserved.
+moment uses shared swap facts. QML expectation and square-moment statements now
+spell out their integrals; their meanings, hypotheses, and scalar formulas are
+preserved, including the order of the two iterated Haar integrals.
 
-Validation of the extraction: **all 36 modules under `ForMathlib` build without
-warnings**, the import graph is acyclic, and **12 application endpoint axiom
-reports match the baseline**. The older prototype files are included in the
+Validation of the initial extraction: all 36 then-existing modules built without
+warnings, with an acyclic import graph and 12 unchanged endpoint axiom reports.
+The QML consolidation leaves 35 modules; its build and six old-statement
+compatibility checks are recorded in [TOOD.md](TOOD.md). The older prototype files are included in the
 inventory, but this build result does not certify them. See [TOOD.md](TOOD.md)
 for completed work and [ForMathlibExamples-dependencies.md](ForMathlibExamples-dependencies.md)
 for the dependency audit; its original reference tables remain historical.
@@ -191,6 +197,15 @@ Source: [SupportingDocs/Swap.lean](LeanHaar/ForMathlib/ForMathlibExamples/Suppor
 | --- | --- | --- |
 | `𝔽` | Swap operator on the two-factor tensor power. | **Keep the shared operator.** It was extracted from `k2Moment` without changing its name or definition. A searchable namespaced name such as `swapOp`, with scoped notation, remains optional later work. |
 
+### SupportingDocs/HaarMoments.lean — 2 definitions
+
+Source: [HaarMoments.lean](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarMoments.lean).
+
+| Definition | Meaning | Assessment |
+| --- | --- | --- |
+| `cId` | Identity coefficient in the second moment of `M ⊗ M`. | **Keep in shared Haar-moment support**, under `SchurWeyl`. The formula is unchanged; a more descriptive name remains optional. |
+| `cSwap` | Corresponding swap coefficient. | **Same assessment.** Both depend on the input matrix and are not universal Weingarten values; the second-moment theorems retain their dimension assumptions. |
+
 The other six shared modules contain supporting theorems, instances, or notation;
 they do not introduce more definitions or alternate core constructions.
 
@@ -216,16 +231,7 @@ Source: [k4Moment.lean](LeanHaar/ForMathlib/ForMathlibExamples/k4Moment.lean).
 These are API interpretation issues, not evidence that theorems with appropriate
 dimension assumptions are false.
 
-### QML/HaarMoments.lean — 2 definitions
-
-Source: [HaarMoments.lean](LeanHaar/ForMathlib/ForMathlibExamples/QML/HaarMoments.lean).
-
-| Definition | Meaning | Assessment |
-| --- | --- | --- |
-| `cId` | Identity coefficient in the second moment of `M ⊗ M`. | **Keep as a specialization**, with a descriptive name and documented dimension assumptions. Consider shared second-moment infrastructure. |
-| `cSwap` | Corresponding swap coefficient. | **Same assessment.** These depend on the input matrix and are not universal Weingarten values. |
-
-### QML/CostFunction.lean — 6 definitions
+### QML/CostFunction.lean — 2 definitions
 
 Source: [CostFunction.lean](LeanHaar/ForMathlib/ForMathlibExamples/QML/CostFunction.lean).
 
@@ -233,10 +239,12 @@ Source: [CostFunction.lean](LeanHaar/ForMathlib/ForMathlibExamples/QML/CostFunct
 | --- | --- | --- |
 | `cost` | Trace expectation after unitary conjugation. | **Keep as an application definition.** Add real-valuedness under appropriate Hermitian/density assumptions. |
 | `gradient` | Commutator trace expression intended to represent a derivative. | **Needs a mathematical bridge.** Either name it as a gradient formula/component or prove the derivative theorem for a parameterized circuit. |
-| `haarExp` | Integration against `haarProb`. | **Optional shorthand.** Move to shared Haar infrastructure if reused; ordinary integral notation may otherwise suffice. |
-| `haarVar` | `E[f²] − E[f]²` for complex-valued functions. | **Clarify or rename.** This is an algebraic second central moment, not usual complex variance involving squared absolute values. Connect the real-valued case to the probability API. |
-| `haarExp₂` | Iterated integration over two Haar variables. | **Reasonable shorthand.** Product-measure formulation and integrability/Fubini results would better express independence. |
-| `haarVar₂` | Two-variable second central moment. | **Same variance issue**, plus product-measure interpretation. |
+
+`haarExp`, `haarExp₂`, `haarVar`, and `haarVar₂` are removed. The cost moment
+theorems and Observations 56/57 use ordinary Haar integrals directly. The variance
+statements retain the complex square-moment difference `E[X²] − E[X]²`; identifying
+it with Mathlib's real-valued variance still requires real-valuedness and
+square-integrability proofs. No replacement expectation or variance API is added.
 
 ## Classical shadows
 
@@ -464,7 +472,7 @@ Source: [TwirlingPhyslibV2.lean](LeanHaar/Examples/TwirlingPhyslibV2.lean).
 ## Instance audit — 24 instances
 
 Instances determine whether the definitions compose cleanly and are included
-separately from the 128-definition count. This count includes the two local DCT
+separately from the 124-definition count. This count includes the two local DCT
 instances; shared application support retains each instance once.
 
 | Location / instances | Assessment |

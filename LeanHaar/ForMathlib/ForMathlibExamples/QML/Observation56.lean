@@ -6,6 +6,11 @@ import LeanHaar.ForMathlib.ForMathlibExamples.QML.CostFunction
 For `n ≥ 1` qubits, a state `ρ` and a traceless observable `O`, the Haar average of the cost
 function `C(U) = Tr[U ρ U† O]` vanishes and its variance is
 `(Tr ρ² - 2⁻ⁿ) / (2²ⁿ - 1) · Tr O²`.
+
+The statements use explicit Haar integrals. The variance formula is expressed as the
+algebraic square-moment difference `𝔼[C²] - 𝔼[C]²` for complex matrices. Identifying it
+with real-valued probabilistic variance requires additional real-valuedness and
+square-integrability results.
 -/
 
 noncomputable section
@@ -16,11 +21,11 @@ namespace QML
 
 /-- **Observation 56 (expectation of the cost function).**
 
-On `n ≥ 1` qubits, for a state `ρ` (`Tr ρ = 1`) and a traceless observable `O`, the Haar
-average of the cost function vanishes. -/
+On `n ≥ 1` qubits, for any matrix `ρ` and any traceless matrix `O`, the Haar
+average of the cost function vanishes. No normalization of `ρ` is needed. -/
 theorem observation56_expectation (n : ℕ) (hn : 1 ≤ n)
     (ρ O : Matrix (Fin (2 ^ n)) (Fin (2 ^ n)) ℂ) (hO : O.trace = 0) :
-    haarExp (2 ^ n) (cost ρ O) = 0 := by
+    (∫ U, cost ρ O U ∂(haarProb (2 ^ n))) = 0 := by
   have hd : 2 ≤ 2 ^ n := by
     calc (2 : ℕ) = 2 ^ 1 := (pow_one 2).symm
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
@@ -37,7 +42,8 @@ The blueprint writes the last factor as `Tr[O^{⊗2}]`, but its proof evaluates 
 vanishes for traceless `O`. -/
 theorem observation56_variance (n : ℕ) (hn : 1 ≤ n) (ρ O : Matrix (Fin (2 ^ n)) (Fin (2 ^ n)) ℂ)
     (hρ : ρ.trace = 1) (hO : O.trace = 0) :
-    haarVar (2 ^ n) (cost ρ O)
+    (∫ U, cost ρ O U ^ 2 ∂(haarProb (2 ^ n)))
+      - (∫ U, cost ρ O U ∂(haarProb (2 ^ n))) ^ 2
       = ((ρ * ρ).trace - ((2 : ℂ) ^ n)⁻¹) / (((2 : ℂ) ^ n) ^ 2 - 1) * (O * O).trace := by
   have hd : 2 ≤ 2 ^ n := by
     calc (2 : ℕ) = 2 ^ 1 := (pow_one 2).symm
@@ -45,8 +51,8 @@ theorem observation56_variance (n : ℕ) (hn : 1 ≤ n) (ρ O : Matrix (Fin (2 ^
   haveI : NeZero (2 ^ n) := ⟨by omega⟩
   haveI : Fact (2 ≤ 2 ^ n) := ⟨hd⟩
   have hcast : (((2 ^ n : ℕ) : ℂ)) = (2 : ℂ) ^ n := by push_cast; ring
-  have hmean : haarExp (2 ^ n) (cost ρ O) = 0 := observation56_expectation n hn ρ O hO
-  rw [haarVar, hmean, haar_expectation_cost_sq, hO]
+  have hmean : (∫ U, cost ρ O U ∂(haarProb (2 ^ n))) = 0 := observation56_expectation n hn ρ O hO
+  rw [hmean, haar_expectation_cost_sq, hO]
   simp only [cSwap, cId, hρ, hcast]
   ring
 

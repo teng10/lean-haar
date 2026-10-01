@@ -105,9 +105,14 @@ removed. Introduce wrapper-specific conveniences only when a consumer needs them
 
 ## Shared application infrastructure
 
+The QML cleanup and the workflow for future applications are documented in
+[ApplicationCleanupGuide.md](ApplicationCleanupGuide.md).
+
 The core `ForMathlib` files stay unchanged. Reusable application support lives in
-`ForMathlibExamples/SupportingDocs`; it imports the existing core API or Mathlib and never
-imports a completed moment example or an application module.
+`ForMathlibExamples/SupportingDocs`. Elementary support and the generic Haar
+bridge are independent of computed moments. Shared `HaarMoments` imports
+`k1Moment` and `k2Moment` for evaluated matrix averages. Supporting modules never
+import QML, ClassicalShadows, or MagicMonotone.
 
 - [x] Keep the `SupportingDocs` directory name and extend it with the shared
   application modules, preserving one copy of each Haar instance and the
@@ -120,6 +125,18 @@ imports a completed moment example or an application module.
   results in `SupportingDocs/Vectorization`, using the existing core vectorization.
 - [x] Extract the generic rank-one composition results into `SupportingDocs/RankOneCalculus`.
 - [x] Move the generic QML trace/integral bridge to `SupportingDocs/HaarMomentBridge`.
+- [x] Move QML `HaarMoments` to `SupportingDocs/HaarMoments` and put its six
+  declarations in `SchurWeyl`, preserving the coefficient formulas and proofs.
+- [x] Merge `QML/CommutatorTrace` into a commutator-averages section of shared
+  `HaarMoments`; keep the algebraic squared-commutator identity private and reuse
+  Mathlib for the zero-trace identity. Keep `Swap` independent of Haar integration.
+- [x] Reduce `QML/CostFunction` to `cost` and `gradient`. Replace `haarExp`,
+  `haarExp₂`, `haarVar`, and `haarVar₂` with explicit integral expressions in
+  the cost-moment theorems and Observations 56/57, preserving the nesting order.
+- [x] Rebuild all 35 remaining core and application modules without warnings.
+  Check in Lean that all six QML moment/observation theorems still inhabit their
+  original types with the old wrappers reinstated only in a temporary probe; all
+  six use only `propext`, `Classical.choice`, and `Quot.sound`.
 - [x] Build all 36 core and example modules without warnings and compare 12
   application endpoint axiom reports against the pre-extraction baseline.
 
@@ -132,6 +149,7 @@ imports a completed moment example or an application module.
 | `RankOneCalculus` | Composition of finite rank-one sums and its kernel form. |
 | `HaarInvariance` | Haar invariance, regularity, and integrability used by applications. |
 | `HaarMomentBridge` | Trace integrals expressed through the core moment operator. |
+| `HaarMoments` | Evaluated first and second Haar moments of arbitrary matrices and the squared-commutator trace average, using `k1Moment` and `k2Moment`. |
 | `TraceNotation` | Existing scoped trace notation. |
 
 Further changes to core definitions, the generic Gram implementation, and

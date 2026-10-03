@@ -1,6 +1,6 @@
 # LeanHaar tensor-power foundations cleanup
 
-Updated: 2026-10-01.
+Updated: 2026-10-02.
 
 `TensorPower.lean` owns the tensor space, its permutation and diagonal actions,
 their images, and their elementary computation rules. Its six active definitions
@@ -12,7 +12,7 @@ and five elementary lemmas form one mathematical API. The former `Defs.lean` and
 - [x] Combine the definitions and their elementary API in `TensorPower.lean`,
   grouping each action with its computation rules and image. Preserve declaration
   names, statements, definition/proof bodies, and attributes.
-- [x] Update all ten consumers to import `LeanHaar.ForMathlib.TensorPower`.
+- [x] Update all ten consumers to import `LeanHaar.TensorPower`.
 - [x] Keep the substantive commutation results in `Commutation.lean`, the double
   commutant theorem in `DCT.lean`, and Haar averaging in `Haar.lean`.
 - [x] Remove nine redundant or unused helper lemmas after auditing their consumers.
@@ -27,7 +27,7 @@ and five elementary lemmas form one mathematical API. The former `Defs.lean` and
   proof's use of all endomorphisms, and the optional wrappers' return type.
 - [x] Check the core and application endpoint axiom reports during the earlier
   lemma cleanup; dependencies were unchanged.
-- [x] Rebuild all 34 current modules under `ForMathlib`, including examples,
+- [x] Rebuild all 34 current modules in the then-current core/application tree,
   after combining the two foundation modules.
 
 - [x] Consolidate `tensorBasis`/`tensorBasis'` and `toEndMatrix`/`toEndMatrix'`
@@ -39,7 +39,7 @@ and five elementary lemmas form one mathematical API. The former `Defs.lean` and
   simultaneous-orbit classification as `pairCount_eq_iff_exists_perm`, and use
   Mathlib's linear-functional separation theorem directly.
 - [x] Put the canonical `double_centralizer_permImage` in `DCT.lean` and move
-  the hard-inclusion assembly into `Main.lean`; remove `DirectProof.lean` and
+  the hard-inclusion assembly into `SchurWeyl.lean`; remove `DirectProof.lean` and
   the obsolete `_small`/primed theorem aliases.
 - [x] Import tensor coordinates directly from Haar and Weingarten; document each
   module's mathematical role rather than a historical proof strategy.
@@ -75,7 +75,7 @@ and five elementary lemmas form one mathematical API. The former `Defs.lean` and
 | `TensorPower.lean` | Construct the tensor space and its two actions, including `permOp` and their elementary API. |
 | `TensorPower/Matrix.lean` | Standard tensor basis, matrix coordinates, and coordinate formulas for both actions. |
 | `PermutationCentralizer.lean` | Polynomial proof that the permutation centralizer lies in the span of tensor powers, for all dimensions. |
-| `Main.lean` | Assemble the polynomial and double-centralizer arguments into Schur–Weyl duality. |
+| `SchurWeyl.lean` | Assemble the polynomial and double-centralizer arguments into Schur–Weyl duality. |
 | `Commutation.lean` | Prove that the actions commute and obtain the centralizer inclusions. |
 | `DCT.lean` | Prove the double-commutant theorem, with private group-algebra and density machinery. |
 | `Haar.lean` | Construct Haar averaging and prove its properties. |
@@ -108,17 +108,17 @@ removed. Introduce wrapper-specific conveniences only when a consumer needs them
 The QML cleanup and the workflow for future applications are documented in
 [ApplicationCleanupGuide.md](ApplicationCleanupGuide.md).
 
-The core `ForMathlib` files stay unchanged. Reusable application support lives in
-`ForMathlibExamples/SupportingDocs`. Elementary support and the generic Haar
+The core mathematical declarations stay unchanged. Reusable application support lives in
+`LeanHaar/SupportingDocs`. Elementary support and the generic Haar
 bridge are independent of computed moments. Shared `HaarMoments` imports
-`k1Moment` and `k2Moment` for evaluated matrix averages. Supporting modules never
+`Moments/k1Moment` and `Moments/k2Moment` for evaluated matrix averages. Supporting modules never
 import QML, ClassicalShadows, or MagicMonotone.
 
 - [x] Keep the `SupportingDocs` directory name and extend it with the shared
   application modules, preserving one copy of each Haar instance.
-- [x] Extract swap operators and elementary trace facts below `k2Moment`; make
-  `k1Moment`, `k2Moment`, and `k4Moment` reuse the shared tensor identities.
-- [x] Remove the imports of `k1Moment` and `k2Moment` from tensor trace support.
+- [x] Extract swap operators and elementary trace facts below `Moments/k2Moment`; make
+  `Moments/k1Moment`, `Moments/k2Moment`, and `Moments/k4Moment` reuse the shared tensor identities.
+- [x] Remove the imports of `Moments/k1Moment` and `Moments/k2Moment` from tensor trace support.
   Add explicit moment imports to the applications that use those results.
 - [x] Share the arbitrary-operator Hilbert–Schmidt identity and matrix compatibility
   results in `SupportingDocs/Vectorization`, using the existing core vectorization.
@@ -148,7 +148,7 @@ import QML, ClassicalShadows, or MagicMonotone.
 | `RankOneCalculus` | Composition of finite rank-one sums and its kernel form. |
 | `HaarInvariance` | Haar invariance, regularity, and integrability used by applications. |
 | `HaarMomentBridge` | Trace integrals expressed through the core moment operator. |
-| `HaarMoments` | Evaluated first and second Haar moments of arbitrary matrices and the squared-commutator trace average, using `k1Moment` and `k2Moment`. |
+| `HaarMoments` | Evaluated first and second Haar moments of arbitrary matrices and the squared-commutator trace average, using `Moments/k1Moment` and `Moments/k2Moment`. |
 | `TraceContractions` | Trace-pairing contractions on formal tensors of endomorphisms, over an arbitrary field. |
 | `DepolarizingChannel` | The isotropic linear map and its explicit inverse/equivalence under the trace-dimension hypotheses. |
 
@@ -191,8 +191,8 @@ ensembles, and their mathematical interpretation remain in their application mod
   prototypes, and stashes are unchanged.
 
 The application has three files and thirteen definitions/structures. Shared
-support contains ten modules. The repository inventory remains 121 definitions/
-abbreviations/structures and 24 explicit instances. The helper API was deliberately
+support contains ten modules. At that stage the repository inventory was 121 definitions/
+abbreviations/structures and 24 explicit instances; the reorganization below updates it. The helper API was deliberately
 reduced: the scalar expansion is private, the evaluation lemma and two tensor-trace
 aliases are gone, and the moment corollary now requires an Observation59 import.
 
@@ -207,6 +207,32 @@ Separate mathematical follow-ups:
   interpretation under suitable state and observable assumptions.
 - [ ] If needed, extend identification of `haarMeasurementChannelEquiv` with the
   integral channel to `d = 0, 1`; the current evaluation proof assumes `d ≥ 2`.
+
+## Repository layout — 2026-10-02
+
+- [x] Remove the old staging prefixes from all Lean source paths/imports. Core lives
+  at `LeanHaar/`, evaluated formulas at `Moments/`, support at `SupportingDocs/`,
+  and application code at `Applications/`. Rename `Main.lean` to `SchurWeyl.lean`.
+- [x] Preserve all core/application theorem bodies and declaration namespaces.
+- [x] Delete `HilbertSpace.lean`, `Example.lean`, the original wrapper-based Schur
+  example, and both duplicate Pauli-twirling files.
+- [x] Preserve the three chosen examples as `UnitaryCommutant`, `PauliTwirling`, and
+  `EulerAngleIntegral`, with their mathematical formulas unchanged.
+- [x] Move the coefficient notebook to `notebooks/kCoefficients.ipynb`; archive the
+  obsolete initial checklist; rename the dependency report to `Applications-dependencies.md`.
+- [x] Replace the template README with the module map and import migration guide.
+- [x] Make plain `lake build` cover all 35 source modules plus the root umbrella;
+  the existing CI build inherits this coverage. Physlib emits existing dependency
+  linter warnings; the coordinate example has two existing informational suggestions.
+- [x] Independently audit stale-file removals, import coverage/cycles, declaration
+  counts, and source preservation; compare 17 representative endpoint axiom reports.
+
+Current inventory: **103 definitions/abbreviations/structures and 14 instances**.
+The five deleted files account for the reduction from 121 definitions and 24 instances.
+The representation stashes and unrelated working-tree material remain intact.
+
+- [ ] Refresh the blueprint's pre-existing references to removed primed declarations
+  and private DCT machinery. Module relocation does not repair those declaration names.
 
 ## Remaining follow-ups
 
@@ -224,7 +250,7 @@ Separate mathematical follow-ups:
 - [ ] Require a concrete consumer before adding future GL/unitary representation
   wrappers; derive them from the existing action. Keep the current `permRep`
   adapter private to DCT until another proof actually needs it.
-- [ ] Make the default release/CI build cover every supported module. The current
-  default root build still omits the `ForMathlib` tree.
+- [x] Make the default release/CI build cover every supported module: `LeanHaar.*`
+  is the library glob, and the root umbrella imports every retained module.
 
-The broader project checklist remains in `LeanHaar-TODO.md`.
+The obsolete initial checklist is archived in [InitialChecklist](docs/history/InitialChecklist.md); its unchecked boxes are historical, not current project status.

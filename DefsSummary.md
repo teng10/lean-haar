@@ -1,30 +1,30 @@
 # Definition summary and cleanup status
 
-Updated: 2026-10-01. Original review: 2026-09-25.
+Updated: 2026-10-02. Original review: 2026-09-25.
 
-The current `LeanHaar` source tree contains **121 active definitions, abbreviations,
-and structures**, plus **24 explicit instances**. This inventory includes private
-constructions, local instances, and the older prototype files. It excludes
-commented-out declarations and ordinary theorems. The original review counted
-134 definitions; the core cleanup removed six, and replacing the four QML
-expectation/square-moment wrappers with explicit integrals removed another four.
-The classical-shadow cleanup removed the estimator-variance wrapper, the one-use
-trace-symmetry predicate, and the scalar third-moment wrapper.
+The current `LeanHaar` source tree contains **103 active definitions, abbreviations,
+and structures**, plus **14 explicit instances**, across 35 modules. This includes
+private constructions, local instances, and the three retained standalone examples;
+it excludes comments and ordinary theorems. The reorganization removed 18 definitions
+and 10 instances from five obsolete files. All 32 previously maintained core,
+support, moment, and application modules retain their mathematical content.
 
 ## Current scope
 
-**Keep the core as it is and build shared infrastructure for applications.** The
-core means the `ForMathlib` modules outside `ForMathlibExamples`. The latest
-application extraction did not change any core Lean file.
+**Keep the core mathematics and build shared infrastructure for applications.**
+Core modules now live directly under `LeanHaar` and `LeanHaar/TensorPower`; moments,
+shared support, and applications live under `Moments`, `SupportingDocs`, and
+`Applications`. Module moves changed imports, not core definitions or proofs.
+See [README.md](README.md) for the import migration map.
 
 - Keep the public `permAction`, `permOp`, and `diagAction` API. `permRep`,
   `PermModule`, and `permAlgHom` are private DCT implementation details. The
   separate public representation module remains deferred in its Git stash.
 - Reuse the existing core matrix, vectorization, Gram, and Haar constructions.
   Their possible redesigns below are explicitly deferred.
-- Put reusable application support in `ForMathlibExamples/SupportingDocs`.
+- Put reusable application support in `LeanHaar/SupportingDocs`.
   Elementary support and the generic Haar bridge remain independent of computed
-  moment formulas. Shared `HaarMoments` imports `k1Moment` and `k2Moment` to evaluate
+  moment formulas. Shared `HaarMoments` imports `Moments/k1Moment` and `Moments/k2Moment` to evaluate
   matrix averages. No supporting module imports QML, ClassicalShadows, or MagicMonotone.
 - Keep application coefficients, circuit vocabulary, and ensemble definitions
   in their applications unless a concrete reuse case warrants extraction.
@@ -40,16 +40,16 @@ removed. DCT semisimplicity and density proofs are now private theorems.
 
 | Module | Current contents and role |
 | --- | --- |
-| [SupportingDocs/TensorPowerBasics](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/TensorPowerBasics.lean) | General permutation identity/composition/dual lemmas and `trace_id_tensV`, reused by the moment examples. No new definitions. |
-| [SupportingDocs/Swap](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/Swap.lean) | The existing `𝔽` definition, swap identities, matrix entries, and traces, extracted from the second-moment example and tensor traces. |
-| [SupportingDocs/TensorPowerTraces](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/TensorPowerTraces.lean) | The existing `tensorOp`, `tensorPow`, `conjBy`, and `matrixOf` definitions and their trace/conjugation API. It no longer imports `k1Moment` or `k2Moment`. |
-| [SupportingDocs/Vectorization](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/Vectorization.lean) | `SchurWeyl.inner_endVec_endVec`, `toEndMatrix_one`, and `toEndMatrix_mul`, extracted from MagicMonotone. It uses the existing core vectorization; no replacement vectorization is defined. |
-| [SupportingDocs/RankOneCalculus](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/RankOneCalculus.lean) | Generic rank-one sum composition and kernel theorems under `InnerProductSpace`. Summation bookkeeping is private; composition-of-sums helpers use Mathlib. No new definitions. |
-| [SupportingDocs/HaarInvariance](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarInvariance.lean) | The existing four auxiliary Haar instances, compact-group invariance facts, and integration support. Each instance has one declaration. No new measure is defined. |
-| [SupportingDocs/HaarMomentBridge](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarMomentBridge.lean) | Generic trace integrability and the trace/integral bridge formerly in `QML/MomentBridge`, now under `SchurWeyl`. No new moment operator is defined. |
-| [SupportingDocs/HaarMoments](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarMoments.lean) | First and second Haar moments of arbitrary matrices, including `cId`, `cSwap`, contracted formulas, and the averaged squared-commutator trace. The algebraic commutator identity is private to its proof support; all public results use `SchurWeyl`. |
-| [SupportingDocs/TraceContractions](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/TraceContractions.lean) | Four bundled trace-contraction maps on formal tensors of endomorphisms, with evaluation lemmas, under `LinearMap`. `traceMulLeft` composes existing Mathlib maps. |
-| [SupportingDocs/DepolarizingChannel](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/DepolarizingChannel.lean) | The isotropic linear map, its candidate inverse, and the equivalence with proved inverse laws, under `LinearMap`. Both new support modules require only Mathlib. |
+| [SupportingDocs/TensorPowerBasics](LeanHaar/SupportingDocs/TensorPowerBasics.lean) | General permutation identity/composition/dual lemmas and `trace_id_tensV`, reused by the moment examples. No new definitions. |
+| [SupportingDocs/Swap](LeanHaar/SupportingDocs/Swap.lean) | The existing `𝔽` definition, swap identities, matrix entries, and traces, extracted from the second-moment example and tensor traces. |
+| [SupportingDocs/TensorPowerTraces](LeanHaar/SupportingDocs/TensorPowerTraces.lean) | The existing `tensorOp`, `tensorPow`, `conjBy`, and `matrixOf` definitions and their trace/conjugation API. It no longer imports `Moments/k1Moment` or `Moments/k2Moment`. |
+| [SupportingDocs/Vectorization](LeanHaar/SupportingDocs/Vectorization.lean) | `SchurWeyl.inner_endVec_endVec`, `toEndMatrix_one`, and `toEndMatrix_mul`, extracted from MagicMonotone. It uses the existing core vectorization; no replacement vectorization is defined. |
+| [SupportingDocs/RankOneCalculus](LeanHaar/SupportingDocs/RankOneCalculus.lean) | Generic rank-one sum composition and kernel theorems under `InnerProductSpace`. Summation bookkeeping is private; composition-of-sums helpers use Mathlib. No new definitions. |
+| [SupportingDocs/HaarInvariance](LeanHaar/SupportingDocs/HaarInvariance.lean) | The existing four auxiliary Haar instances, compact-group invariance facts, and integration support. Each instance has one declaration. No new measure is defined. |
+| [SupportingDocs/HaarMomentBridge](LeanHaar/SupportingDocs/HaarMomentBridge.lean) | Generic trace integrability and the trace/integral bridge formerly in `QML/MomentBridge`, now under `SchurWeyl`. No new moment operator is defined. |
+| [SupportingDocs/HaarMoments](LeanHaar/SupportingDocs/HaarMoments.lean) | First and second Haar moments of arbitrary matrices, including `cId`, `cSwap`, contracted formulas, and the averaged squared-commutator trace. The algebraic commutator identity is private to its proof support; all public results use `SchurWeyl`. |
+| [SupportingDocs/TraceContractions](LeanHaar/SupportingDocs/TraceContractions.lean) | Four bundled trace-contraction maps on formal tensors of endomorphisms, with evaluation lemmas, under `LinearMap`. `traceMulLeft` composes existing Mathlib maps. |
+| [SupportingDocs/DepolarizingChannel](LeanHaar/SupportingDocs/DepolarizingChannel.lean) | The isotropic linear map, its candidate inverse, and the equivalence with proved inverse laws, under `LinearMap`. Both new support modules require only Mathlib. |
 
 The existing `SupportingDocs` directory retains its name and now contains all
 ten shared modules. The former `MagicMonotone/RankOneCalculus`,
@@ -57,21 +57,19 @@ ten shared modules. The former `MagicMonotone/RankOneCalculus`,
 modules. The former `QML/CommutatorTrace` is merged into shared `HaarMoments`;
 `Swap` remains the elementary tensor-factor swap API. QML imports the shared evaluated Haar formulas; shadows imports its
 required moment computation explicitly. The duplicate elementary
-proofs in `k1Moment` and `k4Moment` now use the general shared API; the second
+proofs in `Moments/k1Moment` and `Moments/k4Moment` now use the general shared API; the second
 moment uses shared swap facts. QML expectation and square-moment statements now
 spell out their integrals; their meanings, hypotheses, and scalar formulas are
 preserved, including the order of the two iterated Haar integrals.
 
-Validation of the initial extraction: all 36 then-existing modules built without
-warnings, with an acyclic import graph and 12 unchanged endpoint axiom reports.
-The QML consolidation built 35 modules and passed six old-statement compatibility
-checks. The classical-shadow cleanup now builds all 32 remaining modules without
-warnings. Seven retained endpoint statements and axiom reports match the original
-baseline, and eleven moved definitions pass identity checks. The deliberate helper
-API reductions are recorded below. Older prototype files are included in the
-inventory, but this build result does not certify them. See [TOOD.md](TOOD.md)
-for completed work and [ForMathlibExamples-dependencies.md](ForMathlibExamples-dependencies.md)
-for the dependency audit; its original reference tables remain historical.
+Validation of the current layout: plain `lake build` checks the 35 retained modules
+and the root umbrella, including all three examples. The 32 previously maintained
+modules were compared against their original bodies after path substitution.
+Representative endpoint axiom reports are compared before and after relocation.
+The existing Physlib dependency emits linter warnings; the Euler-angle example
+emits two pre-existing tactic suggestions. See [TOOD.md](TOOD.md) for current work
+and [Applications-dependencies.md](Applications-dependencies.md) for the module map
+and explicitly historical audits.
 
 ## Review criteria
 
@@ -92,7 +90,7 @@ the existing API.
 
 ### TensorPower.lean — 6 definitions
 
-Source: [TensorPower.lean](LeanHaar/ForMathlib/TensorPower.lean).
+Source: [TensorPower.lean](LeanHaar/TensorPower.lean).
 
 | Definition | Meaning | Current assessment |
 | --- | --- | --- |
@@ -109,7 +107,7 @@ structure; the current application extraction introduces none.
 
 ### DCT.lean — 4 private definitions
 
-Source: [DCT.lean](LeanHaar/ForMathlib/DCT.lean).
+Source: [DCT.lean](LeanHaar/DCT.lean).
 
 | Definition | Meaning | Current assessment |
 | --- | --- | --- |
@@ -125,7 +123,7 @@ instance lives beside the tensor basis.
 
 ### TensorPower/Matrix.lean — 2 definitions
 
-Source: [TensorPower/Matrix.lean](LeanHaar/ForMathlib/TensorPower/Matrix.lean).
+Source: [TensorPower/Matrix.lean](LeanHaar/TensorPower/Matrix.lean).
 
 | Definition | Meaning | Current assessment |
 | --- | --- | --- |
@@ -134,7 +132,7 @@ Source: [TensorPower/Matrix.lean](LeanHaar/ForMathlib/TensorPower/Matrix.lean).
 
 ### PermutationCentralizer.lean — 1 private definition
 
-Source: [PermutationCentralizer.lean](LeanHaar/ForMathlib/PermutationCentralizer.lean).
+Source: [PermutationCentralizer.lean](LeanHaar/PermutationCentralizer.lean).
 
 | Definition | Meaning | Current assessment |
 | --- | --- | --- |
@@ -142,7 +140,7 @@ Source: [PermutationCentralizer.lean](LeanHaar/ForMathlib/PermutationCentralizer
 
 ### Weingarten.lean — 2 definitions
 
-Source: [Weingarten.lean](LeanHaar/ForMathlib/Weingarten.lean).
+Source: [Weingarten.lean](LeanHaar/Weingarten.lean).
 
 | Definition | Meaning | Current assessment |
 | --- | --- | --- |
@@ -151,7 +149,7 @@ Source: [Weingarten.lean](LeanHaar/ForMathlib/Weingarten.lean).
 
 ### WeingartenInverse.lean — 10 definitions
 
-Source: [WeingartenInverse.lean](LeanHaar/ForMathlib/WeingartenInverse.lean).
+Source: [WeingartenInverse.lean](LeanHaar/WeingartenInverse.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
@@ -174,7 +172,7 @@ must be accounted for.
 
 ### Haar.lean — 5 definitions
 
-Source: [Haar.lean](LeanHaar/ForMathlib/Haar.lean).
+Source: [Haar.lean](LeanHaar/Haar.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
@@ -186,7 +184,7 @@ Source: [Haar.lean](LeanHaar/ForMathlib/Haar.lean).
 
 ### SupportingDocs/TensorPowerTraces.lean — 4 definitions
 
-Source: [TensorPowerTraces.lean](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/TensorPowerTraces.lean).
+Source: [TensorPowerTraces.lean](LeanHaar/SupportingDocs/TensorPowerTraces.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
@@ -197,15 +195,15 @@ Source: [TensorPowerTraces.lean](LeanHaar/ForMathlib/ForMathlibExamples/Supporti
 
 ### SupportingDocs/Swap.lean — 1 definition
 
-Source: [SupportingDocs/Swap.lean](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/Swap.lean).
+Source: [SupportingDocs/Swap.lean](LeanHaar/SupportingDocs/Swap.lean).
 
 | Definition | Meaning | Current assessment |
 | --- | --- | --- |
-| `𝔽` | Swap operator on the two-factor tensor power. | **Keep the shared operator.** It was extracted from `k2Moment` without changing its name or definition. A searchable namespaced name such as `swapOp`, with scoped notation, remains optional later work. |
+| `𝔽` | Swap operator on the two-factor tensor power. | **Keep the shared operator.** It was extracted from `Moments/k2Moment` without changing its name or definition. A searchable namespaced name such as `swapOp`, with scoped notation, remains optional later work. |
 
 ### SupportingDocs/HaarMoments.lean — 2 definitions
 
-Source: [HaarMoments.lean](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarMoments.lean).
+Source: [HaarMoments.lean](LeanHaar/SupportingDocs/HaarMoments.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
@@ -214,7 +212,7 @@ Source: [HaarMoments.lean](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs
 
 ### SupportingDocs/TraceContractions.lean — 4 definitions
 
-Source: [TraceContractions.lean](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/TraceContractions.lean).
+Source: [TraceContractions.lean](LeanHaar/SupportingDocs/TraceContractions.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
@@ -225,7 +223,7 @@ Source: [TraceContractions.lean](LeanHaar/ForMathlib/ForMathlibExamples/Supporti
 
 ### SupportingDocs/DepolarizingChannel.lean — 3 definitions
 
-Source: [DepolarizingChannel.lean](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/DepolarizingChannel.lean).
+Source: [DepolarizingChannel.lean](LeanHaar/SupportingDocs/DepolarizingChannel.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
@@ -248,13 +246,13 @@ they do not introduce more definitions or alternate core constructions.
 
 ## Low-order moments and QML
 
-`k1Moment.lean` and `k2Moment.lean` now contain no active definitions. They prove
-their moment formulas using the shared tensor/swap API. `k4Moment` retains its
+`Moments/k1Moment.lean` and `Moments/k2Moment.lean` now contain no active definitions. They prove
+their moment formulas using the shared tensor/swap API. `Moments/k4Moment` retains its
 six application-specific coefficient constructions below.
 
-### k4Moment.lean — 6 definitions
+### Moments/k4Moment.lean — 6 definitions
 
-Source: [k4Moment.lean](LeanHaar/ForMathlib/ForMathlibExamples/k4Moment.lean).
+Source: [Moments/k4Moment.lean](LeanHaar/Moments/k4Moment.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
@@ -270,7 +268,7 @@ dimension assumptions are false.
 
 ### QML/CostFunction.lean — 2 definitions
 
-Source: [CostFunction.lean](LeanHaar/ForMathlib/ForMathlibExamples/QML/CostFunction.lean).
+Source: [CostFunction.lean](LeanHaar/Applications/QML/CostFunction.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
@@ -314,7 +312,7 @@ that every former public name remains available.
 
 ### SnapshotEnsemble.lean — 8 definitions/structures
 
-Source: [SnapshotEnsemble.lean](LeanHaar/ForMathlib/ForMathlibExamples/ClassicalShadows/SnapshotEnsemble.lean).
+Source: [SnapshotEnsemble.lean](LeanHaar/Applications/ClassicalShadows/SnapshotEnsemble.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
@@ -339,7 +337,7 @@ and `tensorPow` form tensor-power operators but do not average them.
 
 ### UnitarySnapshots.lean — 5 definitions
 
-Source: [UnitarySnapshots.lean](LeanHaar/ForMathlib/ForMathlibExamples/ClassicalShadows/UnitarySnapshots.lean).
+Source: [UnitarySnapshots.lean](LeanHaar/Applications/ClassicalShadows/UnitarySnapshots.lean).
 
 All five definitions appear together before the two elementary projector laws
 and the tensor-power orbit identity. This module imports no computed moment
@@ -356,7 +354,7 @@ consumer uses the shared tensor-trace theorems directly.
 
 ### Observation59.lean — no definitions
 
-[Observation59](LeanHaar/ForMathlib/ForMathlibExamples/ClassicalShadows/Observation59.lean)
+[Observation59](LeanHaar/Applications/ClassicalShadows/Observation59.lean)
 now owns `unitarySnapshotMoment_two`: it applies the existing `k2_moment` to each
 projector tensor square, then sums the `d` equal contributions. It does not
 reprove the general second-moment result. Consumers of this corollary import
@@ -376,7 +374,7 @@ need not all become generic Mathlib definitions.
 
 ### SingleGateMoment.lean — 1 definition
 
-Source: [SingleGateMoment.lean](LeanHaar/ForMathlib/ForMathlibExamples/MagicMonotone/SingleGateMoment.lean).
+Source: [SingleGateMoment.lean](LeanHaar/Applications/MagicMonotone/SingleGateMoment.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
@@ -384,7 +382,7 @@ Source: [SingleGateMoment.lean](LeanHaar/ForMathlib/ForMathlibExamples/MagicMono
 
 ### BrickworkLayers.lean — 28 definitions/abbreviations
 
-Source: [BrickworkLayers.lean](LeanHaar/ForMathlib/ForMathlibExamples/MagicMonotone/BrickworkLayers.lean).
+Source: [BrickworkLayers.lean](LeanHaar/Applications/MagicMonotone/BrickworkLayers.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
@@ -419,109 +417,52 @@ Source: [BrickworkLayers.lean](LeanHaar/ForMathlib/ForMathlibExamples/MagicMonot
 
 ### Equation24.lean — 2 definitions
 
-Source: [Equation24.lean](LeanHaar/ForMathlib/ForMathlibExamples/MagicMonotone/Equation24.lean).
+Source: [Equation24.lean](LeanHaar/Applications/MagicMonotone/Equation24.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
 | `twoLayerMoment` | Composition of the two layer operators. | **Keep.** Document composition order; inherit physical interpretation once layer bridges are established. |
 | `twoLayerKernel` | Weighted contraction of interlayer overlaps. | **Keep.** A matrix-product formulation may simplify it. The ket families are not established as orthonormal bases, so avoid that interpretation. |
 
-## Older library and prototype files
+## Retained standalone examples
 
-These need a separate maintenance decision and should not determine the current
-core's architecture.
+The user chose to preserve these three independent examples under descriptive
+module names. The unused `HilbertSpace` wrapper and its original Schur example,
+the `Example` smoke test, and the two duplicate root-namespace Pauli implementations
+are removed. The older proofs remain available in Git history.
 
-### HilbertSpace.lean — 5 definitions/structures
+### Examples/UnitaryCommutant.lean — 1 definition
 
-Source: [HilbertSpace.lean](LeanHaar/HilbertSpace.lean).
-
-| Definition | Meaning | Assessment |
-| --- | --- | --- |
-| `FiniteHilbertSpace` | One-field structure wrapping `EuclideanSpace`. | **Strong candidate for removal.** It adds no mathematical data or distinct semantics while requiring transported instances. Use `EuclideanSpace` unless a specific abstraction boundary is intended. |
-| `equivEuclidean` | Underlying equivalence with `EuclideanSpace`. | **Only needed because of the wrapper.** |
-| `linearEquivEuclidean` | Linear version of that equivalence. | **Only needed because of the wrapper.** |
-| `isometryEquivEuclidean` | Linear isometry equivalence with `EuclideanSpace`. | **Strongest useful bridge if the wrapper stays.** Obtain weaker views from projections where possible. |
-| `basisFun` | Transported standard orthonormal basis. | **Use the existing Euclidean-space basis if the wrapper goes.** The transport itself is reasonable. |
-
-The module documentation describes an abbreviation indexed by a natural number,
-but the implementation is a structure indexed by a finite type.
-
-### Example.lean — 2 definitions
-
-Source: [Example.lean](LeanHaar/Example.lean).
+Source: [UnitaryCommutant.lean](LeanHaar/Examples/UnitaryCommutant.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
-| `hello` | Template string. | **Remove from public library imports.** |
-| `basicAdd` | Wrapper around natural-number addition. | **Remove or keep only as an isolated tutorial/test.** |
+| `stdRep` | Standard two-dimensional unitary representation. | **Retained.** This is the representation used by the standalone irreducibility/Schur-lemma proof, independent of the tensor-power library. |
 
-### Commutants1D-SchursLemma.lean — 2 definitions
+### Examples/EulerAngleIntegral.lean — 4 definitions
 
-Source: [Commutants1D-SchursLemma.lean](LeanHaar/Examples/Commutants1D-SchursLemma.lean).
-
-| Definition | Meaning | Assessment |
-| --- | --- | --- |
-| `UnitaryGroup` | Linear isometric automorphisms of the Hilbert space. | **Legitimate shorthand**, without requiring the custom Hilbert-space wrapper. Generalize to an inner-product space if reused. |
-| `unitaryRep` | Natural unitary representation. | **Keep if this proof remains.** It is consumed by Schur/irreducibility machinery, so the wrapper has a concrete purpose. |
-
-### Commutants1D-SchursLemmaV2.lean — 1 definition
-
-Source: [Commutants1D-SchursLemmaV2.lean](LeanHaar/Examples/Commutants1D-SchursLemmaV2.lean).
+Source: [EulerAngleIntegral.lean](LeanHaar/Examples/EulerAngleIntegral.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
-| `stdRep` | Standard two-dimensional unitary representation. | **Keep as an example or consolidate the approaches.** Full generality is not required of a deliberately two-dimensional example. |
+| `sigmaZ` | Explicit Pauli Z matrix. | **Retained unchanged in this coordinate example.** Reusing Physlib's matrix would be a separate proof cleanup. |
+| `U` | Euler-angle matrix formula. | **Retained.** A descriptive namespace and unitarity theorem remain possible improvements. |
+| `U_dagger` | Expanded conjugate-transpose formula. | **Retained.** Deriving this through conjugate transpose would avoid maintaining two coordinate formulas. |
+| `haarIntegral` | Unnormalized angular integral with sine weight. | **Retained with explicit documentation.** Its constant mass is `8π²`; no identification with normalized Haar measure is proved. |
 
-### Moments.lean — 4 definitions
+### Examples/PauliTwirling.lean — 2 definitions
 
-Source: [Moments.lean](LeanHaar/Examples/Moments.lean).
-
-| Definition | Meaning | Assessment |
-| --- | --- | --- |
-| `sigmaZ` | Explicit Pauli Z matrix. | **Reuse Physlib's object**, or make it private to a pedagogical example. |
-| `U` | Euler-angle matrix formula. | **Use a descriptive namespaced name**, and prove or bundle unitarity if used as a unitary. |
-| `U_dagger` | Manually expanded conjugate-transpose formula. | **Define through `star U`/conjugate transpose** rather than maintaining another coordinate formula. |
-| `haarIntegral` | Unnormalized angular integral with sine weight. | **Rename or establish the measure bridge.** Its constant mass is `8π²`; it is not a normalized Haar expectation. Coordinate integration alone does not prove the Haar interpretation. |
-
-### Twirling.lean — 6 definitions
-
-Source: [Twirling.lean](LeanHaar/Examples/Twirling.lean).
+Source: [PauliTwirling.lean](LeanHaar/Examples/PauliTwirling.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
-| `pauliI` | Identity matrix. | **Use `1`.** |
-| `pauliX` | Pauli X. | **Reuse the existing definition**, or keep private to a standalone example. |
-| `pauliY` | Pauli Y. | **Same assessment.** |
-| `pauliZ` | Pauli Z. | **Same assessment.** |
-| `pauliTwirl` | Average of four Pauli conjugations. | **Keep one canonical implementation.** Bundle linearity if promoted to public infrastructure. |
-| `blochState` | Bloch-form matrix with complex coefficients. | **Rename as a matrix expression or restrict parameters.** Arbitrary complex coefficients do not ensure Hermiticity or positivity. |
+| `pauliTwirl` | Namespaced four-Pauli conjugation average. | **Retained as the single implementation.** It reuses Physlib's Pauli matrices. |
+| `blochState` | Bloch-form matrix with real coefficients. | **Retained with clarified documentation.** Positivity needs the unit-ball condition, which the algebraic twirl identity does not require. |
 
-### Twirling-Physlib.lean — 3 definitions
-
-Source: [Twirling-Physlib.lean](LeanHaar/Examples/Twirling-Physlib.lean).
-
-| Definition | Meaning | Assessment |
-| --- | --- | --- |
-| `pauliI` | Identity matrix again. | **Use `1`.** |
-| `pauliTwirl` | Another Pauli-twirl implementation. | **Consolidate the versions.** |
-| `blochState` | Another complex-coefficient Bloch expression. | **Same physical-domain issue and duplication.** |
-
-This file and `Twirling.lean` export overlapping root-level names, so they are not
-a coherent jointly importable library.
-
-### TwirlingPhyslibV2.lean — 2 definitions
-
-Source: [TwirlingPhyslibV2.lean](LeanHaar/Examples/TwirlingPhyslibV2.lean).
-
-| Definition | Meaning | Assessment |
-| --- | --- | --- |
-| `pauliTwirl` | Namespaced version using existing Pauli matrices. | **Best starting point for consolidation.** Keep one implementation. |
-| `blochState` | Bloch expression with real coefficients. | **Improved, but not necessarily a state.** Positivity additionally requires the Bloch vector to be in the unit ball. |
-
-## Instance audit — 24 instances
+## Instance audit — 14 instances
 
 Instances determine whether the definitions compose cleanly and are included
-separately from the 121-definition count. This count includes the two local DCT
+separately from the 103-definition count. This count includes the two local DCT
 instances; shared application support retains each instance once.
 
 | Location / instances | Assessment |
@@ -536,12 +477,9 @@ instances; shared application support retains each instance once.
 | SupportingDocs/HaarInvariance: `instIsHaarMeasureHaarProb` | **Done: keep in shared application support.** The core Haar file is unchanged. |
 | SupportingDocs/HaarInvariance: `instInnerRegularHaarProb` | **Retained unchanged.** A later redundancy check may use Mathlib inference; no instance was removed during extraction. |
 | SupportingDocs/HaarInvariance: `instIsMulRightInvariantHaarProb`, `instIsInvInvariantHaarProb` | **Done: keep in shared application support**, each declared once. |
-| HilbertSpace: `AddCommGroup`, `Module`, `NormedAddCommGroup`, `InnerProductSpace`, `FiniteDimensional`, `CompleteSpace`, `Nontrivial` | All seven are appropriate **if the wrapper remains**. All become unnecessary when using `EuclideanSpace` directly. |
-| Original Schur example: local group-algebra `Module`, local `IsScalarTower` | **Check standard `Representation.asModule` instances.** Avoid duplicates unless required by a specific instance-resolution problem. |
-| Original Schur example: `unitary_irreducible` | **Keep.** A mathematical result appropriately exposed as a proposition instance. |
-| Schur V2: `IsIrreducible stdRep` | **Keep**, subject to deciding which example/proof is maintained. |
+| Examples/UnitaryCommutant: `IsIrreducible stdRep` | **Retained.** Supports the preserved standalone Schur-lemma example. |
 
-Sources for supporting instances: [HaarInvariance.lean](LeanHaar/ForMathlib/ForMathlibExamples/SupportingDocs/HaarInvariance.lean)
+Sources for supporting instances: [HaarInvariance.lean](LeanHaar/SupportingDocs/HaarInvariance.lean)
 and the corresponding modules linked above.
 
 ## Remaining work within the application scope
@@ -577,6 +515,6 @@ field/module, or restore GL/unitary representation wrappers are deferred under
 the current decision to keep the core unchanged. There is no pending task to
 restore the stashed public permutation representation module.
 
-The older Hilbert-space wrapper and Pauli/twirling prototypes need a separate
-maintenance decision. Their review entries above remain a backlog, not a reason
-to expand the current application-infrastructure scope.
+The obsolete wrappers and duplicate prototypes are now removed. Further changes
+to the three retained examples' definitions remain separate mathematical/API work;
+their file moves did not alter their proofs.

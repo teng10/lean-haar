@@ -1,0 +1,80 @@
+name: PR check
+
+on:
+  pull_request:
+    # Retargeting changes the code being checked. Run every edit, including title/body edits,
+    # so a skipped required job cannot replace an unfinished safety check.
+    types: [opened, synchronize, reopened, edited]
+  workflow_dispatch:
+
+concurrency:
+  group: pr-check-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v5
+
+      # The `.lake` tree is ~8 GB; same clean-up as blueprint_new.yml.
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+
+      # Toolchain, Mathlib cache, then:
+      #   lake build --wfail      every warning (including `sorry` and `assert_not_imported`) fails the build
+      #   lake test --wfail       test/LeanHaarTest: headline pins, #print axioms guards, compatibility and instance pins
+      #   mk_all --check          LeanHaar.lean imports every module of the library
+      #   axiom audit             every declaration of LeanHaar depends only on propext, Classical.choice, Quot.sound
+      #   leanchecker             re-check compiled declarations with the Lean kernel
+      - name: Build, test, umbrella and axiom checks
+        uses: leanprover/lean-action@v1
+        env:
+          # leanchecker loads a full import environment per parallel check, which can exhaust the
+          # runner's memory on a Mathlib project (lean-action README, "Run leanchecker on a project
+          # with a Mathlib dependency").
+          LEAN_NUM_THREADS: "1"
+        with:
+          build-args: --wfail
+          test: true
+          test-args: --wfail
+          lint: false
+          mk_all-check: true
+          mk_all-args: --lib LeanHaar
+          axiom-audit: true
+          leanchecker: true
+
+      # The audit imports only LeanHaarTest. Check that its umbrella includes every test module.
+      # mk_all resolves its directory relative to the working directory, not Lake's srcDir.
+      - name: Test umbrella imports every module
+        run: lake env bash -c 'cd test && exec mk_all --lib LeanHaarTest --check'
+
+      # The compatibility pins in test/LeanHaarTest are declarations outside the library root, so the
+      # audit above does not see them, and `--wfail` cannot see a `sorry` wrapped in `#guard_msgs`.
+      # Same tool and pinned version, second root; the project is already built and cached.
+      - name: Axiom audit of the test suite
+        uses: leanprover/lean-action@v1
+        with:
+          build: false
+          test: false
+          use-mathlib-cache: false
+          use-github-cache: false
+          axiom-audit: true
+          axiom-audit-root: LeanHaarTest
+
+      # Advisory until the 26 stale `\lean{}` tags of the blueprint are repaired (then drop `continue-on-error`).
+      - name: Blueprint declarations resolve
+        continue-on-error: true
+        run: lake exe checkdecls blueprint/lean_decls

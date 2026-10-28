@@ -33,11 +33,3 @@ import LeanHaar.TensorPower
 import LeanHaar.TensorPower.Matrix
 import LeanHaar.Weingarten
 import LeanHaar.WeingartenInverse
-
-/-!
-# Schur–Weyl duality and Haar integration
-
-This umbrella imports the core library, computed moments, shared application support,
-applications, and the three standalone examples. Import a specific `LeanHaar` module
-when only one part of the library is needed.
--/

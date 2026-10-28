@@ -122,7 +122,7 @@ lemma card_inv_conj (d : ℕ) (g τ : Equiv.Perm (Fin 4)) :
 
 /-- `numCyc` is a class function of `τ`. -/
 lemma numCyc_conj' (g κ : Equiv.Perm (Fin 4)) : numCyc (g * κ * g⁻¹) = numCyc κ := by
-  native_decide +revert
+  simp only [numCyc, Equiv.Perm.cycleType_conj]
 
 lemma card_rep_id (d : ℕ) :
     Fintype.card {J : Fin 4 → Fin d // J = J ∘ (1 : Equiv.Perm (Fin 4)).symm} = d ^ 4 := by
@@ -222,7 +222,7 @@ lemma weingartenGramNat_one (d : ℕ) (τ : Equiv.Perm (Fin 4)) :
       ∃ τ' ∈ ([1, Equiv.swap 0 1, Equiv.swap 0 1 * Equiv.swap 2 3,
                Equiv.swap 0 1 * Equiv.swap 1 2,
                Equiv.swap 0 1 * Equiv.swap 1 2 * Equiv.swap 2 3] : List _),
-        ∃ g, τ = g * τ' * g⁻¹ := by native_decide
+        ∃ g, τ = g * τ' * g⁻¹ := by decide
   obtain ⟨τ', hmem, g, rfl⟩ := hex τ
   rw [wgnat_one_eq, card_inv_conj, ← wgnat_one_eq, numCyc_conj', wgnat_one_eq]
   fin_cases hmem
@@ -384,10 +384,10 @@ lemma wg_rep_4cyc (d : ℕ) (hd : 4 ≤ d) :
   ring
 
 lemma numCyc_conj (g κ : Equiv.Perm (Fin 4)) : numCyc (g * κ * g⁻¹) = numCyc κ := by
-  native_decide +revert
+  exact numCyc_conj' g κ
 
 lemma ctIdx_conj (g κ : Equiv.Perm (Fin 4)) : ctIdx (g * κ * g⁻¹) = ctIdx κ := by
-  native_decide +revert
+  simp only [ctIdx, Equiv.Perm.cycleType_conj]
 
 lemma wgVal_conj (d : ℂ) (g τ : Equiv.Perm (Fin 4)) :
     wgVal d (g * τ * g⁻¹) = wgVal d τ := by
@@ -416,7 +416,7 @@ lemma wg_class_sum (d : ℕ) (hd : 4 ≤ d) (ν : Equiv.Perm (Fin 4)) :
   have hex : ∀ ν : Equiv.Perm (Fin 4),
       ∃ ν' ∈ ([1, Equiv.swap 0 1, Equiv.swap 0 1 * Equiv.swap 2 3,
                 (c[0,1,2] : Equiv.Perm (Fin 4)), (c[0,1,2,3] : Equiv.Perm (Fin 4))] : List _),
-        ∃ g, ν = g * ν' * g⁻¹ := by native_decide
+        ∃ g, ν = g * ν' * g⁻¹ := by decide
   obtain ⟨ν', hmem, g, rfl⟩ := hex ν
   rw [wg_Hsum_conj]
   have hone : (g * ν' * g⁻¹ = 1) ↔ ν' = 1 := by rw [mul_inv_eq_one, mul_eq_left]

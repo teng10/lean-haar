@@ -1,8 +1,8 @@
 # Definition summary and cleanup status
 
-Updated: 2026-10-02. Original review: 2026-09-25.
+Updated: 2026-10-29. Original review: 2026-09-25.
 
-The current `LeanHaar` source tree contains **103 active definitions, abbreviations,
+The current `LeanHaar` source tree contains **101 active definitions, abbreviations,
 and structures**, plus **14 explicit instances**, across 35 modules. This includes
 private constructions, local instances, and the three retained standalone examples;
 it excludes comments and ordinary theorems. The reorganization removed 18 definitions
@@ -310,7 +310,10 @@ statements preserve their hypotheses, formulas, conjugation order, and dimension
 restrictions. These are intentional reductions of the helper API, not a claim
 that every former public name remains available.
 
-### SnapshotEnsemble.lean — 8 definitions/structures
+The 2026-10-29 follow-up inlines `secondTensorMoment` and `thirdTensorMoment`
+in the two Observation 58 identities, preserving their names, hypotheses, and formulas.
+
+### SnapshotEnsemble.lean — 6 definitions/structures
 
 Source: [SnapshotEnsemble.lean](LeanHaar/Applications/ClassicalShadows/SnapshotEnsemble.lean).
 
@@ -322,8 +325,6 @@ Source: [SnapshotEnsemble.lean](LeanHaar/Applications/ClassicalShadows/SnapshotE
 | `invChannel` | Inverse measurement map under bijectivity. | **Keep.** Directly uses `LinearEquiv.ofBijective`; its name supports the estimator API. |
 | `stateEstimator` | Inverse channel applied to a snapshot. | **Keep.** This is the classical shadow; it need not be positive, so a density-state codomain would be wrong. |
 | `observableEstimator` | Trace pairing of an observable with the state estimator. | **Keep.** Expresses the estimated observable. Real-valuedness is separate mathematical work. |
-| `secondTensorMoment` | Weighted sum of `Sₓ ⊗ Sₓ`. | **Keep with its contraction theorem in this module.** It is the finite sum `∑ₓ wₓ Sₓ ⊗ Sₓ`, not the Haar conjugation operator `momentOp`. |
-| `thirdTensorMoment` | Weighted sum of right-associated threefold snapshot tensors. | **Keep beside the second moment and estimator theorem.** Its right association and arbitrary-field formulation are unchanged. |
 
 Probability normalization here uses completeness such as `∑ₓ wₓ Sₓ = I`, together
 with positivity and a density state. Merely requiring `∑ₓ wₓ = 1` is insufficient.

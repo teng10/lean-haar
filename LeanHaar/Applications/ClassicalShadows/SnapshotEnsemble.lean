@@ -19,10 +19,6 @@ and the estimators `ρ̂ = M⁻¹(Sₓ)` and `ô = Tr(O ρ̂)` built from it.
   `ClassicalShadows.SnapshotEnsemble.invChannel`, its inverse `M⁻¹`.
 * `ClassicalShadows.SnapshotEnsemble.stateEstimator`,
   `ClassicalShadows.SnapshotEnsemble.observableEstimator`: `ρ̂ = M⁻¹(Sₓ)` and `ô = Tr(O ρ̂)`.
-* `ClassicalShadows.SnapshotEnsemble.secondTensorMoment`,
-  `ClassicalShadows.SnapshotEnsemble.thirdTensorMoment`: the weighted twofold and threefold
-  tensors of snapshots. These are tensors of endomorphisms, with no identification with
-  endomorphisms of a tensor-product state space assumed here.
 
 ## Main results
 
@@ -67,17 +63,6 @@ structure SnapshotEnsemble (𝕜 V ι : Type*) [Field 𝕜] [AddCommGroup V] [Mo
 namespace SnapshotEnsemble
 
 variable (E : SnapshotEnsemble 𝕜 V ι)
-
-/-! ### Tensor moments of the ensemble -/
-
-/-- The second tensor moment `∑ₓ wₓ Sₓ ⊗ Sₓ` of a snapshot ensemble. -/
-def secondTensorMoment : Module.End 𝕜 V ⊗[𝕜] Module.End 𝕜 V :=
-  ∑ x, E.weight x • (E.snapshot x ⊗ₜ[𝕜] E.snapshot x)
-
-/-- The third tensor moment `∑ₓ wₓ Sₓ ⊗ Sₓ ⊗ Sₓ` of a snapshot ensemble. -/
-def thirdTensorMoment :
-    Module.End 𝕜 V ⊗[𝕜] (Module.End 𝕜 V ⊗[𝕜] Module.End 𝕜 V) :=
-  ∑ x, E.weight x • (E.snapshot x ⊗ₜ[𝕜] (E.snapshot x ⊗ₜ[𝕜] E.snapshot x))
 
 /-! ### The measurement channel -/
 
@@ -136,8 +121,9 @@ private theorem secondMoment_observableEstimator (hM : Function.Bijective E.meas
 /-- **Observation 58**, first identity: contract the first factor of the second snapshot
 moment against `ρ` to obtain the measurement channel. -/
 theorem measurementChannel_eq_partialTrace_secondTensorMoment (ρ : Module.End 𝕜 V) :
-    E.measurementChannel ρ = LinearMap.partialTraceFirst ρ E.secondTensorMoment := by
-  simp [measurementChannel, outcomeWeight, secondTensorMoment, smul_smul]
+    E.measurementChannel ρ = LinearMap.partialTraceFirst ρ
+      (∑ x, E.weight x • (E.snapshot x ⊗ₜ[𝕜] E.snapshot x)) := by
+  simp [measurementChannel, outcomeWeight, smul_smul]
 
 /-- **Observation 58**, second identity: the algebraic estimator square-moment difference
 is the contraction of the third snapshot moment against `ρ`, `M⁻¹(O)`, `M⁻¹(O)`, minus
@@ -149,11 +135,12 @@ theorem observableEstimatorVariance_eq_thirdTensorMoment
         LinearMap.trace 𝕜 V (E.invChannel hM A ∘ₗ B)) (ρ O : Module.End 𝕜 V) :
     (∑ x, E.outcomeWeight ρ x * E.observableEstimator hM O x ^ 2) -
         LinearMap.trace 𝕜 V (O ∘ₗ ρ) ^ 2 =
-      LinearMap.tripleTraceContract ρ (E.invChannel hM O) (E.invChannel hM O) E.thirdTensorMoment -
+      LinearMap.tripleTraceContract ρ (E.invChannel hM O) (E.invChannel hM O)
+        (∑ x, E.weight x • (E.snapshot x ⊗ₜ[𝕜] (E.snapshot x ⊗ₜ[𝕜] E.snapshot x))) -
         LinearMap.trace 𝕜 V (O ∘ₗ ρ) ^ 2 := by
   rw [E.secondMoment_observableEstimator hM hself ρ O]
   congr 1
-  simp only [thirdTensorMoment, map_sum, map_smul, LinearMap.tripleTraceContract_tmul,
+  simp only [map_sum, map_smul, LinearMap.tripleTraceContract_tmul,
     smul_eq_mul, mul_assoc]
 
 end SnapshotEnsemble

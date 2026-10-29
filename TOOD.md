@@ -158,6 +158,9 @@ ensembles, and their mathematical interpretation remain in their application mod
 
 ## Classical-shadow application cleanup
 
+- [x] Inline the two tensor-moment sums while retaining both Observation 58 identities
+  under their original names and hypotheses (2026-10-29).
+
 - [x] Move `TraceContractions` and `DepolarizingChannel` to `SupportingDocs`,
   under `LinearMap`, preserving their generality and useful bundled structures.
 - [x] Build `traceMulLeft` by composing existing Mathlib linear maps.
@@ -190,7 +193,7 @@ ensembles, and their mathematical interpretation remain in their application mod
   endpoint axiom reports against the original baseline. Core, other applications,
   prototypes, and stashes are unchanged.
 
-The application has three files and thirteen definitions/structures. Shared
+The application has three files and eleven definitions/structures. Shared
 support contains ten modules. At that stage the repository inventory was 121 definitions/
 abbreviations/structures and 24 explicit instances; the reorganization below updates it. The helper API was deliberately
 reduced: the scalar expansion is private, the evaluation lemma and two tensor-trace

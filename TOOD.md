@@ -160,6 +160,8 @@ ensembles, and their mathematical interpretation remain in their application mod
 
 - [x] Inline the two tensor-moment sums while retaining both Observation 58 identities
   under their original names and hypotheses (2026-10-29).
+- [x] Inline `unitarySnapshotMoment` in Observation59, preserving its theorem names,
+  hypotheses, and formulas (2026-10-29).
 
 - [x] Move `TraceContractions` and `DepolarizingChannel` to `SupportingDocs`,
   under `LinearMap`, preserving their generality and useful bundled structures.
@@ -167,7 +169,7 @@ ensembles, and their mathematical interpretation remain in their application mod
 - [x] Put the finite tensor moments and both Observation 58 identities together in
   `SnapshotEnsemble`; remove the separate `Observation58` module. The two results
   stay distinct because their objects and hypotheses differ.
-- [x] Group all five physical definitions before elementary laws in `UnitarySnapshots`.
+- [x] Group all four physical definitions before elementary laws in `UnitarySnapshots`.
   Move `unitarySnapshotMoment_two` to Observation59 and document its direct use of
   `k2_moment`; the model module no longer imports that computation.
 - [x] Remove `trace_diagAction_basisProjector` and
@@ -193,7 +195,7 @@ ensembles, and their mathematical interpretation remain in their application mod
   endpoint axiom reports against the original baseline. Core, other applications,
   prototypes, and stashes are unchanged.
 
-The application has three files and eleven definitions/structures. Shared
+The application has three files and ten definitions/structures. Shared
 support contains ten modules. At that stage the repository inventory was 121 definitions/
 abbreviations/structures and 24 explicit instances; the reorganization below updates it. The helper API was deliberately
 reduced: the scalar expansion is private, the evaluation lemma and two tensor-trace

@@ -12,7 +12,7 @@ import LeanHaar.SupportingDocs.DepolarizingChannel
 This file introduces the snapshots `U† |b⟩⟨b| U` actually recorded by the classical-shadow
 experiment on `ℂ^d`, relates their tensor powers to the unitary conjugation orbit used by the
 Haar moment operator of the framework, and defines the Born-weighted Haar measurement
-channel. All five protocol definitions precede their elementary projector and orbit lemmas.
+channel. All four protocol definitions precede their elementary projector and orbit lemmas.
 Observation59 applies `k2_moment` to evaluate the summed second moment and identify the
 integral channel with the explicit invertible isotropic map defined here.
 
@@ -20,8 +20,6 @@ integral channel with the explicit invertible isotropic map defined here.
 
 * `ClassicalShadows.basisProjector`: the computational-basis projector `|b⟩⟨b|`.
 * `ClassicalShadows.unitarySnapshot`: the physical snapshot `U† |b⟩⟨b| U`.
-* `ClassicalShadows.unitarySnapshotMoment`: `∑_b 𝔼_{U∼μ}[(U† |b⟩⟨b| U)^{⊗k}]`.
-  This sums over outcomes without dividing by `d` or inserting Born weights.
 * `ClassicalShadows.haarMeasurementChannel`: the entrywise Haar integral of Born-weighted
   snapshots, summed over measurement outcomes.
 * `ClassicalShadows.haarMeasurementChannelEquiv`: the explicit isotropic equivalence;
@@ -53,13 +51,6 @@ def unitarySnapshot {d : ℕ} (U : Matrix.unitaryGroup (Fin d) ℂ) (b : Fin d) 
     Module.End ℂ (Fin d → ℂ) :=
   endOf (star (U : Matrix (Fin d) (Fin d) ℂ)) ∘ₗ basisProjector d b ∘ₗ
     endOf (U : Matrix (Fin d) (Fin d) ℂ)
-
-/-- The `k`-th Haar moment of the physical snapshot ensemble, summed over the computational
-basis: `∑ b, 𝔼_{U∼μ}[(U† |b⟩⟨b| U)^{⊗k}]`. Haar invariance under `U ↦ U†` lets one write it
-through the moment operator of the projectors `|b⟩⟨b|`. The sum is unnormalized over
-basis outcomes and contains no state-dependent Born weight. -/
-def unitarySnapshotMoment (d k : ℕ) : Module.End ℂ (TensV d k) :=
-  ∑ b : Fin d, momentOp (diagAction d k (basisProjector d b))
 
 /-- The **measurement channel** of the Haar-random classical-shadow protocol on `ℂ^d`:
 `M(ρ) = ∑_b 𝔼_{U∼μ}[⟨b|UρU†|b⟩ · U†|b⟩⟨b|U]`, where the Born weight `⟨b|UρU†|b⟩` is written as

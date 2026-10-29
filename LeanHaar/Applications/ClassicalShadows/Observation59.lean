@@ -49,9 +49,11 @@ variable {d : ℕ}
 /-- Specialize `k2_moment` to each computational-basis projector's tensor square and sum
 across the `d` basis outcomes. Each projector has trace one and is idempotent, so the identity
 and swap trace contractions are both one. The resulting unnormalized sum is
-`(I + 𝔽)/(d + 1)`. This is a corollary of the existing second Haar moment formula. -/
+`(I + 𝔽)/(d + 1)`. This is a corollary of the existing second Haar moment formula.
+The sum contains no Born weights. Haar invariance under `U ↦ U†` relates these
+projector-orbit moments to the physical snapshots. -/
 theorem unitarySnapshotMoment_two (d : ℕ) [NeZero d] [Fact (2 ≤ d)] :
-    unitarySnapshotMoment d 2 =
+    (∑ b : Fin d, momentOp (diagAction d 2 (basisProjector d b))) =
       ((d : ℂ) + 1)⁻¹ • ((LinearMap.id : Module.End ℂ (TensV d 2)) + 𝔽 d) := by
   have hd : (d : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (NeZero.ne d)
   have hdm1 : (d : ℂ) - 1 ≠ 0 :=
@@ -65,7 +67,6 @@ theorem unitarySnapshotMoment_two (d : ℕ) [NeZero d] [Fact (2 ≤ d)] :
   have hcoeff : (d : ℂ) * ((1 - (d : ℂ)⁻¹) / ((d : ℂ) ^ 2 - 1)) = ((d : ℂ) + 1)⁻¹ := by
     field_simp
     ring
-  rw [unitarySnapshotMoment]
   simp_rw [k2_moment]
   simp only [smul_eq_mul, Module.End.mul_eq_comp, trace_diagAction, trace_swap_comp_diagAction,
     basisProjector_comp_self, trace_basisProjector, one_pow, mul_one]
@@ -81,7 +82,8 @@ produces `(Tr(ρ) I + ρ)/(d+1)`, entrywise. -/
 private theorem contract_unitarySnapshotMoment_two [NeZero d] [Fact (2 ≤ d)]
     (ρ : Module.End ℂ (Fin d → ℂ)) (i j : Fin d) :
     ∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
-        toEndMatrix d 2 (unitarySnapshotMoment d 2) ![p.2, i] ![p.1, j] =
+        toEndMatrix d 2 (∑ b : Fin d, momentOp (diagAction d 2 (basisProjector d b)))
+          ![p.2, i] ![p.1, j] =
       ((d : ℂ) + 1)⁻¹ *
         (LinearMap.trace ℂ (Fin d → ℂ) ρ * (if i = j then 1 else 0) + matrixOf ρ i j) := by
   have h₁ : ∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
@@ -114,32 +116,20 @@ theorem sum_integral_bornWeighted_snapshot (ρ : Module.End ℂ (Fin d → ℂ))
     ∑ b : Fin d, ∫ U, LinearMap.trace ℂ (Fin d → ℂ) (ρ ∘ₗ unitarySnapshot U b) *
         matrixOf (unitarySnapshot U b) i j ∂(haarProb d)
       = ∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
-          toEndMatrix d 2 (unitarySnapshotMoment d 2) ![p.2, i] ![p.1, j] := by
-  have hb : ∀ b : Fin d, ∫ U, LinearMap.trace ℂ (Fin d → ℂ) (ρ ∘ₗ unitarySnapshot U b) *
-      matrixOf (unitarySnapshot U b) i j ∂(haarProb d) = ∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
-        toEndMatrix d 2 (momentOp (diagAction d 2 (basisProjector d b))) ![p.2, i] ![p.1, j] := by
-    intro b
-    -- pointwise in `U`, the integrand contracts the tensor square of the snapshot
-    have hrw : ∀ U : Matrix.unitaryGroup (Fin d) ℂ,
-        LinearMap.trace ℂ (Fin d → ℂ) (ρ ∘ₗ unitarySnapshot U b) *
-          matrixOf (unitarySnapshot U b) i j =
-        ∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
-          toEndMatrix d 2 (actOn (diagAction d 2 (basisProjector d b)) (star U))
-            ![p.2, i] ![p.1, j] := fun U => by
-      rw [trace_comp_mul_matrixOf, diagAction_unitarySnapshot]
-    simp_rw [hrw]
-    rw [MeasureTheory.integral_finsetSum]
-    · refine Finset.sum_congr rfl fun p _ => ?_
-      -- Haar invariance under `U ↦ U†` turns the average into the moment operator
-      rw [MeasureTheory.integral_const_mul, toEndMatrix_momentOp]
-      exact congrArg _ (integral_star_haarProb (fun U => toEndMatrix d 2
-        (actOn (diagAction d 2 (basisProjector d b)) U) ![p.2, i] ![p.1, j]))
-    · exact fun p _ => integrable_haarProb_of_continuous (continuous_const.mul
-        ((continuous_actOn_entry (diagAction d 2 (basisProjector d b)) ![p.2, i]
-          ![p.1, j]).comp continuous_star))
-  simp_rw [hb]
-  rw [unitarySnapshotMoment, _root_.map_sum, Finset.sum_comm]
-  simp only [Matrix.sum_apply, Finset.mul_sum]
+          toEndMatrix d 2 (∑ b : Fin d, momentOp (diagAction d 2 (basisProjector d b)))
+            ![p.2, i] ![p.1, j] := by
+  simp_rw [_root_.map_sum, Matrix.sum_apply, Finset.mul_sum]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun b _ => ?_
+  simp_rw [trace_comp_mul_matrixOf, diagAction_unitarySnapshot]
+  rw [MeasureTheory.integral_finsetSum]
+  · refine Finset.sum_congr rfl fun p _ => ?_
+    rw [MeasureTheory.integral_const_mul, toEndMatrix_momentOp]
+    exact congrArg _ (integral_star_haarProb (fun U => toEndMatrix d 2
+      (actOn (diagAction d 2 (basisProjector d b)) U) ![p.2, i] ![p.1, j]))
+  · exact fun p _ => integrable_haarProb_of_continuous (continuous_const.mul
+      ((continuous_actOn_entry (diagAction d 2 (basisProjector d b)) ![p.2, i]
+        ![p.1, j]).comp continuous_star))
 
 /-- **Observation 59**, first formula: the measurement channel of the Haar-random
 classical-shadow protocol is `M(ρ) = (Tr(ρ) I + ρ)/(d + 1)`. -/

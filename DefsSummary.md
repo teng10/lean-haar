@@ -2,7 +2,7 @@
 
 Updated: 2026-10-29. Original review: 2026-09-25.
 
-The current `LeanHaar` source tree contains **101 active definitions, abbreviations,
+The current `LeanHaar` source tree contains **100 active definitions, abbreviations,
 and structures**, plus **14 explicit instances**, across 35 modules. This includes
 private constructions, local instances, and the three retained standalone examples;
 it excludes comments and ordinary theorems. The reorganization removed 18 definitions
@@ -336,11 +336,11 @@ The finite moments live in tensors of endomorphisms, whereas `momentOp` averages
 an endomorphism of a complex tensor state space over Haar measure. `diagAction`
 and `tensorPow` form tensor-power operators but do not average them.
 
-### UnitarySnapshots.lean — 5 definitions
+### UnitarySnapshots.lean — 4 definitions
 
 Source: [UnitarySnapshots.lean](LeanHaar/Applications/ClassicalShadows/UnitarySnapshots.lean).
 
-All five definitions appear together before the two elementary projector laws
+All four definitions appear together before the two elementary projector laws
 and the tensor-power orbit identity. This module imports no computed moment
 formula. The former single-consumer tensor-trace aliases are removed; their
 consumer uses the shared tensor-trace theorems directly.
@@ -349,7 +349,6 @@ consumer uses the shared tensor-trace theorems directly.
 | --- | --- | --- |
 | `basisProjector` | Rank-one projector onto a computational basis vector. | **Keep here.** It anchors the measurement protocol and directly uses `Matrix.single` and `Matrix.toLin'`. Physlib's `MState.pure (Ket.basis b)` represents the same physical object in a different codomain. |
 | `unitarySnapshot` | Conjugated computational-basis projector `U† P_b U`. | **Keep here.** Physlib provides unitary conjugation on matrices/states, but using it here requires an explicit matrix-to-endomorphism bridge. Preserve the `star U` orientation. |
-| `unitarySnapshotMoment` | Sum of Haar-averaged tensor powers of basis projectors. | **Keep.** It is unnormalized over basis outcomes and has no state-dependent Born weight. |
 | `haarMeasurementChannel` | Actual Born-weighted, entrywise Haar integral. | **Moved from Observation59.** This defines the physical model; Observation59 evaluates it. Bundling its linearity directly remains separate work. |
 | `haarMeasurementChannelEquiv` | Explicit invertible isotropic map. | **Moved from Observation59.** Useful access to the inverse, constructed through shared algebra. Defined for every `d`; equality with the integral channel is currently proved for `d ≥ 2`. |
 
@@ -357,9 +356,11 @@ consumer uses the shared tensor-trace theorems directly.
 
 [Observation59](LeanHaar/Applications/ClassicalShadows/Observation59.lean)
 now owns `unitarySnapshotMoment_two`: it applies the existing `k2_moment` to each
-projector tensor square, then sums the `d` equal contributions. It does not
-reprove the general second-moment result. Consumers of this corollary import
-Observation59 rather than the model module. The entrywise contraction, evaluation
+projector tensor square, then sums the `d` equal contributions. The sum is written
+directly in the statements; the `unitarySnapshotMoment` wrapper is removed. The
+existing theorem names and formulas are retained. It does not reprove the general
+second-moment result. Consumers of this corollary import Observation59 rather than
+the model module. The entrywise contraction, evaluation
 of the integral channel for `d ≥ 2`, and inverse identification follow there.
 
 The finite model uses tensors of endomorphisms; the Haar model uses endomorphisms

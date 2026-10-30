@@ -293,8 +293,10 @@ isotropic-map inversion live in `SupportingDocs`.
 The follow-up adversarial review corrected the initial cleanup, which moved files
 without finishing declaration ownership. The pair-index helpers
 `toEndMatrix_id_pair` and `toEndMatrix_swap_pair` are deleted: existing matrix and
-finite-function lemmas prove the contractions directly. The one remaining
-application-specific contraction lemma is private in Observation59. There is no
+finite-function lemmas prove the contractions directly. The public
+`contract_smul_id_add_smul_swap` in `SupportingDocs/TensorPowerTraces` contracts
+`a I + b 𝔽` with independent coefficients. Observation59 applies it after explicitly
+invoking `unitarySnapshotMoment_two`; it has no private contraction wrapper. There is no
 `MomentContraction` file. The two trivial dimension aliases use Mathlib directly,
 and `SupportingDocs/TraceNotation` is removed. The application and the two extracted
 support modules now use `LinearMap.trace` directly, with no replacement local notation.

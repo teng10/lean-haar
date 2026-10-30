@@ -75,38 +75,6 @@ theorem unitarySnapshotMoment_two (d : ℕ) [NeZero d] [Fact (2 ≤ d)] :
   rw [← Nat.cast_smul_eq_nsmul ℂ, ← Nat.cast_smul_eq_nsmul ℂ, smul_smul, smul_smul, hcoeff,
     smul_add]
 
-/-! ### Contracting the second snapshot moment -/
-
-/-- Contracting the second Haar moment `(I + 𝔽)/(d+1)` against `ρ` in the first tensor factor
-produces `(Tr(ρ) I + ρ)/(d+1)`, entrywise. -/
-private theorem contract_unitarySnapshotMoment_two [NeZero d] [Fact (2 ≤ d)]
-    (ρ : Module.End ℂ (Fin d → ℂ)) (i j : Fin d) :
-    ∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
-        toEndMatrix d 2 (∑ b : Fin d, momentOp (diagAction d 2 (basisProjector d b)))
-          ![p.2, i] ![p.1, j] =
-      ((d : ℂ) + 1)⁻¹ *
-        (LinearMap.trace ℂ (Fin d → ℂ) ρ * (if i = j then 1 else 0) + matrixOf ρ i j) := by
-  have h₁ : ∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
-      toEndMatrix d 2 (LinearMap.id : Module.End ℂ (TensV d 2)) ![p.2, i] ![p.1, j] =
-      LinearMap.trace ℂ (Fin d → ℂ) ρ * (if i = j then 1 else 0) := by
-    rw [trace_eq_sum_diag]
-    by_cases h : i = j <;> simp [toEndMatrix, Matrix.one_apply, Fintype.sum_prod_type,
-      funext_iff, Fin.forall_fin_two, h, eq_comm]
-  have h₂ : ∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
-      toEndMatrix d 2 (𝔽 d) ![p.2, i] ![p.1, j] = matrixOf ρ i j := by
-    simp [toEndMatrix_swap, Fintype.sum_prod_type, funext_iff, Fin.forall_fin_two,
-      and_comm, ite_and]
-  rw [unitarySnapshotMoment_two]
-  simp only [_root_.map_smul, _root_.map_add, Matrix.smul_apply, Matrix.add_apply, smul_eq_mul]
-  calc _ = ((d : ℂ) + 1)⁻¹ *
-        ((∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
-          toEndMatrix d 2 (LinearMap.id : Module.End ℂ (TensV d 2)) ![p.2, i] ![p.1, j]) +
-        ∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
-          toEndMatrix d 2 (𝔽 d) ![p.2, i] ![p.1, j]) := by
-          rw [mul_add, Finset.mul_sum, Finset.mul_sum, ← Finset.sum_add_distrib]
-          exact Finset.sum_congr rfl fun p _ => by ring
-    _ = _ := by rw [h₁, h₂]
-
 /-! ### The Haar measurement channel -/
 
 /-- Averaging the Born-weighted snapshots over the Haar measure and over the outcomes is the
@@ -143,7 +111,12 @@ theorem haarMeasurementChannel_apply [NeZero d] [Fact (2 ≤ d)] (ρ : Module.En
         (LinearMap.trace ℂ (Fin d → ℂ) ρ • (1 : Matrix (Fin d) (Fin d) ℂ) + matrixOf ρ) := by
     ext i j
     simp only [Matrix.of_apply, Matrix.smul_apply, Matrix.add_apply, smul_eq_mul]
-    rw [sum_integral_bornWeighted_snapshot, contract_unitarySnapshotMoment_two]
+    -- Write the channel as a contraction of the second moment.
+    rw [sum_integral_bornWeighted_snapshot]
+    -- Apply the computed second-moment formula here.
+    rw [unitarySnapshotMoment_two]
+    -- Evaluate the identity and swap contributions.
+    rw [smul_add, contract_smul_id_add_smul_swap]
     simp [Matrix.one_apply, mul_add]
   rw [haarMeasurementChannel, hmat]
   simp [(LinearEquiv.eq_symm_apply Matrix.toLin').mp (rfl : matrixOf ρ = matrixOf ρ)]

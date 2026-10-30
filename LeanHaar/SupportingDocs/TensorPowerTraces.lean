@@ -216,6 +216,35 @@ theorem trace_comp_mul_matrixOf (ρ S : Module.End ℂ (Fin d → ℂ)) (i j : F
   rw [toEndMatrix_diagAction]
   simp [Fin.prod_univ_two, matrixOf, mul_assoc]
 
+/-- Entrywise form of `Tr₁((ρ ⊗ I) · (a I + b 𝔽)) = a Tr(ρ) I + b ρ`.
+The identity and swap coefficients are independent; no Haar moment formula is used. -/
+theorem contract_smul_id_add_smul_swap (a b : ℂ)
+    (ρ : Module.End ℂ (Fin d → ℂ)) (i j : Fin d) :
+    ∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
+        toEndMatrix d 2 (a • (LinearMap.id : Module.End ℂ (TensV d 2)) + b • 𝔽 d)
+          ![p.2, i] ![p.1, j] =
+      a * LinearMap.trace ℂ (Fin d → ℂ) ρ * (if i = j then 1 else 0) +
+        b * matrixOf ρ i j := by
+  have h_id : ∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
+      toEndMatrix d 2 (LinearMap.id : Module.End ℂ (TensV d 2)) ![p.2, i] ![p.1, j] =
+      LinearMap.trace ℂ (Fin d → ℂ) ρ * (if i = j then 1 else 0) := by
+    rw [trace_eq_sum_diag]
+    by_cases h : i = j <;> simp [toEndMatrix, Matrix.one_apply, Fintype.sum_prod_type,
+      funext_iff, Fin.forall_fin_two, h, eq_comm]
+  have h_swap : ∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
+      toEndMatrix d 2 (𝔽 d) ![p.2, i] ![p.1, j] = matrixOf ρ i j := by
+    simp [toEndMatrix_swap, Fintype.sum_prod_type, funext_iff, Fin.forall_fin_two,
+      and_comm, ite_and]
+  simp only [_root_.map_smul, _root_.map_add, Matrix.smul_apply, Matrix.add_apply, smul_eq_mul]
+  calc _ = a *
+        (∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
+          toEndMatrix d 2 (LinearMap.id : Module.End ℂ (TensV d 2)) ![p.2, i] ![p.1, j]) +
+        b * ∑ p : Fin d × Fin d, matrixOf ρ p.1 p.2 *
+          toEndMatrix d 2 (𝔽 d) ![p.2, i] ![p.1, j] := by
+          rw [Finset.mul_sum, Finset.mul_sum, ← Finset.sum_add_distrib]
+          exact Finset.sum_congr rfl fun p _ => by ring
+    _ = _ := by rw [h_id, h_swap, mul_assoc]
+
 end SchurWeyl
 
 end

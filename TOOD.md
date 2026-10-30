@@ -179,9 +179,10 @@ ensembles, and their mathematical interpretation remain in their application mod
   its three snapshot factors and algebraic-square interpretation in its docstring.
 - [x] Remove `observableEstimatorVariance`, `IsTraceSelfAdjoint`, and scalar
   `thirdMoment`; expand their original expressions in the retained public theorems.
-- [x] Delete the two pair-coordinate helpers and `MomentContraction`; keep the actual
-  second-moment contraction private in Observation59. Replace the two dimension
-  aliases with direct Mathlib proofs.
+- [x] Delete the two pair-coordinate helpers and `MomentContraction`. Share the
+  identity/swap contraction with independent coefficients in `TensorPowerTraces`;
+  Observation59 explicitly invokes its second-moment theorem before contracting.
+  Replace the two dimension aliases with direct Mathlib proofs.
 - [x] Remove `TraceNotation` and all replacement local `Tr[...]` notation in this
   application and its two extracted support modules; use `LinearMap.trace` directly.
 - [x] Audit retained definitions against pinned Mathlib/Physlib. Finite formal

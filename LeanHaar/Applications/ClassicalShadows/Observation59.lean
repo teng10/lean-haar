@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import LeanHaar.Moments.k2Moment
 import LeanHaar.SupportingDocs.HaarInvariance
+import LeanHaar.SupportingDocs.DepolarizingChannel
 import LeanHaar.Applications.ClassicalShadows.UnitarySnapshots
 
 /-!
@@ -15,21 +16,23 @@ Born probability `⟨b| U ρ U† |b⟩ = Tr(ρ U† |b⟩⟨b| U)`. **Observati
 `classical_shadows.tex` evaluates it: `M(ρ) = (Tr(ρ) I + ρ)/(d+1)`, whence
 `M⁻¹(ρ) = (d+1)ρ - Tr(ρ) I`.
 
-The channel and its candidate algebraic equivalence are defined in `UnitarySnapshots`.
-This file specializes `k2_moment` to the computational-basis projectors, proves equality
-with the integral channel for `d ≥ 2`, and gives the inverse formula.
+The integral channel is defined in `UnitarySnapshots`. This file specializes `k2_moment`
+to the computational-basis projectors, evaluates the channel for `d ≥ 2`, and proves that
+`ρ ↦ (d + 1)ρ - Tr(ρ) I` is both its left and right inverse.
 
 ## Main results
 
 * `ClassicalShadows.unitarySnapshotMoment_two`: the summed second snapshot moment, obtained
   from `k2_moment`.
 * `ClassicalShadows.haarMeasurementChannel_apply`: `M(ρ) = (Tr(ρ) I + ρ)/(d + 1)`.
-* `ClassicalShadows.haarMeasurementChannel_symm_apply`: `M⁻¹(ρ) = (d + 1)ρ - Tr(ρ) I`.
+* `ClassicalShadows.haarMeasurementChannel_leftInverse`,
+  `ClassicalShadows.haarMeasurementChannel_rightInverse`: the formula
+  `M⁻¹(ρ) = (d + 1)ρ - Tr(ρ) I` inverts the actual integral channel in both directions.
 
 ## Implementation notes
 
 This is a separate entrywise argument for the continuous Haar model. No identification with
-the finite `SnapshotEnsemble` model or its tensor-of-endomorphisms model is asserted.
+the finite weighted-snapshot model or its tensor-of-endomorphisms model is asserted.
 
 The Haar average of an operator-valued function is taken entrywise in the computational
 basis, as is done for the moment operator `SchurWeyl.momentOp` of the framework; this avoids
@@ -121,20 +124,28 @@ theorem haarMeasurementChannel_apply [NeZero d] [Fact (2 ≤ d)] (ρ : Module.En
   rw [haarMeasurementChannel, hmat]
   simp [(LinearEquiv.eq_symm_apply Matrix.toLin').mp (rfl : matrixOf ρ = matrixOf ρ)]
 
-/-- For `d ≥ 2`, the explicit isotropic equivalence equals the integral measurement channel. -/
-@[simp]
-theorem haarMeasurementChannelEquiv_apply [NeZero d] [Fact (2 ≤ d)]
+/-- **Observation 59**, inverse formula: applying `ρ ↦ (d + 1)ρ - Tr(ρ) I` after
+the Haar measurement channel recovers the input operator. -/
+theorem haarMeasurementChannel_leftInverse [NeZero d] [Fact (2 ≤ d)]
     (ρ : Module.End ℂ (Fin d → ℂ)) :
-    haarMeasurementChannelEquiv d ρ = haarMeasurementChannel d ρ := by
-  rw [haarMeasurementChannel_apply, haarMeasurementChannelEquiv]
-  exact LinearMap.depolarizingChannel_apply (V := Fin d → ℂ) (d : ℂ) ρ
+    ((d : ℂ) + 1) • haarMeasurementChannel d ρ -
+        LinearMap.trace ℂ (Fin d → ℂ) (haarMeasurementChannel d ρ) • LinearMap.id = ρ := by
+  simpa only [LinearMap.comp_apply, LinearMap.id_apply,
+    LinearMap.depolarizingChannel_apply, LinearMap.depolarizingChannelInv_apply,
+    haarMeasurementChannel_apply] using
+    congrArg (fun f => f ρ) (LinearMap.depolarizingChannelInv_comp
+      (V := Fin d → ℂ) (d : ℂ) (by simp) (Nat.cast_add_one_ne_zero (R := ℂ) d))
 
-/-- The algebraic inverse formula `(d + 1)ρ - Tr(ρ) I` for the explicit isotropic
-equivalence. For `d ≥ 2`, `haarMeasurementChannelEquiv_apply` identifies this with
-the inverse of the integral Haar measurement channel, giving Observation 59. -/
-theorem haarMeasurementChannel_symm_apply (d : ℕ) (ρ : Module.End ℂ (Fin d → ℂ)) :
-    (haarMeasurementChannelEquiv d).symm ρ =
-      ((d : ℂ) + 1) • ρ - LinearMap.trace ℂ (Fin d → ℂ) ρ • LinearMap.id :=
-  rfl
+/-- **Observation 59**, inverse formula: applying the Haar measurement channel after
+`ρ ↦ (d + 1)ρ - Tr(ρ) I` also recovers the input operator. -/
+theorem haarMeasurementChannel_rightInverse [NeZero d] [Fact (2 ≤ d)]
+    (ρ : Module.End ℂ (Fin d → ℂ)) :
+    haarMeasurementChannel d
+      (((d : ℂ) + 1) • ρ - LinearMap.trace ℂ (Fin d → ℂ) ρ • LinearMap.id) = ρ := by
+  simpa only [LinearMap.comp_apply, LinearMap.id_apply,
+    LinearMap.depolarizingChannel_apply, LinearMap.depolarizingChannelInv_apply,
+    haarMeasurementChannel_apply] using
+    congrArg (fun f => f ρ) (LinearMap.depolarizingChannel_comp_inv
+      (V := Fin d → ℂ) (d : ℂ) (by simp) (Nat.cast_add_one_ne_zero (R := ℂ) d))
 
 end ClassicalShadows

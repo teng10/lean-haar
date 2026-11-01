@@ -1,8 +1,12 @@
 # Application dependency map
 
-Updated: 2026-10-02.
+Inventory date: 2026-10-02.
 
-The maintained library now has 35 source modules plus `LeanHaar.lean`:
+The module counts and audits below describe that historical layout. For the current
+classical-shadow API and declaration ownership, including the removal of the old
+ensemble and Haar-equivalence wrappers, see [DefsSummary](DefsSummary.md#classical-shadows).
+
+At that date the maintained library had 35 source modules plus `LeanHaar.lean`:
 
 | Layer | Location | Dependencies |
 | --- | --- | --- |
@@ -24,7 +28,7 @@ current declaration ownership. Public declaration namespaces are unchanged.
 
 The dated reports below are retained verbatim, including the earlier user edits.
 Their old module paths, absolute links, line numbers, counts, and placement advice
-are historical evidence and are superseded by the current map above. They are
+are historical evidence; current declaration ownership is recorded in `DefsSummary.md`. They are
 not a list of current files or unresolved build failures.
 
 **Dependency audit of `LeanHaar/ForMathlib/ForMathlibExamples`**

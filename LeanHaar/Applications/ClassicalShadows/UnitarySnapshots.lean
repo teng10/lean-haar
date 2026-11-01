@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import LeanHaar.TensorPower
 import LeanHaar.SupportingDocs.TensorPowerTraces
-import LeanHaar.SupportingDocs.DepolarizingChannel
+import LeanHaar.SupportingDocs.POVM
 
 /-!
 # The physical ensemble of Haar-random unitary snapshots
@@ -12,9 +12,9 @@ import LeanHaar.SupportingDocs.DepolarizingChannel
 This file introduces the snapshots `U† |b⟩⟨b| U` actually recorded by the classical-shadow
 experiment on `ℂ^d`, relates their tensor powers to the unitary conjugation orbit used by the
 Haar moment operator of the framework, and defines the Born-weighted Haar measurement
-channel. All four protocol definitions precede their elementary projector and orbit lemmas.
-Observation59 applies `k2_moment` to evaluate the summed second moment and identify the
-integral channel with the explicit invertible isotropic map defined here.
+channel. The three protocol definitions precede their elementary projector, Born-rule, and orbit lemmas.
+Observation59 applies `k2_moment` to evaluate the summed second moment and prove the
+integral channel formula and its two inverse identities.
 
 ## Main definitions
 
@@ -22,11 +22,13 @@ integral channel with the explicit invertible isotropic map defined here.
 * `ClassicalShadows.unitarySnapshot`: the physical snapshot `U† |b⟩⟨b| U`.
 * `ClassicalShadows.haarMeasurementChannel`: the entrywise Haar integral of Born-weighted
   snapshots, summed over measurement outcomes.
-* `ClassicalShadows.haarMeasurementChannelEquiv`: the explicit isotropic equivalence;
-  Observation59 proves that it equals the integral channel for `d ≥ 2`.
 
 ## Main results
 
+* `ClassicalShadows.measure_unitaryBasis`: Physlib's outcome probability equals the
+  trace coefficient of the recorded snapshot.
+* `ClassicalShadows.haarMeasurementChannel_eq_integral_measure`: on physical states,
+  the channel is the Haar average of snapshots weighted by `POVM.measure`.
 * `ClassicalShadows.diagAction_unitarySnapshot`: `(U† |b⟩⟨b| U)^{⊗k}` is the point of the
   conjugation orbit of `(|b⟩⟨b|)^{⊗k}` at the parameter `U†`.
 
@@ -53,21 +55,14 @@ def unitarySnapshot {d : ℕ} (U : Matrix.unitaryGroup (Fin d) ℂ) (b : Fin d) 
     endOf (U : Matrix (Fin d) (Fin d) ℂ)
 
 /-- The **measurement channel** of the Haar-random classical-shadow protocol on `ℂ^d`:
-`M(ρ) = ∑_b 𝔼_{U∼μ}[⟨b|UρU†|b⟩ · U†|b⟩⟨b|U]`, where the Born weight `⟨b|UρU†|b⟩` is written as
-`Tr(ρ S)` for the snapshot `S = U†|b⟩⟨b|U`. The Haar average is taken entrywise in the
-computational basis. -/
+`M(ρ) = ∑_b 𝔼_{U∼μ}[⟨b|UρU†|b⟩ · U†|b⟩⟨b|U]`.
+The trace coefficient equals Physlib's `POVM.measure` on a physical state, as proved in
+`measure_unitaryBasis`; `haarProb` supplies the sampling law for `U`. The formula extends
+linearly to arbitrary operators and takes the Haar average entrywise. -/
 def haarMeasurementChannel (d : ℕ) (ρ : Module.End ℂ (Fin d → ℂ)) : Module.End ℂ (Fin d → ℂ) :=
   Matrix.toLin' (Matrix.of fun i j => ∑ b : Fin d,
     ∫ U, LinearMap.trace ℂ (Fin d → ℂ) (ρ ∘ₗ unitarySnapshot U b) *
       matrixOf (unitarySnapshot U b) i j ∂(haarProb d))
-
-/-- The explicit isotropic map on `ℂ^d`, packaged with its algebraic inverse.
-This specialization is defined for every `d`. Its identification with the Haar measurement
-channel for `d ≥ 2` is proved in `haarMeasurementChannelEquiv_apply` in Observation59. -/
-def haarMeasurementChannelEquiv (d : ℕ) :
-    Module.End ℂ (Fin d → ℂ) ≃ₗ[ℂ] Module.End ℂ (Fin d → ℂ) :=
-  LinearMap.depolarizingChannelEquiv (V := Fin d → ℂ) (d : ℂ) (by simp)
-    (Nat.cast_add_one_ne_zero (R := ℂ) d)
 
 /-! ### Elementary projector and orbit identities -/
 
@@ -79,6 +74,26 @@ def haarMeasurementChannelEquiv (d : ℕ) :
 @[simp] theorem basisProjector_comp_self (d : ℕ) (b : Fin d) :
     basisProjector d b ∘ₗ basisProjector d b = basisProjector d b := by
   rw [basisProjector, ← Matrix.toLin'_mul, Matrix.single_mul_single_same, one_mul]
+
+/-- Physlib's probability for the rotated-basis measurement is the snapshot's Born trace.
+Nonnegativity and normalization are supplied by `POVM.measure` and `MState`. -/
+theorem measure_unitaryBasis {d : ℕ} (U : Matrix.unitaryGroup (Fin d) ℂ)
+    (ρ : MState (Fin d)) (b : Fin d) :
+    (((POVM.unitaryBasis U).measure ρ b : ℝ) : ℂ) =
+      LinearMap.trace ℂ (Fin d → ℂ) (endOf ρ.m ∘ₗ unitarySnapshot U b) := by
+  rw [POVM.measure_eq_trace, ← trace_matrixOf, matrixOf_comp]
+  simp [POVM.unitaryBasis, unitarySnapshot, matrixOf, endOf, basisProjector,
+    LinearMap.toMatrix'_comp, Matrix.star_eq_conjTranspose, Matrix.mul_assoc]
+
+/-- On a physical state, the Haar channel averages the recorded snapshots with Physlib's
+Born probabilities for each fixed `U` and LeanHaar's Haar probability measure for `U`. -/
+theorem haarMeasurementChannel_eq_integral_measure {d : ℕ} (ρ : MState (Fin d)) :
+    haarMeasurementChannel d (endOf ρ.m) =
+      Matrix.toLin' (Matrix.of fun i j => ∑ b : Fin d,
+        ∫ U, (((POVM.unitaryBasis U).measure ρ b : ℝ) : ℂ) *
+          matrixOf (unitarySnapshot U b) i j ∂(haarProb d)) := by
+  simp_rw [measure_unitaryBasis]
+  rfl
 
 /-- Taking tensor powers commutes with forming the physical snapshot: the tensor power
 `(U† |b⟩⟨b| U)^{⊗k}` is the point of the conjugation orbit of `(|b⟩⟨b|)^{⊗k}` at the

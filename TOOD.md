@@ -158,6 +158,9 @@ ensembles, and their mathematical interpretation remain in their application mod
 
 ## Classical-shadow application cleanup
 
+- [x] Remove the provisional generic reconstruction layer. Prove Haar-shadow
+  unbiasedness directly from Observation59 and Physlib Born normalization, retaining
+  the named Haar/Pauli estimators and their correctness results (2026-10-31).
 - [x] Inline the two tensor-moment sums while retaining both Observation 58 identities
   under their original names and hypotheses (2026-10-29).
 - [x] Inline `unitarySnapshotMoment` in Observation59, preserving its theorem names,
@@ -169,7 +172,7 @@ ensembles, and their mathematical interpretation remain in their application mod
 - [x] Put the finite tensor moments and both Observation 58 identities together in
   `SnapshotEnsemble`; remove the separate `Observation58` module. The two results
   stay distinct because their objects and hypotheses differ.
-- [x] Group all four physical definitions before elementary laws in `UnitarySnapshots`.
+- [x] Group the physical definitions before elementary laws in `UnitarySnapshots`.
   Move `unitarySnapshotMoment_two` to Observation59 and document its direct use of
   `k2_moment`; the model module no longer imports that computation.
 - [x] Remove `trace_diagAction_basisProjector` and
@@ -196,8 +199,8 @@ ensembles, and their mathematical interpretation remain in their application mod
   endpoint axiom reports against the original baseline. Core, other applications,
   prototypes, and stashes are unchanged.
 
-The application has three files and ten definitions/structures. Shared
-support contains ten modules. At that stage the repository inventory was 121 definitions/
+At that cleanup stage, the application had three files and ten definitions/structures.
+Shared support contained ten modules, and the repository inventory was 121 definitions/
 abbreviations/structures and 24 explicit instances; the reorganization below updates it. The helper API was deliberately
 reduced: the scalar expansion is private, the evaluation lemma and two tensor-trace
 aliases are gone, and the moment corollary now requires an Observation59 import.
@@ -211,8 +214,8 @@ Separate mathematical follow-ups:
   replacement, and mixture constructions; do not duplicate channel infrastructure.
 - [ ] Establish probability normalization/positivity and the statistical variance
   interpretation under suitable state and observable assumptions.
-- [ ] If needed, extend identification of `haarMeasurementChannelEquiv` with the
-  integral channel to `d = 0, 1`; the current evaluation proof assumes `d ≥ 2`.
+- [ ] If needed, extend `haarMeasurementChannel_apply` and its inverse identities
+  to `d = 0, 1`, and `haarShadow_unbiased` to `d = 1`; their current proofs assume `d ≥ 2`.
 
 ## Repository layout — 2026-10-02
 

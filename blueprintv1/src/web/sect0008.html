@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Formalization of Weingarten Calculus: Explicit Calculation of single qubit first moment</title>
+<link rel="next" href="sect0009.html" title="Commutant of the First Order Unitary Group" />
+<link rel="prev" href="sect0007.html" title="Pauli twirling" />
+<link rel="up" href="sect0005.html" title="Examples" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of Weingarten Calculus</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Schur Weyl Duality</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Operator Space</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Symmetric subspaces</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Permutation Invariance and Properties of Unitarily Invariant Measures</span></a>
+ </li>
+<li class=" active">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Examples</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-2 active">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.4.1</span> <span class="toc_entry">Group Averaging and Pauli Twirling</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.4.2</span> <span class="toc_entry">Pauli twirling</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0008.html"><span class="toc_ref">1.4.3</span> <span class="toc_entry">Explicit Calculation of single qubit first moment</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">1.4.4</span> <span class="toc_entry">Commutant of the First Order Unitary Group</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h2 id="a0000000009">1.4.3 Explicit Calculation of single qubit first moment</h2>
+<p> We consider systems of \(n\) qubits, represented by vectors of dimension \(d = 2^n\). Consider the calculation of the first moment of a system with \(n = 1\). Due to the small size of the system, we can explicitly define the Haar measure and parameterize the unitary in our calculations, which we do in the example below. </p>
+<div class="remark_thmwrapper theorem-style-remark" id="rm:2x2UnitaryExplicitConstruction">
+  <div class="remark_thmheading">
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">1.4.7</span>
+    <span class="remark_thmtitle">Explicit construction of \(2 \times 2\) unitaries</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> Every unitary \(U\) in the unitary group of size \(2 \times 2\), denoted \(U(2)\), can be parameterized in terms of \(\phi , \theta , \omega \in \mathbb {R}\), where </p>
+<div class="equation" id="a0000000053">
+<p>
+  <div class="equation_content">
+    \begin{equation}  U = \begin{bmatrix}  e^{-i (\phi + \omega ) / 2} \cos {\frac{\theta }{2}} 
+
+&  -e^{i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}}
+
+\\ e^{-i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}} 
+
+&  e^{i (\phi + \omega ) / 2} \cos {\frac{\theta }{2}} 
+
+\end{bmatrix}. \end{equation}
+  </div>
+  <span class="equation_label">62</span>
+</p>
+</div>
+<p> The conjugate transpose \(U^{\dagger }\) is given by </p>
+<div class="equation" id="a0000000054">
+<p>
+  <div class="equation_content">
+    \begin{equation}  U^{\dagger } = \begin{bmatrix}  e^{i( \phi + \omega ) / 2} \cos {\frac{\theta }{2}} 
+
+&  e^{i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}}
+
+\\ - e^{-i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}} 
+
+&  e^{-i(\phi + \omega )/ 2} \cos {\frac{\theta }{2}} 
+
+\end{bmatrix}. \end{equation}
+  </div>
+  <span class="equation_label">63</span>
+</p>
+</div>
+
+  </div>
+</div>
+<p>Let \(\mu _{H}\) denote the generalized Haar measure on any \(n\)-qubit system. On a single qubit, we can write the moment calculation in terms of the expectation value, which in turn can be written as an integral under \(\mu _{H}\). The first moment of the operator of an \(n\)-qubit system \(O\), where \(O \in \mathcal{L}(\mathbb {C}^{d})\), is </p>
+<div class="equation" id="a0000000055">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \mathbb {E}_{U \sim \mu _{H}} [U O U^{\dagger }] = \int _{U \sim \mu _{H}} U O U^{\dagger } d\mu _{H}. \end{equation}
+  </div>
+  <span class="equation_label">64</span>
+</p>
+</div>
+<p> We now define a Haar measure specific to the case \(n = 1\). </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:SingleQubitHaarMeasure">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.4.8</span>
+    <span class="definition_thmtitle">Parameterized single-qubit Haar measure</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> Let \(\mu _{2}\) denote the Haar measure on a single qubit, represented with vectors in \(\mathbb {C}^{2}\). Define the single-qubit Haar measure in terms of the parameters given in Remark&#160;<a href="sect0008.html#rm:2x2UnitaryExplicitConstruction">1.4.7</a>, where </p>
+<div class="equation" id="a0000000056">
+<p>
+  <div class="equation_content">
+    \begin{equation}  d\mu _{2} = \sin {\theta } d\theta \cdot d\omega \cdot d\phi \end{equation}
+  </div>
+  <span class="equation_label">65</span>
+</p>
+</div>
+<p> is the unnormalized Haar measure. The normalized computation of moments using the Haar measure is given by </p>
+<div class="equation" id="eq:NormalizedHaarMeas">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{eq:NormalizedHaarMeas} \mathbb {E}_{U \sim \mu _{2}} [U O U^{\dagger }] = \frac{1}{8\pi ^2} \int _{\phi = 0}^{2\pi } \int _{\omega = 0}^{2\pi } \int _{\theta = 0}^{\pi } U O U^{\dagger } \sin {\theta } d\theta d\omega d\phi , \end{equation}
+  </div>
+  <span class="equation_label">66</span>
+</p>
+</div>
+<p> where the factor of \(\frac{1}{8\pi ^2}\) can be found by computing the integral and setting \(UOU^{\dagger } =1\). </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="a0000000057">
+  <div class="remark_thmheading">
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">1.4.9</span>
+    <span class="remark_thmtitle">Reordering parameters</span>
+  </div>
+  <div class="remark_thmcontent">
+  <p> We may reorder the parameters \(\phi , \omega \), and \(\theta \) in the integral by Fubini’s theorem. An alternative way to state the normalized computation of moments using the Haar measure is </p>
+<div class="equation" id="a0000000058">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \mathbb {E}_{U \sim \mu _{2}} [U O U^{\dagger }] = \frac{1}{8\pi ^2} \int _{\theta = 0}^{\pi } \int _{\phi = 0}^{2\pi } \int _{\omega = 0}^{2\pi } U O U^{\dagger } \sin {\theta } d\omega d\phi d\theta . \end{equation}
+  </div>
+  <span class="equation_label">67</span>
+</p>
+</div>
+<p> We can keep the boundaries of the parameters the same, as they are independent of the order of integration. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="a0000000059">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.4.10</span>
+    <span class="theorem_thmtitle">Example: First moment of Pauli-Z operator</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Consider \(O = \sigma _{z}\), the Pauli-Z operator. We show that </p>
+<div class="equation" id="a0000000060">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \mathbb {E}_{U \sim \mu _{2}} [U\sigma _{z}U^{\dagger }] = \frac{\text{Tr}(\sigma _{z})}{2} I. \end{equation}
+  </div>
+  <span class="equation_label">68</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000061">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p>The Pauli-Z operator is given by </p>
+<div class="equation" id="a0000000062">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \sigma _{z} = \begin{bmatrix}  1 
+
+&  0 
+
+\\ 0 
+
+&  -1 
+
+\end{bmatrix}. \end{equation}
+  </div>
+  <span class="equation_label">69</span>
+</p>
+</div>
+<p> Hence </p>
+<div class="equation" id="a0000000063">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \frac{\text{Tr}(\sigma _{z})}{2}I = \frac{0}{2} I = \mathbf{0}, \end{equation}
+  </div>
+  <span class="equation_label">70</span>
+</p>
+</div>
+<p> where \(\mathbf{0}\) is the zero matrix. Given Def.&#160;<a href="sect0008.html#def:SingleQubitHaarMeasure">1.4.8</a>, we seek to show that </p>
+<div class="equation" id="a0000000064">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \mathbb {E}_{U \sim \mu _{2}} [U\sigma _{z}U^{\dagger }] = \frac{1}{8\pi ^2}\int _{\phi = 0}^{2\pi } \int _{\omega = 0}^{2\pi } \int _{\theta = 0}^{\pi } UOU^{\dagger } \sin \theta d\theta d\omega d\phi \end{equation}
+  </div>
+  <span class="equation_label">71</span>
+</p>
+</div>
+<p> is equivalent. We explicitly compute the inner matrix multiplication: </p>
+<div class="equation" id="a0000000065">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \begin{split}  U\sigma _{z} U^{\dagger } = \begin{bmatrix}  e^{-i (\phi + \omega ) / 2} \cos {\frac{\theta }{2}} 
+
+&  -e^{i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}}
+
+\\ e^{-i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}} 
+
+&  e^{i (\phi + \omega ) / 2} \cos {\frac{\theta }{2}} 
+
+\end{bmatrix}\begin{bmatrix}  1 
+
+&  0 
+
+\\ 0 
+
+&  -1 
+
+\end{bmatrix}\begin{bmatrix}  e^{i( \phi + \omega ) / 2} \cos {\frac{\theta }{2}} 
+
+&  e^{i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}}
+
+\\ - e^{-i (\phi - \omega ) / 2} \sin {\frac{\theta }{2}} 
+
+&  e^{-i(\phi + \omega )/ 2} \cos {\frac{\theta }{2}} 
+
+\end{bmatrix}\\ = \begin{bmatrix}  \cos ^{2}{\frac{\theta }{2}} - \sin ^{2}{\frac{\theta }{2}} 
+
+&  e^{-i \omega } \cos {\frac{\theta }{2}} \sin {\frac{\theta }{2}} + e^{-i\omega } \sin {\frac{\theta }{2}} \cos {\frac{\theta }{2}}
+
+\\ e^{i \omega } \sin {\frac{\theta }{2}} \cos {\frac{\theta }{2}} + e^{i \omega } \cos {\frac{\theta }{2}} \sin {\frac{\theta }{2}} 
+
+&  \sin ^{2}{\frac{\theta }{2}} - \cos ^{2}{\frac{\theta }{2}} 
+
+\end{bmatrix}\end{split} \end{equation}
+  </div>
+  <span class="equation_label">72</span>
+</p>
+</div>
+<p> Evaluating the integral for either \(\phi \) or \(\omega \) in the interval \([0, 2\pi )\) gives </p>
+<div class="equation" id="a0000000066">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \int _{\phi = 0}^{2\pi } e^{ic_{\phi } \phi } d\phi = 0 \qquad \text{and} \qquad \int _{\omega = 0}^{2\pi } e^{ic_{\omega } \omega } d\omega = 0. \end{equation}
+  </div>
+  <span class="equation_label">75</span>
+</p>
+</div>
+<p> Consequently, in the expanded form of \(UOU^{\dagger }\), any elements with a remaining dependence (i.e., a nonzero \(c_{\phi }\) or \(c_{\omega }\)) on either \(\phi \) or \(\omega \) will integrate to zero. Consequently, we find </p>
+<div class="equation" id="a0000000067">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \begin{split}  \frac{1}{8\pi ^2} \int _{\theta = 0}^{\pi } \int _{\phi = 0}^{2\pi } \int _{\omega = 0}^{2\pi } \begin{bmatrix}  \cos ^{2}{\frac{\theta }{2}} - \sin ^{2}{\frac{\theta }{2}} 
+
+&  e^{-i \omega } \cos {\frac{\theta }{2}} \sin {\frac{\theta }{2}} + e^{-i\omega } \sin {\frac{\theta }{2}} \cos {\frac{\theta }{2}}
+
+\\ e^{i \omega } \sin {\frac{\theta }{2}} \cos {\frac{\theta }{2}} + e^{i \omega } \cos {\frac{\theta }{2}} \sin {\frac{\theta }{2}} 
+
+&  \sin ^{2}{\frac{\theta }{2}} - \cos ^{2}{\frac{\theta }{2}} 
+
+\end{bmatrix} \sin \theta d\omega d\phi d\theta \\ = \frac{1}{8\pi ^2} \int _{\theta = 0}^{\pi } 4 \pi ^{2} \begin{bmatrix}  \cos ^{2}{\frac{\theta }{2}} - \sin ^{2}{\frac{\theta }{2}} 
+
+&  0 
+
+\\ 0 
+
+&  \sin ^{2}{\frac{\theta }{2}} - \cos ^{2}{\frac{\theta }{2}} 
+
+\end{bmatrix} \sin {\theta } d\theta \\ = \begin{bmatrix}  0 
+
+&  0 
+
+\\ 0 
+
+&  0 
+
+\end{bmatrix} = \mathbf{0}. \end{split} \end{equation}
+  </div>
+  <span class="equation_label">76</span>
+</p>
+</div>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <a href="sect0007.html" title="Pauli twirling"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0005.html" title="Examples"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0009.html" title="Commutant of the First Order Unitary Group"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+</body>
+</html>

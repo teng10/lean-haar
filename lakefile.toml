@@ -1,10 +1,15 @@
 name = "LeanHaar"
 defaultTargets = ["LeanHaar"]
+testDriver = "LeanHaarTest"
 
 [leanOptions]
 pp.unicode.fun = true
 autoImplicit = false
 relaxedAutoImplicit = false
+# Fail on warnings in this package; dependency warnings remain advisory.
+warningAsError = true
+# Mathlib's linter: `native_decide` is not allowed (it trusts the compiler; CI also audits every declaration's axioms)
+weak.linter.style.nativeDecide = true
 
 [[require]]
 name = "mathlib"
@@ -16,6 +21,13 @@ name = "checkdecls"
 git = "https://github.com/PatrickMassot/checkdecls.git"
 [[lean_lib]]
 name = "LeanHaar"
+globs = ["LeanHaar.*"]
+
+# `lake test`: #print axioms guards for the existing main results
+[[lean_lib]]
+name = "LeanHaarTest"
+srcDir = "test"
+globs = ["LeanHaarTest.*"]
 
 [[require]]
 name = "Physlib"

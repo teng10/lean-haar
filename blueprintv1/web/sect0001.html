@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Schur Weyl Duality</title>
+<link rel="prev" href="index.html" title="Formalization of Weingarten Calculus" />
+<link rel="up" href="index.html" title="Formalization of Weingarten Calculus" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of Weingarten Calculus</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active current">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Schur Weyl Duality</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0001.html#a0000000003"><span class="toc_ref">1.1</span> <span class="toc_entry">Symmetric subspaces</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000002">1 Schur Weyl Duality</h1>
+<h1 id="a0000000003">1.1 Symmetric subspaces</h1>
+<div class="lemma_thmwrapper theorem-style-plain" id="TestLemma">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.1.1</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#TestLemma">#</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Test lemma </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="TestTheorem">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.1.2</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#TestTheorem">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#TestLemma">Lemma 1.1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Test theorem </p>
+
+  </div>
+</div>
+<p>Suppose \(\mathcal{X} = \mathbb {C}^{[d]}\) and \(\mathcal{Y} = \mathbb {C}^{[d]}\) where \(d \in \mathbb {N}\). Let the set of linear operators be \(\mathcal{L}(\mathcal{X}, \mathcal{Y})\). </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:sym_Lk">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.1.3</span>
+    <span class="definition_thmtitle">symmetric subspace of linear operators</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:sym_Lk">#</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The symmetric subspace of linear operators \(\mathcal{L}(\mathcal{X})^{\@undefined k}\) is the set of all operators \(X \in \mathcal{L}(\mathcal{X}^{\otimes k})\) that remain unchanged (invariant) under the permutation \(W_{\pi }\). That is, </p>
+<div class="equation" id="<plasTeX.TeXFragment object at 0x104fd9840>">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \mathcal{L}(\mathcal{X})^{\@undefined k} = \{ X \in \mathcal{L}(\mathcal{X}^{\otimes k}) : X = W_{\pi } X W_{\pi }^{*} \text{ for all } \pi \in S_{k} \} . \label{eq:sym_Lk} \end{equation}
+  </div>
+  <span class="equation_label">1</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="a0000000004">
+  <div class="remark_thmheading">
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">1.1.4</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#a0000000004">#</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="remark_thmcontent">
+  <p>Let \(S_k\) denote the symmetric group. Then given \(\pi \in S_k\), the permutation matrix (operator) \(V_d(\pi )\) is the unitary matrix that satisfies </p>
+<div class="equation" id="eq:permutation">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{eq:permutation} W_{\pi } |\psi _1 \rangle \otimes \dots |\psi _k = |\psi _{\pi ^{-1}(1)}\rangle \otimes \dots \otimes |\psi _{\pi ^{-1}(k)}\rangle \end{equation}
+  </div>
+  <span class="equation_label">2</span>
+</p>
+</div>
+<p> for all \(|\psi _1 \rangle , \dots , |\psi _k\rangle \in \mathbb {C}^{d}\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="index.html" title="Formalization of Weingarten Calculus"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="index.html" title="Formalization of Weingarten Calculus"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

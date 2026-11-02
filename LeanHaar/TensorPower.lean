@@ -1,173 +1,142 @@
-import LeanHaar.HilbertSpace
-import Mathlib.LinearAlgebra.TensorPower.Basic
-import Mathlib.LinearAlgebra.PiTensorProduct.Basis
+/-
+Copyright (c) 2025. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
+import Mathlib.Analysis.CStarAlgebra.Classes
+import Mathlib.LinearAlgebra.PiTensorProduct
 
 /-!
-# Tensor powers of finite Hilbert spaces
+# Tensor powers and their permutation and diagonal actions
 
-This file defines `HilbertTensorPower d k`, the `k`-fold tensor power of the finite Hilbert
-space `𝓗[d]`, as a structure wrapping Mathlib's homogeneous tensor power `⨂[ℂ]^k 𝓗[d]`
-(itself a `PiTensorProduct`).
+This file constructs the tensor power `(ℂ^d)^{⊗k}`, the permutation action `permAction`,
+and the diagonal action `diagAction`. Each action is accompanied by its elementary
+computation rules and its image in the endomorphism algebra.
 
-Like `FiniteHilbertSpace` in `Defs.lean`, it is a single-field structure wrapping an existing
-Mathlib type. Wrapping — rather than using an `abbrev` — keeps every transferred instance, and
-later the inner product, local to this type instead of leaking onto *every* `PiTensorProduct`
-of the same shape.
+`diagImage` ranges over all endomorphisms, as used by the current polynomial proof.
+Use the generic `map_one` and `map_pow` lemmas for identity and power preservation.
+Commutation of the two actions is proved in `LeanHaar.Commutation`.
 
-## Main definitions
-
-* `HilbertTensorPower d k` — the wrapper type, with notation `𝓗⊗[d, k]`.
-* `HilbertTensorPower.equivTensorPower` — the underlying equivalence to `⨂[ℂ]^k 𝓗[d]`.
-* `HilbertTensorPower.linearEquivTensorPower` — the bridge to Mathlib's `PiTensorProduct` API.
-* `HilbertTensorPower.tprod` — pure (decomposable) tensors.
-* `HilbertTensorPower.map_tprod` — tensor products of operators.
-
-## Main results
-
-* `HilbertTensorPower.hom_ext` — extensionality principle for linear maps out of `𝓗⊗[d, k]`.
-* `HilbertTensorPower.map_tprod_tprod` — action of `map_tprod` on pure tensors.
-
-## Scope
-
-This file sets up the `ℂ`-vector space structure only (Layer 0). The permutation operator `W_π`,
-the inner product, and unitarity are built in later files on top of `linearEquivTensorPower`.
-
-## Conventions
-
-The permutation operator `W_π` (Layer 1, built on `PiTensorProduct.reindex`) will use the
-convention
-```
-W_π (ψ₁ ⊗ ⋯ ⊗ ψ_k) = ψ_{π⁻¹ 1} ⊗ ⋯ ⊗ ψ_{π⁻¹ k},
-```
-i.e. the new slot `i` receives the factor from old slot `π⁻¹ i`. This matches the blueprint and,
-crucially, makes `π ↦ W_π` a group *homomorphism* (`W_π ∘ W_σ = W_{π * σ}`) rather than an
-anti-homomorphism — so the downstream `S_k`-action arguments come out the right way round.
-
-`PiTensorProduct.reindex ℂ _ π` already implements exactly this, because
-`reindex π (tprod f) = tprod (f ∘ π.symm)`. There is **no** manual `π⁻¹`: do not try to "match"
-the `π⁻¹` visible in the formula by passing `π⁻¹` to `reindex`, as that gives the opposite
-(anti-homomorphism) convention.
+Optional invertible and unitary wrappers and their conversion lemmas are commented out
+below pending a concrete API consumer; see `TOOD.md`.
 -/
 
-namespace LeanHaar
+noncomputable section
 
 open scoped TensorProduct
 
-/-- The `k`-fold tensor power of the finite Hilbert space `𝓗[d]`, realized as a structure
-wrapping Mathlib's homogeneous tensor power `⨂[ℂ]^k 𝓗[d]` (itself a `PiTensorProduct`).
+namespace SchurWeyl
 
-All algebraic structure is transferred from the underlying tensor power along
-`equivTensorPower`. We use the notation `𝓗⊗[d, k]`. -/
-@[ext]
-structure HilbertTensorPower (d : Type*) [Fintype d] [DecidableEq d] (k : ℕ) where
-  /-- The underlying element of the Mathlib tensor power `⨂[ℂ]^k 𝓗[d]`. -/
-  val : ⨂[ℂ]^k (FiniteHilbertSpace d)
+/-- The `k`-fold tensor power of `ℂ^d`, defined as `⨂[ℂ] (i : Fin k), (Fin d → ℂ)`. -/
+abbrev TensV (d k : ℕ) : Type :=
+  PiTensorProduct ℂ (fun (_ : Fin k) => (Fin d → ℂ))
 
-@[inherit_doc HilbertTensorPower]
-scoped notation:max "𝓗⊗[" d ", " k "]" => HilbertTensorPower d k
+/-! ### Permutation action -/
 
-namespace HilbertTensorPower
+/-- The permutation operator `W_σ` on the tensor power `V^{⊗k}`.
+Given `σ : Equiv.Perm (Fin k)`, this acts by permuting the tensor factors:
+`W_σ (v₁ ⊗ ⋯ ⊗ vₖ) = v_{σ⁻¹(1)} ⊗ ⋯ ⊗ v_{σ⁻¹(k)}`. -/
+noncomputable def permAction (d k : ℕ) :
+    Equiv.Perm (Fin k) →* (TensV d k ≃ₗ[ℂ] TensV d k) where
+    toFun σ := PiTensorProduct.reindex ℂ _ σ
+    map_one' := PiTensorProduct.reindex_refl
+    map_mul' σ τ := (PiTensorProduct.reindex_trans τ σ).symm
 
-variable {d : Type*} [Fintype d] [DecidableEq d] {k : ℕ}
+/-- The underlying endomorphism of the tensor-factor permutation action. -/
+def permOp (d : ℕ) {k : ℕ} (σ : Equiv.Perm (Fin k)) : Module.End ℂ (TensV d k) :=
+  (permAction d k σ).toLinearMap
 
-/-- The equivalence between `𝓗⊗[d, k]` and the underlying tensor power `⨂[ℂ]^k 𝓗[d]`,
-given by `val`. -/
-def equivTensorPower : 𝓗⊗[d, k] ≃ ⨂[ℂ]^k (FiniteHilbertSpace d) where
-  toFun := val
-  invFun := mk
-  left_inv _ := rfl
-  right_inv _ := rfl
+variable {d k : ℕ}
 
-/-! ## The `ℂ`-vector space structure -/
+/-- Behavior of `permAction` on elementary tensors. -/
+theorem permAction_tprod (σ : Equiv.Perm (Fin k)) (v : Fin k → (Fin d → ℂ)) :
+    permAction d k σ (PiTensorProduct.tprod ℂ v) =
+    PiTensorProduct.tprod ℂ (fun i => v (σ.symm i)) :=
+  PiTensorProduct.reindex_tprod σ v
 
-noncomputable instance : AddCommGroup (𝓗⊗[d, k]) := equivTensorPower.addCommGroup
+/-- The set of permutation operators in `End(V^{⊗k})`. -/
+def permImage (d k : ℕ) : Set (Module.End ℂ (TensV d k)) :=
+  Set.range (fun σ : Equiv.Perm (Fin k) => (permAction d k σ).toLinearMap)
 
-noncomputable instance : Module ℂ (𝓗⊗[d, k]) := equivTensorPower.module ℂ
+/-! ### Diagonal action -/
 
-@[simp] lemma val_add (x y : 𝓗⊗[d, k]) : (x + y).val = x.val + y.val := rfl
+/-- The diagonal action `g^{⊗k}` on the tensor power `V^{⊗k}`, as a monoid homomorphism of the
+multiplicative monoid `End(V)`. Given `g : End(V)`, it acts as `g` on each tensor factor:
+`g^{⊗k} (v₁ ⊗ ⋯ ⊗ vₖ) = g(v₁) ⊗ ⋯ ⊗ g(vₖ)`. -/
+noncomputable def diagAction (d k : ℕ) : Module.End ℂ (Fin d → ℂ) →* Module.End ℂ (TensV d k) :=
+  PiTensorProduct.mapMonoidHom.comp (Pi.constMonoidHom (Fin k) _)
 
-@[simp] lemma val_smul (c : ℂ) (x : 𝓗⊗[d, k]) : (c • x).val = c • x.val := rfl
+/-- `diagAction g` is `PiTensorProduct.map` of the constant family at `g`. Deliberately not a
+`simp` lemma: unfolding the bundled homomorphism hides the `diagAction`-level rewrites. -/
+theorem diagAction_apply (g : Module.End ℂ (Fin d → ℂ)) :
+    diagAction d k g = PiTensorProduct.map (fun _ : Fin k ↦ g) := rfl
 
-@[simp] lemma val_zero : (0 : 𝓗⊗[d, k]).val = 0 := rfl
+/-- Behavior of `diagAction` on elementary tensors. -/
+theorem diagAction_tprod (g : Module.End ℂ (Fin d → ℂ)) (v : Fin k → (Fin d → ℂ)) :
+    diagAction d k g (PiTensorProduct.tprod ℂ v) =
+    PiTensorProduct.tprod ℂ (fun i => g (v i)) :=
+  PiTensorProduct.map_tprod _ v
 
-@[simp] lemma val_neg (x : 𝓗⊗[d, k]) : (-x).val = -x.val := rfl
+/-- The diagonal action is multiplicative: `g^{⊗k} ∘ h^{⊗k} = (g ∘ h)^{⊗k}`. -/
+theorem diagAction_comp (g h : Module.End ℂ (Fin d → ℂ)) :
+    diagAction d k g ∘ₗ diagAction d k h = diagAction d k (g ∘ₗ h) :=
+  (map_mul (diagAction d k) g h).symm
 
-@[simp] lemma val_sub (x y : 𝓗⊗[d, k]) : (x - y).val = x.val - y.val := rfl
-
-/-- `equivTensorPower` as a `ℂ`-linear equivalence, upgrading the bare equivalence.
-
-This is the canonical bridge to Mathlib's `PiTensorProduct` API: pure tensors (`tprod`),
-`reindex` (for the permutation operator) and `map` (for tensor powers of operators) are accessed
-by transporting along this equivalence. -/
-noncomputable def linearEquivTensorPower : 𝓗⊗[d, k] ≃ₗ[ℂ] ⨂[ℂ]^k (FiniteHilbertSpace d) :=
-  { equivTensorPower with
-    map_add' := fun _ _ => rfl
-    map_smul' := fun _ _ => rfl }
-
-@[simp] lemma linearEquivTensorPower_apply (x : 𝓗⊗[d, k]) :
-    linearEquivTensorPower x = x.val := rfl
-
-@[simp] lemma linearEquivTensorPower_symm_apply (x : ⨂[ℂ]^k (FiniteHilbertSpace d)) :
-    linearEquivTensorPower.symm x = ⟨x⟩ := rfl
-
-/-! ## Finite-dimensionality -/
-
-instance : FiniteDimensional ℂ (𝓗⊗[d, k]) :=
-  Module.Finite.of_basis
-    ((Basis.piTensorProduct fun _ : Fin k => (FiniteHilbertSpace.basisFun d).toBasis).map
-      linearEquivTensorPower.symm)
-
-/-! ## Pure tensors -/
-
-/-- The pure tensor `ψ 1 ⊗ ⋯ ⊗ ψ k` as an element of `𝓗⊗[d, k]`.
-
-Pure (decomposable) tensors span `𝓗⊗[d, k]`, so it often suffices to specify operators
-on them via `hom_ext`. -/
-noncomputable def tprod (ψ : Fin k → FiniteHilbertSpace d) : 𝓗⊗[d, k] :=
-  ⟨PiTensorProduct.tprod ℂ ψ⟩
-
-@[simp] lemma val_tprod (ψ : Fin k → FiniteHilbertSpace d) :
-    (tprod ψ).val = PiTensorProduct.tprod ℂ ψ := rfl
-
-@[simp] lemma linearEquivTensorPower_tprod (ψ : Fin k → FiniteHilbertSpace d) :
-    linearEquivTensorPower (tprod ψ) = PiTensorProduct.tprod ℂ ψ := rfl
-
-@[simp] lemma linearEquivTensorPower_symm_tprod (ψ : Fin k → FiniteHilbertSpace d) :
-    linearEquivTensorPower.symm (PiTensorProduct.tprod ℂ ψ) = tprod ψ := rfl
-
-/-- Linear maps out of `𝓗⊗[d, k]` are determined by their action on pure tensors: this is the
-universal property of the tensor product, transported through `linearEquivTensorPower`. -/
-lemma hom_ext {M : Type*} [AddCommMonoid M] [Module ℂ M] {f g : 𝓗⊗[d, k] →ₗ[ℂ] M}
-    (h : ∀ ψ : Fin k → FiniteHilbertSpace d, f (tprod ψ) = g (tprod ψ)) : f = g := by
-  have key : f ∘ₗ linearEquivTensorPower.symm.toLinearMap
-      = g ∘ₗ linearEquivTensorPower.symm.toLinearMap := by
-    apply PiTensorProduct.ext
-    apply MultilinearMap.ext
-    -- `(f ∘ₗ L.symm) (tprod ℂ ψ)` is defeq to `f (tprod ψ)`, so `h ψ` closes it directly.
-    intro ψ
-    exact h ψ
-  ext x
-  simpa using LinearMap.congr_fun key (linearEquivTensorPower x)
-
-/-! ## Tensor products of operators -/
-
-/-- The tensor product of linear maps `f 1 ⊗ ⋯ ⊗ f k` as a linear map on `𝓗⊗[d, k]`.
-
-This operator maps a pure tensor `ψ₁ ⊗ ⋯ ⊗ ψ_k` to `f 1 ψ₁ ⊗ ⋯ ⊗ f k ψ_k`. -/
-noncomputable def map_tprod (f : Fin k → (FiniteHilbertSpace d →ₗ[ℂ] FiniteHilbertSpace d)) :
-    (𝓗⊗[d, k] →ₗ[ℂ] 𝓗⊗[d, k]) :=
-  (linearEquivTensorPower.symm.toLinearMap).comp
-    ((PiTensorProduct.map f).comp linearEquivTensorPower.toLinearMap)
-
-/-- Action of `map_tprod` on pure tensors. -/
+/-- The diagonal action is homogeneous of degree `k`: `(c • g)^{⊗k} = c ^ k • g^{⊗k}`.
+It is not linear in `g` in general; for `k = 1` it is linear. -/
 @[simp]
-lemma map_tprod_tprod (f : Fin k → (FiniteHilbertSpace d →ₗ[ℂ] FiniteHilbertSpace d))
-    (ψ : Fin k → FiniteHilbertSpace d) :
-    map_tprod f (tprod ψ) = tprod (fun i => f i (ψ i)) := by
-  unfold map_tprod
-  simp only [LinearMap.coe_comp, Function.comp_apply]
-  erw [linearEquivTensorPower_tprod, PiTensorProduct.map_tprod, linearEquivTensorPower_symm_tprod]
+theorem diagAction_smul (c : ℂ) (g : Module.End ℂ (Fin d → ℂ)) :
+    diagAction d k (c • g) = c ^ k • diagAction d k g := by
+  ext x
+  simp [diagAction_tprod, MultilinearMap.map_smul_univ (f := PiTensorProduct.tprod ℂ)]
 
-end HilbertTensorPower
+/-- The set of diagonal operators `{g^{⊗k} | g ∈ End(V)}` in `End(V^{⊗k})`. -/
+def diagImage (d k : ℕ) : Set (Module.End ℂ (TensV d k)) :=
+  Set.range (fun g : Module.End ℂ (Fin d → ℂ) => diagAction d k g)
 
-end LeanHaar
+/-
+Future API: bundled actions of invertible and unitary operators.
+Restore in a focused module only when a consumer needs linear equivalences; see `TOOD.md`.
+That module should import `Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs` and
+`Mathlib.LinearAlgebra.UnitaryGroup`. These wrappers package invertibility, not norm preservation.
+
+/-- The diagonal action of an invertible operator on `V^{⊗k}`: an invertible `g : End(V)` acts as
+the linear automorphism `g^{⊗k}`. -/
+noncomputable def diagActionUnits (d k : ℕ) :
+    LinearMap.GeneralLinearGroup ℂ (Fin d → ℂ) →* (TensV d k ≃ₗ[ℂ] TensV d k) :=
+  (LinearMap.GeneralLinearGroup.generalLinearEquiv ℂ (TensV d k)).toMonoidHom.comp
+    (Units.map (diagAction d k))
+
+-- /-- **The `GLₔ`-action** on `(ℂᵈ)^{⊗k}`, acting diagonally by `U ↦ U^{⊗k}`. -/
+-- noncomputable def glAction (d k : ℕ) : GL (Fin d) ℂ →* (TensV d k ≃ₗ[ℂ] TensV d k) :=
+--   (diagActionUnits d k).comp Matrix.GeneralLinearGroup.toLin.toMonoidHom
+
+/-- **The unitary action** on `(ℂᵈ)^{⊗k}`, acting diagonally by `U ↦ U^{⊗k}`. -/
+noncomputable def unitaryAction (d k : ℕ) :
+    Matrix.unitaryGroup (Fin d) ℂ →* (TensV d k ≃ₗ[ℂ] TensV d k) :=
+  (diagActionUnits d k).comp Matrix.UnitaryGroup.embeddingGL
+
+-- Conversion lemmas for the optional wrappers.
+
+-- @[simp]
+-- theorem glAction_toLinearMap (U : GL (Fin d) ℂ) :
+--     (glAction d k U).toLinearMap =
+--     diagAction d k (Matrix.toLin' (U : Matrix (Fin d) (Fin d) ℂ)) :=
+--   rfl
+
+@[simp]
+theorem unitaryAction_toLinearMap (U : Matrix.unitaryGroup (Fin d) ℂ) :
+    (unitaryAction d k U).toLinearMap =
+    diagAction d k (Matrix.toLin' (U : Matrix (Fin d) (Fin d) ℂ)) :=
+  rfl
+
+@[simp]
+theorem unitaryAction_symm_toLinearMap (U : Matrix.unitaryGroup (Fin d) ℂ) :
+    (unitaryAction d k U).symm.toLinearMap =
+    diagAction d k (Matrix.toLin' (star (U : Matrix (Fin d) (Fin d) ℂ))) := by
+  rw [← Matrix.UnitaryGroup.inv_val U, ← unitaryAction_toLinearMap, map_inv]
+  rfl
+-/
+
+end SchurWeyl
+
+end

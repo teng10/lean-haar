@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Formalization of Weingarten Calculus: Permutation Invariance and Properties of Unitarily Invariant Measures</title>
+<link rel="next" href="sect0005.html" title="Examples" />
+<link rel="prev" href="sect0003.html" title="Symmetric subspaces" />
+<link rel="up" href="sect0001.html" title="Schur Weyl Duality" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of Weingarten Calculus</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Schur Weyl Duality</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Operator Space</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Symmetric subspaces</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Permutation Invariance and Properties of Unitarily Invariant Measures</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Examples</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.4.1</span> <span class="toc_entry">Group Averaging and Pauli Twirling</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.4.2</span> <span class="toc_entry">Pauli twirling</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">1.4.3</span> <span class="toc_entry">Explicit Calculation of single qubit first moment</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">1.4.4</span> <span class="toc_entry">Commutant of the First Order Unitary Group</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000005">1.3 Permutation Invariance and Properties of Unitarily Invariant Measures</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:TensorPowerSpanTheorem">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.3.1</span>
+    <span class="theorem_thmtitle">Tensor power span theorem</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(k\) be a positive integer, and let \(X \in \mathbb {C}^[d]\). For any set \(\mathcal{A} \subseteq \mathbb {C}\) satisfying \(|\mathcal{A}| \geq k + 1\), it holds that </p>
+<div class="equation" id="a0000000019">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Span}\{ v^{\otimes k} : v \in \mathcal{A}^{[d]}\} =\mathcal{X}^{\mathbin {\bigcirc \mkern -15mu\vee }k}. \end{equation}
+  </div>
+  <span class="equation_label">13</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="prop:symLkSpanTensorProduct">
+  <div class="proposition_thmheading">
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">1.3.2</span>
+    <span class="proposition_thmtitle">Symmetric subspace and span of tensor product space</span>
+  </div>
+  <div class="proposition_thmcontent">
+  <p> Let \(\mathcal{X}\) be a complex Euclidean space and \(k\) be a positive integer. Then the following statements are equivalent: </p>
+<ol class="enumerate">
+  <li><p>\(X \in \mathcal{L}(\mathcal{X})^{\mathbin {\bigcirc \mkern -15mu\vee }k}\). </p>
+</li>
+  <li><p>For \(V \in U(\mathcal{X}^{\otimes k} \otimes \mathcal{X}^{\otimes k}, (\mathcal{X} \otimes \mathcal{X})^{\otimes k})\) being the isometry defined by </p>
+<div class="equation" id="a0000000020">
+<p>
+  <div class="equation_content">
+    \begin{equation}  V \text{vec}(Y_1 \otimes \dots \otimes Y_k) = \text{vec}(Y_1) \otimes \dots \text{vec}(Y_n) \end{equation}
+  </div>
+  <span class="equation_label">14</span>
+</p>
+</div>
+<p> holding for all \(Y_1, \dots , Y_k \in \mathcal{L}(\mathcal{X})\), one has that </p>
+<div class="equation" id="a0000000021">
+<p>
+  <div class="equation_content">
+    \begin{equation}  V \text{vec}(X) \in (\mathcal{X} \otimes \mathcal{X})^{\mathbin {\bigcirc \mkern -15mu\vee }k}. \end{equation}
+  </div>
+  <span class="equation_label">15</span>
+</p>
+</div>
+</li>
+  <li><p>\(X \in \text{Span}\{ Y^{\otimes k} : Y \in \mathcal{L}(\mathcal{X})\} \) </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:equivalence_sym_Lk_unitary_tensor_span">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.3.3</span>
+    <span class="theorem_thmtitle">Equivalence of symmetric subspace and unitary tensor span</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>prop:symLkSpanTensorProduct, thm:TensorPowerSpanTheorem Let \(\mathcal{X}\) be a complex Euclidean space and \(k\) be a positive integer. Then the symmetric subspace of linear operators is equivalent to the span of the unitary tensor products, i.e., </p>
+<div class="equation" id="a0000000022">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \mathcal{L}(\mathcal{X})^{\mathbin {\bigcirc \mkern -15mu\vee }k} = \text{Span}\{ U^{\otimes k} : U \in \mathcal{U}(\mathcal{X})\} . \end{equation}
+  </div>
+  <span class="equation_label">16</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:InvariantSubspace">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.3.4</span>
+    <span class="lemma_thmtitle">Invariant subspace lemma</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(\mathcal{X}\) be a complex Euclidean space, let \(\mathcal{V} \subseteq \mathcal{X}\) be a subspace, and let \(A \in \mathcal{L}(\mathcal{X})\) be an operator. The following statements are equivalent: </p>
+<ol class="enumerate">
+  <li><p>It holds that both \(A\mathcal{V} \subseteq \mathcal{V}\) and \(A^{*}\mathcal{V} \subseteq \mathcal{V}\). </p>
+</li>
+  <li><p>It holds that \([A, \Pi _{\mathcal{V}}] = 0\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:DoubleCommutant">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.3.5</span>
+    <span class="theorem_thmtitle">Double Commutant Theorem</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>lem:InvariantSubspace Let \(\mathcal{A}\) be a self-adjoint, unital subalgebra of \(\mathcal{L}(\mathcal{X})\). Then the double commutant of \(\mathcal{A}\) is equal to \(\mathcal{A}\), i.e., </p>
+<div class="equation" id="a0000000023">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Comm}(\text{Comm}(\mathcal{A})) = \mathcal{A}. \end{equation}
+  </div>
+  <span class="equation_label">17</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000024">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p>For all \(X \in \text{Comm}(\mathcal{A})\) and any \(A \in \mathcal{A}\), we have </p>
+<div class="equation" id="a0000000025">
+<p>
+  <div class="equation_content">
+    \begin{equation}  [X, A] = AX - XA = 0. \end{equation}
+  </div>
+  <span class="equation_label">18</span>
+</p>
+</div>
+<p> Therefore, \(A \in \text{Comm}(\text{Comm}(\mathcal{A}))\), so \(\mathcal{A} \subseteq \text{Comm}(\text{Comm} (\mathcal{A}))\). </p>
+<p>To demonstrate reverse inclusion, consider the subalgebra \(\mathcal{B} \subseteq \mathcal{L}(\mathcal{X} \otimes \mathcal{X})\) defined as </p>
+<div class="equation" id="a0000000026">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \mathcal{B} = \{ X \otimes \mathbb {I} : X \in \mathcal{A} \} . \end{equation}
+  </div>
+  <span class="equation_label">19</span>
+</p>
+</div>
+<p> For all \(Y \in \mathcal{L}(\mathcal{X} \otimes \mathcal{X})\), it can be written in terms of the standard computational basis </p>
+<div class="equation" id="a0000000027">
+<p>
+  <div class="equation_content">
+    \begin{equation}  Y = \sum _{i, j \in [d]} \sum _{a, b \in [d]} c_{i, j, a, b} |i \rangle \langle j| \otimes |a \rangle \langle b|. \end{equation}
+  </div>
+  <span class="equation_label">20</span>
+</p>
+</div>
+<p> Using the definition of the standard computational basis of operators, we can rearrange the right-hand side into the form </p>
+<div class="equation" id="eq:TensorDecomposition">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{eq:TensorDecomposition} Y = \sum _{a, b \in [d]} Y_{a, b} \otimes E_{a, b} \end{equation}
+  </div>
+  <span class="equation_label">21</span>
+</p>
+</div>
+<p> where \(Y_{a, b} = \sum _{i, j \in [d]} c_{i, j, a, b} |i \rangle \langle j |\). </p>
+<p>\(Y\) commutes with \(\mathcal{B}\) if and only if \(Y(X \otimes \mathbb {I}) = (X \otimes \mathbb {I}) Y\) for all \(X \in \mathcal{A}\). Substituting Equation&#160;<a href="sect0004.html#eq:TensorDecomposition">21</a> and simplifying shows that \(Y\) commutes with \(\mathcal{B}\) if and only if \([Y_{a, b}, X] = 0\). For any \(X \in \text{Comm}(\text{Comm}(\mathcal{A}))\), \(X\) must commute with \(\text{Comm}(\mathcal{A})\), and therefore </p>
+<div class="equation" id="eq:ccAImpliesccB">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{eq:ccAImpliesccB} X \otimes \mathbb {I} \in \text{Comm}(\text{Comm}(\mathcal{B})). \end{equation}
+  </div>
+  <span class="equation_label">22</span>
+</p>
+</div>
+<p>It remains to show that every element in \(\text{Comm}(\text{Comm}(\mathcal{B}))\) is of the form \(X \otimes \mathbb {I}\). Define a subspace \(\mathcal{V} \subseteq X \otimes X\), where </p>
+<div class="equation" id="a0000000028">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \mathcal{V} = \left\{ \text{vec}(X) = \sum _{a, b \in [d]} c_{a, b} |a \rangle \otimes |b \rangle : X \in \mathcal{A} \right\} . \end{equation}
+  </div>
+  <span class="equation_label">23</span>
+</p>
+</div>
+<p> For any arbitrary \(X \in \mathcal{A}\), we find that </p>
+<div class="equation" id="a0000000029">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \begin{split}  (X \otimes \mathbb {I}) \mathcal{V} = \{ (X \otimes \mathbb {I}) V : V \in \mathcal{V}\} \\ = \left\{  (X \otimes \mathbb {I}) \left( \sum _{a, b \in [d]} c_{a, b} |a \rangle \otimes |b \rangle \right) : \sum _{a, b \in [d]} c_{a, b} |a \rangle \langle b | \in \mathcal{A} \right\} \\ = \left\{  \sum _{a, b \in [d]} c_{a, b} X|a\rangle \otimes |b\rangle : \sum _{a, b \in [d]} c_{a, b} |a \rangle \langle b | \in \mathcal{A} \right\} \\ \subseteq \mathcal{V}, \end{split} \end{equation}
+  </div>
+  <span class="equation_label">24</span>
+</p>
+</div>
+<p> the inclusion of which follows from the fact that \(\mathcal{A}\) is an algebra so \(X|a\rangle = Xe_a \in \mathcal{A}\). Similarly, since \(\mathcal{A}\) is self-adjoint, </p>
+<div class="equation" id="a0000000030">
+<p>
+  <div class="equation_content">
+    \begin{equation}  (X^{*} \otimes \mathbb {I}) \mathcal{V} \subseteq \mathcal{V}. \end{equation}
+  </div>
+  <span class="equation_label">29</span>
+</p>
+</div>
+<p> By Lemma&#160;<a href="sect0004.html#lem:InvariantSubspace">1.3.4</a>, this implies \([X \otimes \mathbb {I}, \Pi _{\mathcal{V}}] = 0\), and hence </p>
+<div class="equation" id="eq:PiInCommB">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{eq:PiInCommB} \Pi _{\mathcal{V}} \in \text{Comm}(\mathcal{B}). \end{equation}
+  </div>
+  <span class="equation_label">30</span>
+</p>
+</div>
+<p>Therefore, for any arbitrary \(X \in \text{Comm}(\text{Comm}(\mathcal{A}))\), Equation&#160;<a href="sect0004.html#eq:ccAImpliesccB">22</a> implies </p>
+<div class="equation" id="a0000000031">
+<p>
+  <div class="equation_content">
+    \begin{equation}  X \otimes \mathbb {I} \in \text{Comm}(\text{Comm}(\mathcal{B})). \end{equation}
+  </div>
+  <span class="equation_label">31</span>
+</p>
+</div>
+<p> It follows from Equation&#160;<a href="sect0004.html#eq:PiInCommB">30</a> that </p>
+<div class="equation" id="a0000000032">
+<p>
+  <div class="equation_content">
+    \begin{equation}  [X \otimes \mathbb {I}, \Pi _{\mathcal{V}}] = 0. \end{equation}
+  </div>
+  <span class="equation_label">32</span>
+</p>
+</div>
+<p> By Lemma&#160;<a href="sect0004.html#lem:InvariantSubspace">1.3.4</a>, this yields </p>
+<div class="equation" id="a0000000033">
+<p>
+  <div class="equation_content">
+    \begin{equation}  (X \otimes \mathbb {I})\mathcal{V} \subseteq \mathcal{V}. \end{equation}
+  </div>
+  <span class="equation_label">33</span>
+</p>
+</div>
+<p> Since the subalgebra \(\mathcal{A}\) is unital, \(\mathbb {I} \in \mathcal{A}\) and thus \(\text{vec}(\mathbb {I}) \in \mathcal{V}\). Therefore, </p>
+<div class="equation" id="a0000000034">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \begin{split}  (X \otimes \mathbb {I}) \text{vec}(\mathbb {I}) = (X \otimes \mathbb {I}) \sum _{a \in [d]} |a\rangle \otimes |a \rangle \\ = \sum _{a \in [d]} X|a\rangle \otimes |a\rangle = \sum _{a \in [d]} \left( \sum _{b, c \in [d]} X_{b, c} |b \rangle \langle c| \right) |a \rangle \otimes |a \rangle \\ = \sum _{a \in [d]} \sum _{b \in [d]} X_{b, a} |b \rangle \otimes |a \rangle \\ = \sum _{b, a \in [d]} X_{b, a} |b \rangle \otimes |a \rangle = \text{vec}(X) \in \mathcal{V}. \end{split} \end{equation}
+  </div>
+  <span class="equation_label">34</span>
+</p>
+</div>
+<p> By the bijectivity of \(\text{vec}\), \(X \in \mathcal{A}\), so \(\text{Comm}(\text{Comm}(\mathcal{A})) \subseteq \mathcal{A}\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:SchurWeylDuality">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.3.6</span>
+    <span class="theorem_thmtitle">Schur-Weyl duality</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>prop:symLkSpanTensorProduct, def:SymmetricLinearOperator, thm:DoubleCommutant Let \(\mathcal{X}\) be a complex Euclidean space, \(k\) be a positive integer, and \(X \in \mathcal{L}(\mathcal{X}^{\otimes k})\) be an operator. Then the set of all commutators of the unitary group is equivalent to the span of the permutation operators, i.e., </p>
+<div class="equation" id="a0000000035">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Comm}(\mathcal{U}(\mathcal{X}), k) = \text{Span}\{ W_{\pi } : \pi \in S_k \}  \end{equation}
+  </div>
+  <span class="equation_label">39</span>
+</p>
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000036">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(X \in \text{Comm}(\mathcal{U}(\mathcal{X}), k)\). then by the bilinearity of the Lie bracket, </p>
+<div class="equation" id="a0000000037">
+<p>
+  <div class="equation_content">
+    \begin{equation}  X \in \text{Comm}(\text{Span}\{  U^{\otimes k} : U \in U(\mathcal{X}) \} ) \end{equation}
+  </div>
+  <span class="equation_label">40</span>
+</p>
+</div>
+<p> Proposition&#160;<a href="sect0004.html#prop:symLkSpanTensorProduct">1.3.2</a> implies that \(X \in \text{Comm}(\mathcal{L}(\mathcal{X})^{\mathbin {\bigcirc \mkern -15mu\vee }k})\), so </p>
+<div class="equation" id="eq:CommSpanUnitaryEquivCommSymLk">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{eq:CommSpanUnitaryEquivCommSymLk} \text{Comm}(\text{Span}\{  U^{\otimes k} : U \in U(\mathcal{X}) \} ) = \text{Comm}(\mathcal{L}(\mathcal{X})^{\mathbin {\bigcirc \mkern -15mu\vee }k}). \end{equation}
+  </div>
+  <span class="equation_label">41</span>
+</p>
+</div>
+<p>By Definition&#160;<a href="sect0003.html#def:SymmetricLinearOperator">1.2.1</a>, \(Z \in \mathcal{L}(\mathcal{X})^{\mathbin {\bigcirc \mkern -15mu\vee }}\) if and only if there exists some \(X \in \mathcal{L}(\mathcal{X})\) such that </p>
+<div class="equation" id="a0000000038">
+<p>
+  <div class="equation_content">
+    \begin{equation}  Z = X = W_{\pi } X W_{\pi }^* \text{ for all } \pi \in S_k. \end{equation}
+  </div>
+  <span class="equation_label">42</span>
+</p>
+</div>
+<p> Right-multiplying and rearranging by \(W_\pi \) yields \(XW_{\pi } - W_{\pi } X = 0\), and so by the bilinearity of the Lie bracket, </p>
+<div class="equation" id="a0000000039">
+<p>
+  <div class="equation_content">
+    \begin{equation}  Z = X \in \text{Comm}(\text{Span}\{ W_{\pi } : \pi \in S_k\} ). \end{equation}
+  </div>
+  <span class="equation_label">43</span>
+</p>
+</div>
+<p> Hence </p>
+<div class="equation" id="a0000000040">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \mathcal{L}(\mathcal{X})^{\mathbin {\bigcirc \mkern -15mu\vee }k} = \text{Comm}(\text{Span}\{ W_{\pi } : \pi \in S_k\} ). \end{equation}
+  </div>
+  <span class="equation_label">44</span>
+</p>
+</div>
+<p> By Theorem&#160;<a href="sect0004.html#thm:DoubleCommutant">1.3.5</a>, taking the commutant of both sides yields </p>
+<div class="equation" id="a0000000041">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Comm}(\mathcal{L}(\mathcal{X})^{\mathbin {\bigcirc \mkern -15mu\vee }k}) = \text{Span}\{ W_{\pi } : \pi \in S_k\} . \end{equation}
+  </div>
+  <span class="equation_label">45</span>
+</p>
+</div>
+<p> By substitution of Eq.&#160;<a href="sect0004.html#eq:CommSpanUnitaryEquivCommSymLk">41</a>, we have shown </p>
+<div class="equation" id="a0000000042">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \text{Comm}(U(\mathcal{X}), k) = \text{Span}\{ W_{\pi } : \pi \in S_{k} \} . \end{equation}
+  </div>
+  <span class="equation_label">46</span>
+</p>
+</div>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <a href="sect0003.html" title="Symmetric subspaces"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0001.html" title="Schur Weyl Duality"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0005.html" title="Examples"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+</body>
+</html>

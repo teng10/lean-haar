@@ -150,6 +150,10 @@ def matrixOf (g : Module.End ℂ (Fin d → ℂ)) : Matrix (Fin d) (Fin d) ℂ :
 @[simp] theorem endOf_matrixOf (g : Module.End ℂ (Fin d → ℂ)) : endOf (matrixOf g) = g := by
   simp [endOf, matrixOf, Matrix.toLin'_toMatrix']
 
+/-- The matrix of the endomorphism attached to a matrix is the original matrix. -/
+@[simp] theorem matrixOf_endOf (M : Matrix (Fin d) (Fin d) ℂ) : matrixOf (endOf M) = M := by
+  simp [matrixOf, endOf, LinearMap.toMatrix_eq_toMatrix']
+
 /-- The matrix of a composition is the product of the matrices. -/
 theorem matrixOf_comp (g h : Module.End ℂ (Fin d → ℂ)) :
     matrixOf (g ∘ₗ h) = matrixOf g * matrixOf h :=

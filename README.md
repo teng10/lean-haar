@@ -13,6 +13,7 @@ and magic monotones. It uses the Lean toolchain and dependencies pinned in
 | [SchurWeyl.lean](LeanHaar/SchurWeyl.lean) | Assembly of the Schur–Weyl duality theorem, formerly `Main.lean`. |
 | [Moments](LeanHaar/Moments) | `k1Moment`, `k2Moment`, and `k4Moment`: evaluated Haar moment formulas. |
 | [SupportingDocs](LeanHaar/SupportingDocs) | Shared tensor, trace, vectorization, Haar, and algebraic channel support. |
+| [ForPhyslib](LeanHaar/ForPhyslib/POVM.lean) | Local POVM extensions intended for Physlib; no LeanHaar dependencies and not yet upstream. |
 | [Applications](LeanHaar/Applications) | QML, ClassicalShadows, and MagicMonotone. |
 | [Examples](LeanHaar/Examples) | Standalone `UnitaryCommutant`, `PauliTwirling`, and `EulerAngleIntegral` examples. |
 | [notebooks](notebooks) | The symbolic fourth-moment coefficient calculation. |
@@ -28,7 +29,7 @@ is not automatically a positive density matrix for every real coefficient vector
 lake build
 ```
 
-The default target checks all **35 source modules plus the root umbrella**.
+The default target checks all source modules plus the root umbrella.
 The library glob includes every module under `LeanHaar`, so future files are not
 silently omitted from the build. The existing CI runs this target.
 
@@ -38,16 +39,29 @@ Import everything with `import LeanHaar`, or select only the needed module:
 import LeanHaar.SchurWeyl
 import LeanHaar.Haar
 import LeanHaar.Moments.k2Moment
+import LeanHaar.Applications.ClassicalShadows.SnapshotEnsemble -- Observation 58
 import LeanHaar.Applications.ClassicalShadows.Observation59
 ```
 
+The classical-shadow application has three files. `SnapshotEnsemble` contains the
+finite algebra of Observation 58. `UnitarySnapshots` defines the Haar measurement
+protocol and `haarShadow`; `Observation59` applies LeanHaar's `k2_moment` to evaluate
+the channel, then proves the reconstructed shadow's Born-weighted Haar expectation
+is the input state. Import `Observation59` for this complete Haar result.
+The independent Pauli-shadow application is retired from the current scope and
+remains in Git history. No generic protocol or reconstruction structure is added.
+
 ## Import migration
 
-The former `ForMathlib` and `ForMathlibExamples` directories are removed.
-Public declaration namespaces and mathematical statements are unchanged.
+The former `ForMathlib` and `ForMathlibExamples` directories are removed; that
+relocation preserved public declaration namespaces and mathematical statements.
+The later classical-shadow consolidation and retirements are listed below.
 
 | Former module prefix/path | Current location |
 | --- | --- |
+| `LeanHaar.SupportingDocs.POVM` | `LeanHaar.ForPhyslib.POVM`; retained declaration names are unchanged. |
+| `LeanHaar.Applications.ClassicalShadows.HaarShadow` | Import `LeanHaar.Applications.ClassicalShadows.Observation59` for `haarShadow` and `haarShadow_unbiased`; their names and formulas are unchanged. |
+| `LeanHaar.Applications.ClassicalShadows.PauliShadow` | Retired from the current scope; available in Git history. |
 | `LeanHaar.ForMathlib.*` | `LeanHaar.*`; `Main` becomes `SchurWeyl`. |
 | `LeanHaar.ForMathlib.ForMathlibExamples.k1Moment/k2Moment/k4Moment` | `LeanHaar.Moments.k1Moment/k2Moment/k4Moment`. |
 | `LeanHaar.ForMathlib.ForMathlibExamples.SupportingDocs.*` | `LeanHaar.SupportingDocs.*`. |

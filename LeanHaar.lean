@@ -1,6 +1,4 @@
-import LeanHaar.Applications.ClassicalShadows.HaarShadow
 import LeanHaar.Applications.ClassicalShadows.Observation59
-import LeanHaar.Applications.ClassicalShadows.PauliShadow
 import LeanHaar.Applications.ClassicalShadows.SnapshotEnsemble
 import LeanHaar.Applications.ClassicalShadows.UnitarySnapshots
 import LeanHaar.Applications.MagicMonotone.BrickworkLayers
@@ -14,6 +12,7 @@ import LeanHaar.DCT
 import LeanHaar.Examples.EulerAngleIntegral
 import LeanHaar.Examples.PauliTwirling
 import LeanHaar.Examples.UnitaryCommutant
+import LeanHaar.ForPhyslib.POVM
 import LeanHaar.Haar
 import LeanHaar.Moments.k1Moment
 import LeanHaar.Moments.k2Moment
@@ -25,7 +24,6 @@ import LeanHaar.SupportingDocs.DepolarizingChannel
 import LeanHaar.SupportingDocs.HaarInvariance
 import LeanHaar.SupportingDocs.HaarMomentBridge
 import LeanHaar.SupportingDocs.HaarMoments
-import LeanHaar.SupportingDocs.POVM
 import LeanHaar.SupportingDocs.RankOneCalculus
 import LeanHaar.SupportingDocs.Swap
 import LeanHaar.SupportingDocs.TensorPowerBasics

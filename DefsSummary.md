@@ -1,6 +1,6 @@
 # Definition summary and cleanup status
 
-Updated: 2026-10-31 (classical-shadow API). Original review: 2026-09-25.
+Updated: 2026-11-02 (classical-shadow module boundaries). Original review: 2026-09-25.
 
 The earlier reorganization inventory recorded **100 active definitions, abbreviations,
 and structures**, plus **14 explicit instances**, across 35 modules. These counts
@@ -285,11 +285,13 @@ square-integrability proofs. No replacement expectation or variance API is added
 
 ## Classical shadows
 
-The finite-ensemble identities of Observation 58 remain in `SnapshotEnsemble`.
-`UnitarySnapshots` defines the raw unitary projectors and entrywise Haar channel;
-`Observation59` evaluates that channel using the existing second Haar moment.
-The concrete physical estimators and their correctness results are in `HaarShadow`
-and `PauliShadow`; there is no additional generic reconstruction layer.
+The application has three files. `SnapshotEnsemble` preserves the finite identities
+of Observation 58. `UnitarySnapshots` defines the raw projectors, Haar channel, and
+named `haarShadow` reconstruction. `Observation59` uses LeanHaar's `k2_moment` to
+evaluate the channel, then proves Born-weighted Haar reconstruction unbiasedness.
+The separate `HaarShadow` module is merged into these model and result files.
+The independent Pauli-shadow application is removed from the current scope and
+remains in Git history. No generic reconstruction layer is added.
 Generic trace contractions and isotropic-map inversion remain in `SupportingDocs`.
 
 The follow-up adversarial review corrected the initial cleanup, which moved files
@@ -303,16 +305,14 @@ invoking `unitarySnapshotMoment_two`; it has no private contraction wrapper. The
 and `SupportingDocs/TraceNotation` is removed. The application and the two extracted
 support modules now use `LinearMap.trace` directly, with no replacement local notation.
 
-Three one-use wrappers are removed: `observableEstimatorVariance`,
-`IsTraceSelfAdjoint`, and scalar `thirdMoment`. The original expressions now occur
-in the relevant statements. `secondMoment_observableEstimator` is now a private
-scalar calculation; its documentation explains the one Born-weight trace factor
-and the two estimator trace factors. `measurementChannel_apply`, a redundant
-`rfl` evaluation rule in this minimal API, is removed; the contraction proof
-unfolds `measurementChannel` directly. At that cleanup stage, the seven retained public
-endpoint statements preserved their hypotheses, formulas, conjugation order, and dimension
-restrictions; the later inverse-API replacement is recorded under Observation59 below. These are intentional reductions of the helper API, not a claim
-that every former public name remains available.
+Three one-use wrappers remain removed: `observableEstimatorVariance`,
+`IsTraceSelfAdjoint`, and scalar `thirdMoment`. Their original expressions occur
+in the relevant statements. The 2026-11-01 review replaces the private scalar
+expansion with public `sum_mul_observableEstimator_sq_eq`; the original Observation 58
+subtraction identity is its corollary. `measurementChannel_apply` is restored because
+the symmetry, reconstruction, and contraction proofs now share its computation rule.
+The original cleanup preserved seven endpoint statements; the subsequent inverse-API
+replacement and hypothesis simplifications are recorded below.
 
 The 2026-10-29 follow-up inlines `secondTensorMoment` and `thirdTensorMoment`
 in the two Observation 58 identities, preserving their names, hypotheses, and formulas.
@@ -331,7 +331,8 @@ The `SnapshotEnsemble` structure and `outcomeWeight` wrapper are removed. The
 one-use `stateEstimator` wrapper is also removed: `observableEstimator` directly
 uses `invChannel w S hM (S x)`. The three definitions and the two Observation 58 identities now take explicit `w` and
 `S` arguments in namespace `ClassicalShadows`. The identities retain their short
-names, formulas, and mathematical hypotheses; the old nested namespace is removed.
+names and formulas; the old nested namespace is removed. The 2026-11-01 follow-up
+also removes the derivable `hself` argument from the second identity.
 
 For a physical finite protocol, use Physlib's `P : POVM X n` and a recorded snapshot
 family `S`. Its Born probabilities are `P.measure ρ x`; they are derived from the
@@ -343,27 +344,29 @@ case `Fₓ = wₓ Sₓ`. Generalizing them to arbitrary effects would use mixed 
 
 The physical API uses the conditional POVM `POVM.unitaryBasis U` for each basis
 setting. Physlib supplies the Born probabilities; `haarProb` supplies the Haar setting
-law, while the Pauli result averages the three axes uniformly. There is no new
-protocol structure, generic inverse estimator, or independent probability field.
-`haarShadow U b` and the Pauli specializations give users named reconstruction functions. Their outputs
-are `HermitianMat`, not `MState`: reconstructed shadows can have negative eigenvalues.
-A finite POVM at a fixed unitary does not encode the complete randomized protocol.
+law. There is no new protocol structure, generic inverse estimator, or independent
+probability field. The named `haarShadow U b` returns `HermitianMat`, not `MState`:
+reconstructed shadows can have negative eigenvalues. A finite POVM at a fixed
+unitary does not encode the complete randomized protocol.
 
 Probability normalization here uses completeness such as `∑ₓ wₓ Sₓ = I`, together
 with positivity and a density state. Merely requiring `∑ₓ wₓ = 1` is insufficient.
-The trace-symmetry assumption is written explicitly; there is no replacement
-self-adjointness API built solely for this application. The two endpoint theorems
-remain separate because they describe different objects and require different
-hypotheses; combining them into a conjunction would obscure that distinction.
+`trace_comp_measurementChannel_comm` proves symmetry for the trace pairing;
+`trace_comp_invChannel_comm` transfers it to the inverse. Thus the second Observation 58
+identity no longer takes a separate `hself` assumption. `sum_smul_invChannel_eq` and
+`sum_mul_observableEstimator_eq` give algebraic reconstruction and observable-mean
+identities under bijectivity. These do not assert that arbitrary coefficients are
+probabilities, or turn the algebraic square-moment difference into a probabilistic variance.
+The two Observation 58 identities remain distinct and retain their formulas.
 The finite moments live in tensors of endomorphisms, whereas `momentOp` averages
 an endomorphism of a complex tensor state space over Haar measure. `diagAction`
 and `tensorPow` form tensor-power operators but do not average them.
 
-### UnitarySnapshots.lean — 3 definitions
+### UnitarySnapshots.lean — 4 public definitions
 
 Source: [UnitarySnapshots.lean](LeanHaar/Applications/ClassicalShadows/UnitarySnapshots.lean).
 
-All three definitions appear together before the elementary projector laws, the
+All four definitions appear together before the elementary projector laws, the
 Physlib probability bridges, and the tensor-power orbit identity. This module imports no computed moment
 formula. The former single-consumer tensor-trace aliases are removed; their
 consumer uses the shared tensor-trace theorems directly.
@@ -373,30 +376,45 @@ consumer uses the shared tensor-trace theorems directly.
 | `basisProjector` | Rank-one projector onto a computational basis vector. | **Keep here.** It anchors the measurement protocol and directly uses `Matrix.single` and `Matrix.toLin'`. Physlib's `MState.pure (Ket.basis b)` represents the same physical object in a different codomain. |
 | `unitarySnapshot` | Conjugated computational-basis projector `U† P_b U`. | **Keep here.** Physlib provides unitary conjugation on matrices/states, but using it here requires an explicit matrix-to-endomorphism bridge. Preserve the `star U` orientation. |
 | `haarMeasurementChannel` | Actual Born-weighted, entrywise Haar integral. | **Moved from Observation59.** This defines the physical model; Observation59 evaluates it. Bundling its linearity directly remains separate work. |
+| `haarShadow` | Reconstructed Hermitian sample `(d + 1) S(U,b) - I`. | **Moved from HaarShadow.** Takes only the recorded unitary and outcome, without a dimension proof or unknown-state argument. Observation59 proves its physical unbiasedness. |
 
-The shared `SupportingDocs/POVM.lean` extends Physlib's existing `POVM` with
-`POVM.unitaryBasis` and `POVM.measure_eq_trace`. `measure_unitaryBasis` identifies
+The local contribution candidate [ForPhyslib/POVM.lean](LeanHaar/ForPhyslib/POVM.lean)
+depends only on Physlib and extends its existing `POVM` with
+`POVM.unitaryBasis` and `POVM.measure_eq_trace`; these extensions are not yet upstream.
+The application-specific `measure_unitaryBasis` identifies
 its Born probabilities with the snapshot trace coefficients, and
 `haarMeasurementChannel_eq_integral_measure` connects these probabilities to the
 Haar average on physical `MState` inputs. The channel retains its linear extension
 to arbitrary operators; there is no new local probability or weight definition.
+`POVM.unitaryBasis_mats_mat` exposes the effect matrix; `matrixOf_unitarySnapshot`
+connects the raw snapshot to it. `SchurWeyl.matrixOf_endOf` cancels the
+matrix–endomorphism–matrix round trip. These replace duplicate unfolding in the
+Born-rule and Haar proofs. The Pauli-only `POVM.unitaryBasis_mats_apply` is removed.
 
-### Observation59.lean — no definitions
+### Observation59.lean — no public definitions
 
 [Observation59](LeanHaar/Applications/ClassicalShadows/Observation59.lean)
 now owns `unitarySnapshotMoment_two`: it applies the existing `k2_moment` to each
 projector tensor square, then sums the `d` equal contributions. The sum is written
 directly in the statements; the `unitarySnapshotMoment` wrapper is removed. The
-second-moment, contraction, and channel-formula theorem names and statements are retained.
-It does not reprove the general second-moment result. Consumers of this corollary import Observation59 rather than
+second-moment and channel-formula names and formulas are retained. The four public
+moment/channel/inverse results now require only `[Fact (2 ≤ d)]`; the redundant
+`[NeZero d]` is derived locally where the existing core moment theorem needs it.
+The one-consumer entrywise contraction is private, with inversion invariance made explicit.
+This file does not reprove the general second-moment result. Consumers of this corollary import Observation59 rather than
 the model module. The entrywise contraction, evaluation
 of the integral channel for `d ≥ 2`, and its two inverse identities follow there.
 `haarMeasurementChannel_leftInverse` and `haarMeasurementChannel_rightInverse` state
 that `(d + 1) A - Tr(A) I` inverts the actual Haar channel in both orders, reusing
 the shared depolarizing-map algebra. The old `haarMeasurementChannelEquiv` wrapper,
 its packaging lemmas, and the unused `endOf_haarShadow` compatibility theorem are removed.
-Haar-shadow unbiasedness uses the existing channel formula directly; no second measurement
-channel or abstract inverse API is introduced.
+`haarShadow_unbiased` now follows in the same file: the existing channel formula
+and Physlib's normalized Born distribution imply that the reconstructed shadow's
+Haar expectation is the input state, for `d ≥ 2`. Its statement is unchanged.
+Only the continuity and entry-integral conversion helpers needed by this proof are
+private, including the private definition `entryCLM`. They avoid a local
+`ContinuousENorm` workaround without changing Physlib's general instance inference.
+No second measurement channel or abstract inverse API is introduced.
 
 The finite model uses tensors of endomorphisms; the Haar model uses endomorphisms
 of `TensV`. No identification between these spaces or formal instantiation of
@@ -405,41 +423,19 @@ positivity, normalization, and statistical variance interpretation are additiona
 not consequences of reorganizing files.
 
 
-### HaarShadow.lean — 1 definition
+### Retired infrastructure
 
-Source: [HaarShadow.lean](LeanHaar/Applications/ClassicalShadows/HaarShadow.lean).
+The separate `HaarShadow.lean` module is removed after moving its definition to
+`UnitarySnapshots` and its correctness proof to `Observation59`; their public names
+and formulas remain available. The provisional `Reconstruction.lean` module and its
+generic channel/inverse API remain removed, together with duplicate Haar inverse proofs.
 
-`haarShadow U b` is the reconstructed Hermitian operator `(d + 1) S(U,b) - I`.
-It is distinct from the existing raw `unitarySnapshot U b`. The input is only the recorded
-unitary and outcome, with `d` inferred; the unknown density state is not an argument.
-The definition has no dimension proof argument. `haarShadow_unbiased` proves that
-its Born-weighted Haar expectation is the input state, in the existing `d ≥ 2` range.
-The proof uses the original Observation 59 channel formula (and hence `k2_moment`)
-and Physlib's normalized Born distribution. Only the continuity and integral-conversion
-steps needed by this concrete proof are private helpers.
-
-The provisional `Reconstruction.lean` module and its generic channel/inverse API are
-removed, together with the duplicate Haar bijectivity and inverse-identification proofs.
-The existing Haar channel remains the single source for the channel calculation.
-
-### PauliShadow.lean — named local Pauli reconstructions
-
-Source: [PauliShadow.lean](LeanHaar/Applications/ClassicalShadows/PauliShadow.lean).
-
-| Name | Meaning | Assessment |
-| --- | --- | --- |
-| `PauliAxis` | The three measurement axes `.x`, `.y`, `.z`. | **Small physical input type.** Avoids anonymous integers or arbitrary unitaries at call sites. |
-| `pauliBasisRotation` | Basis rotations `H`, `H S†`, and `I`. | **Derived from the axis.** These implement Pauli-basis measurements; choosing Pauli operators themselves would not. |
-| `pauliShadow` | Single-qubit reconstruction `3 S - I`. | **Named user API.** Takes an axis and an outcome bit, with no inverse proof or unknown state argument. |
-| `localPauliShadow` | Tensor product of the single-qubit reconstructions. | **Named multi-qubit construction.** Takes axes and bits indexed by any finite qubit-label type `Q`; the output matrix indices are bitstrings `Q → Fin 2`. |
-
-`pauliShadow_unbiased` proves single-qubit correctness for a uniformly chosen axis
-and the conditional Born outcome. Multi-qubit unbiasedness is not proved here. The local
-tensor formula does not presume independent outcomes: for entangled input states,
-Born probabilities must be computed jointly. The single-qubit proof is a concrete
-finite reconstruction identity using Physlib's Born probabilities; it does not depend
-on Haar sampling or a generic reconstruction framework. Hermitian outputs permit negative eigenvalues,
-as reconstruction is classical postprocessing rather than a physical density-state channel.
+`PauliShadow.lean` and its `PauliAxis`, `pauliBasisRotation`, `pauliShadow`, and
+`localPauliShadow` APIs are removed from the current scope (2026-11-02). They were
+independent of Observations 58/59 and remain available in Git history. Their
+single-qubit unbiasedness proof was complete; multi-qubit unbiasedness was not
+proved. Restoring them should serve a concrete Pauli application, rather than add
+infrastructure to the Haar calculation.
 
 ## Magic monotone and brickwork applications
 

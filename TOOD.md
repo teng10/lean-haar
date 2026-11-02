@@ -158,9 +158,28 @@ ensembles, and their mathematical interpretation remain in their application mod
 
 ## Classical-shadow application cleanup
 
+- [x] Isolate the local Physlib contribution candidate in `ForPhyslib/POVM.lean`;
+  retain the rotated-basis POVM and Born-trace bridge, with no LeanHaar dependencies
+  (2026-11-02; not yet upstream).
+- [x] Consolidate the application into three files: finite Observation 58 identities
+  in `SnapshotEnsemble`, protocol definitions including `haarShadow` in
+  `UnitarySnapshots`, and the `k2_moment` → channel → Born/Haar unbiasedness proof
+  in `Observation59`. Remove the separate `HaarShadow` module without changing
+  its public definition or theorem formulas (2026-11-02).
+- [x] Retire the independent Pauli-shadow application and its sole-consumer
+  `POVM.unitaryBasis_mats_apply` helper. The Pauli implementation remains in Git
+  history; no generic protocol or reconstruction framework replaces it (2026-11-02).
+
+- [x] Prove finite-channel and inverse trace symmetry; remove `hself`, add algebraic
+  reconstruction/mean identities, and retain both Observation 58 formulas (2026-11-01).
+- [x] Share the POVM/matrix/snapshot conversions and delete their private duplicates;
+  remove unused Pauli `DecidableEq` binders (2026-11-01, before the Pauli retirement).
+- [x] Replace Haar's local norm-continuity instance with continuity-based proof glue;
+  remove redundant `NeZero` binders and keep the coordinate contraction private (2026-11-01).
 - [x] Remove the provisional generic reconstruction layer. Prove Haar-shadow
   unbiasedness directly from Observation59 and Physlib Born normalization, retaining
-  the named Haar/Pauli estimators and their correctness results (2026-10-31).
+  the named Haar/Pauli estimators and their correctness results at that stage
+  (2026-10-31; the Pauli scope was retired on 2026-11-02).
 - [x] Inline the two tensor-moment sums while retaining both Observation 58 identities
   under their original names and hypotheses (2026-10-29).
 - [x] Inline `unitarySnapshotMoment` in Observation59, preserving its theorem names,
@@ -177,9 +196,9 @@ ensembles, and their mathematical interpretation remain in their application mod
   `k2_moment`; the model module no longer imports that computation.
 - [x] Remove `trace_diagAction_basisProjector` and
   `trace_swap_comp_diagAction_basisProjector`; their consumer uses shared trace facts.
-- [x] Remove `measurementChannel_apply`; the only consumer unfolds the definition.
-  Keep the scalar `secondMoment_observableEstimator` calculation private, explaining
-  its three snapshot factors and algebraic-square interpretation in its docstring.
+- [x] Initially remove the one-consumer `measurementChannel_apply` and keep the scalar
+  expansion private. The 2026-11-01 finite proofs now share a restored computation rule
+  and a public raw square-moment contraction; its algebraic interpretation stays explicit.
 - [x] Remove `observableEstimatorVariance`, `IsTraceSelfAdjoint`, and scalar
   `thirdMoment`; expand their original expressions in the retained public theorems.
 - [x] Delete the two pair-coordinate helpers and `MomentContraction`. Share the
@@ -202,8 +221,8 @@ ensembles, and their mathematical interpretation remain in their application mod
 At that cleanup stage, the application had three files and ten definitions/structures.
 Shared support contained ten modules, and the repository inventory was 121 definitions/
 abbreviations/structures and 24 explicit instances; the reorganization below updates it. The helper API was deliberately
-reduced: the scalar expansion is private, the evaluation lemma and two tensor-trace
-aliases are gone, and the moment corollary now requires an Observation59 import.
+reduced at that stage: the scalar expansion was private, the evaluation lemma and two
+tensor-trace aliases were removed, and the moment corollary required an Observation59 import.
 
 Separate mathematical follow-ups:
 
@@ -236,7 +255,7 @@ Separate mathematical follow-ups:
 - [x] Independently audit stale-file removals, import coverage/cycles, declaration
   counts, and source preservation; compare 17 representative endpoint axiom reports.
 
-Current inventory: **103 definitions/abbreviations/structures and 14 instances**.
+Historical inventory at this layout stage: **103 definitions/abbreviations/structures and 14 instances**.
 The five deleted files account for the reduction from 121 definitions and 24 instances.
 The representation stashes and unrelated working-tree material remain intact.
 

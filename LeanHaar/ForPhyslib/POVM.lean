@@ -7,8 +7,12 @@ import QuantumInfo.Measurements.POVM
 /-!
 # Unitary-basis measurements
 
-Extend Physlib's `POVM` with the measurement in a unitary-rotated computational basis
-and the trace formula for its existing `POVM.measure` probabilities.
+Local extensions intended for contribution to Physlib. The `POVM` type and its
+`measure` probabilities already come from Physlib; this module adds measurement in
+a unitary-rotated computational basis and the trace formula for those probabilities.
+
+These extensions depend only on Physlib and are not yet upstream. LeanHaar-specific
+snapshot conversions and Haar averaging belong in the classical-shadow application.
 -/
 
 noncomputable section
@@ -32,6 +36,13 @@ def unitaryBasis {n : Type*} [Fintype n] [DecidableEq n]
       HermitianMat.mat_mk, HermitianMat.mat_one, Matrix.conjTranspose_conjTranspose]
     rw [← Finset.sum_mul, ← Finset.mul_sum, Matrix.sum_single_one, Matrix.mul_one]
     exact U.prop.1
+
+/-- The matrix of a rotated-basis effect is `U† |b⟩⟨b| U`. -/
+@[simp] theorem unitaryBasis_mats_mat {n : Type*} [Fintype n] [DecidableEq n]
+    (U : Matrix.unitaryGroup n ℂ) (b : n) :
+    ((unitaryBasis U).mats b).mat =
+      star (U : Matrix n n ℂ) * Matrix.single b b 1 * (U : Matrix n n ℂ) := by
+  simp [unitaryBasis, HermitianMat.conj_apply_mat, Matrix.star_eq_conjTranspose]
 
 /-- A POVM's outcome probability is the Born trace coefficient. -/
 theorem measure_eq_trace {n X : Type*} [Fintype n] [DecidableEq n]

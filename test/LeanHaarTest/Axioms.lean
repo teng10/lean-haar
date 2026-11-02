@@ -21,3 +21,10 @@ library and test declaration, so an unrelated declaration cannot bypass the safe
 
 /-- info: 'SchurWeyl.K4.k4_moment' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms SchurWeyl.K4.k4_moment
+
+namespace LeanHaarTest
+
+/-- Anchor declaration so CI axiom-audit checks at least one test declaration. -/
+theorem axiomAuditAnchor : True := trivial
+
+end LeanHaarTest

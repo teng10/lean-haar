@@ -8,6 +8,7 @@ import LeanHaar.SupportingDocs.UnitaryTensor
 import LeanHaar.Applications.MagicMonotone.SingleGateMoment
 import LeanHaar.Applications.MagicMonotone.LayerGates
 import LeanHaar.Applications.MagicMonotone.Equation24
+import LeanHaar.Circuits.Circuit
 import Mathlib.MeasureTheory.Integral.Prod
 
 /-!
@@ -25,6 +26,8 @@ of A followed by B gives the existing composition `layerA ∘L layerB`.
   `twoLayerMoment`, as an equality of operators.
 * `MagicMonotone.integral_twoLayer_endVec`: the same equality applied to any global
   input operator; rewrite with `twoLayerMoment_eq_kernel_sum` to obtain Equation (24).
+* `MagicMonotone.twoLayerMoment_eq_adjoint_brickworkMoment`: the calculation is the
+  adjoint of the generic four-copy circuit moment on two matching layers.
 
 The shared tensor-Haar factorization supplies independence, and `integral_vecActOn`
 supplies the computed single-gate fourth moment. Coordinate and sum bookkeeping stays
@@ -143,5 +146,99 @@ theorem integral_twoLayer_endVec (X : RegOp) :
           (HasCompactSupport.of_compactSpace _)
   rw [← integral_vecActOn_twoLayer, ContinuousLinearMap.integral_apply hi]
   simp_rw [vecActOn_endVec]
+
+/-! ### Identification with the compositional circuit interface -/
+
+open SchurWeyl.Circuits
+
+private theorem tensorUnitary_eq_circuitUnitary
+    (e : Fin 16 ≃ Fin 4 × Fin 4) (sites : Fin 2 → (Fin 2 ↪ Fin 4))
+    (hread : ∀ x, e x = (localRead 2 (sites 0) x, localRead 2 (sites 1) x))
+    (hleft : ∀ x y, (e x).2 = (e y).2 ↔
+      ∀ i, i ∉ Set.range (sites 0) → registerEquiv 2 4 x i = registerEquiv 2 4 y i)
+    (hright : ∀ x y, (e x).1 = (e y).1 ↔
+      ∀ i, i ∉ Set.range (sites 1) → registerEquiv 2 4 x i = registerEquiv 2 4 y i)
+    (U V : Matrix.unitaryGroup (Fin 4) ℂ) :
+    tensorUnitary e U V = circuitUnitary 2 sites ![U, V] := by
+  have hU : tensorUnitary e U 1 = placeUnitary 2 (sites 0) U := by
+    apply Subtype.ext
+    ext x y
+    refine Eq.trans ?_ (placeUnitary_apply 2 (sites 0) U x y).symm
+    change U (e x).1 (e y).1 * (1 : Matrix (Fin 4) (Fin 4) ℂ) (e x).2 (e y).2 = _
+    rw [Matrix.one_apply]
+    rw [show (e x).1 = localRead 2 (sites 0) x from congrArg Prod.fst (hread x),
+      show (e y).1 = localRead 2 (sites 0) y from congrArg Prod.fst (hread y)]
+    congr 1
+    exact if_congr (hleft x y) rfl rfl
+  have hV : tensorUnitary e 1 V = placeUnitary 2 (sites 1) V := by
+    apply Subtype.ext
+    ext x y
+    refine Eq.trans ?_ (placeUnitary_apply 2 (sites 1) V x y).symm
+    change (1 : Matrix (Fin 4) (Fin 4) ℂ) (e x).1 (e y).1 * V (e x).2 (e y).2 = _
+    rw [Matrix.one_apply, mul_comm]
+    rw [show (e x).2 = localRead 2 (sites 1) x from congrArg Prod.snd (hread x),
+      show (e y).2 = localRead 2 (sites 1) y from congrArg Prod.snd (hread y)]
+    congr 1
+    exact if_congr (hright x y) rfl rfl
+  have h : tensorUnitary e U V = tensorUnitary e 1 V * tensorUnitary e U 1 := by
+    simpa using tensorUnitary_mul e 1 U V 1
+  rw [h, hU, hV]
+  simp [circuitUnitary]
+
+set_option maxRecDepth 8192 in
+private theorem layerUnitaryA_eq_circuitUnitary (U V : Matrix.unitaryGroup (Fin 4) ℂ) :
+    layerUnitaryA (U, V) = circuitUnitary 2 (oddEdge 2) ![U, V] := by
+  apply tensorUnitary_eq_circuitUnitary
+  · decide
+  · simp only [Set.mem_range, not_exists]
+    decide
+  · simp only [Set.mem_range, not_exists]
+    decide
+
+set_option maxRecDepth 8192 in
+private theorem layerUnitaryB_eq_circuitUnitary (U V : Matrix.unitaryGroup (Fin 4) ℂ) :
+    layerUnitaryB (U, V) = circuitUnitary 2 (evenEdge 2) ![U, V] := by
+  apply tensorUnitary_eq_circuitUnitary
+  · decide
+  · simp only [Set.mem_range, not_exists]
+    decide
+  · simp only [Set.mem_range, not_exists]
+    decide
+
+private theorem adjoint_circuitMoment_layer
+    (sites : Fin 2 → (Fin 2 ↪ Fin 4))
+    (L : Matrix.unitaryGroup (Fin 4) ℂ × Matrix.unitaryGroup (Fin 4) ℂ →
+      Matrix.unitaryGroup (Fin 16) ℂ) (hL : Continuous L)
+    (heq : ∀ U V, L (U, V) = circuitUnitary 2 sites ![U, V]) :
+    (circuitMoment 2 4 sites).adjoint =
+      ∫ p, vecActOn (k := 4) (star (L p)) ∂((haarProb 4).prod (haarProb 4)) := by
+  have hmoment : circuitMoment 2 4 sites =
+      ∫ p, vecActOn (k := 4) (L p) ∂((haarProb 4).prod (haarProb 4)) := by
+    rw [← integral_circuitUnitary,
+      ← (measurePreserving_finTwoArrow (haarProb 4)).integral_comp'
+        (fun p => vecActOn (k := 4) (L p))]
+    refine integral_congr_ae (Filter.Eventually.of_forall fun s => ?_)
+    change vecActOn (circuitUnitary 2 sites s) = vecActOn (L (s 0, s 1))
+    rw [heq]
+    congr 2
+    funext i
+    fin_cases i <;> rfl
+  rw [hmoment]
+  exact adjoint_integral_vecActOn
+    ((continuous_vecActOn.comp hL).integrable_of_hasCompactSupport
+      (HasCompactSupport.of_compactSpace _))
+
+/-- The four-copy, four-qubit Heisenberg calculation is the adjoint of the generic
+Schrödinger brickwork moment with two matching layers. -/
+theorem twoLayerMoment_eq_adjoint_brickworkMoment :
+    twoLayerMoment = (brickworkMoment 2 4 2 2).adjoint := by
+  rw [brickworkMoment_layers, scheduleProduct_two]
+  change twoLayerMoment =
+    (circuitMoment 2 4 (evenEdge 2) * circuitMoment 2 4 (oddEdge 2)).adjoint
+  rw [ContinuousLinearMap.mul_def, ContinuousLinearMap.adjoint_comp,
+    adjoint_circuitMoment_layer _ _ continuous_layerUnitaryA layerUnitaryA_eq_circuitUnitary,
+    adjoint_circuitMoment_layer _ _ continuous_layerUnitaryB layerUnitaryB_eq_circuitUnitary,
+    integral_vecActOn_layerA, integral_vecActOn_layerB]
+  rfl
 
 end MagicMonotone

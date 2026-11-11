@@ -9,6 +9,12 @@ import LeanHaar.Applications.MagicMonotone.SingleGateMoment
 import LeanHaar.Applications.QML.CostFunction
 import LeanHaar.Applications.QML.Observation56
 import LeanHaar.Applications.QML.Observation57
+import LeanHaar.Circuits.Brickwork
+import LeanHaar.Circuits.Circuit
+import LeanHaar.Circuits.HaarMoment
+import LeanHaar.Circuits.IndependentMoments
+import LeanHaar.Circuits.LocalGate
+import LeanHaar.Circuits.Schedule
 import LeanHaar.Commutation
 import LeanHaar.DCT
 import LeanHaar.Examples.EulerAngleIntegral

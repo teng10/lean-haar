@@ -6,6 +6,8 @@ import LeanHaar.WeingartenInverse
 import LeanHaar.SupportingDocs.EuclideanTensor
 import LeanHaar.SupportingDocs.UnitaryTensor
 import LeanHaar.SupportingDocs.HaarInvariance
+import Mathlib.Analysis.InnerProductSpace.Adjoint
+import Mathlib.Topology.Algebra.ContinuousMonoidHom
 import Mathlib.Analysis.Normed.Module.FiniteDimension
 import Mathlib.LinearAlgebra.Matrix.Vec
 import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
@@ -21,6 +23,7 @@ conjugation `actOn`. Its Haar average agrees with the vectorization of `momentOp
 ## Main definitions
 
 * `SchurWeyl.vecActOn`: continuous linear conjugation on vectorized operators.
+* `SchurWeyl.vecActOnHom`: the same action bundled with its composition and continuity laws.
 
 ## Main results
 
@@ -92,6 +95,27 @@ theorem vecActOn_mul (U V : Matrix.unitaryGroup (Fin d) ℂ) :
   rw [vecActOn_endVec, vecActOn_endVec, vecActOn_endVec]
   exact congrArg endVec (conj_actOn X U V).symm
 
+/-- The identity unitary acts as the identity superoperator. -/
+@[simp] theorem vecActOn_one : vecActOn (d := d) (k := k) 1 = 1 := by
+  apply ContinuousLinearMap.ext
+  intro x
+  obtain ⟨X, rfl⟩ := (endVecEquiv d k).surjective x
+  change vecActOn (d := d) (k := k) 1 (endVec X) = endVec X
+  rw [vecActOn_endVec]
+  have hid : diagAction d k LinearMap.id = LinearMap.id := map_one (diagAction d k)
+  simp [actOn, endOf_one, hid]
+
+/-- Adjoint conjugation is conjugation by the inverse unitary. -/
+@[simp] theorem vecActOn_adjoint (U : Matrix.unitaryGroup (Fin d) ℂ) :
+    (vecActOn (k := k) U).adjoint = vecActOn (k := k) (star U) := by
+  unfold vecActOn
+  rw [← LinearMap.adjoint_toContinuousLinearMap,
+    ← Matrix.toEuclideanLin_conjTranspose_eq_adjoint]
+  congr 2
+  ext p q
+  simp only [_root_.Unitary.coe_star, Matrix.star_apply, Matrix.conjTranspose_apply, star_mul, star_star, star_prod]
+  ring
+
 /-- Vectorized conjugation varies continuously with the sampled unitary. -/
 theorem continuous_vecActOn : Continuous (vecActOn (d := d) (k := k)) := by
   let T := ((Matrix.toEuclideanLin (𝕜 := ℂ)
@@ -107,6 +131,31 @@ theorem continuous_vecActOn : Continuous (vecActOn (d := d) (k := k)) := by
         (∏ c, U (p.1 c) (q.1 c)) * star (∏ c, U (p.2 c) (q.2 c))) :=
     continuous_pi fun _ => continuous_pi fun _ => by fun_prop
   exact hm.comp continuous_subtype_val
+
+/-- Vectorized conjugation with its composition and continuity laws. -/
+def vecActOnHom (d k : ℕ) : Matrix.unitaryGroup (Fin d) ℂ →ₜ*
+    (EuclideanSpace ℂ ((Fin k → Fin d) × (Fin k → Fin d)) →L[ℂ]
+      EuclideanSpace ℂ ((Fin k → Fin d) × (Fin k → Fin d))) where
+  toFun := vecActOn
+  map_one' := vecActOn_one
+  map_mul' := vecActOn_mul
+  continuous_toFun := continuous_vecActOn
+
+/-- The adjoint of an averaged conjugation averages the inverse conjugations. -/
+theorem adjoint_integral_vecActOn {α : Type*} [MeasurableSpace α] {μ : Measure α}
+    {L : α → Matrix.unitaryGroup (Fin d) ℂ}
+    (hi : Integrable (fun a => vecActOn (k := k) (L a)) μ) :
+    (∫ a, vecActOn (k := k) (L a) ∂μ).adjoint =
+      ∫ a, vecActOn (k := k) (star (L a)) ∂μ := by
+  let A := (ContinuousLinearMap.adjoint (𝕜 := ℂ)
+    (E := EuclideanSpace ℂ ((Fin k → Fin d) × (Fin k → Fin d)))
+    (F := EuclideanSpace ℂ ((Fin k → Fin d) × (Fin k → Fin d)))).toContinuousLinearEquiv
+      |>.toContinuousLinearMap
+  have h := ContinuousLinearMap.integral_comp_commSL (by simp) A hi
+  change (∫ a, (vecActOn (k := k) (L a)).adjoint ∂μ) =
+    (∫ a, vecActOn (k := k) (L a) ∂μ).adjoint at h
+  rw [← h]
+  simp_rw [vecActOn_adjoint]
 
 /-- A continuous operator-valued function on the compact unitary group is integrable. -/
 theorem integrable_vecActOn : Integrable (vecActOn (d := d) (k := k)) (haarProb d) :=

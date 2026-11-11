@@ -6,6 +6,8 @@ import LeanHaar.Haar
 import Mathlib.MeasureTheory.Group.Integral
 import Mathlib.MeasureTheory.Group.ModularCharacter
 import Mathlib.MeasureTheory.Measure.Haar.Unique
+import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+import Mathlib.Topology.Algebra.ContinuousMonoidHom
 
 /-!
 # Invariance properties of the Haar probability measure on the unitary group
@@ -20,6 +22,8 @@ invariant under `g ↦ g⁻¹`:
 * the quantum machine learning example averages expressions such as `U† O U` over the group.
 
 Both uses are served by the same statements, which are therefore proved here once.
+Continuous group homomorphisms into Banach algebras also satisfy absorption laws for
+invariant averages and idempotence for normalized averages.
 
 ## Main results
 
@@ -81,6 +85,44 @@ theorem isInvInvariant_of_compactSpace (μ : Measure G) [μ.IsHaarMeasure]
   exact ⟨by rw [h, h_scalar, one_smul]⟩
 
 end MeasureTheory.Measure
+
+namespace ContinuousMonoidHom
+
+variable {G A : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+  [CompactSpace G] [SecondCountableTopology G] [MeasurableSpace G] [BorelSpace G]
+  [NormedRing A] [NormedAlgebra ℂ A] [CompleteSpace A]
+
+/-- A left-invariant average absorbs multiplication by the represented group. -/
+theorem mul_integral_eq (ρ : G →ₜ* A) (μ : Measure G) [IsFiniteMeasure μ]
+    [μ.IsMulLeftInvariant] (h : G) : ρ h * (∫ g, ρ g ∂μ) = ∫ g, ρ g ∂μ := by
+  have hi := ρ.continuous.integrable_of_hasCompactSupport (μ := μ)
+    (HasCompactSupport.of_compactSpace _)
+  calc ρ h * (∫ g, ρ g ∂μ) = ∫ g, ρ h * ρ g ∂μ :=
+        ((ContinuousLinearMap.mul ℂ A (ρ h)).integral_comp_comm hi).symm
+    _ = ∫ g, ρ (h * g) ∂μ := by simp_rw [map_mul]
+    _ = ∫ g, ρ g ∂μ := integral_mul_left_eq_self (fun g => ρ g) h
+
+/-- A right-invariant average absorbs multiplication by the represented group. -/
+theorem integral_mul_eq (ρ : G →ₜ* A) (μ : Measure G) [IsFiniteMeasure μ]
+    [μ.IsMulRightInvariant] (h : G) : (∫ g, ρ g ∂μ) * ρ h = ∫ g, ρ g ∂μ := by
+  have hi := ρ.continuous.integrable_of_hasCompactSupport (μ := μ)
+    (HasCompactSupport.of_compactSpace _)
+  calc (∫ g, ρ g ∂μ) * ρ h = ∫ g, ρ g * ρ h ∂μ :=
+        (((ContinuousLinearMap.mul ℂ A).flip (ρ h)).integral_comp_comm hi).symm
+    _ = ∫ g, ρ (g * h) ∂μ := by simp_rw [map_mul]
+    _ = ∫ g, ρ g ∂μ := integral_mul_right_eq_self (fun g => ρ g) h
+
+/-- A normalized left-invariant average of a representation is idempotent. -/
+theorem integral_mul_self_eq (ρ : G →ₜ* A) (μ : Measure G) [IsProbabilityMeasure μ]
+    [μ.IsMulLeftInvariant] : (∫ g, ρ g ∂μ) * (∫ g, ρ g ∂μ) = ∫ g, ρ g ∂μ := by
+  have hi := ρ.continuous.integrable_of_hasCompactSupport (μ := μ)
+    (HasCompactSupport.of_compactSpace _)
+  calc (∫ g, ρ g ∂μ) * (∫ g, ρ g ∂μ) = ∫ g, ρ g * (∫ h, ρ h ∂μ) ∂μ :=
+        (((ContinuousLinearMap.mul ℂ A).flip (∫ g, ρ g ∂μ)).integral_comp_comm hi).symm
+    _ = ∫ _g, (∫ h, ρ h ∂μ) ∂μ := by simp_rw [ρ.mul_integral_eq μ]
+    _ = ∫ g, ρ g ∂μ := by simp
+
+end ContinuousMonoidHom
 
 namespace SchurWeyl
 

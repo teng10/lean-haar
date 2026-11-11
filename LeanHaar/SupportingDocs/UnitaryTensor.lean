@@ -3,6 +3,7 @@ Copyright (c) 2026. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib.Analysis.Complex.Basic
+import Mathlib.Algebra.BigOperators.Fin
 import Mathlib.LinearAlgebra.UnitaryGroup
 import Mathlib.Topology.Algebra.Star.Unitary
 import Mathlib.Topology.Instances.Matrix
@@ -12,6 +13,7 @@ import Mathlib.Topology.Instances.Matrix
 
 ## Main definitions
 
+* `SchurWeyl.registerEquiv` and `SchurWeyl.copySiteEquiv`: shared site and copy coordinates.
 * `SchurWeyl.tensorUnitary`: place two local unitaries in the register specified by `e`.
 * `SchurWeyl.tensorCopiesEquiv` and `SchurWeyl.tensorEntriesEquiv`: supporting coordinate
   equivalences grouping copies and matrix entries by the two local factors.
@@ -25,6 +27,20 @@ import Mathlib.Topology.Instances.Matrix
 noncomputable section
 open scoped Matrix Kronecker
 namespace SchurWeyl
+
+/-- Read a computational basis index site by site. -/
+def registerEquiv (q n : ℕ) : Fin (q ^ n) ≃ (Fin n → Fin q) :=
+  finFunctionFinEquiv.symm
+
+/-- Read a replicated register site by site, then copy by copy. -/
+def copySiteEquiv (q n k : ℕ) :
+    (Fin k → Fin (q ^ n)) ≃ (Fin n → Fin k → Fin q) :=
+  (Equiv.arrowCongr (Equiv.refl (Fin k)) (registerEquiv q n)).trans
+    (Equiv.piComm (fun _ : Fin k => fun _ : Fin n => Fin q))
+
+@[simp] theorem copySiteEquiv_apply (q n k : ℕ) (x : Fin k → Fin (q ^ n))
+    (i : Fin n) (c : Fin k) :
+    copySiteEquiv q n k x i c = registerEquiv q n (x c) i := rfl
 
 /-- Tensor two unitaries, reading the full register through an ordered decomposition. -/
 def tensorUnitary {D d₁ d₂ : ℕ} (e : Fin D ≃ Fin d₁ × Fin d₂)
@@ -65,6 +81,33 @@ theorem continuous_tensorUnitary {D d₁ d₂ : ℕ} (e : Fin D ≃ Fin d₁ × 
   have h₂ : Continuous (fun p : Matrix.unitaryGroup (Fin d₁) ℂ ×
       Matrix.unitaryGroup (Fin d₂) ℂ => p.2.val) := continuous_subtype_val.comp continuous_snd
   exact (h₁.matrix_elem _ _).mul (h₂.matrix_elem _ _)
+
+/-- Tensoring respects multiplication in both factors. -/
+theorem tensorUnitary_mul {D d₁ d₂ : ℕ} (e : Fin D ≃ Fin d₁ × Fin d₂)
+    (U U' : Matrix.unitaryGroup (Fin d₁) ℂ)
+    (V V' : Matrix.unitaryGroup (Fin d₂) ℂ) :
+    tensorUnitary e (U * U') (V * V') = tensorUnitary e U V * tensorUnitary e U' V' := by
+  apply Subtype.ext
+  change ((U.val * U'.val) ⊗ₖ (V.val * V'.val)).submatrix e e =
+    (U.val ⊗ₖ V.val).submatrix e e * (U'.val ⊗ₖ V'.val).submatrix e e
+  rw [Matrix.mul_kronecker_mul, Matrix.submatrix_mul_equiv]
+
+@[simp] theorem tensorUnitary_one {D d₁ d₂ : ℕ} (e : Fin D ≃ Fin d₁ × Fin d₂) :
+    tensorUnitary e 1 1 = 1 := by
+  apply Subtype.ext
+  change ((1 : Matrix (Fin d₁) (Fin d₁) ℂ) ⊗ₖ
+    (1 : Matrix (Fin d₂) (Fin d₂) ℂ)).submatrix e e = 1
+  rw [Matrix.one_kronecker_one, Matrix.submatrix_one_equiv]
+
+/-- Gates acting on the two different factors of one decomposition commute. -/
+theorem tensorUnitary_left_right_commute {D d₁ d₂ : ℕ}
+    (e : Fin D ≃ Fin d₁ × Fin d₂)
+    (U : Matrix.unitaryGroup (Fin d₁) ℂ) (V : Matrix.unitaryGroup (Fin d₂) ℂ) :
+    Commute (tensorUnitary e U 1) (tensorUnitary e 1 V) := by
+  change tensorUnitary e U 1 * tensorUnitary e 1 V =
+    tensorUnitary e 1 V * tensorUnitary e U 1
+  rw [← tensorUnitary_mul, ← tensorUnitary_mul]
+  simp
 
 /-- Regroup `k` copies of a register as copies of each of its two factors. -/
 def tensorCopiesEquiv {D d₁ d₂ : ℕ} (e : Fin D ≃ Fin d₁ × Fin d₂) (k : ℕ) :

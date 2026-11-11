@@ -462,8 +462,8 @@ Source: [BrickworkLayers.lean](LeanHaar/Applications/MagicMonotone/BrickworkLaye
 | `RegOp` | Endomorphisms of the replicated register. | **Keep.** Direct use of the standard endomorphism type. |
 | `Vecs` | Euclidean space of vectorized operator entries. | **Keep**, though a more descriptive public name would help. |
 | `PermPair` | Pair of copy permutations. | **Keep.** Useful canonical index type. |
-| `bitsEquiv` | Equivalence between register labels and bit strings. | **Keep.** Good reuse of Mathlib's finite-function equivalence. |
-| `regIndexEquiv` | Reorganizes register/copy indices into qubit/copy indices. | **Keep.** Appropriate composition of existing equivalences. |
+| `bitsEquiv` | Equivalence between register labels and bit strings. | **Keep.** Specializes shared `SchurWeyl.registerEquiv 2 4`. |
+| `regIndexEquiv` | Reorganizes register/copy indices into qubit/copy indices. | **Keep.** Specializes shared `SchurWeyl.copySiteEquiv 2 4 4`. |
 | `regPermMat` | Matrix for independent copy permutations on qubits. | **Keep the operation**, considering the standard permutation-matrix API. Check multiplication orientation. |
 | `shift` | Private row-to-column index calculation. | **Appropriately private.** Could be one direction of a single index equivalence. |
 | `regPerm` | Corresponding register endomorphism. | **Keep.** Bundle as a monoid homomorphism if composition is central to the API. |
@@ -499,17 +499,17 @@ Source: [Equation24.lean](LeanHaar/Applications/MagicMonotone/Equation24.lean).
 
 | Module / public definitions | Purpose and scope |
 | --- | --- |
-| `SupportingDocs/UnitaryTensor`: `tensorUnitary`, `tensorCopiesEquiv`, `tensorEntriesEquiv` | Tensor two actual unitaries in an ordered register decomposition; transport the copy and matrix-entry indices. Existing equivalences encode the order, including wraparound gates. |
+| `SupportingDocs/UnitaryTensor`: `registerEquiv`, `copySiteEquiv`, `tensorUnitary`, `tensorCopiesEquiv`, `tensorEntriesEquiv` | Shared register/site coordinates, used by Circuits and MagicMonotone; tensor two actual unitaries in an ordered register decomposition and transport copy/matrix-entry indices. Existing equivalences encode the order, including wraparound gates. |
 | `SupportingDocs/EuclideanTensor`: `tensorVec`, `tensorMap` | Transport vectors and continuous operators through that decomposition. Bundled bilinearity supports independent integrals; `tensorMap_rankOne` gives the existing layer sums. |
-| `SupportingDocs/VectorizedHaar`: `vecActOn` | Continuous linear form of existing `actOn`, with an equality on every `endVec X`, Haar integration, composition, the `vecActOn_tensorUnitary` transport law, and `integral_vecActOn_tensorUnitary` for independent local Haar averages in any dimensions and copy number. |
+| `SupportingDocs/VectorizedHaar`: `vecActOn`, `vecActOnHom` | Continuous linear form of existing `actOn`; `vecActOnHom` bundles its proved composition and continuity laws for averaging and schedules. It has an equality on every `endVec X`, Haar integration, composition, the `vecActOn_tensorUnitary` transport law, and `integral_vecActOn_tensorUnitary` for independent local Haar averages in any dimensions and copy number. |
 | `MagicMonotone/LayerGates`: `layerIndexA/B`, `layerUnitaryA/B` | Ordered pairings `(0,1),(2,3)` and `(1,2),(3,0)` and their actual sampled four-qubit gates. The two-bit encoding helper is private. |
-| `MagicMonotone/HaarLayers` | No additional public data structure. Proves each independent two-gate mean equals `layerA/B`, then the four-gate mean equals `twoLayerMoment` for every global operator. |
+| `MagicMonotone/HaarLayers` | No additional public data structure. Proves each independent two-gate mean equals `layerA/B`, then the four-gate mean equals `twoLayerMoment` for every global operator. The circuit bridge identifies `twoLayerMoment` with `(brickworkMoment 2 4 2 2).adjoint`. |
 
 Sampling uses products of `haarProb 4`, never global `haarProb 16`. Physical A
 then B is written explicitly as `B * A`; its Heisenberg average is `layerA ∘L layerB`.
 The final theorem can be rewritten with `twoLayerMoment_eq_kernel_sum` for the
-existing Equation (24) calculation. No `RandomLayer`, circuit syntax, custom
-measure, or new representation wrapper is introduced.
+existing Equation (24) calculation. The circuit interface reuses this action through
+`vecActOnHom`; it introduces no second tensor-power action or custom measure.
 
 ## Retained standalone examples
 

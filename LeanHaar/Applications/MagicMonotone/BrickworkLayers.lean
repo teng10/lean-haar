@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Mathlib.Analysis.InnerProductSpace.LinearMap
 
 import LeanHaar.SupportingDocs.Vectorization
+import LeanHaar.SupportingDocs.UnitaryTensor
 import LeanHaar.Moments.k4Moment
 
 /-!
@@ -110,14 +111,14 @@ abbrev PermPair : Type := Equiv.Perm Copies × Equiv.Perm Copies
 /-- The bit decomposition of a register state: a state of the four-qubit register
 (`Fin 16`) is a bit for each of the four qubits. -/
 def bitsEquiv : Fin 16 ≃ (Qubits → Fin 2) :=
-  (finCongr (show (16 : ℕ) = 2 ^ 4 by norm_num)).trans finFunctionFinEquiv.symm
+  registerEquiv 2 4
 
 /-- **Reading a basis index qubit by qubit.** A computational basis index of the four copies
 of the register, `Fin 4 → Fin 16`, is the same thing as a bit for each qubit and each copy.
 This is the only bookkeeping needed to see the register as a system of local dimension
 `2^4 = 16` in the sense of the repository. -/
 def regIndexEquiv : (Copies → Fin 16) ≃ QubitIdx :=
-  ((Equiv.refl Copies).arrowCongr bitsEquiv).trans (Equiv.piComm _)
+  copySiteEquiv 2 4 4
 
 /-! ### Permutation operators, qubit by qubit (Eq. (13))
 

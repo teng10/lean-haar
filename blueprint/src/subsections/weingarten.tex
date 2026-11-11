@@ -68,13 +68,15 @@ To apply this to operators on $V^{\otimes k}$, we define permutation operators a
   \end{equation}
 \end{theorem}
 
+{\chat
 \begin{theorem}[Moment Operator Decomposition from Trace and Span Properties]\label{thm:weingarten_moment_decomposition_of_props}
   \lean{SchurWeyl.weingarten_moment_decomposition_of_props}\uses{lem:trace_permDual_comp_sum, def:permImage, def:permOp, def:permDual}\leanok
-  If any operator $M$ lies in $\text{Span}(\mathcal{P}_{d,k})$ and has $\text{Tr}(V_d^\dagger(\sigma) M) = \text{Tr}(V_d^\dagger(\sigma) O)$ for all $\sigma$, then its coefficients solve the Weingarten system.
+  If $M$ lies in $\text{Span}(\mathcal{P}_{d,k})$ and has $\text{Tr}(V_d^\dagger(\sigma) M) = \text{Tr}(V_d^\dagger(\sigma) O)$ for all $\sigma$, then there exist coefficients $c$ such that $M=\sum_\pi c_\pi V_d(\pi)$ and $c$ solves the Weingarten system.
 \end{theorem}
+} % end revision color
 
 
-\section{Uniqueness and the Gram Matrix for $k \le d$}
+\section{Uniqueness and the Gram Matrix for \texorpdfstring{$k \le d$}{k <= d}}
 
 When the number of tensor factors $k$ is at most the dimension $d$, the permutation operators are linearly independent, which implies that the solution to the Weingarten system is unique.
 
@@ -113,10 +115,12 @@ When the number of tensor factors $k$ is at most the dimension $d$, the permutat
   If the family of vectors is linearly independent, the determinant of its Gram matrix is a unit in $\mathbb{C}$.
 \end{theorem}
 
+{\chat
 \begin{theorem}[Unique Gram Solution]\label{thm:gram_solution_eq_inv}
   \lean{SchurWeyl.gram_solution_eq_inv}\uses{def:gramMatrix, def:gramVec, thm:isGramSolution_iff_mulVec, thm:gramMatrix_isUnit_det}\leanok
-  If the vectors are linearly independent, the Gram system has a unique solution given by $c = G^{-1} u$.
+  If the vectors are linearly independent and $c$ solves the Gram system, then $c = G^{-1} u$.
 \end{theorem}
+} % end revision color
 
 \begin{definition}[Abstract Gram Solution Set]\label{def:gramSolutionSet}
   \lean{SchurWeyl.gramSolutionSet}\leanok
@@ -180,10 +184,13 @@ We apply this to permutation operators.
   The Weingarten Gram matrix is defined by $G_{\sigma, \pi} = \text{Tr}(V_d^\dagger(\sigma) V_d(\pi))$.
 \end{definition}
 
+{\chat
 \begin{definition}[Weingarten Target Vector]\label{def:weingartenVec}
   \lean{SchurWeyl.weingartenVec}\uses{def:permDual, def:TensV}\leanok
-  The Weingarten target vector is $u_\sigma = \text{Tr}(V_d^\dagger(\sigma) O)$.
+  For an operator $O$, the target vector is
+  \[u_\sigma = \text{Tr}(V_d^\dagger(\sigma) O).\]
 \end{definition}
+} % end revision color
 
 \begin{theorem}[Weingarten Gram as Vectorized Gram]\label{thm:weingartenGram_eq_gramMatrix}
   \lean{SchurWeyl.weingartenGram_eq_gramMatrix}\uses{def:weingartenGram, def:gramMatrix, thm:inner_endVec_perm_eq_trace, def:endVec, def:permOp, thm:gramMatrix_apply}\leanok
@@ -195,10 +202,12 @@ We apply this to permutation operators.
   The Weingarten target vector is the Gram vector of vectorized permutation operators.
 \end{theorem}
 
-\begin{theorem}[Cycle Count Formula for Gram Entries]\label{thm:weingartenGram_eq_card}
+{\chat
+\begin{theorem}[Counting Formula for Gram Entries]\label{thm:weingartenGram_eq_card}
   \lean{SchurWeyl.weingartenGram_eq_card}\uses{def:weingartenGram, def:endVec, lem:toEndMatrix_permAction, thm:inner_endVec_perm_eq_trace, def:permOp}\leanok
-  The entry $\text{Tr}(V_d^\dagger(\sigma) V_d(\pi))$ equals the number of index functions invariant under $\sigma^{-1}\pi$, which evaluates to $d^{\# \text{cycles}(\sigma^{-1}\pi)}$.
+  The entry $\text{Tr}(V_d^\dagger(\sigma) V_d(\pi))$ equals the number of index functions $J:[k]\to[d]$ satisfying $J\circ\sigma^{-1}=J\circ\pi^{-1}$.
 \end{theorem}
+} % end revision color
 
 \begin{definition}[Natural Weingarten Gram Matrix]\label{def:weingartenGramNat}
   \lean{SchurWeyl.weingartenGramNat}\leanok
@@ -304,10 +313,13 @@ We define the normalized Haar measure on the unitary group and use it to define 
   The representation of a matrix $U \in \text{Mat}_{d \times d}(\mathbb{C})$ as a linear endomorphism of $\mathbb{C}^d$.
 \end{definition}
 
+{\chat
 \begin{theorem}[Multiplicativity of endOf]\label{thm:endOf_mul}
   \lean{SchurWeyl.endOf_mul}\uses{def:endOf}\leanok
-  The map `endOf` satisfies $\text{endOf}(A B) = \text{endOf}(A) \circ \text{endOf}(B)$.
+  For matrices $A$ and $B$,
+  \[\text{endOf}(A B) = \text{endOf}(A) \circ \text{endOf}(B).\]
 \end{theorem}
+} % end revision color
 
 \begin{theorem}[Identity Matrix endOf]\label{thm:endOf_one}
   \lean{SchurWeyl.endOf_one}\uses{def:endOf}\leanok
@@ -319,10 +331,11 @@ We define the normalized Haar measure on the unitary group and use it to define 
   The diagonal action is multiplicative: $g^{\otimes k} \circ h^{\otimes k} = (g \circ h)^{\otimes k}$.
 \end{theorem}
 
-\begin{theorem}[Diagonal Action Identity]\label{thm:diagAction_id}
-  \lean{SchurWeyl.diagAction_id}\uses{def:diagAction}\leanok
-  The diagonal action of the identity endomorphism is the identity on the tensor space.
-\end{theorem}
+{\chat
+Since \texttt{diagAction} is a monoid homomorphism, its identity law
+$\text{id}^{\otimes k}=\text{id}$ follows directly from Mathlib's
+\texttt{map\_one}. The following inverse identities use this law.
+} % end revision color
 
 \begin{definition}[Conjugation Action]\label{def:actOn}
   \lean{SchurWeyl.actOn}\uses{def:diagAction, def:endOf}\leanok
@@ -332,15 +345,19 @@ We define the normalized Haar measure on the unitary group and use it to define 
   \end{equation}
 \end{definition}
 
+{\chat
 \begin{theorem}[Unitary Diagonal Action Left Inverse]\label{thm:diagAction_endOf_unitary_left}
-  \lean{SchurWeyl.diagAction_endOf_unitary_left}\uses{def:endOf, def:diagAction, thm:diagAction_comp, thm:endOf_mul, thm:endOf_one, thm:diagAction_id}\leanok
+  \lean{SchurWeyl.diagAction_endOf_unitary_left}\uses{def:endOf, def:diagAction, thm:diagAction_comp, thm:endOf_mul, thm:endOf_one}\leanok
   For any unitary matrix $U$, $(U^\dagger)^{\otimes k} \circ U^{\otimes k} = \text{id}$.
 \end{theorem}
+} % end revision color
 
+{\chat
 \begin{theorem}[Unitary Diagonal Action Right Inverse]\label{thm:diagAction_endOf_unitary_right}
-  \lean{SchurWeyl.diagAction_endOf_unitary_right}\uses{def:endOf, def:diagAction, thm:diagAction_comp, thm:endOf_mul, thm:endOf_one, thm:diagAction_id}\leanok
+  \lean{SchurWeyl.diagAction_endOf_unitary_right}\uses{def:endOf, def:diagAction, thm:diagAction_comp, thm:endOf_mul, thm:endOf_one}\leanok
   For any unitary matrix $U$, $U^{\otimes k} \circ (U^\dagger)^{\otimes k} = \text{id}$.
 \end{theorem}
+} % end revision color
 
 \begin{theorem}[Continuity of Conjugation Action Entries]\label{thm:continuous_actOn_entry}
   \lean{SchurWeyl.continuous_actOn_entry}\uses{def:actOn, def:toEndMatrix, def:diagAction, lem:toEndMatrix_diagAction}\leanok
@@ -380,10 +397,13 @@ We define the normalized Haar measure on the unitary group and use it to define 
   \end{equation}
 \end{theorem}
 
+{\chat
 \begin{theorem}[Translation of Conjugation Action]\label{thm:conj_actOn}
   \lean{SchurWeyl.conj_actOn}\uses{def:diagAction, def:endOf, def:actOn, thm:diagAction_comp}\leanok
-  Conjugating the action by a unitary matrix $W$ corresponds to left translating the variable in the conjugation action: $W^{\otimes k} (\text{actOn}(O, U)) (W^\dagger)^{\otimes k} = \text{actOn}(O, W U)$.
+  Conjugating by a unitary matrix $W$ corresponds to left translation:
+  \[W^{\otimes k} (\text{actOn}(O, U)) (W^\dagger)^{\otimes k} = \text{actOn}(O, W U).\]
 \end{theorem}
+} % end revision color
 
 \begin{theorem}[Unitary Invariance of Haar Moment Operator]\label{thm:momentOp_conj_unitary}
   \lean{SchurWeyl.momentOp_conj_unitary}\uses{def:actOn, def:endOf, thm:diagAction_comp, def:diagAction, thm:endOf_mul, def:momentOp, def:momentMatrix, thm:toEndMatrix_momentOp, def:toEndMatrix, def:tensorBasis, def:haarProb, thm:integrable_actOn_entry, thm:conj_actOn}\leanok
@@ -395,37 +415,49 @@ We define the normalized Haar measure on the unitary group and use it to define 
   The moment operator commutes with $W^{\otimes k}$ for any unitary matrix $W \in U(d)$.
 \end{theorem}
 
-We extend this to all matrices using density.
+{\chat
+We extend this commutation property to all matrices using a diagonal-torus argument and singular value decomposition.
+} % end revision color
 
+{\chat
 \begin{theorem}[Orthonormal Basis from Matrix Columns]\label{thm:exists_orthonormalBasis_cols}
   \lean{SchurWeyl.exists_orthonormalBasis_cols}\leanok
-  An orthonormal family can be constructed from the columns of a matrix $N$ when normalized.
+  If $N^\dagger N=\operatorname{diag}(D)$ with $D_i\ge0$, the nonzero columns of $N$, divided by $\sqrt{D_i}$, extend to an orthonormal basis $b$ with $b_i=N_{\cdot,i}/\sqrt{D_i}$ whenever $D_i\ne0$.
 \end{theorem}
+} % end revision color
 
-\begin{theorem}[Spectral Decomposition of Hermetian Matrix]\label{thm:svd_spectral}
+{\chat
+\begin{theorem}[Spectral Decomposition of Hermitian Matrix]\label{thm:svd_spectral}
   \lean{SchurWeyl.svd_spectral}\leanok
-  Any positive semidefinite Hermetian matrix $M^\dagger M$ can be diagonalized by a unitary matrix.
+  For every complex square matrix $M$, there are a unitary matrix $Q$ and real numbers $D_i\ge0$ such that $M^\dagger M=Q\operatorname{diag}(D)Q^\dagger$.
 \end{theorem}
+} % end revision color
 
+{\chat
 \begin{theorem}[Conjugate Transpose Multiplicative Spectral Relation]\label{thm:conjTranspose_mul_self_of_spectral}
   \lean{SchurWeyl.conjTranspose_mul_self_of_spectral}\uses{thm:svd_spectral}\leanok
-  If $M^\dagger M = Q D Q^\dagger$, then $(M Q)^\dagger (M Q) = D$.
+  If $Q^\dagger Q=1$ and $M^\dagger M=Q\operatorname{diag}(D)Q^\dagger$, then $(M Q)^\dagger(M Q)=\operatorname{diag}(D)$.
 \end{theorem}
+} % end revision color
 
 \begin{theorem}[Unitary Matrix from Orthonormal Basis]\label{thm:exists_unitary_of_orthonormalBasis}
   \lean{SchurWeyl.exists_unitary_of_orthonormalBasis}\leanok
   An orthonormal basis can be assembled into a unitary matrix.
 \end{theorem}
 
+{\chat
 \begin{theorem}[Column Normalization Relation]\label{thm:cols_mul_diag_sqrt}
   \lean{SchurWeyl.cols_mul_diag_sqrt}\leanok
-  The unitary matrix times the diagonal square root matrix recovers the normalized columns.
+  If $N^\dagger N=\operatorname{diag}(D)$ with $D_i\ge0$, and $U_1$ has as its columns an orthonormal basis extending the normalized nonzero columns of $N$, then $U_1\operatorname{diag}(\sqrt D)=N$.
 \end{theorem}
+} % end revision color
 
+{\chat
 \begin{theorem}[SVD Existence]\label{thm:svd_exists}
   \lean{SchurWeyl.svd_exists}\uses{thm:svd_spectral, thm:conjTranspose_mul_self_of_spectral, thm:exists_orthonormalBasis_cols, thm:exists_unitary_of_orthonormalBasis, thm:cols_mul_diag_sqrt}\leanok
-  Any complex matrix can be written as $M = U_1 D U_2$ with $U_1, U_2 \in U(d)$ and diagonal $D$.
+  Any complex square matrix can be written as $M = U_1 D U_2$ with $U_1, U_2 \in U(d)$ and diagonal $D$.
 \end{theorem}
+} % end revision color
 
 \begin{theorem}[Matrix of Diagonal Diagonal Action]\label{thm:toEndMatrix_diagAction_diagonal}
   \lean{SchurWeyl.toEndMatrix_diagAction_diagonal}\uses{def:toEndMatrix, def:diagAction, def:endOf, lem:diagAction_diagonal}\leanok
@@ -447,15 +479,19 @@ We extend this to all matrices using density.
   The matrix representation map is multiplicative: $\text{toEndMatrix}(f \circ g) = \text{toEndMatrix}(f) \text{toEndMatrix}(g)$.
 \end{theorem}
 
+{\chat
 \begin{theorem}[Entrywise Commutation with Diagonal Action]\label{thm:comm_diagAction_diagonal_entry}
   \lean{SchurWeyl.comm_diagAction_diagonal_entry}\uses{def:diagAction, def:endOf, thm:toEndMatrix_comp, thm:toEndMatrix_diagAction_diagonal, thm:diagonal_mem_unitaryGroup, thm:prod_eq_of_torus}\leanok
-  An operator commuting with all unitary diagonal actions commutes entrywise with all diagonal actions.
+  If $X$ commutes with $U^{\otimes k}$ for every unitary $U$, then for every $z:[d]\to\mathbb{C}$ its matrix entries satisfy $X_{I,J}\prod_m z_{J(m)}=(\prod_m z_{I(m)})X_{I,J}$. This is entrywise commutation with the tensor power of $\operatorname{diag}(z)$.
 \end{theorem}
+} % end revision color
 
-\begin{theorem}[Commutation with all Diagonal Actions]\label{thm:comm_diagAction_diagonal}
+{\chat
+\begin{theorem}[Commutation with Tensor Powers of Diagonal Matrices]\label{thm:comm_diagAction_diagonal}
   \lean{SchurWeyl.comm_diagAction_diagonal}\uses{def:diagAction, def:endOf, def:toEndMatrix, thm:comm_diagAction_diagonal_entry, thm:toEndMatrix_comp, thm:toEndMatrix_diagAction_diagonal}\leanok
   An operator commuting with all unitary diagonal actions commutes with the diagonal action of any diagonal matrix.
 \end{theorem}
+} % end revision color
 
 \begin{theorem}[Unitary Commutant implies Centralizer]\label{thm:mem_centralizer_of_comm_unitary}
   \lean{SchurWeyl.mem_centralizer_of_comm_unitary}\uses{def:diagAction, thm:svd_exists, thm:comm_diagAction_diagonal, def:endOf, thm:endOf_mul, thm:diagAction_comp}\leanok

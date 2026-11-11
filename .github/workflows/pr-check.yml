@@ -72,7 +72,5 @@ jobs:
           axiom-audit: true
           axiom-audit-root: LeanHaarTest
 
-      # Advisory until the 26 stale `\lean{}` tags of the blueprint are repaired (then drop `continue-on-error`).
       - name: Blueprint declarations resolve
-        continue-on-error: true
         run: lake exe checkdecls blueprint/lean_decls

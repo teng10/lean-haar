@@ -259,8 +259,9 @@ Historical inventory at this layout stage: **103 definitions/abbreviations/struc
 The five deleted files account for the reduction from 121 definitions and 24 instances.
 The representation stashes and unrelated working-tree material remain intact.
 
-- [ ] Refresh the blueprint's pre-existing references to removed primed declarations
-  and private DCT machinery. Module relocation does not repair those declaration names.
+- [x] Repair the blueprint declarations, statements and dependency graph against the
+  current proofs; regenerate all 109 declaration links and require their CI check.
+  The PDF and HTML build locally; deployment on GitHub remains to be verified.
 
 ## Remaining follow-ups
 

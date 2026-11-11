@@ -450,7 +450,7 @@ Source: [SingleGateMoment.lean](LeanHaar/Applications/MagicMonotone/SingleGateMo
 | --- | --- | --- |
 | `vecMomentOp` | Fourth-moment formula as a sum of continuous rank-one operators. | **Keep the bundling.** Its genuine Haar-moment interpretation relies on `d ≥ 4`; the totalized rational formula does not supply the desired moment in smaller dimensions. |
 
-### BrickworkLayers.lean — 26 definitions/abbreviations
+### BrickworkLayers.lean — 24 definitions/abbreviations
 
 Source: [BrickworkLayers.lean](LeanHaar/Applications/MagicMonotone/BrickworkLayers.lean).
 
@@ -458,9 +458,7 @@ Source: [BrickworkLayers.lean](LeanHaar/Applications/MagicMonotone/BrickworkLaye
 | --- | --- | --- |
 | `Copies` | Four replica labels. | **Keep application shorthand.** |
 | `Qubits` | Four qubit labels. | **Keep**, but it is definitionally the same type as `Copies`; the names do not prevent mixing them. |
-| `QubitReg` | One qubit's indices across copies. | **Keep.** |
 | `QubitIdx` | Qubit-indexed collection of copy indices. | **Keep.** |
-| `Reg` | Register indices across copies. | **Keep.** |
 | `RegOp` | Endomorphisms of the replicated register. | **Keep.** Direct use of the standard endomorphism type. |
 | `Vecs` | Euclidean space of vectorized operator entries. | **Keep**, though a more descriptive public name would help. |
 | `PermPair` | Pair of copy permutations. | **Keep.** Useful canonical index type. |

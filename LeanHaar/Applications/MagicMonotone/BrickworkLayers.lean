@@ -91,19 +91,9 @@ abbrev Copies : Type := Fin 4
 /-- The `n = 4` qubits of the register. -/
 abbrev Qubits : Type := Fin 4
 
-/-- A computational basis index of the four copies of a *single* qubit. This is the index
-type `Fin k → Fin d` of the repository's matrices for `k = 4` copies of a `d = 2`
-dimensional system, so single-qubit permutation operators are literally matrices over it. -/
-abbrev QubitReg : Type := Copies → Fin 2
-
 /-- The qubitwise reading of a computational basis index of the four copies of the register:
 one bit for each qubit and each copy. -/
-abbrev QubitIdx : Type := Qubits → QubitReg
-
-/-- A computational basis index of the four copies of the four-qubit register, in the form
-`Fin k → Fin d` used by the repository: the four-qubit register has local dimension
-`d = 2^4 = 16`, and there are `k = 4` copies of it. -/
-abbrev Reg : Type := Copies → Fin 16
+abbrev QubitIdx : Type := Qubits → Copies → Fin 2
 
 /-- An operator on the four copies of the four-qubit register: an endomorphism of the
 repository's tensor power `SchurWeyl.TensV 16 4`. -/
@@ -111,7 +101,7 @@ abbrev RegOp : Type := Module.End ℂ (TensV 16 4)
 
 /-- The vectorized operator space of the register, where the moment operators live. It is
 the codomain of the repository's vectorization `SchurWeyl.endVec` for `d = 16`, `k = 4`. -/
-abbrev Vecs : Type := EuclideanSpace ℂ (Reg × Reg)
+abbrev Vecs : Type := EuclideanSpace ℂ ((Copies → Fin 16) × (Copies → Fin 16))
 
 /-- A pair of permutations of the four copies: the label of one brickwork layer, one
 permutation per gate of the layer. -/
@@ -126,14 +116,14 @@ def bitsEquiv : Fin 16 ≃ (Qubits → Fin 2) :=
 of the register, `Fin 4 → Fin 16`, is the same thing as a bit for each qubit and each copy.
 This is the only bookkeeping needed to see the register as a system of local dimension
 `2^4 = 16` in the sense of the repository. -/
-def regIndexEquiv : Reg ≃ QubitIdx :=
+def regIndexEquiv : (Copies → Fin 16) ≃ QubitIdx :=
   ((Equiv.refl Copies).arrowCongr bitsEquiv).trans (Equiv.piComm _)
 
 /-! ### Permutation operators, qubit by qubit (Eq. (13))
 
 The matrix of a qubitwise permutation operator is written first in the qubitwise index
 `QubitIdx`, where it visibly factorizes over the qubits, and is then transported to the
-register index `Reg` by `regIndexEquiv`. -/
+register index `Copies → Fin 16` by `regIndexEquiv`. -/
 
 /-- The matrix of the qubitwise permutation operator of Eq. (13) in the qubitwise index: the
 product over the qubits `j` of the matrices of the repository's permutation operators
@@ -291,7 +281,7 @@ private lemma trace_regPermMat_inner_sum (a b : Qubits → Equiv.Perm Copies) (I
 /-- Summing a single-qubit coincidence indicator gives an entry of the repository's
 Weingarten Gram matrix for `d = 2`, `k = 4`, by `SchurWeyl.weingartenGram_eq_card`. -/
 private lemma sum_indicator_eq_gram (σ π : Equiv.Perm Copies) :
-    ∑ x : QubitReg, (if x ∘ σ.symm = x ∘ π.symm then (1 : ℂ) else 0)
+    ∑ x : Copies → Fin 2, (if x ∘ σ.symm = x ∘ π.symm then (1 : ℂ) else 0)
       = weingartenGram 2 4 σ π := by
   classical
   rw [weingartenGram_eq_card, Finset.sum_boole, Fintype.card_subtype]
@@ -309,7 +299,7 @@ theorem trace_regPermMat (a b : Qubits → Equiv.Perm Copies) :
   rw [hsum]
   simp only [trace_regPermMat_inner_sum a b]
   -- The remaining sum over the register factorizes over the qubits.
-  have hfactor := Finset.prod_univ_sum (fun _ : Qubits => (Finset.univ : Finset QubitReg))
+  have hfactor := Finset.prod_univ_sum (fun _ : Qubits => (Finset.univ : Finset (Copies → Fin 2)))
     (fun j x => if x ∘ (a j).symm = x ∘ (b j).symm then (1 : ℂ) else 0)
   rw [Fintype.piFinset_univ] at hfactor
   rw [← hfactor]

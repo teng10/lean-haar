@@ -263,6 +263,36 @@ The representation stashes and unrelated working-tree material remain intact.
   current proofs; regenerate all 109 declaration links and require their CI check.
   The PDF and HTML build locally; deployment on GitHub remains to be verified.
 
+## MagicMonotone cleanup — 2026-11-03
+
+- [x] Remove only the redundant pair adapters `ketA` and `ketB`; keep the curried
+  `layerAKet`/`layerBKet`, useful gate labels, weights and pair-sum lemmas.
+- [x] Use typed lambdas in the two shared rank-one contraction proofs. Preserve
+  the paper-facing Equations 14/17 and 22–25, layer definitions and coefficients.
+- [x] Clarify that the layer sums act on the vectorized operator space and
+  `gateOn` denotes a copy permutation. Explain the Heisenberg composition order.
+- [x] At this stage, distinguish the proved single-gate Haar identification from
+  the algebraic layer/kernel identities; their Haar interpretation was completed below.
+- [x] Complete independent review and a further pass after documentation fixes;
+  build the full library, run tests and the umbrella check, preserve seven endpoint
+  statements in temporary client checks, and pass the 643-declaration axiom audit.
+- [x] Identify both layer sums with two independent embedded two-qubit Haar gates
+  and prove the four-gate composition identity (2026-11-04, `HaarLayers`).
+  The endpoint handles every global operator and explicitly uses physical `B * A`
+  with Heisenberg conjugation; the core fourth-moment theorem supplies the local averages.
+
+## MagicMonotone §9 cleanup — 2026-11-11
+
+- [x] Replace the specialized tensor-Haar helper and inversion wrapper with
+  `integral_vecActOn_tensorUnitary`, for arbitrary local dimensions and copy number.
+  Layer A/B specialize it using the existing fourth-moment result.
+- [x] Move canonical unitary second countability to `Haar.lean`; remove unused
+  `tensorMap_apply` and keep sum bookkeeping private.
+- [x] Reuse Mathlib's Kronecker/vectorization identity in `vecActOn_endVec`, keeping
+  `vecActOn`, the coordinate convention, and `matrix_vecActOn` unchanged.
+- [x] Document the five modules' public entry points. Retain all four-qubit theorem
+  statements and the Heisenberg composition order; scalar purity evaluation is separate.
+
 ## Remaining follow-ups
 
 - [ ] Reconsider `diagActionUnits`, `glAction`, and `unitaryAction` only when a

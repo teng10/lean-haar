@@ -8,30 +8,30 @@ import LeanHaar.SupportingDocs.Vectorization
 import LeanHaar.Moments.k4Moment
 
 /-!
-# Two brickwork layers on four qubits: the vectorized layer moment operators
+# Two brickwork layers on four qubits: algebraic layer moment sums
 
-This file sets up the concrete example of Section III C of `magic_monotones.pdf`: `n = 4`
-qubits, `k = 4` copies, and two brickwork layers of Haar-random two-qubit gates,
+This file constructs the explicit layer sums of Section III C of `magic_monotones.pdf`:
+`n = 4` qubits, `k = 4` copies, and the two pairings of two-qubit gates,
 
 * layer `A`: gates on the qubit pairs `(1,2)` and `(3,4)`;
 * layer `B`: gates on the staggered pairs `(2,3)` and `(4,1)`.
 
 Qubits are numbered `0, 1, 2, 3` here, so the four pairs are `{0,1}`, `{2,3}`, `{1,2}`
-and `{3,0}`.
+and `{3,0}`. `HaarLayers` identifies these layer sums with averages over independent
+Haar-random gates through `integral_vecActOn_layerA` and `integral_vecActOn_layerB`.
 
-Everything is expressed through the repository's own objects. The four-qubit register is the
-system of local dimension `d = 2^4 = 16`, so its `k = 4` copies are the repository's
-`SchurWeyl.TensV 16 4`, the layer operators are honest endomorphisms of that space, and their
-vectorizations `|·⟩⟩` are the repository's `SchurWeyl.endVec` — no separate vectorization is
-introduced. Concretely:
+The copy-permutation operators act on the repository's `SchurWeyl.TensV 16 4`, the four
+copies of the four-qubit register. Their vectorizations use `SchurWeyl.endVec` and belong
+to `MagicMonotone.Vecs`; `layerA` and `layerB` are continuous linear maps on this vectorized
+operator space. Concretely:
 
 * an operator is described by its matrix in the computational basis through the repository's
   `SchurWeyl.toEndMatrix 16 4`, and the computational basis index `Fin 4 → Fin 16` is read
   qubit by qubit through the bit decomposition `MagicMonotone.regIndexEquiv`;
-* the gate operators are built qubit by qubit out of the single-qubit permutation operators
+* the copy-permutation operators are built qubit by qubit out of
   `SchurWeyl.permOp 2` (this is Eq. (13) of the source);
 * the Weingarten weights are the `k = 4` Weingarten values `SchurWeyl.K4.wgVal`, and the
-  interlayer overlaps are entries of the repository's Weingarten Gram matrix
+  interlayer overlaps are products of entries of the repository's Weingarten Gram matrix
   `SchurWeyl.weingartenGram 2 4`, whose closed form `SchurWeyl.K4.weingartenGram_closed`
   supplies the powers of `2` of Eq. (23).
 
@@ -42,18 +42,18 @@ introduced. Concretely:
 * `MagicMonotone.regPerm g`: the permutation operator `⨂_j V₂(g j)^{(j)}` of Eq. (13) that
   permutes the `k = 4` copies of qubit `j` by `g j`; each tensor factor is the matrix of the
   repository's permutation operator `SchurWeyl.permOp 2 (g j)` on `(ℂ²)^{⊗4}`.
-* `MagicMonotone.gateOn S σ`: the gate operator that applies `σ` to the copies of the qubits
-  in `S` and leaves the other qubits alone; the two-qubit gate operators `V₄^{(12)}(σ)` etc.
-  of Eq. (15) are `MagicMonotone.V12`, `V34`, `V23`, `V41`.
+* `MagicMonotone.gateOn S σ`: the copy-permutation operator supported on the qubits in `S`.
+  The operators `V₄^{(12)}(σ)` etc. of Eq. (15) are `MagicMonotone.V12`, `V34`, `V23`, `V41`;
+  their parameter is a permutation of the copies, not a sampled two-qubit unitary.
 * `MagicMonotone.hsOverlap X Y = ⟨⟨X|Y⟩⟩`: the Hilbert–Schmidt overlap of Eq. (11), i.e. the
   inner product of the two vectorizations `SchurWeyl.endVec`.
 * `MagicMonotone.layerAKet σ₁ σ₂ = |V₄^{(12)}(σ₁) V₄^{(34)}(σ₂)⟩⟩` and
   `MagicMonotone.layerBKet γ₁ γ₂ = |V₄^{(23)}(γ₁) V₄^{(41)}(γ₂)⟩⟩`: the vectorized
   permutation operators of the two layers.
-* `MagicMonotone.layerA` and `MagicMonotone.layerB`: the vectorized layer moment operators,
-  Eqs. (21) and (20) of the source. Each gate contributes a copy of the vectorized
-  single-gate moment operator of Eq. (17) (`MagicMonotone.vecMomentOp`), so the Weingarten
-  weight `MagicMonotone.wgPair` is a product of two values of `SchurWeyl.K4.wgVal`.
+* `MagicMonotone.layerA` and `MagicMonotone.layerB`: the explicit rank-one sums of
+  Eqs. (21) and (20). The weight `MagicMonotone.wgPair` is a product of two values of
+  `SchurWeyl.K4.wgVal`, as prescribed by the single-gate formula. This file establishes
+  algebraic overlap identities; `HaarLayers` proves their independent-gate Haar interpretation.
 
 ## Main results
 
@@ -222,22 +222,22 @@ lemma regPerm_mul (g h : Qubits → Equiv.Perm Copies) :
   rw [toEndMatrix_mul, toEndMatrix_regPerm, toEndMatrix_regPerm, toEndMatrix_regPerm,
     Matrix.submatrix_mul_equiv, regPermMat_mul]
 
-/-- The gate operator that permutes the copies of the qubits in `S` by `σ`, leaving the
-other qubits untouched. The two-qubit gate operators `V₄^{(12)}(σ) = V₂(σ)^{(1)} ⊗ V₂(σ)^{(2)}`
-of Eq. (15) are of this form. -/
+/-- The copy-permutation operator supported on `S`: it permutes the copies of each qubit
+in `S` by `σ` and leaves the others untouched. The operators
+`V₄^{(12)}(σ) = V₂(σ)^{(1)} ⊗ V₂(σ)^{(2)}` of Eq. (15) are of this form. -/
 def gateOn (S : Finset Qubits) (σ : Equiv.Perm Copies) : RegOp :=
   regPerm fun j => if j ∈ S then σ else 1
 
-/-- The gate operator `V₄^{(12)}(σ)` of the first gate of layer `A` (qubits `0, 1`). -/
+/-- The copy permutation `V₄^{(12)}(σ)` supported on qubits `0, 1` of layer `A`. -/
 def V12 (σ : Equiv.Perm Copies) : RegOp := gateOn {0, 1} σ
 
-/-- The gate operator `V₄^{(34)}(σ)` of the second gate of layer `A` (qubits `2, 3`). -/
+/-- The copy permutation `V₄^{(34)}(σ)` supported on qubits `2, 3` of layer `A`. -/
 def V34 (σ : Equiv.Perm Copies) : RegOp := gateOn {2, 3} σ
 
-/-- The gate operator `V₄^{(23)}(σ)` of the first gate of layer `B` (qubits `1, 2`). -/
+/-- The copy permutation `V₄^{(23)}(σ)` supported on qubits `1, 2` of layer `B`. -/
 def V23 (σ : Equiv.Perm Copies) : RegOp := gateOn {1, 2} σ
 
-/-- The gate operator `V₄^{(41)}(σ)` of the second gate of layer `B` (qubits `3, 0`). -/
+/-- The copy permutation `V₄^{(41)}(σ)` supported on qubits `3, 0` of layer `B`. -/
 def V41 (σ : Equiv.Perm Copies) : RegOp := gateOn {3, 0} σ
 
 /-- A gate with the identity permutation is the identity operator. -/
@@ -397,12 +397,13 @@ theorem hsOverlap_layerA_layerA (π₁ π₂ γ₁ γ₂ : Equiv.Perm Copies) :
 /-! ### Vectorized kets and their overlaps -/
 
 /-- The vectorized permutation operator of layer `A`,
-`|V₄^{(12)}(σ₁)⟩⟩|V₄^{(34)}(σ₂)⟩⟩ = |V₄^{(12)}(σ₁) V₄^{(34)}(σ₂)⟩⟩`, i.e. the repository's
-`SchurWeyl.endVec` of the layer operator. -/
+`|V₄^{(12)}(σ₁) V₄^{(34)}(σ₂)⟩⟩`, using the repository's `SchurWeyl.endVec` on the
+product of the two full-register copy-permutation operators. -/
 def layerAKet (σ₁ σ₂ : Equiv.Perm Copies) : Vecs := endVec (V12 σ₁ * V34 σ₂)
 
 /-- The vectorized permutation operator of layer `B`,
-`|V₄^{(23)}(γ₁)⟩⟩|V₄^{(41)}(γ₂)⟩⟩ = |V₄^{(23)}(γ₁) V₄^{(41)}(γ₂)⟩⟩`. -/
+`|V₄^{(23)}(γ₁) V₄^{(41)}(γ₂)⟩⟩`, vectorizing the product of the two full-register
+copy-permutation operators. -/
 def layerBKet (γ₁ γ₂ : Equiv.Perm Copies) : Vecs := endVec (V23 γ₁ * V41 γ₂)
 
 /-- The inner product of two layer kets is the Hilbert–Schmidt overlap of the corresponding
@@ -428,26 +429,23 @@ theorem wg_inverts_gram (σ ρ : Equiv.Perm Copies) :
     ∑ π : Equiv.Perm Copies, wg (π⁻¹ * ρ) * weingartenGram 4 4 σ π = if σ = ρ then 1 else 0 := by
   simpa [wg] using wgVal_inverts_gram 4 (by norm_num) σ ρ
 
-/-- **Layer `A`**, Eq. (21) of `magic_monotones.pdf`: the vectorized moment operator of the
-two independent Haar gates on the qubit pairs `(1,2)` and `(3,4)`,
-`∑ Wg(σ₁⁻¹π₁, 4) Wg(σ₂⁻¹π₂, 4) |V^{(12)}(σ₁)⟩⟩|V^{(34)}(σ₂)⟩⟩⟨⟨V^{(12)}(π₁)|⟨⟨V^{(34)}(π₂)|`.
-Each of the two gates contributes one copy of the single-gate moment operator of Eq. (17). -/
+/-- **The algebraic layer `A` sum**, Eq. (21) of `magic_monotones.pdf`, for pairs `(1,2)`
+and `(3,4)`:
+`∑ Wg(σ₁⁻¹π₁, 4) Wg(σ₂⁻¹π₂, 4) |V^{(12)}(σ₁) V^{(34)}(σ₂)⟩⟩⟨⟨V^{(12)}(π₁) V^{(34)}(π₂)|`.
+Its identification with the average over two independent Haar gates is proved in
+`HaarLayers` (`integral_vecActOn_layerA`). -/
 def layerA : Vecs →L[ℂ] Vecs :=
   ∑ σ₁, ∑ σ₂, ∑ π₁, ∑ π₂,
     (wg (σ₁⁻¹ * π₁) * wg (σ₂⁻¹ * π₂)) • rankOne ℂ (layerAKet σ₁ σ₂) (layerAKet π₁ π₂)
 
-/-- **Layer `B`**, Eq. (20) of `magic_monotones.pdf`: the vectorized moment operator of the
-two independent Haar gates on the staggered qubit pairs `(2,3)` and `(4,1)`,
-`∑ Wg(γ₁⁻¹τ₁, 4) Wg(γ₂⁻¹τ₂, 4) |V^{(23)}(γ₁)⟩⟩|V^{(41)}(γ₂)⟩⟩⟨⟨V^{(23)}(τ₁)|⟨⟨V^{(41)}(τ₂)|`. -/
+/-- **The algebraic layer `B` sum**, Eq. (20) of `magic_monotones.pdf`, for staggered
+pairs `(2,3)` and `(4,1)`:
+`∑ Wg(γ₁⁻¹τ₁, 4) Wg(γ₂⁻¹τ₂, 4) |V^{(23)}(γ₁) V^{(41)}(γ₂)⟩⟩⟨⟨V^{(23)}(τ₁) V^{(41)}(τ₂)|`.
+Its identification with the average over two independent Haar gates is proved in
+`HaarLayers` (`integral_vecActOn_layerB`). -/
 def layerB : Vecs →L[ℂ] Vecs :=
   ∑ γ₁, ∑ γ₂, ∑ τ₁, ∑ τ₂,
     (wg (γ₁⁻¹ * τ₁) * wg (γ₂⁻¹ * τ₂)) • rankOne ℂ (layerBKet γ₁ γ₂) (layerBKet τ₁ τ₂)
-
-/-- The layer ket indexed by a pair of permutations, `|V^{(12)}(σ₁)⟩⟩|V^{(34)}(σ₂)⟩⟩`. -/
-def ketA (s : PermPair) : Vecs := layerAKet s.1 s.2
-
-/-- The layer ket indexed by a pair of permutations, `|V^{(23)}(γ₁)⟩⟩|V^{(41)}(γ₂)⟩⟩`. -/
-def ketB (s : PermPair) : Vecs := layerBKet s.1 s.2
 
 /-- The Weingarten weight of a layer, `Wg(σ₁⁻¹π₁, 4) Wg(σ₂⁻¹π₂, 4)`, as a function of the two
 pairs of permutations labelling the layer. -/
@@ -455,13 +453,15 @@ def wgPair (s p : PermPair) : ℂ := wg (s.1⁻¹ * p.1) * wg (s.2⁻¹ * p.2)
 
 /-- Layer `A` as a double sum over pairs of permutations. -/
 lemma layerA_eq_pairSum :
-    layerA = ∑ s : PermPair, ∑ p : PermPair, wgPair s p • rankOne ℂ (ketA s) (ketA p) := by
-  simp only [layerA, ketA, wgPair, Fintype.sum_prod_type]
+    layerA = ∑ s : PermPair, ∑ p : PermPair,
+      wgPair s p • rankOne ℂ (layerAKet s.1 s.2) (layerAKet p.1 p.2) := by
+  simp only [layerA, wgPair, Fintype.sum_prod_type]
 
 /-- Layer `B` as a double sum over pairs of permutations. -/
 lemma layerB_eq_pairSum :
-    layerB = ∑ g : PermPair, ∑ t : PermPair, wgPair g t • rankOne ℂ (ketB g) (ketB t) := by
-  simp only [layerB, ketB, wgPair, Fintype.sum_prod_type]
+    layerB = ∑ g : PermPair, ∑ t : PermPair,
+      wgPair g t • rankOne ℂ (layerBKet g.1 g.2) (layerBKet t.1 t.2) := by
+  simp only [layerB, wgPair, Fintype.sum_prod_type]
 
 end MagicMonotone
 

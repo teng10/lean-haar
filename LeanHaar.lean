@@ -3,6 +3,8 @@ import LeanHaar.Applications.ClassicalShadows.SnapshotEnsemble
 import LeanHaar.Applications.ClassicalShadows.UnitarySnapshots
 import LeanHaar.Applications.MagicMonotone.BrickworkLayers
 import LeanHaar.Applications.MagicMonotone.Equation24
+import LeanHaar.Applications.MagicMonotone.HaarLayers
+import LeanHaar.Applications.MagicMonotone.LayerGates
 import LeanHaar.Applications.MagicMonotone.SingleGateMoment
 import LeanHaar.Applications.QML.CostFunction
 import LeanHaar.Applications.QML.Observation56
@@ -21,6 +23,7 @@ import LeanHaar.PermutationCentralizer
 import LeanHaar.PolyIndep
 import LeanHaar.SchurWeyl
 import LeanHaar.SupportingDocs.DepolarizingChannel
+import LeanHaar.SupportingDocs.EuclideanTensor
 import LeanHaar.SupportingDocs.HaarInvariance
 import LeanHaar.SupportingDocs.HaarMomentBridge
 import LeanHaar.SupportingDocs.HaarMoments
@@ -29,7 +32,9 @@ import LeanHaar.SupportingDocs.Swap
 import LeanHaar.SupportingDocs.TensorPowerBasics
 import LeanHaar.SupportingDocs.TensorPowerTraces
 import LeanHaar.SupportingDocs.TraceContractions
+import LeanHaar.SupportingDocs.UnitaryTensor
 import LeanHaar.SupportingDocs.Vectorization
+import LeanHaar.SupportingDocs.VectorizedHaar
 import LeanHaar.TensorPower
 import LeanHaar.TensorPower.Matrix
 import LeanHaar.Weingarten

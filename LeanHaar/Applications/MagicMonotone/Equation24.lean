@@ -8,13 +8,16 @@ import LeanHaar.SupportingDocs.RankOneCalculus
 /-!
 # Equation (24) of `magic_monotones.pdf`: the two-layer moment operator in kernel form
 
-The two-layer ensemble of Section III C of `magic_monotones.pdf` applies independent Haar
-gates on the qubit pairs `(1,2)`, `(3,4)` and then on `(2,3)`, `(4,1)`. Its moment operator is
-therefore the composition of the two layer moment operators (Eq. (19) of the source),
-`MagicMonotone.twoLayerMoment = layerA ∘ layerB`, each gate contributing one copy of the
-single-gate Haar moment operator of Eq. (17) (`MagicMonotone.vecMomentOp`, which
-`MagicMonotone.vecMomentOp_endVec` identifies with the repository's Haar average
-`SchurWeyl.momentOp`).
+This file composes the explicit algebraic layer sums from `BrickworkLayers`, following
+Section III C of `magic_monotones.pdf`. The source uses the Heisenberg picture: the physical
+circuit applies layer A and then B, while observables evolve backwards. Accordingly,
+`MagicMonotone.twoLayerMoment = layerA ∘ layerB` applies B first to its argument.
+
+The results below prove contraction formulas for this defined composition.
+`MagicMonotone.integral_twoLayer_endVec` identifies its action with the Heisenberg average
+over four independent embedded Haar gates. That proof uses the single-gate identification
+with `SchurWeyl.momentOp` in `SingleGateMoment`; the algebraic proofs here remain independent
+of Haar integration.
 
 Composing the two layers contracts the bra of layer `A` against the ket of layer `B`
 (Eq. (22)):
@@ -22,20 +25,20 @@ Composing the two layers contracts the bra of layer `A` against the ket of layer
   M = ∑_{σ₁,σ₂,π₁,π₂} ∑_{γ₁,γ₂,τ₁,τ₂}
         Wg(σ₁⁻¹π₁,4) Wg(σ₂⁻¹π₂,4) · Wg(γ₁⁻¹τ₁,4) Wg(γ₂⁻¹τ₂,4)
         · ⟨⟨V^{(12)}(π₁)V^{(34)}(π₂)|V^{(23)}(γ₁)V^{(41)}(γ₂)⟩⟩
-        · |V^{(12)}(σ₁)⟩⟩|V^{(34)}(σ₂)⟩⟩⟨⟨V^{(23)}(τ₁)|⟨⟨V^{(41)}(τ₂)| .
+        · |V^{(12)}(σ₁) V^{(34)}(σ₂)⟩⟩⟨⟨V^{(23)}(τ₁) V^{(41)}(τ₂)| .
 ```
 Summing the inner labels `π₁, π₂, γ₁, γ₂` first turns this into **Eq. (24)**,
 ```
   M = ∑_{σ₁,σ₂} ∑_{τ₁,τ₂} K_{(σ₁,σ₂),(τ₁,τ₂)}
-        |V^{(12)}(σ₁)⟩⟩|V^{(34)}(σ₂)⟩⟩⟨⟨V^{(23)}(τ₁)|⟨⟨V^{(41)}(τ₂)| ,
+        |V^{(12)}(σ₁) V^{(34)}(σ₂)⟩⟩⟨⟨V^{(23)}(τ₁) V^{(41)}(τ₂)| ,
 ```
-with the two-layer kernel `K` of Eq. (25). The interlayer overlaps inside `K` are entries of
-the repository's Weingarten Gram matrix, so Eq. (23) turns `K` into an explicit sum of
+with the two-layer kernel `K` of Eq. (25). The interlayer overlaps inside `K` are products
+of entries of the repository's Weingarten Gram matrix, so Eq. (23) turns `K` into an explicit sum of
 Weingarten values times powers of two (`MagicMonotone.twoLayerKernel_eq_two_pow_sum`).
 
 ## Main definitions
 
-* `MagicMonotone.twoLayerMoment`: the two-layer moment operator `layerA ∘ layerB`, Eq. (19).
+* `MagicMonotone.twoLayerMoment`: the defined composition `layerA ∘ layerB`, Eq. (19).
 * `MagicMonotone.twoLayerKernel`: the two-layer kernel `K_{(σ₁,σ₂),(τ₁,τ₂)}`, Eq. (25).
 
 ## Main results
@@ -73,9 +76,10 @@ open InnerProductSpace ContinuousLinearMap SchurWeyl SchurWeyl.K4
 
 namespace MagicMonotone
 
-/-- **The two-layer moment operator**, Eq. (19) of `magic_monotones.pdf`: since all four gates
-are drawn independently, the moment operator of the two-layer ensemble is the composition of
-the two layer moment operators. -/
+/-- **The composition of the algebraic layer sums**, Eq. (19) of `magic_monotones.pdf`.
+It applies B first to its argument, following the source's Heisenberg convention for a
+physical circuit applying A then B. `MagicMonotone.integral_twoLayer_endVec` identifies
+its action with the independent-gate Haar average. -/
 def twoLayerMoment : Vecs →L[ℂ] Vecs := layerA ∘L layerB
 
 /-- **The two-layer kernel**, Eq. (25) of `magic_monotones.pdf`:
@@ -99,22 +103,25 @@ theorem twoLayerMoment_eq_contraction :
             hsOverlap (V12 π₁ * V34 π₂) (V23 γ₁ * V41 γ₂)) •
           rankOne ℂ (layerAKet σ₁ σ₂) (layerBKet τ₁ τ₂) := by
   rw [twoLayerMoment, layerA_eq_pairSum, layerB_eq_pairSum,
-    sumRankOne_comp_sumRankOne ketA ketA wgPair ketB ketB wgPair]
-  simp only [Fintype.sum_prod_type, wgPair, ketA, ketB, inner_layerAKet_layerBKet]
+    sumRankOne_comp_sumRankOne
+      (fun s : PermPair => layerAKet s.1 s.2) (fun s : PermPair => layerAKet s.1 s.2) wgPair
+      (fun s : PermPair => layerBKet s.1 s.2) (fun s : PermPair => layerBKet s.1 s.2) wgPair]
+  simp only [Fintype.sum_prod_type, wgPair, inner_layerAKet_layerBKet]
 
 /-- **Equation (24) of `magic_monotones.pdf`.** Summing the inner labels `π₁, π₂, γ₁, γ₂`
 first, the two-layer moment operator is a sum over the outer labels only, with the two-layer
 kernel `K` of Eq. (25) as coefficient:
 `M = ∑_{σ₁,σ₂} ∑_{τ₁,τ₂} K_{(σ₁,σ₂),(τ₁,τ₂)}
-      |V^{(12)}(σ₁)⟩⟩|V^{(34)}(σ₂)⟩⟩⟨⟨V^{(23)}(τ₁)|⟨⟨V^{(41)}(τ₂)|`. -/
+      |V^{(12)}(σ₁) V^{(34)}(σ₂)⟩⟩⟨⟨V^{(23)}(τ₁) V^{(41)}(τ₂)|`. -/
 theorem twoLayerMoment_eq_kernel_sum :
     twoLayerMoment =
       ∑ σ₁, ∑ σ₂, ∑ τ₁, ∑ τ₂,
         twoLayerKernel σ₁ σ₂ τ₁ τ₂ • rankOne ℂ (layerAKet σ₁ σ₂) (layerBKet τ₁ τ₂) := by
   rw [twoLayerMoment, layerA_eq_pairSum, layerB_eq_pairSum,
-    sumRankOne_comp_sumRankOne_kernel ketA ketA wgPair ketB ketB wgPair]
-  simp only [Fintype.sum_prod_type, twoLayerKernel, wgPair, ketA, ketB,
-    inner_layerAKet_layerBKet]
+    sumRankOne_comp_sumRankOne_kernel
+      (fun s : PermPair => layerAKet s.1 s.2) (fun s : PermPair => layerAKet s.1 s.2) wgPair
+      (fun s : PermPair => layerBKet s.1 s.2) (fun s : PermPair => layerBKet s.1 s.2) wgPair]
+  simp only [Fintype.sum_prod_type, twoLayerKernel, wgPair, inner_layerAKet_layerBKet]
 
 /-- **The two-layer kernel, made explicit.** Evaluating the interlayer overlaps of Eq. (25) by
 Eq. (23) (`MagicMonotone.hsOverlap_layer_eq_two_pow`, which reads them off the repository's

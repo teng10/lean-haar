@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Mathlib.Analysis.InnerProductSpace.LinearMap
 
 import LeanHaar.SupportingDocs.Vectorization
+import LeanHaar.SupportingDocs.VectorizedHaar
 import LeanHaar.Moments.k4Moment
 
 /-!
@@ -35,9 +36,11 @@ two-qubit single-gate moment operator of Section III A of the source is exactly
   `d`-dimensional gate acting on `k = 4` copies,
   `M(X) = ∑_{σ,π} Wg(σ⁻¹π, d) Tr(V_d(π)† X) V_d(σ)`. It is `SchurWeyl.K4.k4_moment` with the
   coefficient `SchurWeyl.K4.coeff` unfolded.
-* `MagicMonotone.vecMomentOp_endVec`: **Eq. (17)**, `M|X⟩⟩ = |M(X)⟩⟩`: the ket-bra operator
-  `vecMomentOp d` is the vectorization of the Haar moment operator. This is the identity that
-  licenses all the vectorized manipulations of the source.
+* `MagicMonotone.vecMomentOp_endVec`: **Eq. (17)**, `M|X⟩⟩ = |M(X)⟩⟩`: for `4 ≤ d`, the
+  ket-bra operator `vecMomentOp d` is the vectorization of the single-gate Haar moment
+  operator. `integral_vecActOn` gives the corresponding operator-valued integral.
+  `HaarLayers` combines it with the shared tensor-Haar factorization to identify the
+  independent-gate layer sums.
 -/
 
 noncomputable section
@@ -101,6 +104,20 @@ theorem vecMomentOp_endVec (hd : 4 ≤ d) (X : Module.End ℂ (TensV d 4)) :
     rw [← endVecₗ_apply, momentOp_eq_weingarten_sum hd X]
     simp only [map_sum, map_smul, endVecₗ_apply]
   rw [vecMomentOp_apply, hlin]
+
+/-! ### Operator-valued Haar averages -/
+
+open MeasureTheory
+
+set_option maxHeartbeats 800000 in
+/-- The explicit fourth-moment sum is the operator-valued Haar average. -/
+theorem integral_vecActOn (d : ℕ) (hd : 4 ≤ d) :
+    (∫ U, vecActOn (k := 4) U ∂haarProb d) = vecMomentOp d := by
+  apply ContinuousLinearMap.ext
+  intro x
+  obtain ⟨X, rfl⟩ := (endVecEquiv d 4).surjective x
+  change (∫ U, vecActOn (k := 4) U ∂haarProb d) (endVec X) = vecMomentOp d (endVec X)
+  exact (integral_vecActOn_endVec X).trans (vecMomentOp_endVec hd X).symm
 
 end MagicMonotone
 

@@ -1,6 +1,6 @@
 # Definition summary and cleanup status
 
-Updated: 2026-11-02 (classical-shadow module boundaries). Original review: 2026-09-25.
+Updated: 2026-11-04 (four-qubit independent Haar gates). Original review: 2026-09-25.
 
 The earlier reorganization inventory recorded **100 active definitions, abbreviations,
 and structures**, plus **14 explicit instances**, across 35 modules. These counts
@@ -450,7 +450,7 @@ Source: [SingleGateMoment.lean](LeanHaar/Applications/MagicMonotone/SingleGateMo
 | --- | --- | --- |
 | `vecMomentOp` | Fourth-moment formula as a sum of continuous rank-one operators. | **Keep the bundling.** Its genuine Haar-moment interpretation relies on `d ≥ 4`; the totalized rational formula does not supply the desired moment in smaller dimensions. |
 
-### BrickworkLayers.lean — 28 definitions/abbreviations
+### BrickworkLayers.lean — 26 definitions/abbreviations
 
 Source: [BrickworkLayers.lean](LeanHaar/Applications/MagicMonotone/BrickworkLayers.lean).
 
@@ -476,14 +476,17 @@ Source: [BrickworkLayers.lean](LeanHaar/Applications/MagicMonotone/BrickworkLaye
 | `V41` | Specialization across the periodic boundary. | **Same assessment**, documenting the boundary convention. |
 | `hsOverlap` | Inner product of vectorized endomorphisms. | **Keep as application vocabulary.** Its general trace identity now comes from `SupportingDocs/Vectorization`; the wrapper itself need not move into the core. |
 | `relabel` | Private inverse index calculation. | **Appropriately private.** Prefer the inverse of the same equivalence underlying `shift`. |
-| `layerAKet` | Vectorized permutation operator for layer A. | **Keep one canonical family**, preferably indexed by `PermPair`. |
+| `layerAKet` | Vectorized permutation operator for layer A. | **Keep the curried family.** It appears directly in the paper-facing statements; typed lambdas adapt it to pair-indexed calculus. |
 | `layerBKet` | Corresponding family for layer B. | **Same assessment.** |
 | `wg` | Fourth-order Weingarten value at gate dimension four. | **Reasonable local specialization.** A transparent abbreviation or local notation may suffice. |
-| `layerA` | Rank-one expansion of layer A's moment operator. | **Keep.** Good continuous-linear-map bundling. No independent product-Haar-integral identification for the whole layer was found in the audit. |
+| `layerA` | Explicit rank-one sum for layer A. | **Keep.** A continuous linear map on the vectorized operator space. `MagicMonotone.integral_vecActOn_layerA` proves its independent-gate Haar interpretation. |
 | `layerB` | Corresponding layer B operator. | **Same assessment.** |
-| `ketA` | Pair-indexed wrapper around `layerAKet`. | **Merge the interfaces.** Choose one canonical argument convention. |
-| `ketB` | Pair-indexed wrapper around `layerBKet`. | **Merge likewise.** |
 | `wgPair` | Product of two gate weights. | **Keep.** An explicit matrix on `PermPair` may simplify contractions. |
+
+The redundant public adapters `ketA` and `ketB` were removed on 2026-11-03.
+Use `(fun s : PermPair => layerAKet s.1 s.2)` and similarly for layer B.
+The pair-sum lemmas remain, with definitionally equal statements; the paper-facing
+Equations 22–25 retain their existing statements.
 
 ### Equation24.lean — 2 definitions
 
@@ -491,8 +494,24 @@ Source: [Equation24.lean](LeanHaar/Applications/MagicMonotone/Equation24.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
-| `twoLayerMoment` | Composition of the two layer operators. | **Keep.** Document composition order; inherit physical interpretation once layer bridges are established. |
+| `twoLayerMoment` | Composition of the two algebraic layer sums. | **Keep `layerA ∘L layerB`.** It acts B then A on observables, following the source's Heisenberg convention. `MagicMonotone.integral_twoLayer_endVec` proves its independent-gate Haar interpretation. |
 | `twoLayerKernel` | Weighted contraction of interlayer overlaps. | **Keep.** A matrix-product formulation may simplify it. The ket families are not established as orthonormal bases, so avoid that interpretation. |
+
+### Four-qubit Haar-gate interface — 2026-11-04
+
+| Module / public definitions | Purpose and scope |
+| --- | --- |
+| `SupportingDocs/UnitaryTensor`: `tensorUnitary`, `tensorCopiesEquiv`, `tensorEntriesEquiv` | Tensor two actual unitaries in an ordered register decomposition; transport the copy and matrix-entry indices. Existing equivalences encode the order, including wraparound gates. |
+| `SupportingDocs/EuclideanTensor`: `tensorVec`, `tensorMap` | Transport vectors and continuous operators through that decomposition. Bundled bilinearity supports independent integrals; `tensorMap_rankOne` gives the existing layer sums. |
+| `SupportingDocs/VectorizedHaar`: `vecActOn` | Continuous linear form of existing `actOn`, with an equality on every `endVec X`, Haar integration, composition, the `vecActOn_tensorUnitary` transport law, and `integral_vecActOn_tensorUnitary` for independent local Haar averages in any dimensions and copy number. |
+| `MagicMonotone/LayerGates`: `layerIndexA/B`, `layerUnitaryA/B` | Ordered pairings `(0,1),(2,3)` and `(1,2),(3,0)` and their actual sampled four-qubit gates. The two-bit encoding helper is private. |
+| `MagicMonotone/HaarLayers` | No additional public data structure. Proves each independent two-gate mean equals `layerA/B`, then the four-gate mean equals `twoLayerMoment` for every global operator. |
+
+Sampling uses products of `haarProb 4`, never global `haarProb 16`. Physical A
+then B is written explicitly as `B * A`; its Heisenberg average is `layerA ∘L layerB`.
+The final theorem can be rewritten with `twoLayerMoment_eq_kernel_sum` for the
+existing Equation (24) calculation. No `RandomLayer`, circuit syntax, custom
+measure, or new representation wrapper is introduced.
 
 ## Retained standalone examples
 
@@ -563,14 +582,14 @@ These are review candidates, not changes already implemented:
 2. **Fourth-moment API:** review the cycle-type tags and private certificate
    helpers, retain explicit `wgVal` formulas and dimension assumptions, and connect
    `coeff` to `weingarten_solution_eq_inv` with an application theorem if useful.
-3. **Circuit interfaces:** choose one argument convention for each pair of
-   `layerAKet`/`ketA` and `layerBKet`/`ketB`. Keep readable gate labels and weights.
-   General register embeddings should wait for another circuit consumer.
+3. **Circuit interpretation:** the independent-gate Haar identification is proved
+   in `HaarLayers`; the §9 cleanup shares its dimension- and copy-generic tensor
+   factorization (2026-11-11). The four-qubit endpoint remains the circuit moment
+   and its kernel. A scalar stabilizer-purity evaluation is a separate application.
 4. **Mathematical interpretation:** clarify QML `gradient` and the square-moment
-   variance formulas, preserve the algebraic ensemble layer, and distinguish the
-   defined circuit layer sums from a proved independent-gate Haar average. Actual
-   derivative, probability, or layer-identification theorems are additional
-   mathematical work; moving definitions alone does not establish them.
+   variance formulas, and preserve the algebraic ensemble layer. Actual derivative
+   and probabilistic variance theorems are additional mathematical work; moving
+   definitions alone does not establish them.
 5. **Classical-shadow interpretation bridges:** relate the formal tensor
    contractions to endomorphisms of the tensor-product state space, and connect
    the Haar model to Physlib's existing physical-state, POVM, and CPTP interfaces.

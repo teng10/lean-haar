@@ -82,6 +82,12 @@ instance instSecondCountableMatrix (d : ℕ) :
     SecondCountableTopology (Matrix (Fin d) (Fin d) ℂ) :=
   inferInstanceAs (SecondCountableTopology (Fin d → Fin d → ℂ))
 
+/-- The unitary group inherits second countability from its matrix coordinates. -/
+instance instSecondCountableUnitaryGroup (d : ℕ) :
+    SecondCountableTopology (Matrix.unitaryGroup (Fin d) ℂ) :=
+  TopologicalSpace.Subtype.secondCountableTopology
+    (Matrix.unitaryGroup (Fin d) ℂ : Set (Matrix (Fin d) (Fin d) ℂ))
+
 /-- The Borel σ-algebra on the unitary group. -/
 instance instMeasurableSpaceUnitaryGroup (d : ℕ) :
     MeasurableSpace (Matrix.unitaryGroup (Fin d) ℂ) := borel _

@@ -2,6 +2,9 @@
 
 Inventory date: 2026-10-02.
 
+For the current structure and readable dependency diagrams, see the
+[module map](docs/ModuleMap.md).
+
 The module counts and audits below describe that historical layout. For the current
 classical-shadow API and declaration ownership, including the removal of the old
 ensemble and Haar-equivalence wrappers, see [DefsSummary](DefsSummary.md#classical-shadows).

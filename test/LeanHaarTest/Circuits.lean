@@ -1,6 +1,5 @@
 import LeanHaar.Circuits.HaarMoment
 import LeanHaar.Circuits.LocalGate
-import LeanHaar.Circuits.IndependentMoments
 import LeanHaar.Circuits.Brickwork
 import LeanHaar.Circuits.Circuit
 import LeanHaar.Applications.MagicMonotone.HaarLayers
@@ -43,6 +42,30 @@ theorem aboveLocalDimensionIdempotent :
 
 theorem aboveLocalDimensionAdjoint : (gateMoment (placeUnitary 2 singleSite) 5).adjoint =
     gateMoment (placeUnitary 2 singleSite) 5 := by simp
+
+-- Two one-site gates leave the third site uncovered.
+private def partialSites (g : Fin 2) : Fin 1 ↪ Fin 3 where
+  toFun _ := g.castSucc
+  inj' _ _ _ := Subsingleton.elim _ _
+
+private theorem partialDisjoint :
+    Pairwise fun g h : Fin 2 => Disjoint (Set.range (partialSites g))
+      (Set.range (partialSites h)) := by
+  intro i j hij
+  rw [Set.disjoint_left]
+  rintro x ⟨a, rfl⟩ ⟨b, hb⟩
+  have hv : i.val = j.val := congrArg (fun x : Fin 3 => x.val) hb.symm
+  exact hij (Fin.ext hv)
+
+-- The third moment exceeds the one-site gate dimension, and site 2 is uncovered.
+-- Order independence and self-adjointness still require only disjointness.
+theorem partialLayerLaws :
+    ¬ (3 ≤ 2 ^ 1) ∧ (∀ g, (2 : Fin 3) ∉ Set.range (partialSites g)) ∧
+    circuitMoment 2 3 (fun g => partialSites (Fin.revPerm g)) = circuitMoment 2 3 partialSites ∧
+      (circuitMoment 2 3 partialSites).adjoint = circuitMoment 2 3 partialSites :=
+  ⟨by decide, by decide,
+    circuitMoment_comp_perm_of_disjoint 2 partialSites partialDisjoint Fin.revPerm,
+    circuitMoment_adjoint_of_disjoint 2 partialSites partialDisjoint⟩
 
 private def wrapSites : (Fin 2 ↪ Fin 4) := Function.Embedding.embFinTwo (a := 3) (b := 0) (by decide)
 
@@ -107,6 +130,68 @@ theorem zeroCopyEnsemble :
   integral_brickworkUnitary 2 0 2 3
 
 theorem emptyBrickwork (q m : ℕ) : brickworkMoment q 0 m 0 = 1 := by simp
+
+-- Three independent two-qubit gates depolarize all six qubits at one copy.
+theorem oneCopyMatching :
+    circuitMoment 2 1 (oddEdge 3) = (1 / 64 : ℂ) •
+      InnerProductSpace.rankOne ℂ (endVec (1 : Module.End ℂ (TensV 64 1))) (endVec 1) := by
+  rw [circuitMoment_oddEdge 2 3 (by decide), Fintype.sum_unique, Fintype.sum_unique]
+  have hinv : (weingartenGram 4 1)⁻¹ (default : Equiv.Perm (Fin 1)) default = (1 / 4 : ℂ) := by
+    rw [Matrix.inv_def, Matrix.det_unique, Matrix.adjugate_subsingleton, Matrix.smul_apply,
+      Matrix.one_apply_eq, smul_eq_mul, mul_one, Ring.inverse_eq_inv', weingartenGram_eq_natCast,
+      weingartenGramNat_diag, pow_one]
+    norm_num
+  have hone : (fun i => (default : Fin 3 → Equiv.Perm (Fin 1)) (oddGate 3 i)) = fun _ => 1 :=
+    funext fun i => Subsingleton.elim _ _
+  rw [hone, sitePerm_one]
+  simp only [show 2 ^ 2 = 4 by decide, Pi.default_apply, hinv,
+    Finset.prod_const, Finset.card_univ, Fintype.card_fin]
+  norm_num
+
+-- A uniform permutation of each qubit agrees with the core permutation of the copies.
+theorem regPermUniform (σ : Equiv.Perm (Fin 4)) :
+    MagicMonotone.regPerm (fun _ => σ) = permOp 16 σ :=
+  sitePerm_const (q := 2) (n := 4) σ
+
+-- Each sample acts on its stated ordered pair, in the register's actual bit coordinates.
+theorem layerUnitaryAEntries
+    (p : Matrix.unitaryGroup (Fin 4) ℂ × Matrix.unitaryGroup (Fin 4) ℂ) (x y : Fin 16) :
+    MagicMonotone.layerUnitaryA p x y =
+      p.1 (finFunctionFinEquiv ![registerEquiv 2 4 x 0, registerEquiv 2 4 x 1])
+        (finFunctionFinEquiv ![registerEquiv 2 4 y 0, registerEquiv 2 4 y 1]) *
+      p.2 (finFunctionFinEquiv ![registerEquiv 2 4 x 2, registerEquiv 2 4 x 3])
+        (finFunctionFinEquiv ![registerEquiv 2 4 y 2, registerEquiv 2 4 y 3]) := by
+  have h := circuitUnitary_apply_of_disjoint 2 (oddEdge 2) (fun _ _ h => oddEdge_disjoint h)
+    ![p.1, p.2] x y
+  rw [if_pos (fun i hi => absurd (oddEdge_covers i).choose_spec (hi _)), mul_one,
+    Fin.prod_univ_two] at h
+  have hread (z : Fin 16) :
+      localRead 2 (oddEdge 2 0) z =
+        finFunctionFinEquiv ![registerEquiv 2 4 z 0, registerEquiv 2 4 z 1] ∧
+      localRead 2 (oddEdge 2 1) z =
+        finFunctionFinEquiv ![registerEquiv 2 4 z 2, registerEquiv 2 4 z 3] := by
+    constructor <;> apply congrArg finFunctionFinEquiv <;> funext a <;> fin_cases a <;> rfl
+  simpa only [(hread x).1, (hread x).2, (hread y).1, (hread y).2] using h
+
+-- The second sample reads the periodic pair as `(3,0)`, preserving its input order.
+theorem layerUnitaryBEntries
+    (p : Matrix.unitaryGroup (Fin 4) ℂ × Matrix.unitaryGroup (Fin 4) ℂ) (x y : Fin 16) :
+    MagicMonotone.layerUnitaryB p x y =
+      p.1 (finFunctionFinEquiv ![registerEquiv 2 4 x 1, registerEquiv 2 4 x 2])
+        (finFunctionFinEquiv ![registerEquiv 2 4 y 1, registerEquiv 2 4 y 2]) *
+      p.2 (finFunctionFinEquiv ![registerEquiv 2 4 x 3, registerEquiv 2 4 x 0])
+        (finFunctionFinEquiv ![registerEquiv 2 4 y 3, registerEquiv 2 4 y 0]) := by
+  have h := circuitUnitary_apply_of_disjoint 2 (evenEdge 2) (fun _ _ h => evenEdge_disjoint h)
+    ![p.1, p.2] x y
+  rw [if_pos (fun i hi => absurd (evenEdge_covers i).choose_spec (hi _)), mul_one,
+    Fin.prod_univ_two] at h
+  have hread (z : Fin 16) :
+      localRead 2 (evenEdge 2 0) z =
+        finFunctionFinEquiv ![registerEquiv 2 4 z 1, registerEquiv 2 4 z 2] ∧
+      localRead 2 (evenEdge 2 1) z =
+        finFunctionFinEquiv ![registerEquiv 2 4 z 3, registerEquiv 2 4 z 0] := by
+    constructor <;> apply congrArg finFunctionFinEquiv <;> funext a <;> fin_cases a <;> rfl
+  simpa only [(hread x).1, (hread x).2, (hread y).1, (hread y).2] using h
 
 end LeanHaarTest
 

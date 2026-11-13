@@ -2,10 +2,7 @@
 Copyright (c) 2026. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.Analysis.InnerProductSpace.LinearMap
-
-import LeanHaar.SupportingDocs.Vectorization
-import LeanHaar.SupportingDocs.UnitaryTensor
+import LeanHaar.Circuits.SitePermutation
 import LeanHaar.Moments.k4Moment
 
 /-!
@@ -28,7 +25,7 @@ operator space. Concretely:
 
 * an operator is described by its matrix in the computational basis through the repository's
   `SchurWeyl.toEndMatrix 16 4`, and the computational basis index `Fin 4 → Fin 16` is read
-  qubit by qubit through the bit decomposition `MagicMonotone.regIndexEquiv`;
+  qubit by qubit through the shared coordinates `SchurWeyl.copySiteEquiv 2 4 4`;
 * the copy-permutation operators are built qubit by qubit out of
   `SchurWeyl.permOp 2` (this is Eq. (13) of the source);
 * the Weingarten weights are the `k = 4` Weingarten values `SchurWeyl.K4.wgVal`, and the
@@ -38,8 +35,6 @@ operator space. Concretely:
 
 ## Main definitions
 
-* `MagicMonotone.regIndexEquiv`: the identification of a computational basis index of the
-  four copies of the register, `Fin 4 → Fin 16`, with its qubitwise bit pattern.
 * `MagicMonotone.regPerm g`: the permutation operator `⨂_j V₂(g j)^{(j)}` of Eq. (13) that
   permutes the `k = 4` copies of qubit `j` by `g j`; each tensor factor is the matrix of the
   repository's permutation operator `SchurWeyl.permOp 2 (g j)` on `(ℂ²)^{⊗4}`.
@@ -76,11 +71,8 @@ operator space. Concretely:
 
 noncomputable section
 
--- The register index type `Fin 4 → Fin 16` makes elaboration of the layer sums deep.
-set_option maxRecDepth 8000
-
-open scoped InnerProductSpace Matrix
-open InnerProductSpace ContinuousLinearMap SchurWeyl SchurWeyl.K4
+open scoped Matrix
+open InnerProductSpace SchurWeyl SchurWeyl.Circuits SchurWeyl.K4
 
 namespace MagicMonotone
 
@@ -91,10 +83,6 @@ abbrev Copies : Type := Fin 4
 
 /-- The `n = 4` qubits of the register. -/
 abbrev Qubits : Type := Fin 4
-
-/-- The qubitwise reading of a computational basis index of the four copies of the register:
-one bit for each qubit and each copy. -/
-abbrev QubitIdx : Type := Qubits → Copies → Fin 2
 
 /-- An operator on the four copies of the four-qubit register: an endomorphism of the
 repository's tensor power `SchurWeyl.TensV 16 4`. -/
@@ -108,110 +96,21 @@ abbrev Vecs : Type := EuclideanSpace ℂ ((Copies → Fin 16) × (Copies → Fin
 permutation per gate of the layer. -/
 abbrev PermPair : Type := Equiv.Perm Copies × Equiv.Perm Copies
 
-/-- The bit decomposition of a register state: a state of the four-qubit register
-(`Fin 16`) is a bit for each of the four qubits. -/
-def bitsEquiv : Fin 16 ≃ (Qubits → Fin 2) :=
-  registerEquiv 2 4
+/-! ### Permutation operators, qubit by qubit (Eq. (13)) -/
 
-/-- **Reading a basis index qubit by qubit.** A computational basis index of the four copies
-of the register, `Fin 4 → Fin 16`, is the same thing as a bit for each qubit and each copy.
-This is the only bookkeeping needed to see the register as a system of local dimension
-`2^4 = 16` in the sense of the repository. -/
-def regIndexEquiv : (Copies → Fin 16) ≃ QubitIdx :=
-  copySiteEquiv 2 4 4
-
-/-! ### Permutation operators, qubit by qubit (Eq. (13))
-
-The matrix of a qubitwise permutation operator is written first in the qubitwise index
-`QubitIdx`, where it visibly factorizes over the qubits, and is then transported to the
-register index `Copies → Fin 16` by `regIndexEquiv`. -/
-
-/-- The matrix of the qubitwise permutation operator of Eq. (13) in the qubitwise index: the
-product over the qubits `j` of the matrices of the repository's permutation operators
-`SchurWeyl.permOp 2 (g j)` acting on the four copies of a single qubit. -/
-def regPermMat (g : Qubits → Equiv.Perm Copies) : Matrix QubitIdx QubitIdx ℂ :=
-  Matrix.of fun I J => ∏ j : Qubits, toEndMatrix 2 4 (permOp 2 (g j)) (I j) (J j)
-
-/-- The entries of `regPermMat g` are `0/1`: the entry is `1` exactly when, for every qubit,
-the row index is obtained from the column index by relabelling the copies by `(g j)⁻¹`. -/
-lemma regPermMat_apply (g : Qubits → Equiv.Perm Copies) (I J : QubitIdx) :
-    regPermMat g I J = if ∀ j, I j = J j ∘ (g j).symm then 1 else 0 := by
-  simp only [regPermMat, Matrix.of_apply, permOp, toEndMatrix_permAction]
-  rw [Fintype.prod_boole]
-  congr 1
-
-/-- The column index determined by a row index: `regPermMat g I J = 1` exactly for
-`J = shift g I`. -/
-private def shift (g : Qubits → Equiv.Perm Copies) (I : QubitIdx) : QubitIdx :=
-  fun j => I j ∘ (g j)
-
-/-- Undoing a product of permutations, one factor at a time. -/
-private lemma perm_mul_symm_apply (g h : Equiv.Perm Copies) (c : Copies) :
-    (g * h).symm c = h.symm (g.symm c) := by
-  rw [← Equiv.Perm.inv_def, mul_inv_rev]
-  simp [Equiv.Perm.mul_apply]
-
-private lemma regPermMat_apply_shift (g : Qubits → Equiv.Perm Copies) (I : QubitIdx) :
-    regPermMat g I (shift g I) = 1 := by
-  rw [regPermMat_apply, if_pos]
-  intro j
-  funext c
-  simp [shift]
-
-private lemma regPermMat_eq_zero_of_ne (g : Qubits → Equiv.Perm Copies) (I J : QubitIdx)
-    (h : J ≠ shift g I) : regPermMat g I J = 0 := by
-  rw [regPermMat_apply, if_neg]
-  intro hI
-  refine h (funext fun j => funext fun c => ?_)
-  have := congrFun (hI j) ((g j) c)
-  simpa [shift] using this.symm
-
-/-- Every qubit carrying the identity permutation gives the identity matrix. -/
-lemma regPermMat_one : regPermMat (fun _ => 1) = 1 := by
-  ext I J
-  rw [regPermMat_apply, Matrix.one_apply]
-  refine if_congr ⟨fun h => funext fun j => by simpa using h j,
-    fun h j => by simp [h, ← Equiv.Perm.inv_def]⟩ rfl rfl
-
-/-- Applying `h` and then `g`, qubit by qubit, is the matrix of the qubitwise product. -/
-lemma regPermMat_mul (g h : Qubits → Equiv.Perm Copies) :
-    regPermMat g * regPermMat h = regPermMat (fun j => g j * h j) := by
-  ext I K
-  rw [Matrix.mul_apply, Finset.sum_eq_single (shift g I)]
-  · rw [regPermMat_apply_shift, one_mul, regPermMat_apply, regPermMat_apply]
-    refine if_congr ⟨fun hI j => funext fun c => ?_, fun hI j => funext fun c => ?_⟩ rfl rfl
-    · have := congrFun (hI j) ((g j).symm c)
-      simpa [shift, perm_mul_symm_apply] using this
-    · have := congrFun (hI j) ((g j) c)
-      simpa [shift, perm_mul_symm_apply] using this
-  · intro J _ hJ
-    rw [regPermMat_eq_zero_of_ne g I J hJ, zero_mul]
-  · intro h'
-    exact absurd (Finset.mem_univ _) h'
-
-/-- **The qubitwise permutation operator of Eq. (13)**, `⨂_{j} V₂(g j)^{(j)}`: it permutes
-the `k = 4` copies of qubit `j` by `g j`. It is the operator on the repository's
-`TensV 16 4` whose matrix in the computational basis is `regPermMat g`, read qubit by qubit
-through `regIndexEquiv`. -/
+/-- **The qubitwise permutation operator of Eq. (13)**, `⨂_{j} V₂(g j)^{(j)}`:
+the shared site-permutation operator specialized to four qubits and four copies. -/
 def regPerm (g : Qubits → Equiv.Perm Copies) : RegOp :=
-  (toEndMatrix 16 4).symm ((regPermMat g).submatrix regIndexEquiv regIndexEquiv)
-
-@[simp] lemma toEndMatrix_regPerm (g : Qubits → Equiv.Perm Copies) :
-    toEndMatrix 16 4 (regPerm g) = (regPermMat g).submatrix regIndexEquiv regIndexEquiv :=
-  (toEndMatrix 16 4).apply_symm_apply _
+  sitePerm 2 g
 
 /-- Every qubit carrying the identity permutation gives the identity operator. -/
-lemma regPerm_one : regPerm (fun _ => 1) = 1 := by
-  refine (toEndMatrix 16 4).injective ?_
-  rw [toEndMatrix_regPerm, regPermMat_one, Matrix.submatrix_one_equiv, toEndMatrix_one]
+lemma regPerm_one : regPerm (fun _ => 1) = 1 :=
+  sitePerm_one
 
-/-- **The operators of Eq. (13) form a representation**: applying `h` and then `g`, qubit by
-qubit, is the operator of the qubitwise product `g · h`. -/
+/-- Applying `h` and then `g`, qubit by qubit, multiplies the local permutations. -/
 lemma regPerm_mul (g h : Qubits → Equiv.Perm Copies) :
-    regPerm g * regPerm h = regPerm (fun j => g j * h j) := by
-  refine (toEndMatrix 16 4).injective ?_
-  rw [toEndMatrix_mul, toEndMatrix_regPerm, toEndMatrix_regPerm, toEndMatrix_regPerm,
-    Matrix.submatrix_mul_equiv, regPermMat_mul]
+    regPerm g * regPerm h = regPerm (fun j => g j * h j) :=
+  sitePerm_mul g h
 
 /-- The copy-permutation operator supported on `S`: it permutes the copies of each qubit
 in `S` by `σ` and leaves the others untouched. The operators
@@ -247,74 +146,13 @@ lemma hsOverlap_eq_trace (X Y : RegOp) :
     hsOverlap X Y = ((toEndMatrix 16 4 X)ᴴ * toEndMatrix 16 4 Y).trace :=
   inner_endVec_endVec X Y
 
-/-- Relabelling the rows and columns of a matrix by an equivalence does not change its
-trace. -/
-private lemma trace_submatrix_equiv {m n : Type*} [Fintype m] [Fintype n]
-    (A : Matrix n n ℂ) (e : m ≃ n) : (A.submatrix e e).trace = A.trace :=
-  Equiv.sum_comp e fun j => A j j
-
-/-- The row index that contributes to the overlap: it is the unique `J` with
-`regPermMat a J I = 1`. -/
-private def relabel (a : Qubits → Equiv.Perm Copies) (I : QubitIdx) : QubitIdx :=
-  fun j => I j ∘ (a j).symm
-
-/-- Contracting one summation index: for a fixed column index `I`, only the row
-`relabel a I` contributes to the overlap, and it contributes exactly when relabelling the
-copies of each qubit `j` by `a j` and by `b j` gives the same result. -/
-private lemma trace_regPermMat_inner_sum (a b : Qubits → Equiv.Perm Copies) (I : QubitIdx) :
-    ∑ J : QubitIdx, star (regPermMat a J I) * regPermMat b J I
-      = ∏ j : Qubits, (if I j ∘ (a j).symm = I j ∘ (b j).symm then (1 : ℂ) else 0) := by
-  classical
-  have hzero : ∀ J : QubitIdx, J ≠ relabel a I → star (regPermMat a J I) * regPermMat b J I = 0 := by
-    intro J hJ
-    have : regPermMat a J I = 0 := by
-      rw [regPermMat_apply, if_neg]
-      exact fun hI => hJ (funext fun j => hI j)
-    rw [this, star_zero, zero_mul]
-  rw [Finset.sum_eq_single (relabel a I) (fun J _ hJ => hzero J hJ)
-    (fun h => absurd (Finset.mem_univ _) h)]
-  have hone : regPermMat a (relabel a I) I = 1 := by
-    rw [regPermMat_apply, if_pos]
-    exact fun j => rfl
-  rw [hone, star_one, one_mul, regPermMat_apply, Fintype.prod_boole]
-  congr 1
-
-/-- Summing a single-qubit coincidence indicator gives an entry of the repository's
-Weingarten Gram matrix for `d = 2`, `k = 4`, by `SchurWeyl.weingartenGram_eq_card`. -/
-private lemma sum_indicator_eq_gram (σ π : Equiv.Perm Copies) :
-    ∑ x : Copies → Fin 2, (if x ∘ σ.symm = x ∘ π.symm then (1 : ℂ) else 0)
-      = weingartenGram 2 4 σ π := by
-  classical
-  rw [weingartenGram_eq_card, Finset.sum_boole, Fintype.card_subtype]
-
-/-- **The Hilbert–Schmidt overlap of two qubitwise permutation matrices factorizes over the
-qubits**, each factor being an entry of the repository's Weingarten Gram matrix
-`weingartenGram 2 4 σ π = Tr(V₂(σ)† V₂(π))`. -/
-theorem trace_regPermMat (a b : Qubits → Equiv.Perm Copies) :
-    ((regPermMat a)ᴴ * regPermMat b).trace = ∏ j : Qubits, weingartenGram 2 4 (a j) (b j) := by
-  classical
-  have hsum : ((regPermMat a)ᴴ * regPermMat b).trace
-      = ∑ I : QubitIdx, ∑ J : QubitIdx, star (regPermMat a J I) * regPermMat b J I := by
-    simp only [Matrix.trace, Matrix.diag_apply, Matrix.mul_apply, Matrix.conjTranspose_apply]
-  -- Contract the row index, one column index at a time.
-  rw [hsum]
-  simp only [trace_regPermMat_inner_sum a b]
-  -- The remaining sum over the register factorizes over the qubits.
-  have hfactor := Finset.prod_univ_sum (fun _ : Qubits => (Finset.univ : Finset (Copies → Fin 2)))
-    (fun j x => if x ∘ (a j).symm = x ∘ (b j).symm then (1 : ℂ) else 0)
-  rw [Fintype.piFinset_univ] at hfactor
-  rw [← hfactor]
-  exact Finset.prod_congr rfl fun j _ => sum_indicator_eq_gram (a j) (b j)
-
 /-- **The overlap of two qubitwise permutation operators factorizes over the qubits**, each
 factor being an entry of the repository's Weingarten Gram matrix
 `weingartenGram 2 4 σ π = Tr(V₂(σ)† V₂(π))`. This is the "local qubit dimension enters
 Eq. (11)" step of `magic_monotones.pdf`. -/
 theorem hsOverlap_regPerm (a b : Qubits → Equiv.Perm Copies) :
     hsOverlap (regPerm a) (regPerm b) = ∏ j : Qubits, weingartenGram 2 4 (a j) (b j) := by
-  rw [hsOverlap_eq_trace, toEndMatrix_regPerm, toEndMatrix_regPerm,
-    Matrix.conjTranspose_submatrix, Matrix.submatrix_mul_equiv,
-    trace_submatrix_equiv, trace_regPermMat]
+  rw [hsOverlap, regPerm, regPerm, inner_endVec_sitePerm]
 
 /-! ### Equation (23): the interlayer overlap -/
 
@@ -442,12 +280,14 @@ def layerB : Vecs →L[ℂ] Vecs :=
 pairs of permutations labelling the layer. -/
 def wgPair (s p : PermPair) : ℂ := wg (s.1⁻¹ * p.1) * wg (s.2⁻¹ * p.2)
 
+set_option maxRecDepth 1024 in
 /-- Layer `A` as a double sum over pairs of permutations. -/
 lemma layerA_eq_pairSum :
     layerA = ∑ s : PermPair, ∑ p : PermPair,
       wgPair s p • rankOne ℂ (layerAKet s.1 s.2) (layerAKet p.1 p.2) := by
   simp only [layerA, wgPair, Fintype.sum_prod_type]
 
+set_option maxRecDepth 1024 in
 /-- Layer `B` as a double sum over pairs of permutations. -/
 lemma layerB_eq_pairSum :
     layerB = ∑ g : PermPair, ∑ t : PermPair,

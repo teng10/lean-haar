@@ -1,11 +1,15 @@
 # Circuit and brickwork moments
 
-Import `LeanHaar.Circuits.Circuit` and open `SchurWeyl` and `SchurWeyl.Circuits`.
+See the [module map](ModuleMap.md#reusable-circuit-machinery) for file responsibilities
+and the relation to the applications.
+
+Import `LeanHaar.Circuits.Brickwork` and open `SchurWeyl` and `SchurWeyl.Circuits`.
 The API supports arbitrary local dimension, register size, block arity, and copy
-number. In particular, moments do **not** require `k ≤ d`.
+number. Moment definitions and ensemble identities work for every copy number; the explicit
+Weingarten formulas below require the stated stable-range bound.
 
 ```lean
-import LeanHaar.Circuits.Circuit
+import LeanHaar.Circuits.Brickwork
 
 open MeasureTheory SchurWeyl SchurWeyl.Circuits
 
@@ -41,6 +45,10 @@ def averageThreeLayers (X : Module.End ℂ (TensV (2 ^ 4) 2)) :=
 | Its moment / ordinary-operator action | `circuitMoment q k sites`; `operatorMap (circuitMoment q k sites)` |
 | Periodic brickwork on `2*m` sites | `brickworkMoment q k m depth`; `brickworkMoment_layers` |
 | General independent ensembles | `integral_scheduleProduct`; `integral_vecActOn_placed_schedule` |
+| Disjoint gates and layer order | `placeUnitary_commute_of_disjoint`; `circuitMoment_comp_perm_of_disjoint` |
+| Evaluate a covering layer | `circuitMoment_eq_weingarten_sum`, with `k ≤ q ^ s` |
+| Evaluate either brickwork matching | `circuitMoment_oddEdge`; `circuitMoment_evenEdge`, with `k ≤ q ^ 2` |
+| Site-wise copy permutations and overlaps | `sitePerm`; `inner_endVec_sitePerm` |
 
 Schedules are functions `Fin length → (Fin s ↪ Fin n)`. Vector notation
 `![block₀, block₁, ...]` is convenient for short schedules. All occurrences in
@@ -81,16 +89,43 @@ Hilbert–Schmidt self-adjoint. Global Haar averaging absorbs every local Haar
 moment on either side. `operatorMap_haarMoment` connects the ordinary-operator
 interface to the existing `momentOp`.
 
+**Layer assumptions.** Gates on disjoint supports commute. Permuting supports together
+with their samples preserves the sampled circuit; reordering the independent Haar gates
+preserves its moment. `circuitMoment_adjoint_of_disjoint`
+needs neither coverage nor a stable-range bound. The explicit Weingarten layer formula
+requires disjoint blocks covering the register, with a site-to-gate assignment and
+`k ≤ q ^ s`. For two-site brickwork gates this is `k ≤ q ^ 2`, regardless of register width.
+A partial-layer Weingarten formula is not supplied.
+
+**Application reuse.** Import `LeanHaar.Applications.MagicMonotone.HaarLayers` for
+the application theorems. `MagicMonotone.integral_vecActOn_layerA/B` specialize the shared
+layer formula; the four-qubit application keeps its pair-of-gates sampling interface and
+paper equations. Site-permutation Gram factorization is likewise shared with the general
+register API. The single-gate fourth-moment sum follows from the general Haar formula
+and the explicit `k = 4` inverse-Gram identity.
+
+## Shared machinery and application formulas
+
+| Layer | Responsibility |
+| --- | --- |
+| `SupportingDocs.TensorPowerBasics` | Tensor identities, vectorization entries, matrix composition and Hilbert–Schmidt inner products. |
+| `Circuits` | Registers, gate placement, independent Haar averages, site permutations and general layer evaluation. |
+| `Applications.MagicMonotone` | Fourth-moment coefficients, the paper’s four-qubit sums and overlap/kernel equations. |
+
+MagicMonotone’s `layerA` and `layerB` name explicit permutation sums.
+`HaarLayers` proves that they are the moments of the corresponding sampled circuits
+using the shared layer formula. Likewise, `vecMomentOp` names the explicit fourth-moment
+sum; its Haar interpretation requires `4 ≤ d`. These are application formulas with
+proved averaging semantics. Small private indexing adapters stay beside their only clients.
+Neither shared support nor `Circuits` imports an application.
+
 ## Scope and further work
 
-This initial version proves the physical ensemble/composition bridge and generic
-Haar algebra. It does not yet prove arbitrary-disjoint-support gate commutation,
-within-layer order independence, matching projection/palindrome theorems, the
-two-copy sector/CP comparison, or an approximate-design convergence bound.
+The API proves physical ensemble semantics, disjoint-layer laws and stable-range layer
+evaluation. Matching projection/palindrome interfaces, the two-copy sector/CP comparison
+and approximate-design convergence bounds remain future work.
 `operatorMap` expresses moments as linear maps; complete positivity is
 not yet exposed as a theorem or a bundled channel structure.
 
-See [the reviewed implementation plan](BrickworkPlan.md) for the mathematical
-repairs and next acceptance gates, and [Claude's full plan review](BrickworkClaudeReview.txt)
-with its [exact input](BrickworkClaudeReviewInput.txt). Regression examples and
-axiom guards are in `test/LeanHaarTest/Circuits.lean`.
+Regression examples and axiom guards are in
+[`test/LeanHaarTest/Circuits.lean`](../test/LeanHaarTest/Circuits.lean).

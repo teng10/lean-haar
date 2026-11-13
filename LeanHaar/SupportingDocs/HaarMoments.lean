@@ -1,13 +1,14 @@
 import LeanHaar.Moments.k1Moment
 import LeanHaar.Moments.k2Moment
 import LeanHaar.SupportingDocs.HaarInvariance
-import LeanHaar.SupportingDocs.HaarMomentBridge
+import LeanHaar.SupportingDocs.TensorPowerTraces
 
 /-!
-# The first two Haar moments of a conjugated matrix
+# Haar trace integrals and the first two moments of a conjugated matrix
 
-Combining the bridge to the moment operator with the repository's moment computations
-`k1_moment` and `k2_moment`, this file evaluates
+Averaging `Tr[Y · actOn P U]` gives `Tr[Y · momentOp P]`. Combining this general trace-integral
+identity with the repository's moment computations `k1_moment` and `k2_moment`, this file
+evaluates
 
 * the first moment `∫ Tr[U ρ U† O] = Tr ρ · Tr O / d`, and
 * the second moment `𝔼_U[(U M U†)^{⊗2}] = cId · 𝟙 + cSwap · 𝔽` together with its contracted
@@ -16,6 +17,8 @@ Combining the bridge to the moment operator with the repository's moment computa
 
 ## Main declarations
 
+* `SchurWeyl.integrable_trace_comp_actOn`: Haar integrability of the trace against conjugation.
+* `SchurWeyl.haar_integral_trace_comp_actOn`: trace integrals as contractions of `momentOp`.
 * `SchurWeyl.haar_integral_trace_conj`: the first Haar moment.
 * `SchurWeyl.cId`, `SchurWeyl.cSwap`: the Weingarten coefficients of the identity and of the swap.
 * `SchurWeyl.momentOp_tensorPow_two`, `SchurWeyl.haar_integral_trace_comp_actOn_tensorPow_two`,
@@ -29,6 +32,37 @@ noncomputable section
 open Matrix MeasureTheory
 
 namespace SchurWeyl
+
+/-! ### Trace integrals and the moment operator -/
+
+section TraceIntegrals
+
+variable {d k : ℕ}
+
+/-- Each function `U ↦ Tr[Y · actOn P U]` is Haar integrable. -/
+theorem integrable_trace_comp_actOn (Y P : Module.End ℂ (TensV d k)) :
+    Integrable (fun U => LinearMap.trace ℂ (TensV d k) (Y ∘ₗ actOn P U)) (haarProb d) := by
+  simp_rw [trace_comp_eq_sum_toEndMatrix]
+  exact integrable_finsetSum _ fun I _ =>
+    integrable_finsetSum _ fun J _ => (integrable_actOn_entry P J I).const_mul _
+
+/-- **Bridge to the moment operator**: averaging a trace against the conjugation action is the
+same as contracting with the Haar moment operator. -/
+theorem haar_integral_trace_comp_actOn (Y P : Module.End ℂ (TensV d k)) :
+    (∫ U, LinearMap.trace ℂ (TensV d k) (Y ∘ₗ actOn P U) ∂(haarProb d))
+      = LinearMap.trace ℂ (TensV d k) (Y ∘ₗ momentOp P) := by
+  simp_rw [trace_comp_eq_sum_toEndMatrix]
+  rw [integral_finsetSum _ fun I _ => integrable_finsetSum _ fun J _ =>
+    (integrable_actOn_entry P J I).const_mul _]
+  refine Finset.sum_congr rfl fun I _ => ?_
+  rw [integral_finsetSum _ fun J _ => (integrable_actOn_entry P J I).const_mul _]
+  refine Finset.sum_congr rfl fun J _ => ?_
+  rw [integral_const_mul, toEndMatrix_momentOp]
+  rfl
+
+end TraceIntegrals
+
+/-! ### First and second moments -/
 
 variable {d : ℕ}
 

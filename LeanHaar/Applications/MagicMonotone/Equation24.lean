@@ -15,9 +15,10 @@ circuit applies layer A and then B, while observables evolve backwards. Accordin
 
 The results below prove contraction formulas for this defined composition.
 `MagicMonotone.integral_twoLayer_endVec` identifies its action with the Heisenberg average
-over four independent embedded Haar gates. That proof uses the single-gate identification
-with `SchurWeyl.momentOp` in `SingleGateMoment`; the algebraic proofs here remain independent
-of Haar integration.
+over four independent embedded Haar gates. That proof specializes the shared circuit layer
+formula in `HaarLayers`, using the four-copy inverse-Gram identity
+`SchurWeyl.K4.inv_weingartenGram_four`; the algebraic proofs here remain independent of
+Haar integration.
 
 Composing the two layers contracts the bra of layer `A` against the ket of layer `B`
 (Eq. (22)):
@@ -68,9 +69,6 @@ vectorized permutation operators (`SchurWeyl.endVec`) with their Hilbert–Schmi
 
 noncomputable section
 
--- The register index type `Fin 4 → Fin 16` makes elaboration of the layer sums deep.
-set_option maxRecDepth 8000
-
 open scoped InnerProductSpace Matrix
 open InnerProductSpace ContinuousLinearMap SchurWeyl SchurWeyl.K4
 
@@ -92,6 +90,7 @@ def twoLayerKernel (σ₁ σ₂ τ₁ τ₂ : Equiv.Perm Copies) : ℂ :=
     (wg (σ₁⁻¹ * π₁) * wg (σ₂⁻¹ * π₂)) * (wg (γ₁⁻¹ * τ₁) * wg (γ₂⁻¹ * τ₂)) *
       hsOverlap (V12 π₁ * V34 π₂) (V23 γ₁ * V41 γ₂)
 
+set_option maxRecDepth 1024 in
 /-- **Equation (22) of `magic_monotones.pdf`: contracting the two layers.** Composing the two
 layer moment operators contracts the bra of layer `A` with the ket of layer `B`, leaving the
 Hilbert–Schmidt overlap `⟨⟨V^{(12)}(π₁)V^{(34)}(π₂)|V^{(23)}(γ₁)V^{(41)}(γ₂)⟩⟩` as an interlayer
@@ -108,6 +107,7 @@ theorem twoLayerMoment_eq_contraction :
       (fun s : PermPair => layerBKet s.1 s.2) (fun s : PermPair => layerBKet s.1 s.2) wgPair]
   simp only [Fintype.sum_prod_type, wgPair, inner_layerAKet_layerBKet]
 
+set_option maxRecDepth 1024 in
 /-- **Equation (24) of `magic_monotones.pdf`.** Summing the inner labels `π₁, π₂, γ₁, γ₂`
 first, the two-layer moment operator is a sum over the outer labels only, with the two-layer
 kernel `K` of Eq. (25) as coefficient:

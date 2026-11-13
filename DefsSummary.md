@@ -1,6 +1,6 @@
 # Definition summary and cleanup status
 
-Updated: 2026-11-04 (four-qubit independent Haar gates). Original review: 2026-09-25.
+Updated: 2026-11-13 (eight shared support modules and eight circuit modules). Original review: 2026-09-25.
 
 The earlier reorganization inventory recorded **100 active definitions, abbreviations,
 and structures**, plus **14 explicit instances**, across 35 modules. These counts
@@ -14,20 +14,22 @@ support, moment, and application modules retain their mathematical content.
 
 **Keep the core mathematics and build shared infrastructure for applications.**
 Core modules now live directly under `LeanHaar` and `LeanHaar/TensorPower`; moments,
-shared support, and applications live under `Moments`, `SupportingDocs`, and
-`Applications`. Module moves changed imports, not core definitions or proofs.
-See [README.md](README.md) for the import migration map.
+shared support, circuits, and applications live under `Moments`, `SupportingDocs`,
+`Circuits`, and `Applications`. Module moves changed imports, not core definitions or proofs.
+See [ModuleMap](docs/ModuleMap.md) for the module roles and dependency diagrams,
+and [README.md](README.md) for import migrations.
 
 - Keep the public `permAction`, `permOp`, and `diagAction` API. `permRep`,
   `PermModule`, and `permAlgHom` are private DCT implementation details. The
   separate public representation module remains deferred in its Git stash.
 - Reuse the existing core matrix, vectorization, Gram, and Haar constructions.
   Their possible redesigns below are explicitly deferred.
-- Put reusable application support in `LeanHaar/SupportingDocs`.
-  Elementary support and the generic Haar bridge remain independent of computed
-  moment formulas. Shared `HaarMoments` imports `Moments/k1Moment` and `Moments/k2Moment` to evaluate
-  matrix averages. No supporting module imports QML, ClassicalShadows, or MagicMonotone.
-- Keep application coefficients, circuit vocabulary, and ensemble definitions
+- Put reusable circuit support in `LeanHaar/Circuits` and neutral application support
+  in `LeanHaar/SupportingDocs`.
+  Elementary tensor support remains independent of computed moment formulas.
+  Shared `HaarMoments` contains the generic trace/integral bridge and imports
+  `Moments/k1Moment` and `Moments/k2Moment` to evaluate matrix averages. No supporting module imports QML, ClassicalShadows, or MagicMonotone.
+- Keep application coefficients, paper-specific circuit vocabulary, and ensemble definitions
   in their applications unless a concrete reuse case warrants extraction.
 
 Completed before this shared-layer extraction: the duplicate tensor bases and
@@ -41,20 +43,20 @@ removed. DCT semisimplicity and density proofs are now private theorems.
 
 | Module | Current contents and role |
 | --- | --- |
-| [SupportingDocs/TensorPowerBasics](LeanHaar/SupportingDocs/TensorPowerBasics.lean) | General permutation identity/composition/dual lemmas and `trace_id_tensV`, reused by the moment examples. No new definitions. |
+| [SupportingDocs/TensorPowerBasics](LeanHaar/SupportingDocs/TensorPowerBasics.lean) | Permutation identities, `trace_id_tensV`, vectorization entries and Hilbert–Schmidt inner products, and matrix compatibility. Uses the existing core operators; no new definitions. |
 | [SupportingDocs/Swap](LeanHaar/SupportingDocs/Swap.lean) | The existing `𝔽` definition, swap identities, matrix entries, and traces, extracted from the second-moment example and tensor traces. |
 | [SupportingDocs/TensorPowerTraces](LeanHaar/SupportingDocs/TensorPowerTraces.lean) | The existing `tensorOp`, `tensorPow`, `conjBy`, and `matrixOf` definitions and their trace/conjugation API. It no longer imports `Moments/k1Moment` or `Moments/k2Moment`. |
-| [SupportingDocs/Vectorization](LeanHaar/SupportingDocs/Vectorization.lean) | `SchurWeyl.inner_endVec_endVec`, `toEndMatrix_one`, and `toEndMatrix_mul`, extracted from MagicMonotone. It uses the existing core vectorization; no replacement vectorization is defined. |
 | [SupportingDocs/RankOneCalculus](LeanHaar/SupportingDocs/RankOneCalculus.lean) | Generic rank-one sum composition and kernel theorems under `InnerProductSpace`. Summation bookkeeping is private; composition-of-sums helpers use Mathlib. No new definitions. |
 | [SupportingDocs/HaarInvariance](LeanHaar/SupportingDocs/HaarInvariance.lean) | The existing four auxiliary Haar instances, compact-group invariance facts, and integration support. Each instance has one declaration. No new measure is defined. |
-| [SupportingDocs/HaarMomentBridge](LeanHaar/SupportingDocs/HaarMomentBridge.lean) | Generic trace integrability and the trace/integral bridge formerly in `QML/MomentBridge`, now under `SchurWeyl`. No new moment operator is defined. |
-| [SupportingDocs/HaarMoments](LeanHaar/SupportingDocs/HaarMoments.lean) | First and second Haar moments of arbitrary matrices, including `cId`, `cSwap`, contracted formulas, and the averaged squared-commutator trace. The algebraic commutator identity is private to its proof support; all public results use `SchurWeyl`. |
+| [SupportingDocs/HaarMoments](LeanHaar/SupportingDocs/HaarMoments.lean) | Generic trace integrability and the trace/integral bridge, then first and second Haar moments of arbitrary matrices, including `cId`, `cSwap`, contracted formulas, and the averaged squared-commutator trace. The algebraic commutator identity is private to its proof support; all public results use `SchurWeyl`. |
 | [SupportingDocs/TraceContractions](LeanHaar/SupportingDocs/TraceContractions.lean) | Four bundled trace-contraction maps on formal tensors of endomorphisms, with evaluation lemmas, under `LinearMap`. `traceMulLeft` composes existing Mathlib maps. |
 | [SupportingDocs/DepolarizingChannel](LeanHaar/SupportingDocs/DepolarizingChannel.lean) | The isotropic linear map, its candidate inverse, and the equivalence with proved inverse laws, under `LinearMap`. Both new support modules require only Mathlib. |
 
-The existing `SupportingDocs` directory retains its name. The ten shared modules
-listed above were extracted during the reorganization; the later POVM extension is
-documented in the classical-shadows section. The former `MagicMonotone/RankOneCalculus`,
+The existing `SupportingDocs` directory retains its name and now has eight modules.
+`Vectorization` was absorbed into `TensorPowerBasics`, and `HaarMomentBridge` into
+`HaarMoments`, preserving declaration names, statements, and proofs. `Swap` remains
+separate as the two-factor theory. The later POVM extension is documented in the
+classical-shadows section. The former `MagicMonotone/RankOneCalculus`,
 `QML/MomentBridge`, and `QML/HaarMoments` paths are replaced by their supporting
 modules. The former `QML/CommutatorTrace` is merged into shared `HaarMoments`;
 `Swap` remains the elementary tensor-factor swap API. QML imports the shared evaluated Haar formulas; shadows imports its
@@ -450,7 +452,7 @@ Source: [SingleGateMoment.lean](LeanHaar/Applications/MagicMonotone/SingleGateMo
 | --- | --- | --- |
 | `vecMomentOp` | Fourth-moment formula as a sum of continuous rank-one operators. | **Keep the bundling.** Its genuine Haar-moment interpretation relies on `d ≥ 4`; the totalized rational formula does not supply the desired moment in smaller dimensions. |
 
-### BrickworkLayers.lean — 24 definitions/abbreviations
+### BrickworkLayers.lean — 18 definitions/abbreviations
 
 Source: [BrickworkLayers.lean](LeanHaar/Applications/MagicMonotone/BrickworkLayers.lean).
 
@@ -458,22 +460,16 @@ Source: [BrickworkLayers.lean](LeanHaar/Applications/MagicMonotone/BrickworkLaye
 | --- | --- | --- |
 | `Copies` | Four replica labels. | **Keep application shorthand.** |
 | `Qubits` | Four qubit labels. | **Keep**, but it is definitionally the same type as `Copies`; the names do not prevent mixing them. |
-| `QubitIdx` | Qubit-indexed collection of copy indices. | **Keep.** |
 | `RegOp` | Endomorphisms of the replicated register. | **Keep.** Direct use of the standard endomorphism type. |
 | `Vecs` | Euclidean space of vectorized operator entries. | **Keep**, though a more descriptive public name would help. |
 | `PermPair` | Pair of copy permutations. | **Keep.** Useful canonical index type. |
-| `bitsEquiv` | Equivalence between register labels and bit strings. | **Keep.** Specializes shared `SchurWeyl.registerEquiv 2 4`. |
-| `regIndexEquiv` | Reorganizes register/copy indices into qubit/copy indices. | **Keep.** Specializes shared `SchurWeyl.copySiteEquiv 2 4 4`. |
-| `regPermMat` | Matrix for independent copy permutations on qubits. | **Keep the operation**, considering the standard permutation-matrix API. Check multiplication orientation. |
-| `shift` | Private row-to-column index calculation. | **Appropriately private.** Could be one direction of a single index equivalence. |
-| `regPerm` | Corresponding register endomorphism. | **Keep.** Bundle as a monoid homomorphism if composition is central to the API. |
+| `regPerm` | Four-qubit site-permutation operator. | **Keep as paper vocabulary.** A thin specialization of `Circuits.sitePerm 2`; its multiplication and Gram factorization are shared. |
 | `gateOn` | Copy permutation supported on chosen qubits. | **Keep**, clarifying that it is a replica permutation operator, not a physical unitary gate parameter. |
 | `V12` | Specialization to qubits 1–2. | **Keep as application vocabulary.** Paper notation can be scoped over a descriptive name. |
 | `V34` | Specialization to qubits 3–4. | **Same assessment.** |
 | `V23` | Specialization to qubits 2–3. | **Same assessment.** |
 | `V41` | Specialization across the periodic boundary. | **Same assessment**, documenting the boundary convention. |
-| `hsOverlap` | Inner product of vectorized endomorphisms. | **Keep as application vocabulary.** Its general trace identity now comes from `SupportingDocs/Vectorization`; the wrapper itself need not move into the core. |
-| `relabel` | Private inverse index calculation. | **Appropriately private.** Prefer the inverse of the same equivalence underlying `shift`. |
+| `hsOverlap` | Inner product of vectorized endomorphisms. | **Keep as application vocabulary.** Its general trace identity now comes from `SupportingDocs/TensorPowerBasics`; the wrapper itself need not move into the core. |
 | `layerAKet` | Vectorized permutation operator for layer A. | **Keep the curried family.** It appears directly in the paper-facing statements; typed lambdas adapt it to pair-indexed calculus. |
 | `layerBKet` | Corresponding family for layer B. | **Same assessment.** |
 | `wg` | Fourth-order Weingarten value at gate dimension four. | **Reasonable local specialization.** A transparent abbreviation or local notation may suffice. |
@@ -495,21 +491,29 @@ Source: [Equation24.lean](LeanHaar/Applications/MagicMonotone/Equation24.lean).
 | `twoLayerMoment` | Composition of the two algebraic layer sums. | **Keep `layerA ∘L layerB`.** It acts B then A on observables, following the source's Heisenberg convention. `MagicMonotone.integral_twoLayer_endVec` proves its independent-gate Haar interpretation. |
 | `twoLayerKernel` | Weighted contraction of interlayer overlaps. | **Keep.** A matrix-product formulation may simplify it. The ket families are not established as orthonormal bases, so avoid that interpretation. |
 
-### Four-qubit Haar-gate interface — 2026-11-04
+### Shared circuit and four-qubit interface — 2026-11-12
 
 | Module / public definitions | Purpose and scope |
 | --- | --- |
-| `SupportingDocs/UnitaryTensor`: `registerEquiv`, `copySiteEquiv`, `tensorUnitary`, `tensorCopiesEquiv`, `tensorEntriesEquiv` | Shared register/site coordinates, used by Circuits and MagicMonotone; tensor two actual unitaries in an ordered register decomposition and transport copy/matrix-entry indices. Existing equivalences encode the order, including wraparound gates. |
-| `SupportingDocs/EuclideanTensor`: `tensorVec`, `tensorMap` | Transport vectors and continuous operators through that decomposition. Bundled bilinearity supports independent integrals; `tensorMap_rankOne` gives the existing layer sums. |
-| `SupportingDocs/VectorizedHaar`: `vecActOn`, `vecActOnHom` | Continuous linear form of existing `actOn`; `vecActOnHom` bundles its proved composition and continuity laws for averaging and schedules. It has an equality on every `endVec X`, Haar integration, composition, the `vecActOn_tensorUnitary` transport law, and `integral_vecActOn_tensorUnitary` for independent local Haar averages in any dimensions and copy number. |
-| `MagicMonotone/LayerGates`: `layerIndexA/B`, `layerUnitaryA/B` | Ordered pairings `(0,1),(2,3)` and `(1,2),(3,0)` and their actual sampled four-qubit gates. The two-bit encoding helper is private. |
-| `MagicMonotone/HaarLayers` | No additional public data structure. Proves each independent two-gate mean equals `layerA/B`, then the four-gate mean equals `twoLayerMoment` for every global operator. The circuit bridge identifies `twoLayerMoment` with `(brickworkMoment 2 4 2 2).adjoint`. |
+| `Circuits/Register`: `registerEquiv`, `copySiteEquiv` | Shared site and copy coordinates; site zero remains the least significant digit. |
+| `Circuits/HaarMoment`: `MomentSpace`, `MomentOperator`, `vecActOn`, `vecActOnHom`, `haarMoment`, `gateMoment`, `operatorMap` | One vectorized action and its Haar moments, with ordinary-operator conversion. Existing names and meanings are preserved; the explicit inverse-Gram formula requires `k ≤ d`. |
+| `Circuits/SitePermutation`: `sitePerm` | Site-wise copy permutations for any register and copy count; multiplication and Gram factorization are shared. `sitePerm_const` identifies uniform site permutations with core `permOp`. Matrix construction, `shift` and `relabel` remain private. |
+| `Circuits/Layer` | Disjoint-gate entries, commutation, order independence and moment self-adjointness; the covering-layer Weingarten formula requires a partition and `k ≤ q ^ s`. Index and entry-proof helpers are private. |
+| `Circuits/Schedule`: `scheduleProduct` | Chronological composition: the first listed gate acts first. |
+| `Circuits/LocalGate`: `tensorUnitary`, `localRead`, `placeUnitary` | Tensor-product construction, reading an ordered block and placing its gate with identity on the complement. The former `UnitaryTensor` declarations are kept together with their placement consumer. |
+| `Circuits/Circuit`: `circuitUnitary`, `circuitMoment` | Sampled circuits and their independent-gate Haar moments for any copy count. Includes `integral_scheduleProduct`, formerly in `IndependentMoments`, proving noncommutative independence factorization. |
+| `Circuits/Brickwork`: `oddEdge`, `evenEdge`, `brickworkLayer`, `oddGate`, `evenGate`, `brickworkSchedule`, `brickworkUnitary`, `brickworkMoment` | Matching geometry, site-to-gate assignments and evaluated moments; schedules use literal matching-layer depth. |
+| `MagicMonotone/HaarLayers`: `layerUnitaryA`, `layerUnitaryB` | The paper's two sampled layers, defined through the shared `circuitUnitary`. Their existing Haar identities follow from the general layer formula. The hand-written `LayerGates` module and compatibility glue are removed. |
 
-Sampling uses products of `haarProb 4`, never global `haarProb 16`. Physical A
-then B is written explicitly as `B * A`; its Heisenberg average is `layerA ∘L layerB`.
-The final theorem can be rewritten with `twoLayerMoment_eq_kernel_sum` for the
-existing Equation (24) calculation. The circuit interface reuses this action through
-`vecActOnHom`; it introduces no second tensor-power action or custom measure.
+The unused alternate tensor-averaging route, including `EuclideanTensor`, is removed
+under the minimum-infrastructure decision. Physical `tensorUnitary` still supports
+unequal factors for placement; no unequal-factor *moment factorization* API is retained.
+
+Sampling still uses products of `haarProb 4`, never global `haarProb 16`. Physical A
+then B is `B * A`; its Heisenberg average is `layerA ∘L layerB`, the adjoint of
+`brickworkMoment 2 4 2 2`. The equation statements and product-Haar sampling interface
+are preserved. `MagicMonotone.vecMomentOp` remains the explicit fourth-moment sum,
+identified with `haarMoment d 4` only under `4 ≤ d`.
 
 ## Retained standalone examples
 

@@ -108,9 +108,9 @@ removed. Introduce wrapper-specific conveniences only when a consumer needs them
 The QML cleanup and the workflow for future applications are documented in
 [ApplicationCleanupGuide.md](ApplicationCleanupGuide.md).
 
-The core mathematical declarations stay unchanged. Reusable application support lives in
-`LeanHaar/SupportingDocs`. Elementary support and the generic Haar
-bridge are independent of computed moments. Shared `HaarMoments` imports
+The core mathematical declarations stay unchanged. Neutral application support lives in
+`LeanHaar/SupportingDocs`; generic circuit machinery lives in `LeanHaar/Circuits`. Elementary tensor support is independent of computed
+moments. Shared `HaarMoments` contains the generic trace/integral bridge and imports
 `Moments/k1Moment` and `Moments/k2Moment` for evaluated matrix averages. Supporting modules never
 import QML, ClassicalShadows, or MagicMonotone.
 
@@ -121,9 +121,10 @@ import QML, ClassicalShadows, or MagicMonotone.
 - [x] Remove the imports of `Moments/k1Moment` and `Moments/k2Moment` from tensor trace support.
   Add explicit moment imports to the applications that use those results.
 - [x] Share the arbitrary-operator Hilbert–Schmidt identity and matrix compatibility
-  results in `SupportingDocs/Vectorization`, using the existing core vectorization.
+  results in `SupportingDocs/TensorPowerBasics` (originally `Vectorization`), using the existing core vectorization.
 - [x] Extract the generic rank-one composition results into `SupportingDocs/RankOneCalculus`.
-- [x] Move the generic QML trace/integral bridge to `SupportingDocs/HaarMomentBridge`.
+- [x] Move the generic QML trace/integral bridge to shared support; it now lives in
+  `SupportingDocs/HaarMoments` (originally `HaarMomentBridge`).
 - [x] Move QML `HaarMoments` to `SupportingDocs/HaarMoments` and put its six
   declarations in `SchurWeyl`, preserving the coefficient formulas and proofs.
 - [x] Merge `QML/CommutatorTrace` into a commutator-averages section of shared
@@ -141,20 +142,18 @@ import QML, ClassicalShadows, or MagicMonotone.
 
 | Shared module | Mathematical purpose |
 | --- | --- |
-| `TensorPowerBasics` | Identity, composition, inverse-permutation, and dimension/trace identities. |
+| `TensorPowerBasics` | Permutation and dimension/trace identities; vectorization and matrix compatibility. |
 | `Swap` | The two-factor swap operator and its elementary identities and traces. |
 | `TensorPowerTraces` | Matrix tensor products, conjugation compatibility, and tensor trace contractions. |
-| `Vectorization` | The Hilbert–Schmidt trace identity and matrix compatibility for existing core operators. |
 | `RankOneCalculus` | Composition of finite rank-one sums and its kernel form. |
 | `HaarInvariance` | Haar invariance, regularity, and integrability used by applications. |
-| `HaarMomentBridge` | Trace integrals expressed through the core moment operator. |
-| `HaarMoments` | Evaluated first and second Haar moments of arbitrary matrices and the squared-commutator trace average, using `Moments/k1Moment` and `Moments/k2Moment`. |
+| `HaarMoments` | Trace integrals expressed through the core moment operator; evaluated first and second Haar moments of arbitrary matrices and the squared-commutator trace average, using `Moments/k1Moment` and `Moments/k2Moment`. |
 | `TraceContractions` | Trace-pairing contractions on formal tensors of endomorphisms, over an arbitrary field. |
 | `DepolarizingChannel` | The isotropic linear map and its explicit inverse/equivalence under the trace-dimension hypotheses. |
 
 Further changes to core definitions, the generic Gram implementation, and
-vectorization bundling are deferred. Application-specific coefficients, circuits,
-ensembles, and their mathematical interpretation remain in their application modules.
+vectorization bundling are deferred. Generic circuit machinery lives in `Circuits`;
+application coefficients, sampling conventions and paper equations remain in their applications.
 
 ## Classical-shadow application cleanup
 
@@ -283,6 +282,8 @@ The representation stashes and unrelated working-tree material remain intact.
 
 ## MagicMonotone §9 cleanup — 2026-11-11
 
+Historical step, superseded by the shared circuit route below.
+
 - [x] Replace the specialized tensor-Haar helper and inversion wrapper with
   `integral_vecActOn_tensorUnitary`, for arbitrary local dimensions and copy number.
   Layer A/B specialize it using the existing fourth-moment result.
@@ -292,6 +293,36 @@ The representation stashes and unrelated working-tree material remain intact.
   `vecActOn`, the coordinate convention, and `matrix_vecActOn` unchanged.
 - [x] Document the five modules' public entry points. Retain all four-qubit theorem
   statements and the Heisenberg composition order; scalar purity evaluation is separate.
+
+## Shared circuits and review 17 — 2026-11-12
+
+- [x] Place register coordinates, sampled gates, Haar moments and brickwork layers in
+  `Circuits`. The four-qubit layer proofs use the general covering-layer formula;
+  the application has four modules and retains its paper equations.
+- [x] Remove the unused alternate tensor-averaging route and `EuclideanTensor`.
+  Keep the physical tensor product used by `placeUnitary`.
+- [x] Add only the `sitePerm_const` semantic bridge and `endVec_apply` computation
+  rule; simplify private helpers and scope the required recursion overrides.
+- [x] Correct proof-route documentation and expose the circuit guide in the README.
+- [ ] Add further file splits, mixed-arity layer interfaces or tensor-averaging APIs
+  only when a concrete calculation needs them.
+
+## Shared support consolidation — 2026-11-12
+
+- [x] Reduce `SupportingDocs` from ten modules to eight: absorb `Vectorization` into
+  `TensorPowerBasics` and `HaarMomentBridge` into `HaarMoments`, preserving all declarations.
+- [x] Keep general gate placement, Haar averaging and layer evaluation in `Circuits`;
+  retain MagicMonotone’s explicit sums and their proved circuit interpretation.
+- [x] Document import migrations and module boundaries without adding wrappers.
+
+## Module boundaries and map — 2026-11-13
+
+- [x] Merge `Circuits/IndependentMoments` into `Circuit` and `Circuits/UnitaryTensor`
+  into `LocalGate`, preserving declaration names, statements and proofs.
+- [x] Update source/test imports and retire the two separate files. `Circuits` now
+  has eight modules; `SupportingDocs` remains at eight.
+- [x] Add the [module map](docs/ModuleMap.md), with the role of every module and
+  separate diagrams for the core proof, circuit machinery and applications.
 
 ## Remaining follow-ups
 

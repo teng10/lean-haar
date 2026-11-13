@@ -12,7 +12,8 @@ and magic monotones. It uses the Lean toolchain and dependencies pinned in
 | `LeanHaar/` and `LeanHaar/TensorPower/` | Core tensor actions, matrix coordinates, commutation, double centralizers, Schur–Weyl duality, Weingarten systems, and Haar integration. |
 | [SchurWeyl.lean](LeanHaar/SchurWeyl.lean) | Assembly of the Schur–Weyl duality theorem, formerly `Main.lean`. |
 | [Moments](LeanHaar/Moments) | `k1Moment`, `k2Moment`, and `k4Moment`: evaluated Haar moment formulas. |
-| [SupportingDocs](LeanHaar/SupportingDocs) | Shared tensor, trace, vectorization, Haar, and algebraic channel support. |
+| [Circuits](LeanHaar/Circuits) | Eight modules for register coordinates, local gates, schedules, Haar moments, disjoint layers and periodic brickwork. |
+| [SupportingDocs](LeanHaar/SupportingDocs) | Eight shared modules for tensor and trace identities, Haar averages, and algebraic channels. |
 | [ForPhyslib](LeanHaar/ForPhyslib/POVM.lean) | Local POVM extensions intended for Physlib; no LeanHaar dependencies and not yet upstream. |
 | [Applications](LeanHaar/Applications) | QML, ClassicalShadows, and MagicMonotone. |
 | [Examples](LeanHaar/Examples) | Standalone `UnitaryCommutant`, `PauliTwirling`, and `EulerAngleIntegral` examples. |
@@ -39,8 +40,11 @@ Import everything with `import LeanHaar`, or select only the needed module:
 import LeanHaar.SchurWeyl
 import LeanHaar.Haar
 import LeanHaar.Moments.k2Moment
+import LeanHaar.Circuits.Brickwork
 import LeanHaar.Applications.ClassicalShadows.SnapshotEnsemble -- Observation 58
 import LeanHaar.Applications.ClassicalShadows.Observation59
+import LeanHaar.Applications.MagicMonotone.HaarLayers
+import LeanHaar.Applications.MagicMonotone.SingleGateMoment -- single-gate fourth-moment formulas
 ```
 
 The classical-shadow application has three files. `SnapshotEnsemble` contains the
@@ -59,6 +63,11 @@ The later classical-shadow consolidation and retirements are listed below.
 
 | Former module prefix/path | Current location |
 | --- | --- |
+| `LeanHaar.Circuits.IndependentMoments` | `LeanHaar.Circuits.Circuit`; the independence theorem keeps its name and statement. |
+| `LeanHaar.Circuits.UnitaryTensor` / `LeanHaar.SupportingDocs.UnitaryTensor` | `LeanHaar.Circuits.LocalGate`; the physical tensor construction and laws keep their names. |
+| `LeanHaar.SupportingDocs.VectorizedHaar` | Retained action and Haar results are in `LeanHaar.Circuits.HaarMoment`; the unused tensor-averaging route is retired. |
+| `LeanHaar.SupportingDocs.Vectorization` | `LeanHaar.SupportingDocs.TensorPowerBasics`; declaration names and statements are unchanged. |
+| `LeanHaar.SupportingDocs.HaarMomentBridge` | `LeanHaar.SupportingDocs.HaarMoments`; declaration names and statements are unchanged. |
 | `LeanHaar.SupportingDocs.POVM` | `LeanHaar.ForPhyslib.POVM`; retained declaration names are unchanged. |
 | `LeanHaar.Applications.ClassicalShadows.HaarShadow` | Import `LeanHaar.Applications.ClassicalShadows.Observation59` for `haarShadow` and `haarShadow_unbiased`; their names and formulas are unchanged. |
 | `LeanHaar.Applications.ClassicalShadows.PauliShadow` | Retired from the current scope; available in Git history. |
@@ -71,8 +80,17 @@ The unused `HilbertSpace` wrapper, `Example` smoke test, original wrapper-based
 Schur example, and two duplicate Pauli-twirling implementations were retired.
 Their history remains in Git. No forwarding modules preserve the old imports.
 
+The MagicMonotone coordinate aliases `bitsEquiv` and `regIndexEquiv` are now
+`SchurWeyl.registerEquiv 2 4` and `SchurWeyl.copySiteEquiv 2 4 4`; write the former
+`QubitIdx` type as `Fin 4 → Fin 4 → Fin 2`. The raw `regPermMat` construction and its
+lemmas are private to `Circuits.SitePermutation`. Use `endVec_sitePerm_apply` for entries,
+`sitePerm_one`/`sitePerm_mul` for composition, and `inner_endVec_sitePerm` for overlaps.
+The application's `regPerm_one`, `regPerm_mul` and `hsOverlap_regPerm` remain available.
+
 ## Project notes
 
+- [Module map and dependency diagrams](docs/ModuleMap.md)
+- [Circuit and brickwork guide](docs/Brickwork.md)
 - [Definition inventory](DefsSummary.md)
 - [Current cleanup and remaining work](TOOD.md)
 - [Application dependency map and historical audits](Applications-dependencies.md)

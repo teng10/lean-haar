@@ -2,8 +2,14 @@
 Copyright (c) 2026. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import LeanHaar.Circuits.IndependentMoments
-import LeanHaar.Circuits.Brickwork
+import LeanHaar.Circuits.Schedule
+import LeanHaar.Circuits.HaarMoment
+import LeanHaar.Circuits.LocalGate
+import Mathlib.MeasureTheory.Integral.Pi
+import Mathlib.MeasureTheory.Integral.Prod
+import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+import Mathlib.MeasureTheory.Function.LocallyIntegrable
+import Mathlib.Analysis.Normed.Module.Basic
 
 /-!
 # Physical circuits and their moments
@@ -23,28 +29,79 @@ open MeasureTheory
 
 namespace SchurWeyl.Circuits
 
-/-- Express a vectorized superoperator as a linear map on ordinary operators. -/
-def operatorMap {d k : ℕ} (T : MomentOperator d k) :
-    Module.End ℂ (TensV d k) →ₗ[ℂ] Module.End ℂ (TensV d k) :=
-  (endVecEquiv d k).symm.toLinearMap.comp
-    (T.toLinearMap.comp (endVecEquiv d k).toLinearMap)
+/-! ### Independent averages
 
-@[simp] theorem endVec_operatorMap {d k : ℕ} (T : MomentOperator d k)
-    (X : Module.End ℂ (TensV d k)) :
-    endVec (operatorMap T X) = T (endVec X) :=
-  (endVecEquiv d k).apply_symm_apply _
+The chronological factorization holds for arbitrary finite measures on a compact sample
+space. Haar-distributed circuit gates are a specialization. -/
 
-set_option maxRecDepth 1024 in
-/-- Matrix entries can be read directly from the vectorized result. -/
-theorem toEndMatrix_operatorMap {d k : ℕ} (T : MomentOperator d k)
-    (X : Module.End ℂ (TensV d k)) (i j : Fin k → Fin d) :
-    toEndMatrix d k (operatorMap T X) i j = T (endVec X) (i, j) :=
-  congrArg (fun v : MomentSpace d k => v (i, j)) (endVec_operatorMap T X)
+section Factorization
 
-@[simp] theorem operatorMap_haarMoment {d k : ℕ} (X : Module.End ℂ (TensV d k)) :
-    operatorMap (haarMoment d k) X = momentOp X := by
-  apply (endVecEquiv d k).injective
-  exact (endVec_operatorMap _ _).trans (haarMoment_endVec X)
+variable {α A : Type*} [TopologicalSpace α] [CompactSpace α]
+    [MeasurableSpace α] [BorelSpace α] [SecondCountableTopology α]
+    [NormedRing A] [NormedAlgebra ℂ A] [CompleteSpace A]
+
+/-- A finite independent chronological product averages to the chronological
+product of its averages. No commutation assumption on the operators is needed. -/
+theorem integral_scheduleProduct {length : ℕ}
+    (operators : Fin length → α → A)
+    (hoperators : ∀ i, Continuous (operators i))
+    (measures : Fin length → Measure α) [∀ i, IsFiniteMeasure (measures i)] :
+    (∫ samples, scheduleProduct (fun i => operators i (samples i))
+      ∂Measure.pi measures) =
+    scheduleProduct (fun i => ∫ sample, operators i sample ∂measures i) := by
+  induction length with
+  | zero => simp [measureReal_def]
+  | succ length ih =>
+    have htail : Integrable
+        (fun samples : Fin length → α =>
+          scheduleProduct (fun i => operators i.succ (samples i)))
+        (Measure.pi (fun i => measures i.succ)) :=
+      (continuous_scheduleProduct _ (fun i => hoperators i.succ)).integrable_of_hasCompactSupport
+        (HasCompactSupport.of_compactSpace _)
+    have hfirst : Integrable (operators 0) (measures 0) :=
+      (hoperators 0).integrable_of_hasCompactSupport (HasCompactSupport.of_compactSpace _)
+    calc
+      _ = ∫ samples : α × (Fin length → α),
+          scheduleProduct (fun i => operators i.succ (samples.2 i)) * operators 0 samples.1
+          ∂((measures 0).prod (Measure.pi (fun i => measures i.succ))) := by
+        rw [← ((measurePreserving_piFinSuccAbove measures 0).symm).integral_comp']
+        simp only [MeasurableEquiv.piFinSuccAbove_symm_apply, Fin.insertNthEquiv,
+          Fin.insertNth_zero, Fin.zero_succAbove, Equiv.coe_fn_mk,
+          scheduleProduct_succ, Fin.cons_zero, Fin.cons_succ, cast_eq]
+      _ = (∫ samples : Fin length → α,
+          scheduleProduct (fun i => operators i.succ (samples i))
+          ∂Measure.pi (fun i => measures i.succ)) *
+          (∫ sample, operators 0 sample ∂measures 0) := by
+        exact integral_prod_bilin (ContinuousLinearMap.mul ℂ A).flip hfirst htail
+      _ = scheduleProduct (fun i => ∫ sample, operators i sample ∂measures i) := by
+        rw [ih _ (fun i => hoperators i.succ), scheduleProduct_succ]
+
+end Factorization
+
+/-! ### Physical circuits -/
+
+/-- Multiplication of sampled unitaries agrees with chronological composition of
+their vectorized conjugations. -/
+theorem vecActOn_scheduleProduct {d k length : ℕ}
+    (gates : Fin length → Matrix.unitaryGroup (Fin d) ℂ) :
+    vecActOn (k := k) (scheduleProduct gates) =
+      scheduleProduct (fun i => vecActOn (k := k) (gates i)) := by
+  exact map_scheduleProduct (vecActOnHom d k).toMonoidHom gates
+
+/-- Independent sampled gate families, with a deterministic continuous placement
+at each occurrence. This is the interface for local Haar circuits. -/
+theorem integral_vecActOn_placed_schedule {d D k length : ℕ}
+    (placements : Fin length → Matrix.unitaryGroup (Fin d) ℂ →
+      Matrix.unitaryGroup (Fin D) ℂ)
+    (hplacements : ∀ i, Continuous (placements i))
+    (measures : Fin length → Measure (Matrix.unitaryGroup (Fin d) ℂ))
+    [∀ i, IsFiniteMeasure (measures i)] :
+    (∫ samples, vecActOn (k := k)
+        (scheduleProduct (fun i => placements i (samples i))) ∂Measure.pi measures) =
+      scheduleProduct (fun i => ∫ U, vecActOn (k := k) (placements i U) ∂measures i) := by
+  simp_rw [vecActOn_scheduleProduct]
+  exact integral_scheduleProduct _
+    (fun i => continuous_vecActOn.comp (hplacements i)) measures
 
 /-- Multiply physically placed gates in chronological order. -/
 def circuitUnitary {s n length : ℕ} (q : ℕ)
@@ -147,51 +204,13 @@ theorem circuitChannel_entry {s n length : ℕ} (q k : ℕ)
   rw [toEndMatrix_operatorMap, circuitMoment_endVec]
   exact ((EuclideanSpace.proj (i, j)).integral_comp_comm hx).symm
 
-/-- A periodic brickwork circuit with exactly `depth` matching layers.
-Its independent random variables are indexed by gate occurrence, of count `depth * m`. -/
-def brickworkSchedule (m depth : ℕ) : Fin (depth * m) → (Fin 2 ↪ Fin (2 * m)) :=
-  fun i => brickworkLayer m (finProdFinEquiv.symm i).1.val (finProdFinEquiv.symm i).2
+/-- Averaging the inverse conjugations of a Haar circuit gives the adjoint moment. -/
+theorem integral_star_circuitUnitary {s n length : ℕ} (q k : ℕ)
+    (sites : Fin length → (Fin s ↪ Fin n)) :
+    (∫ samples, vecActOn (k := k) (star (circuitUnitary q sites samples))
+      ∂Measure.pi (fun _ : Fin length => haarProb (q ^ s))) =
+      (circuitMoment q k sites).adjoint := by
+  rw [← integral_circuitUnitary, adjoint_integral_vecActOn (integrable_circuitAction q k sites)]
 
-/-- Sampled periodic circuit, with one independent variable per gate occurrence. -/
-def brickworkUnitary (q m depth : ℕ)
-    (samples : Fin (depth * m) → Matrix.unitaryGroup (Fin (q ^ 2)) ℂ) :
-    Matrix.unitaryGroup (Fin (q ^ (2 * m))) ℂ :=
-  circuitUnitary q (brickworkSchedule m depth) samples
-
-/-- The full `k`-copy moment of a periodic brickwork circuit at literal layer depth. -/
-def brickworkMoment (q k m depth : ℕ) : MomentOperator (q ^ (2 * m)) k :=
-  circuitMoment q k (brickworkSchedule m depth)
-
-/-- Entrywise physical ensemble formula for the periodic brickwork channel. -/
-theorem brickworkChannel_entry (q k m depth : ℕ)
-    (X : Module.End ℂ (TensV (q ^ (2 * m)) k)) (i j : Fin k → Fin (q ^ (2 * m))) :
-    toEndMatrix (q ^ (2 * m)) k (operatorMap (brickworkMoment q k m depth) X) i j =
-      ∫ samples, toEndMatrix (q ^ (2 * m)) k (actOn X (brickworkUnitary q m depth samples)) i j
-        ∂Measure.pi (fun _ : Fin (depth * m) => haarProb (q ^ 2)) :=
-  circuitChannel_entry q k _ X i j
-
-/-- Product-Haar semantics of the periodic brickwork moment. -/
-theorem integral_brickworkUnitary (q k m depth : ℕ) :
-    (∫ samples, vecActOn (k := k) (brickworkUnitary q m depth samples)
-      ∂Measure.pi (fun _ : Fin (depth * m) => haarProb (q ^ 2))) =
-      brickworkMoment q k m depth :=
-  integral_circuitUnitary q k _
-
-/-- Zero matching layers act as the identity superoperator. -/
-@[simp] theorem brickworkMoment_zero (q k m : ℕ) : brickworkMoment q k m 0 = 1 := by
-  unfold brickworkMoment circuitMoment scheduleProduct
-  have h : List.ofFn (fun i => gateMoment (placeUnitary q (brickworkSchedule m 0 i)) k) = [] := by
-    apply List.eq_nil_of_length_eq_zero
-    simp
-  rw [h]
-  rfl
-
-/-- Evaluate a brickwork circuit by composing its successive matching-layer moments. -/
-theorem brickworkMoment_layers (q k m depth : ℕ) :
-    brickworkMoment q k m depth = scheduleProduct (fun t : Fin depth =>
-      circuitMoment q k (brickworkLayer m t.val)) := by
-  unfold brickworkMoment circuitMoment
-  rw [scheduleProduct_mul]
-  simp only [brickworkSchedule, Equiv.symm_apply_apply]
 
 end SchurWeyl.Circuits

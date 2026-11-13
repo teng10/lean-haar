@@ -2,10 +2,7 @@
 Copyright (c) 2026. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.Analysis.InnerProductSpace.LinearMap
-
-import LeanHaar.SupportingDocs.Vectorization
-import LeanHaar.SupportingDocs.VectorizedHaar
+import LeanHaar.Circuits.HaarMoment
 import LeanHaar.Moments.k4Moment
 
 /-!
@@ -39,14 +36,14 @@ two-qubit single-gate moment operator of Section III A of the source is exactly
 * `MagicMonotone.vecMomentOp_endVec`: **Eq. (17)**, `M|X⟩⟩ = |M(X)⟩⟩`: for `4 ≤ d`, the
   ket-bra operator `vecMomentOp d` is the vectorization of the single-gate Haar moment
   operator. `integral_vecActOn` gives the corresponding operator-valued integral.
-  `HaarLayers` combines it with the shared tensor-Haar factorization to identify the
+  `HaarLayers` specializes the general circuit layer formula to identify the
   independent-gate layer sums.
 -/
 
 noncomputable section
 
-open scoped InnerProductSpace Matrix
-open InnerProductSpace ContinuousLinearMap SchurWeyl SchurWeyl.K4
+open scoped Matrix
+open InnerProductSpace SchurWeyl SchurWeyl.K4
 
 namespace MagicMonotone
 
@@ -92,32 +89,21 @@ lemma vecMomentOp_apply (X : Module.End ℂ (TensV d 4)) :
   simp only [vecMomentOp, ContinuousLinearMap.sum_apply, ContinuousLinearMap.smul_apply,
     rankOne_apply, smul_smul, inner_endVec_perm_eq_trace, weingartenVec]
 
+open MeasureTheory
+
+/-- The explicit fourth-moment sum is the operator-valued Haar average. -/
+theorem integral_vecActOn (d : ℕ) (hd : 4 ≤ d) :
+    (∫ U, vecActOn (k := 4) U ∂haarProb d) = vecMomentOp d := by
+  change Circuits.haarMoment d 4 = vecMomentOp d
+  rw [Circuits.haarMoment_eq_weingarten_sum hd]
+  simp only [inv_weingartenGram_four d hd, vecMomentOp]
+
 /-- **Equation (17) of `magic_monotones.pdf`.** For `4 ≤ d`, the ket-bra operator
 `M = ∑_{σ,π} Wg(σ⁻¹π, d) |V_d(σ)⟩⟩⟨⟨V_d(π)|` is the vectorization of the Haar moment
 operator: `M|X⟩⟩ = |M(X)⟩⟩` for every operator `X`. -/
 theorem vecMomentOp_endVec (hd : 4 ≤ d) (X : Module.End ℂ (TensV d 4)) :
     vecMomentOp d (endVec X) = endVec (momentOp X) := by
-  -- Vectorization is linear, so it commutes with the Weingarten sum of Eq. (14).
-  have hlin : endVec (momentOp X) =
-      ∑ σ : Equiv.Perm (Fin 4), ∑ π : Equiv.Perm (Fin 4),
-        (wgVal (d : ℂ) (σ⁻¹ * π) * weingartenVec d 4 X π) • endVec (permOp d σ) := by
-    rw [← endVecₗ_apply, momentOp_eq_weingarten_sum hd X]
-    simp only [map_sum, map_smul, endVecₗ_apply]
-  rw [vecMomentOp_apply, hlin]
-
-/-! ### Operator-valued Haar averages -/
-
-open MeasureTheory
-
-set_option maxHeartbeats 800000 in
-/-- The explicit fourth-moment sum is the operator-valued Haar average. -/
-theorem integral_vecActOn (d : ℕ) (hd : 4 ≤ d) :
-    (∫ U, vecActOn (k := 4) U ∂haarProb d) = vecMomentOp d := by
-  apply ContinuousLinearMap.ext
-  intro x
-  obtain ⟨X, rfl⟩ := (endVecEquiv d 4).surjective x
-  change (∫ U, vecActOn (k := 4) U ∂haarProb d) (endVec X) = vecMomentOp d (endVec X)
-  exact (integral_vecActOn_endVec X).trans (vecMomentOp_endVec hd X).symm
+  rw [← integral_vecActOn d hd, integral_vecActOn_endVec]
 
 end MagicMonotone
 

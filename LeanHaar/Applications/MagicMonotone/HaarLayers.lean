@@ -2,14 +2,8 @@
 Copyright (c) 2026. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import LeanHaar.SupportingDocs.EuclideanTensor
-import LeanHaar.SupportingDocs.VectorizedHaar
-import LeanHaar.SupportingDocs.UnitaryTensor
-import LeanHaar.Applications.MagicMonotone.SingleGateMoment
-import LeanHaar.Applications.MagicMonotone.LayerGates
 import LeanHaar.Applications.MagicMonotone.Equation24
-import LeanHaar.Circuits.Circuit
-import Mathlib.MeasureTheory.Integral.Prod
+import LeanHaar.Circuits.Brickwork
 
 /-!
 # Independent Haar gates on the four-qubit register
@@ -18,92 +12,125 @@ The ordered layer gates are sampled independently from `haarProb 4`. Their fourt
 Heisenberg moments are the existing algebraic layer sums, and physical execution
 of A followed by B gives the existing composition `layerA ∘L layerB`.
 
-## Main results
-
-* `MagicMonotone.integral_vecActOn_layerA` and `MagicMonotone.integral_vecActOn_layerB`:
-  the two local-gate averages are the existing algebraic layer operators.
-* `MagicMonotone.integral_vecActOn_twoLayer`: the four-gate Heisenberg average is
-  `twoLayerMoment`, as an equality of operators.
-* `MagicMonotone.integral_twoLayer_endVec`: the same equality applied to any global
-  input operator; rewrite with `twoLayerMoment_eq_kernel_sum` to obtain Equation (24).
-* `MagicMonotone.twoLayerMoment_eq_adjoint_brickworkMoment`: the calculation is the
-  adjoint of the generic four-copy circuit moment on two matching layers.
-
-The shared tensor-Haar factorization supplies independence, and `integral_vecActOn`
-supplies the computed single-gate fourth moment. Coordinate and sum bookkeeping stays
-private here. This file introduces no additional definitions.
+`layerUnitaryA/B` specialize the circuit interface to the two matchings. The generic
+layer formula, evaluated with the core fourth-moment Weingarten values, proves
+`integral_vecActOn_layerA/B`. The two-layer and arbitrary-input identities preserve
+the paper's product-Haar sampling convention and Equation (24).
 -/
 noncomputable section
-open MeasureTheory InnerProductSpace
-open scoped Matrix Kronecker
-
+open MeasureTheory SchurWeyl SchurWeyl.Circuits
 namespace MagicMonotone
-open SchurWeyl EuclideanSpace
 
-private theorem tensorMap_sum_rankOne {α β γ ι κ : Type*} [Fintype α] [Fintype β] [Fintype γ]
-    [DecidableEq α] [DecidableEq β] [DecidableEq γ] [Fintype ι] [Fintype κ]
-    (e : γ ≃ α × β) (v : ι → EuclideanSpace ℂ α) (w : κ → EuclideanSpace ℂ β)
-    (a : ι → ι → ℂ) (b : κ → κ → ℂ) :
-    tensorMap e (∑ i, ∑ p, a i p • rankOne ℂ (v i) (v p))
-      (∑ j, ∑ q, b j q • rankOne ℂ (w j) (w q)) =
-    ∑ i, ∑ j, ∑ p, ∑ q, (a i p * b j q) •
-      rankOne ℂ (tensorVec e (v i) (w j)) (tensorVec e (v p) (w q)) := by
-  simp only [map_sum, map_smul, ContinuousLinearMap.sum_apply,
-    ContinuousLinearMap.smul_apply, tensorMap_rankOne, Finset.smul_sum, smul_smul]
-  conv_lhs =>
-    arg 2
-    ext j
-    rw [Finset.sum_comm]
-  rw [Finset.sum_comm]
-  apply Finset.sum_congr rfl
-  intro i _
-  apply Finset.sum_congr rfl
-  intro j _
-  rw [Finset.sum_comm]
-  simp only [mul_comm]
+/-- A two-gate product average is the average over the two-point sample family. -/
+private theorem integral_prod_eq_integral_pi_two {G E : Type*} [MeasurableSpace G]
+    [NormedAddCommGroup E] [NormedSpace ℝ E] (μ : Measure G) [SigmaFinite μ]
+    (f : (Fin 2 → G) → E) :
+    ∫ p, f ![p.1, p.2] ∂(μ.prod μ) = ∫ s, f s ∂Measure.pi (fun _ : Fin 2 => μ) := by
+  rw [← (measurePreserving_finTwoArrow μ).integral_comp' (fun p => f ![p.1, p.2])]
+  refine integral_congr_ae (Filter.Eventually.of_forall fun s => ?_)
+  change f ![s 0, s 1] = f s
+  congr 1
+  funext i
+  fin_cases i <;> rfl
 
-private theorem tensorVec_layerA (σ τ : Equiv.Perm Copies) :
-    tensorVec (tensorEntriesEquiv layerIndexA 4)
-      (endVec (permOp 4 σ)) (endVec (permOp 4 τ)) = layerAKet σ τ := by
-  ext p
-  change _ = toEndMatrix 16 4 (V12 σ * V34 τ) p.1 p.2
-  rw [toEndMatrix_layerA_perm]
+private theorem sum_fin_two_arrow {α M : Type*} [Fintype α] [AddCommMonoid M]
+    (f : (Fin 2 → α) → M) : ∑ σ : Fin 2 → α, f σ = ∑ a, ∑ b, f ![a, b] := by
+  rw [← (finTwoArrowEquiv α).symm.sum_comp f, Fintype.sum_prod_type]
   rfl
 
-private theorem tensorVec_layerB (σ τ : Equiv.Perm Copies) :
-    tensorVec (tensorEntriesEquiv layerIndexB 4)
-      (endVec (permOp 4 σ)) (endVec (permOp 4 τ)) = layerBKet σ τ := by
-  ext p
-  change _ = toEndMatrix 16 4 (V23 σ * V41 τ) p.1 p.2
-  rw [toEndMatrix_layerB_perm]
+/-! ### The application's layer sums are the circuit moments of the two matchings -/
+
+private theorem inv_gram (σ π : Equiv.Perm (Fin 4)) :
+    (weingartenGram (2 ^ 2) 4)⁻¹ σ π = wg (σ⁻¹ * π) := by
+  have h := SchurWeyl.K4.inv_weingartenGram_four 4 (by norm_num) σ π
+  simpa [wg] using h
+
+private theorem oddKet_eq (σ : Fin 2 → Equiv.Perm (Fin 4)) :
+    endVec (sitePerm 2 (fun i => σ (oddGate 2 i))) = layerAKet (σ 0) (σ 1) := by
+  unfold layerAKet
+  rw [layerA_regPerm]
+  change endVec (regPerm fun i => σ (oddGate 2 i)) = _
+  congr 2
+  funext i
+  fin_cases i <;> rfl
+
+private theorem evenKet_eq (σ : Fin 2 → Equiv.Perm (Fin 4)) :
+    endVec (sitePerm 2 (fun i => σ (evenGate 2 i))) = layerBKet (σ 0) (σ 1) := by
+  unfold layerBKet
+  rw [layerB_regPerm]
+  change endVec (regPerm fun i => σ (evenGate 2 i)) = _
+  congr 2
+  funext i
+  fin_cases i <;> rfl
+
+set_option maxRecDepth 1024 in
+/-- The algebraic layer-A sum is the moment of the odd matching on four qubits. -/
+private theorem circuitMoment_oddEdge_eq_layerA : circuitMoment 2 4 (oddEdge 2) = layerA := by
+  rw [circuitMoment_oddEdge 2 2 (by norm_num)]
+  simp only [sum_fin_two_arrow, Fin.prod_univ_two, oddKet_eq, inv_gram,
+    Matrix.cons_val_zero, Matrix.cons_val_one]
   rfl
+
+set_option maxRecDepth 1024 in
+/-- The algebraic layer-B sum is the moment of the even matching on four qubits. -/
+private theorem circuitMoment_evenEdge_eq_layerB : circuitMoment 2 4 (evenEdge 2) = layerB := by
+  rw [circuitMoment_evenEdge 2 2 (by norm_num)]
+  simp only [sum_fin_two_arrow, Fin.prod_univ_two, evenKet_eq, inv_gram,
+    Matrix.cons_val_zero, Matrix.cons_val_one]
+  rfl
+
+private theorem odd_disjoint :
+    Pairwise fun g h : Fin 2 => Disjoint (Set.range (oddEdge 2 g)) (Set.range (oddEdge 2 h)) :=
+  fun _ _ h => oddEdge_disjoint h
+
+private theorem even_disjoint :
+    Pairwise fun g h : Fin 2 => Disjoint (Set.range (evenEdge 2 g)) (Set.range (evenEdge 2 h)) :=
+  fun _ _ h => evenEdge_disjoint h
+
+/-! ### Sampled layers and Haar averages -/
+
+/-- `p.1` acts on `(0,1)` and `p.2` on `(2,3)`. The first qubit in each pair is
+the least significant bit of the local gate index. -/
+def layerUnitaryA (p : Matrix.unitaryGroup (Fin 4) ℂ × Matrix.unitaryGroup (Fin 4) ℂ) :
+    Matrix.unitaryGroup (Fin 16) ℂ := circuitUnitary 2 (oddEdge 2) ![p.1, p.2]
+
+/-- `p.1` acts on `(1,2)` and `p.2` on `(3,0)`. The first qubit in each pair is
+the least significant bit of the local gate index, so the wrapping gate reads qubit 3 first. -/
+def layerUnitaryB (p : Matrix.unitaryGroup (Fin 4) ℂ × Matrix.unitaryGroup (Fin 4) ℂ) :
+    Matrix.unitaryGroup (Fin 16) ℂ := circuitUnitary 2 (evenEdge 2) ![p.1, p.2]
+
+/-- The layer-A gate depends continuously on its two samples. -/
+theorem continuous_layerUnitaryA : Continuous layerUnitaryA :=
+  (continuous_circuitUnitary 2 (oddEdge 2)).comp (by fun_prop)
+
+/-- The layer-B gate depends continuously on its two samples. -/
+theorem continuous_layerUnitaryB : Continuous layerUnitaryB :=
+  (continuous_circuitUnitary 2 (evenEdge 2)).comp (by fun_prop)
 
 /-- Two independent two-qubit Haar gates give the existing layer-A fourth moment.
 The inverse conjugations are the physical Heisenberg action. -/
 theorem integral_vecActOn_layerA :
     (∫ p, vecActOn (k := 4) (star (layerUnitaryA p))
       ∂((haarProb 4).prod (haarProb 4))) = layerA := by
-  change (∫ p, vecActOn (k := 4) (star (tensorUnitary layerIndexA p.1 p.2))
-    ∂((haarProb 4).prod (haarProb 4))) = _
-  rw [integral_vecActOn_tensorUnitary]
-  simp only [integral_vecActOn 4 (by omega)]
-  unfold vecMomentOp
-  rw [tensorMap_sum_rankOne]
-  simp_rw [tensorVec_layerA]
-  rfl
+  have h : (∫ p, vecActOn (k := 4) (star (layerUnitaryA p))
+      ∂((haarProb 4).prod (haarProb 4))) = (circuitMoment 2 4 (oddEdge 2)).adjoint :=
+    (integral_prod_eq_integral_pi_two (haarProb 4)
+      (fun s => vecActOn (k := 4) (star (circuitUnitary 2 (oddEdge 2) s)))).trans
+      (integral_star_circuitUnitary 2 4 (oddEdge 2))
+  rw [h, circuitMoment_adjoint_of_disjoint 2 (oddEdge 2) odd_disjoint,
+    circuitMoment_oddEdge_eq_layerA]
 
 /-- The staggered ordered pairing gives the existing layer-B fourth moment. -/
 theorem integral_vecActOn_layerB :
     (∫ p, vecActOn (k := 4) (star (layerUnitaryB p))
       ∂((haarProb 4).prod (haarProb 4))) = layerB := by
-  change (∫ p, vecActOn (k := 4) (star (tensorUnitary layerIndexB p.1 p.2))
-    ∂((haarProb 4).prod (haarProb 4))) = _
-  rw [integral_vecActOn_tensorUnitary]
-  simp only [integral_vecActOn 4 (by omega)]
-  unfold vecMomentOp
-  rw [tensorMap_sum_rankOne]
-  simp_rw [tensorVec_layerB]
-  rfl
+  have h : (∫ p, vecActOn (k := 4) (star (layerUnitaryB p))
+      ∂((haarProb 4).prod (haarProb 4))) = (circuitMoment 2 4 (evenEdge 2)).adjoint :=
+    (integral_prod_eq_integral_pi_two (haarProb 4)
+      (fun s => vecActOn (k := 4) (star (circuitUnitary 2 (evenEdge 2) s)))).trans
+      (integral_star_circuitUnitary 2 4 (evenEdge 2))
+  rw [h, circuitMoment_adjoint_of_disjoint 2 (evenEdge 2) even_disjoint,
+    circuitMoment_evenEdge_eq_layerB]
 
 private theorem integrable_layerAction
     (L : Matrix.unitaryGroup (Fin 4) ℂ × Matrix.unitaryGroup (Fin 4) ℂ →
@@ -147,98 +174,14 @@ theorem integral_twoLayer_endVec (X : RegOp) :
   rw [← integral_vecActOn_twoLayer, ContinuousLinearMap.integral_apply hi]
   simp_rw [vecActOn_endVec]
 
-/-! ### Identification with the compositional circuit interface -/
-
-open SchurWeyl.Circuits
-
-private theorem tensorUnitary_eq_circuitUnitary
-    (e : Fin 16 ≃ Fin 4 × Fin 4) (sites : Fin 2 → (Fin 2 ↪ Fin 4))
-    (hread : ∀ x, e x = (localRead 2 (sites 0) x, localRead 2 (sites 1) x))
-    (hleft : ∀ x y, (e x).2 = (e y).2 ↔
-      ∀ i, i ∉ Set.range (sites 0) → registerEquiv 2 4 x i = registerEquiv 2 4 y i)
-    (hright : ∀ x y, (e x).1 = (e y).1 ↔
-      ∀ i, i ∉ Set.range (sites 1) → registerEquiv 2 4 x i = registerEquiv 2 4 y i)
-    (U V : Matrix.unitaryGroup (Fin 4) ℂ) :
-    tensorUnitary e U V = circuitUnitary 2 sites ![U, V] := by
-  have hU : tensorUnitary e U 1 = placeUnitary 2 (sites 0) U := by
-    apply Subtype.ext
-    ext x y
-    refine Eq.trans ?_ (placeUnitary_apply 2 (sites 0) U x y).symm
-    change U (e x).1 (e y).1 * (1 : Matrix (Fin 4) (Fin 4) ℂ) (e x).2 (e y).2 = _
-    rw [Matrix.one_apply]
-    rw [show (e x).1 = localRead 2 (sites 0) x from congrArg Prod.fst (hread x),
-      show (e y).1 = localRead 2 (sites 0) y from congrArg Prod.fst (hread y)]
-    congr 1
-    exact if_congr (hleft x y) rfl rfl
-  have hV : tensorUnitary e 1 V = placeUnitary 2 (sites 1) V := by
-    apply Subtype.ext
-    ext x y
-    refine Eq.trans ?_ (placeUnitary_apply 2 (sites 1) V x y).symm
-    change (1 : Matrix (Fin 4) (Fin 4) ℂ) (e x).1 (e y).1 * V (e x).2 (e y).2 = _
-    rw [Matrix.one_apply, mul_comm]
-    rw [show (e x).2 = localRead 2 (sites 1) x from congrArg Prod.snd (hread x),
-      show (e y).2 = localRead 2 (sites 1) y from congrArg Prod.snd (hread y)]
-    congr 1
-    exact if_congr (hright x y) rfl rfl
-  have h : tensorUnitary e U V = tensorUnitary e 1 V * tensorUnitary e U 1 := by
-    simpa using tensorUnitary_mul e 1 U V 1
-  rw [h, hU, hV]
-  simp [circuitUnitary]
-
-set_option maxRecDepth 8192 in
-private theorem layerUnitaryA_eq_circuitUnitary (U V : Matrix.unitaryGroup (Fin 4) ℂ) :
-    layerUnitaryA (U, V) = circuitUnitary 2 (oddEdge 2) ![U, V] := by
-  apply tensorUnitary_eq_circuitUnitary
-  · decide
-  · simp only [Set.mem_range, not_exists]
-    decide
-  · simp only [Set.mem_range, not_exists]
-    decide
-
-set_option maxRecDepth 8192 in
-private theorem layerUnitaryB_eq_circuitUnitary (U V : Matrix.unitaryGroup (Fin 4) ℂ) :
-    layerUnitaryB (U, V) = circuitUnitary 2 (evenEdge 2) ![U, V] := by
-  apply tensorUnitary_eq_circuitUnitary
-  · decide
-  · simp only [Set.mem_range, not_exists]
-    decide
-  · simp only [Set.mem_range, not_exists]
-    decide
-
-private theorem adjoint_circuitMoment_layer
-    (sites : Fin 2 → (Fin 2 ↪ Fin 4))
-    (L : Matrix.unitaryGroup (Fin 4) ℂ × Matrix.unitaryGroup (Fin 4) ℂ →
-      Matrix.unitaryGroup (Fin 16) ℂ) (hL : Continuous L)
-    (heq : ∀ U V, L (U, V) = circuitUnitary 2 sites ![U, V]) :
-    (circuitMoment 2 4 sites).adjoint =
-      ∫ p, vecActOn (k := 4) (star (L p)) ∂((haarProb 4).prod (haarProb 4)) := by
-  have hmoment : circuitMoment 2 4 sites =
-      ∫ p, vecActOn (k := 4) (L p) ∂((haarProb 4).prod (haarProb 4)) := by
-    rw [← integral_circuitUnitary,
-      ← (measurePreserving_finTwoArrow (haarProb 4)).integral_comp'
-        (fun p => vecActOn (k := 4) (L p))]
-    refine integral_congr_ae (Filter.Eventually.of_forall fun s => ?_)
-    change vecActOn (circuitUnitary 2 sites s) = vecActOn (L (s 0, s 1))
-    rw [heq]
-    congr 2
-    funext i
-    fin_cases i <;> rfl
-  rw [hmoment]
-  exact adjoint_integral_vecActOn
-    ((continuous_vecActOn.comp hL).integrable_of_hasCompactSupport
-      (HasCompactSupport.of_compactSpace _))
-
 /-- The four-copy, four-qubit Heisenberg calculation is the adjoint of the generic
 Schrödinger brickwork moment with two matching layers. -/
 theorem twoLayerMoment_eq_adjoint_brickworkMoment :
     twoLayerMoment = (brickworkMoment 2 4 2 2).adjoint := by
-  rw [brickworkMoment_layers, scheduleProduct_two]
-  change twoLayerMoment =
-    (circuitMoment 2 4 (evenEdge 2) * circuitMoment 2 4 (oddEdge 2)).adjoint
-  rw [ContinuousLinearMap.mul_def, ContinuousLinearMap.adjoint_comp,
-    adjoint_circuitMoment_layer _ _ continuous_layerUnitaryA layerUnitaryA_eq_circuitUnitary,
-    adjoint_circuitMoment_layer _ _ continuous_layerUnitaryB layerUnitaryB_eq_circuitUnitary,
-    integral_vecActOn_layerA, integral_vecActOn_layerB]
+  rw [brickworkMoment_two, ContinuousLinearMap.mul_def, ContinuousLinearMap.adjoint_comp,
+    circuitMoment_adjoint_of_disjoint 2 (oddEdge 2) odd_disjoint,
+    circuitMoment_adjoint_of_disjoint 2 (evenEdge 2) even_disjoint,
+    circuitMoment_oddEdge_eq_layerA, circuitMoment_evenEdge_eq_layerB]
   rfl
 
 end MagicMonotone

@@ -450,6 +450,17 @@ lemma wgVal_inverts_gram (d : ℕ) (hd : 4 ≤ d) (σ ρ : Equiv.Perm (Fin 4)) :
   rw [wg_class_sum d hd (σ⁻¹ * ρ)]
   simp only [inv_mul_eq_one]
 
+/-- For four copies in the stable range, the inverse Gram matrix is the explicit
+Weingarten function. -/
+theorem inv_weingartenGram_four (d : ℕ) (hd : 4 ≤ d) (σ π : Equiv.Perm (Fin 4)) :
+    (weingartenGram d 4)⁻¹ σ π = wgVal (d : ℂ) (σ⁻¹ * π) := by
+  have h : weingartenGram d 4 *
+      Matrix.of (fun σ π : Equiv.Perm (Fin 4) => wgVal (d : ℂ) (σ⁻¹ * π)) = 1 := by
+    ext σ ρ
+    rw [Matrix.mul_apply, Matrix.one_apply, ← wgVal_inverts_gram d hd σ ρ]
+    exact Finset.sum_congr rfl fun π _ => by rw [Matrix.of_apply, mul_comm]
+  rw [Matrix.inv_eq_right_inv h, Matrix.of_apply]
+
 /-! ### Part 2: the fourth moment operator -/
 /-- The notebook coefficient `c_π(O) = ∑_σ Wg(π⁻¹σ) · Tr(V_d^†(σ) O)`. -/
 noncomputable def coeff (d : ℕ) (O : Module.End ℂ (TensV d 4))

@@ -1,6 +1,6 @@
 # LeanHaar module map
 
-Current working-tree structure, 2026-11-13: **43 library modules**, plus the library
+Current working-tree structure, 2026-11-13: **42 library modules**, plus the library
 umbrella and test suite. The library has three jobs: prove the Haar integration
 formula, make it usable for random circuits, and apply it to concrete calculations.
 
@@ -52,7 +52,6 @@ flowchart TD
   T --> C["Commutation"]
   M --> D["DCT"]
   M --> P["PermutationCentralizer"]
-  PI["PolyIndep"] --> P
   C --> S["SchurWeyl"]
   D --> S
   P --> S
@@ -67,8 +66,7 @@ flowchart TD
 | [TensorPower](../LeanHaar/TensorPower.lean) | Defines `TensV`, factor permutations (`permAction`, `permOp`) and tensor powers of maps (`diagAction`). | Supplies the operators used throughout the library. Optional GL/unitary wrappers remain commented out. |
 | [TensorPower/Matrix](../LeanHaar/TensorPower/Matrix.lean) | Defines the tensor basis and `toEndMatrix`; computes action entries. | Gives centralizer proofs, integration and vectorization a common coordinate system. |
 | [Commutation](../LeanHaar/Commutation.lean) | Proves permutations commute with applying the same map to every tensor factor. | Supplies the easy inclusions in the centralizer equalities and trace identities. |
-| [PolyIndep](../LeanHaar/PolyIndep.lean) | Proves polynomial coefficient independence over complex inputs. | Lets `PermutationCentralizer` extract information from all diagonal tensor actions. |
-| [PermutationCentralizer](../LeanHaar/PermutationCentralizer.lean) | Identifies operators commuting with permutations as combinations of diagonal tensor actions. | Provides the polynomial half of the duality argument, for all `d,k`. |
+| [PermutationCentralizer](../LeanHaar/PermutationCentralizer.lean) | Proves monomial coefficient independence, then identifies operators commuting with permutations as combinations of diagonal tensor actions. | Provides the polynomial half of duality for all `d,k`. Includes the former `PolyIndep` theorem under its unchanged public name. |
 | [DCT](../LeanHaar/DCT.lean) | Proves the permutation algebra equals its double centralizer using Mathlib's semisimplicity and density results. | Turns the polynomial centralizer result into the opposite centralizer equality. Representation adapters stay private. |
 | [SchurWeyl](../LeanHaar/SchurWeyl.lean) | Assembles `centralizer(diagImage) = span(permImage)`. | Identifies the possible invariant operators. It proves this equality, not a decomposition into irreducible representations. |
 | [Weingarten](../LeanHaar/Weingarten.lean) | Defines vectorization and the trace/Gram system; proves a solution exists by orthogonal projection. | Supplies the algebraic coefficients and trace characterization later used by `Haar`. It does not define a Haar integral. |
@@ -217,15 +215,16 @@ monotone has not yet been evaluated.
 | [Examples/UnitaryCommutant](../LeanHaar/Examples/UnitaryCommutant.lean) | Proves the two-dimensional unitary commutant result through an irreducible representation. | Retains a distinct elementary Schur-lemma example; not used by core `SchurWeyl`. |
 | [Examples/PauliTwirling](../LeanHaar/Examples/PauliTwirling.lean) | Computes a finite Pauli average of a Bloch-form matrix. | Retains the standalone finite-twirling example. It is neither the Haar theorem nor a Pauli-shadow protocol. |
 | [Examples/EulerAngleIntegral](../LeanHaar/Examples/EulerAngleIntegral.lean) | Evaluates an unnormalized sine-weighted coordinate integral. | Retains the explicit integration example. Its measure is not proved equal to `haarProb`. |
-| [LeanHaar.lean](../LeanHaar.lean) | Imports all 43 library modules. | Provides a complete import and lets CI check module coverage. |
+| [LeanHaar.lean](../LeanHaar.lean) | Imports all 42 library modules. | Provides a complete import and lets CI check module coverage. |
 | [test/LeanHaarTest/Axioms](../test/LeanHaarTest/Axioms.lean) | Checks the reported axioms of the main theorem endpoints. | Guards their trusted assumptions; CI additionally audits every library/test declaration. |
 | [test/LeanHaarTest/Circuits](../test/LeanHaarTest/Circuits.lean) | Tests conventions, gate placement, independent samples, layer laws and the four-qubit connection. | Checks the circuit user interface and its semantics. |
 | [test/LeanHaarTest.lean](../test/LeanHaarTest.lean) | Imports the configured test modules. | Gives `lake test` and the test axiom audit a complete root. |
 
 ## File boundaries after cleanup
 
-The latest consolidation removes two files without adding definitions or changing
-theorems: `IndependentMoments` is part of `Circuit`, and `UnitaryTensor` is part of
+The polynomial coefficient lemma now lives in `PermutationCentralizer`; its global
+name `monomial_coeff_zero_of_eval_zero` is preserved for the blueprint. `PolyIndep` is
+removed. The preceding consolidation removed two files without changing theorems: `IndependentMoments` is part of `Circuit`, and `UnitaryTensor` is part of
 `LocalGate`. Their declaration names remain available from the new imports.
 Earlier consolidation put `Vectorization` in `TensorPowerBasics`, `HaarMomentBridge`
 in `HaarMoments`, and the retained `VectorizedHaar` results in `Circuits/HaarMoment`.

@@ -63,6 +63,7 @@ The later classical-shadow consolidation and retirements are listed below.
 
 | Former module prefix/path | Current location |
 | --- | --- |
+| `LeanHaar.PolyIndep` | `LeanHaar.PermutationCentralizer`; `monomial_coeff_zero_of_eval_zero` keeps its public global name. |
 | `LeanHaar.Circuits.IndependentMoments` | `LeanHaar.Circuits.Circuit`; the independence theorem keeps its name and statement. |
 | `LeanHaar.Circuits.UnitaryTensor` / `LeanHaar.SupportingDocs.UnitaryTensor` | `LeanHaar.Circuits.LocalGate`; the physical tensor construction and laws keep their names. |
 | `LeanHaar.SupportingDocs.VectorizedHaar` | Retained action and Haar results are in `LeanHaar.Circuits.HaarMoment`; the unused tensor-averaging route is retired. |

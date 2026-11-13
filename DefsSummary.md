@@ -17,7 +17,9 @@ Core modules now live directly under `LeanHaar` and `LeanHaar/TensorPower`; mome
 shared support, circuits, and applications live under `Moments`, `SupportingDocs`,
 `Circuits`, and `Applications`. Module moves changed imports, not core definitions or proofs.
 See [ModuleMap](docs/ModuleMap.md) for the module roles and dependency diagrams,
-and [README.md](README.md) for import migrations.
+and [README.md](README.md) for import migrations. The monomial coefficient lemma
+formerly in `PolyIndep` now lives beside its proof consumer in `PermutationCentralizer`;
+its public global name and statement are unchanged.
 
 - Keep the public `permAction`, `permOp`, and `diagAction` API. `permRep`,
   `PermModule`, and `permAlgHom` are private DCT implementation details. The

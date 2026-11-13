@@ -324,6 +324,12 @@ Historical step, superseded by the shared circuit route below.
 - [x] Add the [module map](docs/ModuleMap.md), with the role of every module and
   separate diagrams for the core proof, circuit machinery and applications.
 
+## Polynomial proof support — 2026-11-13
+
+- [x] Merge `PolyIndep` into `PermutationCentralizer`, preserving the global public
+  theorem `monomial_coeff_zero_of_eval_zero` and its blueprint reference.
+- [x] Update imports and the module map; 42 library modules remain.
+
 ## Remaining follow-ups
 
 - [ ] Reconsider `diagActionUnits`, `glAction`, and `unitaryAction` only when a

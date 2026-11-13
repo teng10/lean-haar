@@ -27,7 +27,6 @@ import LeanHaar.Moments.k1Moment
 import LeanHaar.Moments.k2Moment
 import LeanHaar.Moments.k4Moment
 import LeanHaar.PermutationCentralizer
-import LeanHaar.PolyIndep
 import LeanHaar.SchurWeyl
 import LeanHaar.SupportingDocs.DepolarizingChannel
 import LeanHaar.SupportingDocs.HaarInvariance

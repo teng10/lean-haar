@@ -1,5 +1,6 @@
 import Mathlib.Algebra.Lie.Classical
 import LeanHaar.Applications.QML.CostFunction
+import LeanHaar.Applications.QML.CommutatorMoments
 
 /-!
 # Observation 57: barren plateaus

@@ -39,6 +39,8 @@ and constructs the genuine Haar moment operator
   `Tr(V_d^†(σ) · )` values as `O` (the constant-integrand identity).
 * `SchurWeyl.momentOp_conj_unitary` / `SchurWeyl.momentOp_comm_unitary` — the unitary
   invariance of the moment operator.
+* `SchurWeyl.haar_integral_trace_comp_actOn` — scalar trace integrals as contractions
+  of `momentOp`, for any tensor order.
 -/
 
 noncomputable section
@@ -607,6 +609,41 @@ theorem weingarten_moment_haar (O : Module.End ℂ (TensV d k)) :
             c π * LinearMap.trace ℂ (TensV d k) (permDual d σ ∘ₗ permOp d π) :=
   weingarten_moment_decomposition_of_props O (momentOp O) (momentOp_mem_span O)
     (fun σ => momentOp_trace σ O)
+
+/-! ### Trace integrals and the moment operator -/
+
+/-- The trace of a composition on `(ℂ^d)^{⊗k}`, expanded in the tensor basis. -/
+theorem trace_comp_eq_sum_toEndMatrix (Y X : Module.End ℂ (TensV d k)) :
+    LinearMap.trace ℂ (TensV d k) (Y ∘ₗ X)
+      = ∑ I : Fin k → Fin d, ∑ J : Fin k → Fin d,
+          toEndMatrix d k Y I J * toEndMatrix d k X J I := by
+  rw [LinearMap.trace_eq_matrix_trace ℂ (tensorBasis d k)]
+  have hcomp : LinearMap.toMatrix (tensorBasis d k) (tensorBasis d k) (Y ∘ₗ X)
+      = toEndMatrix d k Y * toEndMatrix d k X := toEndMatrix_comp _ _
+  rw [hcomp]
+  simp only [Matrix.trace, Matrix.diag_apply, Matrix.mul_apply]
+
+/-- Each function `U ↦ Tr[Y · actOn P U]` is Haar integrable. -/
+theorem integrable_trace_comp_actOn (Y P : Module.End ℂ (TensV d k)) :
+    Integrable (fun U => LinearMap.trace ℂ (TensV d k) (Y ∘ₗ actOn P U)) (haarProb d) := by
+  simp_rw [trace_comp_eq_sum_toEndMatrix]
+  exact integrable_finsetSum _ fun I _ =>
+    integrable_finsetSum _ fun J _ => (integrable_actOn_entry P J I).const_mul _
+
+/-- **Bridge to the moment operator**: averaging a trace against the conjugation action is the
+same as contracting with the Haar moment operator. -/
+theorem haar_integral_trace_comp_actOn (Y P : Module.End ℂ (TensV d k)) :
+    (∫ U, LinearMap.trace ℂ (TensV d k) (Y ∘ₗ actOn P U) ∂(haarProb d))
+      = LinearMap.trace ℂ (TensV d k) (Y ∘ₗ momentOp P) := by
+  simp_rw [trace_comp_eq_sum_toEndMatrix]
+  rw [integral_finsetSum _ fun I _ => integrable_finsetSum _ fun J _ =>
+    (integrable_actOn_entry P J I).const_mul _]
+  refine Finset.sum_congr rfl fun I _ => ?_
+  rw [integral_finsetSum _ fun J _ => (integrable_actOn_entry P J I).const_mul _]
+  refine Finset.sum_congr rfl fun J _ => ?_
+  rw [integral_const_mul, toEndMatrix_momentOp]
+  rfl
+
 
 end SchurWeyl
 

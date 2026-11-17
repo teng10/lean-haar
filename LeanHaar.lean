@@ -4,7 +4,9 @@ import LeanHaar.Applications.ClassicalShadows.UnitarySnapshots
 import LeanHaar.Applications.MagicMonotone.BrickworkLayers
 import LeanHaar.Applications.MagicMonotone.Equation24
 import LeanHaar.Applications.MagicMonotone.HaarLayers
+import LeanHaar.Applications.MagicMonotone.RankOneCalculus
 import LeanHaar.Applications.MagicMonotone.SingleGateMoment
+import LeanHaar.Applications.QML.CommutatorMoments
 import LeanHaar.Applications.QML.CostFunction
 import LeanHaar.Applications.QML.Observation56
 import LeanHaar.Applications.QML.Observation57
@@ -23,6 +25,7 @@ import LeanHaar.Examples.PauliTwirling
 import LeanHaar.Examples.UnitaryCommutant
 import LeanHaar.ForPhyslib.POVM
 import LeanHaar.Haar
+import LeanHaar.Moments.TraceMoments
 import LeanHaar.Moments.k1Moment
 import LeanHaar.Moments.k2Moment
 import LeanHaar.Moments.k4Moment
@@ -30,8 +33,6 @@ import LeanHaar.PermutationCentralizer
 import LeanHaar.SchurWeyl
 import LeanHaar.SupportingDocs.DepolarizingChannel
 import LeanHaar.SupportingDocs.HaarInvariance
-import LeanHaar.SupportingDocs.HaarMoments
-import LeanHaar.SupportingDocs.RankOneCalculus
 import LeanHaar.SupportingDocs.Swap
 import LeanHaar.SupportingDocs.TensorPowerBasics
 import LeanHaar.SupportingDocs.TensorPowerTraces

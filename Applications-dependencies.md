@@ -2,6 +2,17 @@
 
 Inventory date: 2026-10-02.
 
+**Current ownership update, 2026-11-13:** the library has 43 modules. The former
+SupportingDocs/HaarMoments is replaced by the trace readout API in
+[Haar](LeanHaar/Haar.lean), the first/second corollaries in
+[Moments/TraceMoments](LeanHaar/Moments/TraceMoments.lean), and the QML calculation in
+[CommutatorMoments](LeanHaar/Applications/QML/CommutatorMoments.lean).
+[RankOneCalculus](LeanHaar/Applications/MagicMonotone/RankOneCalculus.lean) is local
+to MagicMonotone, and the elementary vectorization lemmas now live beside `endVec`
+in Weingarten. These moves preserve declaration names and proofs. The older paths,
+line inventories and placement advice below remain historical; use the module map
+and README for current dependencies and import migrations.
+
 For the current structure and readable dependency diagrams, see the
 [module map](docs/ModuleMap.md).
 

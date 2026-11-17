@@ -66,7 +66,7 @@ operator space. Concretely:
   system, which the weights `MagicMonotone.wg` invert.
 * `MagicMonotone.layerA_eq_pairSum`, `MagicMonotone.layerB_eq_pairSum`: the layer moment
   operators written as double sums over *pairs* of permutations, the form in which the
-  ket-bra calculus of `SupportingDocs/RankOneCalculus.lean` applies.
+  ket-bra calculus of `Applications/MagicMonotone/RankOneCalculus.lean` applies.
 -/
 
 noncomputable section

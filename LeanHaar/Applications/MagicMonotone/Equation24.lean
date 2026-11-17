@@ -3,7 +3,7 @@ Copyright (c) 2026. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import LeanHaar.Applications.MagicMonotone.BrickworkLayers
-import LeanHaar.SupportingDocs.RankOneCalculus
+import LeanHaar.Applications.MagicMonotone.RankOneCalculus
 
 /-!
 # Equation (24) of `magic_monotones.pdf`: the two-layer moment operator in kernel form
@@ -52,7 +52,7 @@ Weingarten values times powers of two (`MagicMonotone.twoLayerKernel_eq_two_pow_
 
 ## Proof outline
 
-Both statements use the shared ket-bra calculus of `SupportingDocs/RankOneCalculus.lean`, applied
+Both statements use the local ket-bra calculus of `Applications/MagicMonotone/RankOneCalculus.lean`, applied
 to the two layers written as double sums over *pairs* of permutations
 (`layerA_eq_pairSum`, `layerB_eq_pairSum`):
 

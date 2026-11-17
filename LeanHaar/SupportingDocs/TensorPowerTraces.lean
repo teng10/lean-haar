@@ -34,8 +34,7 @@ They are proved here once, for matrices, and transferred to endomorphisms throug
 * `SchurWeyl.trace_diagAction`, `SchurWeyl.trace_swap_comp_diagAction`: the same traces for the
   tensor powers `g^{⊗k}` of an endomorphism.
 * `SchurWeyl.actOn_tensorOp`: conjugating a tensor product conjugates each factor.
-* `SchurWeyl.trace_comp_eq_sum_toEndMatrix`, `SchurWeyl.trace_comp_eq_sum`: the trace of a
-  composition, in matrix entries, on `(ℂ^d)^{⊗k}` and on `ℂ^d`.
+* `SchurWeyl.trace_comp_eq_sum`: the trace of a composition on `ℂ^d`, in matrix entries.
 * `SchurWeyl.trace_comp_mul_matrixOf`: the Born-weighted operator `Tr(ρ S) · S` is, entrywise,
   the contraction of `S^{⊗2}` against `ρ` in the first tensor factor.
 -/
@@ -190,17 +189,6 @@ theorem trace_swap_comp_diagAction (g : Module.End ℂ (Fin d → ℂ)) :
     ← matrixOf_comp, trace_matrixOf]
 
 /-! ### Traces of compositions, in matrix entries -/
-
-/-- The trace of a composition on `(ℂ^d)^{⊗k}`, expanded in the tensor basis. -/
-theorem trace_comp_eq_sum_toEndMatrix (Y X : Module.End ℂ (TensV d k)) :
-    LinearMap.trace ℂ (TensV d k) (Y ∘ₗ X)
-      = ∑ I : Fin k → Fin d, ∑ J : Fin k → Fin d,
-          toEndMatrix d k Y I J * toEndMatrix d k X J I := by
-  rw [LinearMap.trace_eq_matrix_trace ℂ (tensorBasis d k)]
-  have hcomp : LinearMap.toMatrix (tensorBasis d k) (tensorBasis d k) (Y ∘ₗ X)
-      = toEndMatrix d k Y * toEndMatrix d k X := toEndMatrix_comp _ _
-  rw [hcomp]
-  simp only [Matrix.trace, Matrix.diag_apply, Matrix.mul_apply]
 
 /-- The trace of a product on `ℂ^d`, in matrix entries: `Tr(ρ S) = ∑_{a,c} ρ_{ac} S_{ca}`. -/
 theorem trace_comp_eq_sum (ρ S : Module.End ℂ (Fin d → ℂ)) :

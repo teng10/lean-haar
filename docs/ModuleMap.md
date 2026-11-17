@@ -1,6 +1,6 @@
 # LeanHaar module map
 
-Current working-tree structure, 2026-11-13: **42 library modules**, plus the library
+Current working-tree structure, 2026-11-13: **43 library modules**, plus the library
 umbrella and test suite. The library has three jobs: prove the Haar integration
 formula, make it usable for random circuits, and apply it to concrete calculations.
 
@@ -8,6 +8,12 @@ Read the overview first, then the section for the calculation you care about.
 Arrows point **from a provider to a consumer**. The diagrams show selected mathematical
 dependencies, including indirect ones; they are not exhaustive import graphs.
 Every current module has a row below, with its purpose and reason for being present.
+
+The folder-owned helper cleanup is complete: **six SupportingDocs modules** and
+**eight circuit modules** remain. Public theorem statements and proof bodies are
+preserved. Local build, tests, module-coverage and blueprint checks, API comparison,
+axiom audit (873 declarations) and kernel replay (47 library/test modules) passed
+on 2026-11-13.
 
 ## The overall picture
 
@@ -19,7 +25,8 @@ flowchart TD
   W --> H
   H --> M["Evaluated moments: k = 1, 2, 4"]
   H --> C["Reusable circuits and layers"]
-  M --> Q["QML calculations"]
+  M -->|"k = 1, 2"| TM["Matrix/trace corollaries: TraceMoments"]
+  TM --> Q["QML calculations"]
   M --> CS["Haar classical shadows"]
   M --> MM["Four-qubit magic calculation"]
   C --> MM
@@ -32,8 +39,8 @@ for the physical shadow model and quantum objects used by some standalone exampl
 | Part | Owns | Boundary |
 | --- | --- | --- |
 | Core: `LeanHaar/` and `TensorPower/` | Tensor actions, centralizers, Gram systems and the actual Haar integral. | No application or circuit definitions. |
-| `Moments/` | Evaluations of the core integral at specific copy numbers. | Coefficients and formulas, independent of application protocols. |
-| `SupportingDocs/` | Shared tensor identities, trace contractions, integration facts and algebraic channels. | No application imports. This folder contains tools both below and above computed moments. |
+| `Moments/` | Evaluations of the core integral and their matrix/trace corollaries. | `TraceMoments` consumes k1/k2; the main moment files do not import it back. |
+| `SupportingDocs/` | Shared tensor identities, trace contractions, integration facts and algebraic channels. | No application or evaluated-moment imports; application-owned helpers live with their consumers. |
 | `Circuits/` | Registers, placed gates, independent circuits, disjoint layers and brickwork. | General parameters; no four-qubit paper notation. |
 | `Applications/` | Protocols, observables and paper-specific formulas. | Uses shared results to establish the intended calculation. |
 | `ForPhyslib/` | Local additions to Physlib's existing POVM API. | Depends on Physlib, not LeanHaar mathematics. |
@@ -69,9 +76,9 @@ flowchart TD
 | [PermutationCentralizer](../LeanHaar/PermutationCentralizer.lean) | Proves monomial coefficient independence, then identifies operators commuting with permutations as combinations of diagonal tensor actions. | Provides the polynomial half of duality for all `d,k`. Includes the former `PolyIndep` theorem under its unchanged public name. |
 | [DCT](../LeanHaar/DCT.lean) | Proves the permutation algebra equals its double centralizer using Mathlib's semisimplicity and density results. | Turns the polynomial centralizer result into the opposite centralizer equality. Representation adapters stay private. |
 | [SchurWeyl](../LeanHaar/SchurWeyl.lean) | Assembles `centralizer(diagImage) = span(permImage)`. | Identifies the possible invariant operators. It proves this equality, not a decomposition into irreducible representations. |
-| [Weingarten](../LeanHaar/Weingarten.lean) | Defines vectorization and the trace/Gram system; proves a solution exists by orthogonal projection. | Supplies the algebraic coefficients and trace characterization later used by `Haar`. It does not define a Haar integral. |
+| [Weingarten](../LeanHaar/Weingarten.lean) | Defines vectorization, its entry/inner-product laws and the trace/Gram system; proves solvability by orthogonal projection. | Supplies the algebraic coefficients and trace characterization later used by `Haar`. It does not define a Haar integral. |
 | [WeingartenInverse](../LeanHaar/WeingartenInverse.lean) | Provides vectorization equivalences, Gram invertibility and unique inverse-Gram coefficients when `k ≤ d`. | Used by `k4Moment` and the general circuit moment formula. No pseudoinverse formula is supplied for the singular range. |
-| [Haar](../LeanHaar/Haar.lean) | Defines `haarProb`, `actOn` and the entrywise integral `momentOp`; proves invariance and its permutation decomposition. | Connects the algebraic calculation to actual Haar averaging. Also contains the argument upgrading unitary commutation to the condition needed by duality. |
+| [Haar](../LeanHaar/Haar.lean) | Defines `haarProb`, `actOn` and `momentOp`; proves invariance, permutation decomposition and trace/integral interchange. | Connects the algebraic calculation to actual Haar averaging. Also contains the argument upgrading unitary commutation to the condition needed by duality. |
 
 ## Evaluated moments and shared support
 
@@ -80,25 +87,61 @@ the existing `momentOp`; they do not introduce different Haar measures.
 
 | Module | What it does | Why it is needed / where it is used |
 | --- | --- | --- |
-| [Moments/k1Moment](../LeanHaar/Moments/k1Moment.lean) | Proves the first-moment trace-over-dimension formula, with `[NeZero d]`. | Supplies scalar means in shared `HaarMoments`, hence QML. |
+| [Moments/k1Moment](../LeanHaar/Moments/k1Moment.lean) | Proves the first-moment trace-over-dimension formula, with `[NeZero d]`. | Supplies first-moment corollaries in `TraceMoments`, hence QML. |
 | [Moments/k2Moment](../LeanHaar/Moments/k2Moment.lean) | Evaluates the second moment as identity and swap terms, for `d ≥ 2`. | Supplies QML square moments and the actual shadow-channel calculation in Observation 59. |
 | [Moments/k4Moment](../LeanHaar/Moments/k4Moment.lean) | Verifies the explicit fourth-order Weingarten coefficients and formula, for `4 ≤ d`. | Supplies the weights of the magic calculation, including two-qubit gates with `d = 4`. |
+| [Moments/TraceMoments](../LeanHaar/Moments/TraceMoments.lean) | Derives first/second matrix averages, identity/swap coefficients and contracted formulas. | Public corollaries used by QML; imports k1/k2 and tensor traces without changing the main moment files. |
 
-The eight support modules have distinct mathematical roles. In particular,
-`TensorPowerBasics` and `Swap` help prove computed moments, while `HaarMoments`
-uses those computed moments. Treating the entire folder as one dependency layer
-would hide this distinction.
+The six support modules provide tensor, trace, invariance and channel facts.
+`TensorPowerBasics` and `Swap` help prove computed moments. Their downstream
+matrix corollaries live in `Moments/TraceMoments`; application-specific proof
+helpers live in the application folders.
 
 | Module in `SupportingDocs` | What it does | Why it is needed / where it is used |
 | --- | --- | --- |
-| [TensorPowerBasics](../LeanHaar/SupportingDocs/TensorPowerBasics.lean) | Permutation composition, identity traces, vectorization entries and Hilbert–Schmidt/matrix identities. | Shared by moment calculations, swap theory and site permutations. Contains the former `Vectorization` lemmas. |
+| [TensorPowerBasics](../LeanHaar/SupportingDocs/TensorPowerBasics.lean) | Permutation composition, identity traces and matrix compatibility. | Shared by moment calculations and swap theory. Vectorization entry/inner-product laws now live beside `endVec` in Weingarten. |
 | [Swap](../LeanHaar/SupportingDocs/Swap.lean) | Defines the two-factor swap and proves its entries, composition and traces. | Keeps the two-copy theory used by `k2Moment` and tensor trace calculations together. |
 | [TensorPowerTraces](../LeanHaar/SupportingDocs/TensorPowerTraces.lean) | Matrix tensor products, conjugation, tensor traces and contraction of identity/swap combinations. | Converts core operators into the matrix calculations used by Haar averages and shadows. It imports `Haar`, but no evaluated moment formula. |
 | [HaarInvariance](../LeanHaar/SupportingDocs/HaarInvariance.lean) | Haar regularity, right/inverse invariance and integration of continuous group actions. | Justifies changes of Haar variables and the projection laws used by circuits, QML and shadows. |
-| [HaarMoments](../LeanHaar/SupportingDocs/HaarMoments.lean) | Trace/integral interchange, evaluated first/second matrix averages and squared-commutator averages. | Is the direct reusable input to QML. Uses `k1Moment`, `k2Moment`, trace calculus and Haar invariance. |
-| [RankOneCalculus](../LeanHaar/SupportingDocs/RankOneCalculus.lean) | Composes finite sums of rank-one operators and collects their kernel coefficients. | Turns MagicMonotone's layer sums into Equation 24; the theorem is general inner-product-space algebra. |
 | [TraceContractions](../LeanHaar/SupportingDocs/TraceContractions.lean) | Bundled trace contractions on formal tensors of endomorphisms. | Expresses Observation 58's finite second/third tensor identities. Its carrier differs from the operators on `TensV` in `TensorPowerTraces`. |
 | [DepolarizingChannel](../LeanHaar/SupportingDocs/DepolarizingChannel.lean) | An algebraic trace-plus-identity linear map and its inverse/equivalence. | Supplies inverse laws after Observation 59 evaluates the Haar channel. It is not a bundled CPTP channel. |
+
+### Concrete uses of the helper results
+
+**Haar trace moments.** QML is currently the only application importing `Moments/TraceMoments`.
+A separate use is the overlap of random projectors: take rank-one orthogonal projectors
+`P,Q` and set `x(U) = Tr(U P U† Q)`. For `d ≥ 2`, the existing formulas give
+
+$$
+\mathbb E[x] = \frac{1}{d},\qquad
+\mathbb E[x^2] = \frac{2}{d(d+1)}.
+$$
+
+Use `haar_integral_trace_conj P Q` for the mean. For the second moment, use
+`haar_integral_trace_comp_actOn_tensorPow_two P (tensorPow d 2 Q)` and the identities
+`P²=P`, `Q²=Q`, `Tr P=Tr Q=1`. This is a downstream specialization of the shared
+theorems, not a second application already present in the repository. It needs no
+QML cost, gradient, state-estimator or circuit definition.
+
+**Rank-one composition.** `MagicMonotone/RankOneCalculus` supports Equation24.
+Its mathematics is the general composition of finite-rank expansions. If
+
+$$
+A=\sum_{s,p} C_{sp}|a_s\rangle\langle b_p|,\qquad
+B=\sum_{g,t} D_{gt}|u_g\rangle\langle v_t|,
+$$
+
+then `sumRankOne_comp_sumRankOne_kernel a b C u v D` gives
+
+$$
+AB=\sum_{s,t}(CGD)_{st}|a_s\rangle\langle v_t|,
+\qquad G_{pg}=\langle b_p,u_g\rangle.
+$$
+
+The overlap matrix `G` is essential for nonorthogonal families. No basis, independence,
+Haar measure or qubit assumption is required. This same operation applies to finite-rank
+kernels or products of projections expressed in ket-bra form. The file supplies two
+composition theorems using Mathlib's `rankOne`, not a new operator structure.
 
 ## Reusable circuit machinery
 
@@ -143,15 +186,19 @@ the schedule convention.
 
 ```mermaid
 flowchart LR
-  K["k1Moment + k2Moment"] --> H["SupportingDocs/HaarMoments"]
+  K["k1Moment + k2Moment"] --> H["Moments/TraceMoments"]
   H --> C["CostFunction"]
+  H --> G["QML/CommutatorMoments"]
+  I["HaarInvariance"] --> G
   C --> A["Observation56"]
   C --> B["Observation57"]
+  G --> B
 ```
 
 | Module in `Applications/QML` | What it does | Why it is needed / connection |
 | --- | --- | --- |
 | [CostFunction](../LeanHaar/Applications/QML/CostFunction.lean) | Defines the cost and gradient expression and specializes shared Haar formulas to the cost. | Supplies the application vocabulary and moments used by both observations. |
+| [CommutatorMoments](../LeanHaar/Applications/QML/CommutatorMoments.lean) | Evaluates the inverse-conjugation and squared-commutator trace average. | Keeps Observation57's supporting calculation local; imports TraceMoments and HaarInvariance, not CostFunction or Observation57. |
 | [Observation56](../LeanHaar/Applications/QML/Observation56.lean) | Specializes to qubit dimensions and a traceless observable. | Records the paper's cost mean and square-moment-difference formulas. |
 | [Observation57](../LeanHaar/Applications/QML/Observation57.lean) | Computes nested independent Haar averages of the gradient expression. | Records the paper's gradient mean and square-moment-difference formulas. |
 
@@ -188,7 +235,7 @@ flowchart TD
   K["k4Moment"] --> B["Magic/BrickworkLayers<br/>explicit four-qubit layer sums"]
   P["Circuits/SitePermutation"] --> B
   B --> E["Magic/Equation24<br/>compose and contract the sums"]
-  R["RankOneCalculus"] --> E
+  R["Magic/RankOneCalculus"] --> E
   E --> H["Magic/HaarLayers<br/>identify sums with circuit averages"]
   C["Circuits/Brickwork"] --> H
   K --> S["Magic/SingleGateMoment<br/>single-gate paper formula"]
@@ -199,6 +246,7 @@ flowchart TD
 | --- | --- | --- |
 | [SingleGateMoment](../LeanHaar/Applications/MagicMonotone/SingleGateMoment.lean) | States the explicit fourth-moment ket-bra formula and identifies it with Haar averaging for `4 ≤ d`. | Connects the paper's single-gate notation to the general library. It is not an intermediate dependency of the current layer proof. |
 | [BrickworkLayers](../LeanHaar/Applications/MagicMonotone/BrickworkLayers.lean) | Specializes site permutations to four qubits; defines the explicit A/B sums and evaluates overlaps. | Supplies the paper's concrete operators and coefficients using shared site-permutation and fourth-moment results. |
+| [RankOneCalculus](../LeanHaar/Applications/MagicMonotone/RankOneCalculus.lean) | Composes finite sums of rank-one operators and collects kernel coefficients. | Local proof support for Equation24 using Mathlib's rankOne; no new definitions or application-result imports. |
 | [Equation24](../LeanHaar/Applications/MagicMonotone/Equation24.lean) | Composes the explicit layer sums and collects the interlayer kernel. | Applies general rank-one calculus to establish the paper's algebraic equations. |
 | [HaarLayers](../LeanHaar/Applications/MagicMonotone/HaarLayers.lean) | Specializes shared circuit results to prove that these sums average four independent two-qubit Haar gates. | Gives the algebraic equations their physical Haar meaning, for arbitrary input operators, with the Heisenberg order preserved. |
 
@@ -215,19 +263,23 @@ monotone has not yet been evaluated.
 | [Examples/UnitaryCommutant](../LeanHaar/Examples/UnitaryCommutant.lean) | Proves the two-dimensional unitary commutant result through an irreducible representation. | Retains a distinct elementary Schur-lemma example; not used by core `SchurWeyl`. |
 | [Examples/PauliTwirling](../LeanHaar/Examples/PauliTwirling.lean) | Computes a finite Pauli average of a Bloch-form matrix. | Retains the standalone finite-twirling example. It is neither the Haar theorem nor a Pauli-shadow protocol. |
 | [Examples/EulerAngleIntegral](../LeanHaar/Examples/EulerAngleIntegral.lean) | Evaluates an unnormalized sine-weighted coordinate integral. | Retains the explicit integration example. Its measure is not proved equal to `haarProb`. |
-| [LeanHaar.lean](../LeanHaar.lean) | Imports all 42 library modules. | Provides a complete import and lets CI check module coverage. |
+| [LeanHaar.lean](../LeanHaar.lean) | Imports all 43 library modules. | Provides a complete import and lets CI check module coverage. |
 | [test/LeanHaarTest/Axioms](../test/LeanHaarTest/Axioms.lean) | Checks the reported axioms of the main theorem endpoints. | Guards their trusted assumptions; CI additionally audits every library/test declaration. |
 | [test/LeanHaarTest/Circuits](../test/LeanHaarTest/Circuits.lean) | Tests conventions, gate placement, independent samples, layer laws and the four-qubit connection. | Checks the circuit user interface and its semantics. |
 | [test/LeanHaarTest.lean](../test/LeanHaarTest.lean) | Imports the configured test modules. | Gives `lake test` and the test axiom audit a complete root. |
 
 ## File boundaries after cleanup
 
-The polynomial coefficient lemma now lives in `PermutationCentralizer`; its global
-name `monomial_coeff_zero_of_eval_zero` is preserved for the blueprint. `PolyIndep` is
-removed. The preceding consolidation removed two files without changing theorems: `IndependentMoments` is part of `Circuit`, and `UnitaryTensor` is part of
-`LocalGate`. Their declaration names remain available from the new imports.
-Earlier consolidation put `Vectorization` in `TensorPowerBasics`, `HaarMomentBridge`
-in `HaarMoments`, and the retained `VectorizedHaar` results in `Circuits/HaarMoment`.
+The first/second matrix corollaries now live in `Moments/TraceMoments`, the
+commutator calculation in `QML/CommutatorMoments`, and rank-one sum calculus in
+`MagicMonotone/RankOneCalculus`. The general trace/integral bridge is in `Haar`;
+vectorization entry/inner-product laws are beside `endVec` in `Weingarten`.
+The main moment and application theorem bodies are unchanged. Two old support
+files become three folder-owned helpers, so the library now has 43 modules.
+
+Earlier consolidations moved `PolyIndep` into `PermutationCentralizer`,
+`IndependentMoments` into `Circuit`, and `UnitaryTensor` into `LocalGate`.
+The retained `VectorizedHaar` API lives in `Circuits/HaarMoment`.
 See the [import migration table](../README.md#import-migration).
 
 For further cleanup, use these boundaries:
@@ -241,7 +293,7 @@ For further cleanup, use these boundaries:
 - A new shared abstraction should simplify an actual consumer. Existing names for
   meaningful paper formulas can remain as small specializations.
 
-The eight support files and eight circuit files are organizational choices, not a
+The six support files and eight circuit files are organizational choices, not a
 claim that each must stay separate forever. Remaining splits separate identifiable
 mathematical subjects; merging them would mostly change file size and import scope.
 

@@ -1,6 +1,6 @@
 # Definition summary and cleanup status
 
-Updated: 2026-11-13 (eight shared support modules and eight circuit modules). Original review: 2026-09-25.
+Updated: 2026-11-13 (43 library modules, six shared support modules and eight circuit modules). Original review: 2026-09-25.
 
 The earlier reorganization inventory recorded **100 active definitions, abbreviations,
 and structures**, plus **14 explicit instances**, across 35 modules. These counts
@@ -29,8 +29,10 @@ its public global name and statement are unchanged.
 - Put reusable circuit support in `LeanHaar/Circuits` and neutral application support
   in `LeanHaar/SupportingDocs`.
   Elementary tensor support remains independent of computed moment formulas.
-  Shared `HaarMoments` contains the generic trace/integral bridge and imports
-  `Moments/k1Moment` and `Moments/k2Moment` to evaluate matrix averages. No supporting module imports QML, ClassicalShadows, or MagicMonotone.
+  `Haar` owns the general trace/integral bridge. `Moments/TraceMoments` imports
+  `k1Moment` and `k2Moment` to derive matrix and trace corollaries; neither main
+  moment file imports it back. QML commutator and MagicMonotone rank-one helpers
+  live in their application folders. No core, moment or supporting module imports applications.
 - Keep application coefficients, paper-specific circuit vocabulary, and ensemble definitions
   in their applications unless a concrete reuse case warrants extraction.
 
@@ -41,32 +43,37 @@ DCT adapters became private. `permMonoidHom`, `centralizer_to_endModule`, the
 primed coordinate duplicates, and the old `DirectProof`/`SmallDim` modules are
 removed. DCT semisimplicity and density proofs are now private theorems.
 
-## Shared application layer — completed
+## Shared support and folder-owned helpers — current
 
 | Module | Current contents and role |
 | --- | --- |
-| [SupportingDocs/TensorPowerBasics](LeanHaar/SupportingDocs/TensorPowerBasics.lean) | Permutation identities, `trace_id_tensV`, vectorization entries and Hilbert–Schmidt inner products, and matrix compatibility. Uses the existing core operators; no new definitions. |
+| [SupportingDocs/TensorPowerBasics](LeanHaar/SupportingDocs/TensorPowerBasics.lean) | Permutation identities, `trace_id_tensV`, and matrix compatibility. Vectorization entries and Hilbert–Schmidt inner products now live beside `endVec` in Weingarten. No new definitions. |
 | [SupportingDocs/Swap](LeanHaar/SupportingDocs/Swap.lean) | The existing `𝔽` definition, swap identities, matrix entries, and traces, extracted from the second-moment example and tensor traces. |
 | [SupportingDocs/TensorPowerTraces](LeanHaar/SupportingDocs/TensorPowerTraces.lean) | The existing `tensorOp`, `tensorPow`, `conjBy`, and `matrixOf` definitions and their trace/conjugation API. It no longer imports `Moments/k1Moment` or `Moments/k2Moment`. |
-| [SupportingDocs/RankOneCalculus](LeanHaar/SupportingDocs/RankOneCalculus.lean) | Generic rank-one sum composition and kernel theorems under `InnerProductSpace`. Summation bookkeeping is private; composition-of-sums helpers use Mathlib. No new definitions. |
+| [MagicMonotone/RankOneCalculus](LeanHaar/Applications/MagicMonotone/RankOneCalculus.lean) | Generic rank-one sum composition and kernel theorems used by Equation24, under the unchanged `InnerProductSpace` namespace. Summation bookkeeping is private; no new definitions. |
 | [SupportingDocs/HaarInvariance](LeanHaar/SupportingDocs/HaarInvariance.lean) | The existing four auxiliary Haar instances, compact-group invariance facts, and integration support. Each instance has one declaration. No new measure is defined. |
-| [SupportingDocs/HaarMoments](LeanHaar/SupportingDocs/HaarMoments.lean) | Generic trace integrability and the trace/integral bridge, then first and second Haar moments of arbitrary matrices, including `cId`, `cSwap`, contracted formulas, and the averaged squared-commutator trace. The algebraic commutator identity is private to its proof support; all public results use `SchurWeyl`. |
+| [Moments/TraceMoments](LeanHaar/Moments/TraceMoments.lean) | First and second Haar moments of arbitrary matrices, including `cId`, `cSwap` and the identity/swap and contracted formulas. Uses the existing k1/k2 results; public names remain under `SchurWeyl`. |
+| [QML/CommutatorMoments](LeanHaar/Applications/QML/CommutatorMoments.lean) | Inverse-conjugation and averaged squared-commutator calculations used by Observation57. The algebraic commutator identity remains private; public names remain under `SchurWeyl`. |
 | [SupportingDocs/TraceContractions](LeanHaar/SupportingDocs/TraceContractions.lean) | Four bundled trace-contraction maps on formal tensors of endomorphisms, with evaluation lemmas, under `LinearMap`. `traceMulLeft` composes existing Mathlib maps. |
 | [SupportingDocs/DepolarizingChannel](LeanHaar/SupportingDocs/DepolarizingChannel.lean) | The isotropic linear map, its candidate inverse, and the equivalence with proved inverse laws, under `LinearMap`. Both new support modules require only Mathlib. |
 
-The existing `SupportingDocs` directory retains its name and now has eight modules.
-`Vectorization` was absorbed into `TensorPowerBasics`, and `HaarMomentBridge` into
-`HaarMoments`, preserving declaration names, statements, and proofs. `Swap` remains
-separate as the two-factor theory. The later POVM extension is documented in the
-classical-shadows section. The former `MagicMonotone/RankOneCalculus`,
-`QML/MomentBridge`, and `QML/HaarMoments` paths are replaced by their supporting
-modules. The former `QML/CommutatorTrace` is merged into shared `HaarMoments`;
-`Swap` remains the elementary tensor-factor swap API. QML imports the shared evaluated Haar formulas; shadows imports its
-required moment computation explicitly. The duplicate elementary
-proofs in `Moments/k1Moment` and `Moments/k4Moment` now use the general shared API; the second
-moment uses shared swap facts. QML expectation and square-moment statements now
-spell out their integrals; their meanings, hypotheses, and scalar formulas are
-preserved, including the order of the two iterated Haar integrals.
+The existing `SupportingDocs` directory retains its name and now has six modules.
+The former `HaarMoments` contents are divided between `Haar`, `Moments/TraceMoments`
+and `QML/CommutatorMoments`; `RankOneCalculus` is local to MagicMonotone. The generic
+trace-expansion and integral bridge are in `Haar`; `endVec_apply` and
+`inner_endVec_endVec` are beside `endVec` in `Weingarten`. Declaration names,
+statements and proof bodies are preserved; old import paths are retired.
+
+These folder-owned helpers keep `k1Moment`, `k2Moment`, `k4Moment`, Observation57
+and Equation24 focused on their main results. The main moment files are unchanged;
+application theorem bodies are unchanged, with import and documentation adjustments.
+`Swap` remains the elementary two-factor theory. QML imports the evaluated trace
+formulas through `TraceMoments`; classical shadows imports its required moment
+computation explicitly. No new wrapper or mathematical definition is introduced.
+
+Earlier consolidations absorbed `Vectorization` into TensorPowerBasics and
+`HaarMomentBridge` into HaarMoments. Their current destinations are recorded above;
+the dated validation below concerns that earlier reorganization, not this relocation.
 
 Validation at the reorganization: plain `lake build` checked the 35 retained modules
 and the root umbrella, including all three examples. The 32 previously maintained
@@ -207,13 +214,13 @@ Source: [SupportingDocs/Swap.lean](LeanHaar/SupportingDocs/Swap.lean).
 | --- | --- | --- |
 | `𝔽` | Swap operator on the two-factor tensor power. | **Keep the shared operator.** It was extracted from `Moments/k2Moment` without changing its name or definition. A searchable namespaced name such as `swapOp`, with scoped notation, remains optional later work. |
 
-### SupportingDocs/HaarMoments.lean — 2 definitions
+### Moments/TraceMoments.lean — 2 definitions
 
-Source: [HaarMoments.lean](LeanHaar/SupportingDocs/HaarMoments.lean).
+Source: [TraceMoments.lean](LeanHaar/Moments/TraceMoments.lean).
 
 | Definition | Meaning | Assessment |
 | --- | --- | --- |
-| `cId` | Identity coefficient in the second moment of `M ⊗ M`. | **Keep in shared Haar-moment support**, under `SchurWeyl`. The formula is unchanged; a more descriptive name remains optional. |
+| `cId` | Identity coefficient in the second moment of `M ⊗ M`. | **Keep with the matrix-moment corollaries**, under `SchurWeyl`. The formula is unchanged; a more descriptive name remains optional. |
 | `cSwap` | Corresponding swap coefficient. | **Same assessment.** Both depend on the input matrix and are not universal Weingarten values; the second-moment theorems retain their dimension assumptions. |
 
 ### SupportingDocs/TraceContractions.lean — 4 definitions

@@ -11,9 +11,9 @@ and magic monotones. It uses the Lean toolchain and dependencies pinned in
 | --- | --- |
 | `LeanHaar/` and `LeanHaar/TensorPower/` | Core tensor actions, matrix coordinates, commutation, double centralizers, Schur–Weyl duality, Weingarten systems, and Haar integration. |
 | [SchurWeyl.lean](LeanHaar/SchurWeyl.lean) | Assembly of the Schur–Weyl duality theorem, formerly `Main.lean`. |
-| [Moments](LeanHaar/Moments) | `k1Moment`, `k2Moment`, and `k4Moment`: evaluated Haar moment formulas. |
+| [Moments](LeanHaar/Moments) | `k1Moment`, `k2Moment`, and `k4Moment`, with matrix/trace corollaries in `TraceMoments`. |
 | [Circuits](LeanHaar/Circuits) | Eight modules for register coordinates, local gates, schedules, Haar moments, disjoint layers and periodic brickwork. |
-| [SupportingDocs](LeanHaar/SupportingDocs) | Eight shared modules for tensor and trace identities, Haar averages, and algebraic channels. |
+| [SupportingDocs](LeanHaar/SupportingDocs) | Six shared modules for tensor and trace identities, Haar invariance, and algebraic channels. |
 | [ForPhyslib](LeanHaar/ForPhyslib/POVM.lean) | Local POVM extensions intended for Physlib; no LeanHaar dependencies and not yet upstream. |
 | [Applications](LeanHaar/Applications) | QML, ClassicalShadows, and MagicMonotone. |
 | [Examples](LeanHaar/Examples) | Standalone `UnitaryCommutant`, `PauliTwirling`, and `EulerAngleIntegral` examples. |
@@ -67,8 +67,10 @@ The later classical-shadow consolidation and retirements are listed below.
 | `LeanHaar.Circuits.IndependentMoments` | `LeanHaar.Circuits.Circuit`; the independence theorem keeps its name and statement. |
 | `LeanHaar.Circuits.UnitaryTensor` / `LeanHaar.SupportingDocs.UnitaryTensor` | `LeanHaar.Circuits.LocalGate`; the physical tensor construction and laws keep their names. |
 | `LeanHaar.SupportingDocs.VectorizedHaar` | Retained action and Haar results are in `LeanHaar.Circuits.HaarMoment`; the unused tensor-averaging route is retired. |
-| `LeanHaar.SupportingDocs.Vectorization` | `LeanHaar.SupportingDocs.TensorPowerBasics`; declaration names and statements are unchanged. |
-| `LeanHaar.SupportingDocs.HaarMomentBridge` | `LeanHaar.SupportingDocs.HaarMoments`; declaration names and statements are unchanged. |
+| `LeanHaar.SupportingDocs.Vectorization` | Vectorization entry/inner-product lemmas are in `LeanHaar.Weingarten`; matrix compatibility remains in `LeanHaar.SupportingDocs.TensorPowerBasics`. Names and statements are unchanged. |
+| `LeanHaar.SupportingDocs.HaarMomentBridge` | `LeanHaar.Haar`; declaration names and statements are unchanged. |
+| `LeanHaar.SupportingDocs.HaarMoments` | General trace/integral bridge in `LeanHaar.Haar`; first/second matrix corollaries in `LeanHaar.Moments.TraceMoments`; inverse/commutator results in `LeanHaar.Applications.QML.CommutatorMoments`. Public names are unchanged. |
+| `LeanHaar.SupportingDocs.RankOneCalculus` | `LeanHaar.Applications.MagicMonotone.RankOneCalculus`; declaration names and proofs are unchanged. |
 | `LeanHaar.SupportingDocs.POVM` | `LeanHaar.ForPhyslib.POVM`; retained declaration names are unchanged. |
 | `LeanHaar.Applications.ClassicalShadows.HaarShadow` | Import `LeanHaar.Applications.ClassicalShadows.Observation59` for `haarShadow` and `haarShadow_unbiased`; their names and formulas are unchanged. |
 | `LeanHaar.Applications.ClassicalShadows.PauliShadow` | Retired from the current scope; available in Git history. |

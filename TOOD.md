@@ -329,6 +329,18 @@ Historical step, superseded by the shared circuit route below.
 - [x] Merge `PolyIndep` into `PermutationCentralizer`, preserving the global public
   theorem `monomial_coeff_zero_of_eval_zero` and its blueprint reference.
 - [x] Update imports and the module map; 42 library modules remain.
+- [x] Explain concrete uses of the shared Haar trace and rank-one composition results
+  in the module map, distinguishing current consumers from further specializations.
+
+## Folder-owned helpers — review 18, 2026-11-13
+
+- [x] Replace SupportingDocs/HaarMoments with the core trace readout API in Haar,
+  Moments/TraceMoments and QML/CommutatorMoments, retaining all declaration names.
+- [x] Move RankOneCalculus into MagicMonotone and the two elementary endVec lemmas
+  beside endVec in Weingarten; preserve statements and proof bodies.
+- [x] Keep k1Moment/k2Moment/k4Moment and application theorem bodies unchanged.
+  The library now has 43 modules, including six in SupportingDocs.
+- [x] Complete build, safety checks and independent implementation reviews.
 
 ## Remaining follow-ups
 

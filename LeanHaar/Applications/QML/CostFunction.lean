@@ -1,4 +1,4 @@
-import LeanHaar.SupportingDocs.HaarMoments
+import LeanHaar.Moments.TraceMoments
 
 /-!
 # The cost function of a variational quantum algorithm and its Haar moments

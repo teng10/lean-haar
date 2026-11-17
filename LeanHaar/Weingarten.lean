@@ -43,6 +43,8 @@ coefficient vector of the orthogonal projection.
   dimensional inner product space (orthogonal projection onto a finite-dimensional span).
 * `SchurWeyl.permDual_eq_conjTranspose` — `V_d^†(σ)` is the conjugate transpose of
   `V_d(σ)` in the computational basis (so it is the genuine Hermitian adjoint).
+* `SchurWeyl.endVec_apply`, `SchurWeyl.inner_endVec_endVec` — vectorization reads the
+  matrix entries and preserves the Hilbert–Schmidt inner product.
 * `SchurWeyl.weingarten_linear_system_solvable` — the linear system always has a
   solution (the literal final claim of Theorem 10).
 * `SchurWeyl.weingarten_moment_operator_spec` — there is a combination
@@ -124,6 +126,34 @@ product of two such vectors is the Hilbert–Schmidt inner product `Tr(A^† B)`
 def endVec (O : Module.End ℂ (TensV d k)) :
     EuclideanSpace ℂ ((Fin k → Fin d) × (Fin k → Fin d)) :=
   WithLp.toLp 2 (fun p => toEndMatrix d k O p.1 p.2)
+
+/-- Vectorization reads the operator's matrix in row-column order. -/
+lemma endVec_apply {d k : ℕ} (O : Module.End ℂ (TensV d k))
+    (p : (Fin k → Fin d) × (Fin k → Fin d)) :
+    endVec O p = toEndMatrix d k O p.1 p.2 := rfl
+
+/-- The vectorized inner product is the Hilbert–Schmidt inner product,
+`⟨⟨A|B⟩⟩ = Tr(A† B)`, where `|·⟩⟩` is the repository's vectorization
+`SchurWeyl.endVec` and `A†` is the conjugate transpose of the matrix of `A` in the
+computational basis.
+
+This extends the repository's trace bridge `SchurWeyl.inner_endVec_perm_eq_trace`, which is
+the special case where the first argument is a permutation operator, to an arbitrary pair of
+operators. -/
+lemma inner_endVec_endVec {d k : ℕ} (X Y : Module.End ℂ (TensV d k)) :
+    (inner ℂ (endVec X) (endVec Y) : ℂ)
+      = ((toEndMatrix d k X)ᴴ * toEndMatrix d k Y).trace := by
+  set A := toEndMatrix d k X with hA
+  set B := toEndMatrix d k Y with hB
+  -- The inner product of the two lists of matrix entries, ...
+  have hlhs : (inner ℂ (endVec X) (endVec Y) : ℂ)
+      = ∑ i, ∑ j, (starRingEnd ℂ) (A i j) * B i j := by
+    simp only [endVec, hA, hB, PiLp.inner_apply, RCLike.inner_apply, Fintype.sum_prod_type]
+    exact Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => mul_comm _ _
+  -- ... and the trace of `A† B`, are the same double sum.
+  have hrhs : (Aᴴ * B).trace = ∑ i, ∑ j, (starRingEnd ℂ) (A j i) * B j i := by
+    simp [Matrix.trace, Matrix.mul_apply, Matrix.diag, Matrix.conjTranspose_apply]
+  rw [hlhs, hrhs, Finset.sum_comm]
 
 /-- The trace bridge: the Euclidean inner product of the vectorizations of `V_d(σ)` and `O`
 equals the Hilbert–Schmidt inner product `Tr(V_d^†(σ) O)`. -/

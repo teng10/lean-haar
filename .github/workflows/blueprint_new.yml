@@ -38,7 +38,8 @@ jobs:
           haskell: true
           large-packages: true
           docker-images: true
-          swap-storage: true
+          # API documentation is memory-intensive; retain the runner's swap.
+          swap-storage: false
 
       - name: Build Lean project
         uses: leanprover/lean-action@v1
@@ -49,6 +50,9 @@ jobs:
 
       - name: Build homepage, API docs, and blueprint
         uses: leanprover-community/docgen-action@main
+        env:
+          # Reduce Lake/doc-gen parallelism to avoid exhausting runner memory.
+          LEAN_NUM_THREADS: "1"
         with:
           blueprint: true
           homepage: home_page

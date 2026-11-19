@@ -27,7 +27,10 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # ubuntu-latest moved to Ubuntu 26.04 in early November 2026. doc-gen4 v4.30.0 fails there
+    # with "resource exhausted (error code: 12)" (leanprover/doc-gen4#434); leanprover/cslib pins
+    # the same image. The fix ships with Lean v4.37: return to ubuntu-latest after that bump.
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout project
@@ -76,9 +79,6 @@ jobs:
       - name: Build homepage, API docs, and blueprint
         # Includes regeneration of project HTML after a documentation-cache hit.
         uses: leanprover-community/docgen-action@dacc1acc2a3f532cc577266979ba9c36c7593f7c
-        env:
-          # Reduce Lake/doc-gen parallelism to avoid exhausting runner memory.
-          LEAN_NUM_THREADS: "1"
         with:
           blueprint: true
           homepage: home_page

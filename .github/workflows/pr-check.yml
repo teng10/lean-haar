@@ -21,18 +21,6 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      # The `.lake` tree is ~8 GB; same clean-up as blueprint_new.yml.
-      - name: Free disk space
-        uses: jlumbroso/free-disk-space@main
-        with:
-          tool-cache: false
-          android: true
-          dotnet: true
-          haskell: true
-          large-packages: true
-          docker-images: true
-          swap-storage: true
-
       # Toolchain, Mathlib cache, then:
       #   lake build             project warnings fail via warningAsError in lakefile.toml; dependency warnings are advisory
       #   lake test              test/LeanHaarTest: #print axioms guards for the main results
